@@ -1,0 +1,512 @@
+2006-08-29  Don Scorgie  <DonScorgie@Blueyonder.co.uk>
+
+	* Initial Import into new home on Google
+
+What follows is the svn log dumped from the repo on my machine.  Don't judge it too harshly ;)
+	
+------------------------------------------------------------------------
+r85 | don | 2006-08-28 16:16:00 +0100 (Mon, 28 Aug 2006) | 2 lines
+
+Oops forgot to add in md5sums.
+
+------------------------------------------------------------------------
+r84 | don | 2006-08-28 16:01:54 +0100 (Mon, 28 Aug 2006) | 2 lines
+
+Update web page a little.  Bump version up to 0.1.
+
+------------------------------------------------------------------------
+r83 | don | 2006-08-28 14:03:40 +0100 (Mon, 28 Aug 2006) | 2 lines
+
+Add 2 new screenshots showing the browser and current map window
+
+------------------------------------------------------------------------
+r82 | don | 2006-08-28 12:47:41 +0100 (Mon, 28 Aug 2006) | 2 lines
+
+Fix spelling mistake
+
+------------------------------------------------------------------------
+r81 | don | 2006-08-28 12:46:40 +0100 (Mon, 28 Aug 2006) | 2 lines
+
+More README update
+
+------------------------------------------------------------------------
+r80 | don | 2006-08-28 12:37:17 +0100 (Mon, 28 Aug 2006) | 2 lines
+
+Make the about dialog go away when requested
+
+------------------------------------------------------------------------
+r79 | don | 2006-08-28 12:31:15 +0100 (Mon, 28 Aug 2006) | 2 lines
+
+Minor addition to configure.ac
+
+------------------------------------------------------------------------
+r78 | don | 2006-08-28 12:29:53 +0100 (Mon, 28 Aug 2006) | 2 lines
+
+Make installation actually work (hopefully)
+
+------------------------------------------------------------------------
+r77 | don | 2006-08-28 12:14:41 +0100 (Mon, 28 Aug 2006) | 3 lines
+
+Remove Quit from menu in map windows
+Try and fix installation again.  Fail :(
+
+------------------------------------------------------------------------
+r76 | don | 2006-08-27 20:23:09 +0100 (Sun, 27 Aug 2006) | 2 lines
+
+Update README and TheFuture a little more in light of the new browser
+
+------------------------------------------------------------------------
+r75 | don | 2006-08-27 18:43:15 +0100 (Sun, 27 Aug 2006) | 2 lines
+
+Stupid work-around to make maps save when open and quit is selected
+
+------------------------------------------------------------------------
+r74 | don | 2006-08-27 15:48:36 +0100 (Sun, 27 Aug 2006) | 3 lines
+
+Update glade to make prettier.  Slightly.
+Make rows respond to activation
+
+------------------------------------------------------------------------
+r73 | don | 2006-08-26 16:07:15 +0100 (Sat, 26 Aug 2006) | 2 lines
+
+More browser work.  Hooked up most of the signals required.
+
+------------------------------------------------------------------------
+r72 | don | 2006-08-26 14:26:58 +0100 (Sat, 26 Aug 2006) | 5 lines
+
+Updated configure, README
+
+First pass at Browser.  Not too shabby though.  Doesn't work just yet, 
+but give it time
+
+------------------------------------------------------------------------
+r71 | don | 2006-08-24 22:03:02 +0100 (Thu, 24 Aug 2006) | 4 lines
+
+Update a couple of comments
+Add new TheFuture entry for current (soon) release
+Update NEWS for new release
+
+------------------------------------------------------------------------
+r70 | don | 2006-08-24 21:36:37 +0100 (Thu, 24 Aug 2006) | 2 lines
+
+Remove old cruft
+
+------------------------------------------------------------------------
+r69 | don | 2006-08-24 21:30:12 +0100 (Thu, 24 Aug 2006) | 3 lines
+
+Move functions.py to utils.py
+Just seems nicer somehow
+
+------------------------------------------------------------------------
+r68 | don | 2006-08-23 22:44:06 +0100 (Wed, 23 Aug 2006) | 16 lines
+
+Many, many updates from the local "rework" branch.
+
+* Add new functions.py to store functions that can be used by anyone
+* Rework Thoughts, links so only MMapArea has a copy of all of them
+* Remove / kill parent child relationship for thoughts
+ - These make loading / Saving much easier
+ - They make updating links much easier
+ - They make considering things much easier
+
+* Save window geometry
+
+All old classes are still there.  Much needs cleaned up.
+
+TheFuture needs cleaning properly
+
+
+------------------------------------------------------------------------
+r67 | don | 2006-08-14 18:30:04 +0100 (Mon, 14 Aug 2006) | 5 lines
+
+Update save to use only 2 passes (although, very hackily)
+Make loading actually delete thoughts when requested
+Make save only save when area is closed
+Update TheFuture somewhat (maybe)
+
+------------------------------------------------------------------------
+r66 | don | 2006-08-01 21:34:16 +0100 (Tue, 01 Aug 2006) | 3 lines
+
+More loading work.  Seems to be mostly done (first pass).  Issue remains 
+with saving a doc twice: The text is repeated!The text is repeated!
+
+------------------------------------------------------------------------
+r65 | don | 2006-08-01 20:54:49 +0100 (Tue, 01 Aug 2006) | 3 lines
+
+More loading work.  Almost working (badly).  Now links are drawn, but it 
+doesn't update properly and moving nodes breaks things
+
+------------------------------------------------------------------------
+r64 | don | 2006-08-01 19:58:25 +0100 (Tue, 01 Aug 2006) | 3 lines
+
+More work on loading.  Coords are parsed and small squares shown on 
+screen
+
+------------------------------------------------------------------------
+r63 | don | 2006-08-01 18:42:07 +0100 (Tue, 01 Aug 2006) | 4 lines
+
+First attempt at a pass at loading of files:
+* Load all files in save directory
+* Only set title of window
+
+------------------------------------------------------------------------
+r62 | don | 2006-07-31 20:44:41 +0100 (Mon, 31 Jul 2006) | 2 lines
+
+Save to a real-life file!
+
+------------------------------------------------------------------------
+r61 | don | 2006-07-31 20:17:55 +0100 (Mon, 31 Jul 2006) | 3 lines
+
+Lots more saving stuff.  Prints out the complete (for now) save file in 
+a pretty format
+
+------------------------------------------------------------------------
+r60 | don | 2006-07-31 19:36:13 +0100 (Mon, 31 Jul 2006) | 3 lines
+
+First attempt at saving to XML.  Dumps the content of each node and the 
+cursor position to stdout when double-click happens
+
+------------------------------------------------------------------------
+r59 | don | 2006-07-23 13:31:15 +0100 (Sun, 23 Jul 2006) | 2 lines
+
+Remove note_number since its no longer used
+
+------------------------------------------------------------------------
+r58 | don | 2006-07-16 16:56:42 +0100 (Sun, 16 Jul 2006) | 2 lines
+
+Remove dead python setup files
+
+------------------------------------------------------------------------
+r57 | don | 2006-07-16 16:52:05 +0100 (Sun, 16 Jul 2006) | 2 lines
+
+Remove extra files.  Most are auto-generated.  src/Labyrinth has moved
+
+------------------------------------------------------------------------
+r56 | don | 2006-07-16 16:47:25 +0100 (Sun, 16 Jul 2006) | 2 lines
+
+... and another forgotten file
+
+------------------------------------------------------------------------
+r55 | don | 2006-07-16 16:46:30 +0100 (Sun, 16 Jul 2006) | 2 lines
+
+Move UI description to lower-case
+
+------------------------------------------------------------------------
+r54 | don | 2006-07-16 16:44:52 +0100 (Sun, 16 Jul 2006) | 2 lines
+
+Sigh.  One more file to add
+
+------------------------------------------------------------------------
+r53 | don | 2006-07-16 16:44:10 +0100 (Sun, 16 Jul 2006) | 2 lines
+
+Add m4 subdir, forgotten in last commit
+
+------------------------------------------------------------------------
+r52 | don | 2006-07-16 16:42:32 +0100 (Sun, 16 Jul 2006) | 7 lines
+
+Move to autotools style setup.  Allows installing to happen.  Takes care 
+of removing .py from labyrinth in bindir.  Adapt everything to cope.  
+Adapt everything to allow to run from either uninstalled or from 
+installed instance.
+
+Based on auto* stuff from deskbar-applet.  Added (empty) changelogs.
+
+------------------------------------------------------------------------
+r51 | don | 2006-07-15 19:19:11 +0100 (Sat, 15 Jul 2006) | 2 lines
+
+Update md5 sums of packages on web-page
+
+------------------------------------------------------------------------
+r50 | don | 2006-07-15 19:15:01 +0100 (Sat, 15 Jul 2006) | 4 lines
+
+Bump version v0.0.5
+Update README et. al. to reflect changes.  Discover install is broken.  
+Decided "What the fuck.".  Moving to new system (hopefully) soon.
+
+------------------------------------------------------------------------
+r49 | don | 2006-07-15 18:49:51 +0100 (Sat, 15 Jul 2006) | 2 lines
+
+Continued work on index for web-page
+
+------------------------------------------------------------------------
+r48 | don | 2006-07-15 18:41:25 +0100 (Sat, 15 Jul 2006) | 5 lines
+
+Make the primary thought red when not selected (Making it easier, for 
+non-colour-blind people, to pick out).
+Move screenshot to -002.  Add in -005 screenshot.
+Start updating website
+
+------------------------------------------------------------------------
+r47 | don | 2006-07-15 18:11:50 +0100 (Sat, 15 Jul 2006) | 12 lines
+
+Fix stupid bugs.  Find out Python is actually EVIL.  When it doesn't 
+feel like it, it won't alert you to exceptions, just silently fail.
+
+Anyway:  Make deletion of parent nodes work properly.
+	 Make title change as requested
+	 Handle deletion of primary node gracefully
+	 If title text is "", revert to "Unknown Map %d"
+	 Ensure selection of primary and current root works when 
+deleting thoughts
+	 Probably a load more.  True feature parity with before rewrite.  
+Woo-hoo
+
+------------------------------------------------------------------------
+r46 | don | 2006-07-14 18:18:31 +0100 (Fri, 14 Jul 2006) | 2 lines
+
+Make window title the primary thought content.  If > 27 chars, truncate.
+
+------------------------------------------------------------------------
+r45 | don | 2006-07-13 20:41:55 +0100 (Thu, 13 Jul 2006) | 2 lines
+
+Bring up to feature-parity with before.  Delete *Classic versions
+
+------------------------------------------------------------------------
+r44 | don | 2006-07-13 20:19:23 +0100 (Thu, 13 Jul 2006) | 4 lines
+
+Fix a few regressions about editing and selecting different nodes and 
+...
+Nothing terribly interesting :(
+
+------------------------------------------------------------------------
+r43 | don | 2006-07-13 19:35:21 +0100 (Thu, 13 Jul 2006) | 3 lines
+
+Rework links.  THings are now around the same level as before the 
+rewrite, but much clearer in the code :)
+
+------------------------------------------------------------------------
+r42 | don | 2006-07-13 19:15:31 +0100 (Thu, 13 Jul 2006) | 2 lines
+
+Start Link rework.  Make Area and Thoughts work together.
+
+------------------------------------------------------------------------
+r41 | don | 2006-07-12 22:57:45 +0100 (Wed, 12 Jul 2006) | 3 lines
+
+Rework of Thoughts.  More clean now.  Seems to work for the most part.  
+No colouring.  No links as yet.  Not tried things out properly.
+
+------------------------------------------------------------------------
+r40 | don | 2006-07-12 21:49:24 +0100 (Wed, 12 Jul 2006) | 3 lines
+
+Oops.  Forgot the delete function.  Fixed.  Still nothing works though 
+;)
+
+------------------------------------------------------------------------
+r39 | don | 2006-07-12 21:01:10 +0100 (Wed, 12 Jul 2006) | 5 lines
+
+Great MMapArea rewrite.  Breaks program badly until Links and Thoughts 
+are rewritten to support it.
+
+New code is much cleaner and easier to follow though.
+
+------------------------------------------------------------------------
+r38 | don | 2006-07-10 21:20:53 +0100 (Mon, 10 Jul 2006) | 2 lines
+
+Make Node deletion work.  (Added a list of children to current thought)
+
+------------------------------------------------------------------------
+r37 | don | 2006-07-10 21:01:15 +0100 (Mon, 10 Jul 2006) | 2 lines
+
+Add list of children.  Save drawing links the wrong way around
+
+------------------------------------------------------------------------
+r36 | don | 2006-07-10 20:46:49 +0100 (Mon, 10 Jul 2006) | 3 lines
+
+Make dragging of links work in editing mode.  Make links update when 
+dragging thoughts around.
+
+------------------------------------------------------------------------
+r35 | don | 2006-07-10 20:16:02 +0100 (Mon, 10 Jul 2006) | 2 lines
+
+Links now work as before
+
+------------------------------------------------------------------------
+r34 | don | 2006-07-10 19:47:59 +0100 (Mon, 10 Jul 2006) | 2 lines
+
+First attempt at adding a link type.  Very, very broken for now.
+
+------------------------------------------------------------------------
+r33 | don | 2006-07-10 17:47:44 +0100 (Mon, 10 Jul 2006) | 4 lines
+
+Implement Moving and Editing Modes.  Now, to edit a thought, you have to 
+be in editing mode (default).  To move thoughts around, you must be in 
+move mode.
+
+------------------------------------------------------------------------
+r32 | don | 2006-07-10 17:24:51 +0100 (Mon, 10 Jul 2006) | 2 lines
+
+Add a silly "About" dialog
+
+------------------------------------------------------------------------
+r31 | don | 2006-07-10 17:08:43 +0100 (Mon, 10 Jul 2006) | 3 lines
+
+Make NewWindow, CloseWindow and Quit work as expected.  Allows > 1 
+window at a time to be worked on
+
+------------------------------------------------------------------------
+r30 | don | 2006-07-10 16:46:38 +0100 (Mon, 10 Jul 2006) | 2 lines
+
+Add menubar and titlebar to window.  Nothing works yet thought.
+
+------------------------------------------------------------------------
+r29 | don | 2006-07-10 15:59:41 +0100 (Mon, 10 Jul 2006) | 2 lines
+
+Add UI description.  Update setup and MANIFEST to ship them
+
+------------------------------------------------------------------------
+r28 | don | 2006-07-10 15:50:30 +0100 (Mon, 10 Jul 2006) | 3 lines
+
+Add new file describing MainWindow
+Update script to use LabyrinthWindow
+
+------------------------------------------------------------------------
+r27 | don | 2006-07-10 14:45:34 +0100 (Mon, 10 Jul 2006) | 3 lines
+
+NEW VERSION
+Bump version number to 0.0.3
+
+------------------------------------------------------------------------
+r26 | don | 2006-07-10 14:45:02 +0100 (Mon, 10 Jul 2006) | 2 lines
+
+Put the correct filenames on the webpage
+
+------------------------------------------------------------------------
+r25 | don | 2006-07-10 14:40:47 +0100 (Mon, 10 Jul 2006) | 2 lines
+
+Add in md5 sums
+
+------------------------------------------------------------------------
+r24 | don | 2006-07-10 14:35:46 +0100 (Mon, 10 Jul 2006) | 2 lines
+
+Remove MANIFEST from repo.  It's automatically generated.
+
+------------------------------------------------------------------------
+r23 | don | 2006-07-10 14:35:23 +0100 (Mon, 10 Jul 2006) | 2 lines
+
+Add in webpage to repo.  Including screenshot.
+
+------------------------------------------------------------------------
+r22 | don | 2006-07-10 14:31:48 +0100 (Mon, 10 Jul 2006) | 2 lines
+
+Include MANIFEST.in in dist, adding in other various files
+
+------------------------------------------------------------------------
+r21 | don | 2006-07-10 14:27:26 +0100 (Mon, 10 Jul 2006) | 3 lines
+
+Make package installable.  Update TheFuture to show some ideas.  Add 
+NEWS file.  Update README to reflect changes
+
+------------------------------------------------------------------------
+r20 | don | 2006-07-10 13:07:07 +0100 (Mon, 10 Jul 2006) | 2 lines
+
+Add a missing *
+
+------------------------------------------------------------------------
+r19 | don | 2006-07-10 06:02:05 +0100 (Mon, 10 Jul 2006) | 2 lines
+
+Add some docstrings.  Create README.  Update TheFuture
+
+------------------------------------------------------------------------
+r18 | don | 2006-07-10 02:45:16 +0100 (Mon, 10 Jul 2006) | 3 lines
+
+Remove some surplus prints.  A selected thought will now become the root 
+node.  Yay.  Means that there can now be multiple root thoughts.
+
+------------------------------------------------------------------------
+r17 | don | 2006-07-10 02:40:46 +0100 (Mon, 10 Jul 2006) | 3 lines
+
+Rework signals.  Make single click select node.  Make double click edit 
+node.  Make dragging nodes actually work as expected.  I hope.
+
+------------------------------------------------------------------------
+r16 | don | 2006-07-10 01:14:01 +0100 (Mon, 10 Jul 2006) | 2 lines
+
+Make draggin work properly.  Pretty cool.
+
+------------------------------------------------------------------------
+r15 | don | 2006-07-10 00:59:07 +0100 (Mon, 10 Jul 2006) | 3 lines
+
+Cleanup some syntax
+First attempt at drag-moving boxes around.  Doesn't work.  Yet.
+
+------------------------------------------------------------------------
+r14 | don | 2006-07-09 23:54:57 +0100 (Sun, 09 Jul 2006) | 3 lines
+
+Make thoughts selectable.  Clicking in them makes them change back to 
+"editing" state
+
+------------------------------------------------------------------------
+r13 | don | 2006-07-09 23:44:40 +0100 (Sun, 09 Jul 2006) | 3 lines
+
+... and then I go and spoil it all by doing something stupid like ...
+chaning my mind.  Home / End go to start / End of line
+
+------------------------------------------------------------------------
+r12 | don | 2006-07-09 23:40:52 +0100 (Sun, 09 Jul 2006) | 2 lines
+
+Added Home and End buttons to go to start and end of buffer
+
+------------------------------------------------------------------------
+r11 | don | 2006-07-09 23:37:35 +0100 (Sun, 09 Jul 2006) | 2 lines
+
+Add a corner in the top-left of the currently-being-edited note
+
+------------------------------------------------------------------------
+r10 | don | 2006-07-09 23:34:43 +0100 (Sun, 09 Jul 2006) | 2 lines
+
+Shade current root thought a hideous bluey color
+
+------------------------------------------------------------------------
+r9 | don | 2006-07-09 22:38:52 +0100 (Sun, 09 Jul 2006) | 2 lines
+
+Don't fall over when ctrl-C'd to quit.  Personal peeve
+
+------------------------------------------------------------------------
+r8 | don | 2006-07-09 22:37:38 +0100 (Sun, 09 Jul 2006) | 3 lines
+
+Option parsing.  Only 1 option - -h (for help)
+At least shows something now
+
+------------------------------------------------------------------------
+r7 | don | 2006-07-09 22:09:59 +0100 (Sun, 09 Jul 2006) | 2 lines
+
+Update require to actually check version of Gtk available (maybe)
+
+------------------------------------------------------------------------
+r6 | don | 2006-07-09 22:04:51 +0100 (Sun, 09 Jul 2006) | 4 lines
+
+Make the background white
+If current_thought is empty when finishing editing, don't bother drawing 
+it
+
+------------------------------------------------------------------------
+r5 | don | 2006-07-09 21:10:07 +0100 (Sun, 09 Jul 2006) | 5 lines
+
+Added a small overview of where this might be leading in the next 
+version
+
+Bump version number
+
+------------------------------------------------------------------------
+r4 | don | 2006-07-09 21:04:16 +0100 (Sun, 09 Jul 2006) | 2 lines
+
+Make MoveUp and MoveDown work as expected
+
+------------------------------------------------------------------------
+r3 | don | 2006-07-09 19:58:18 +0100 (Sun, 09 Jul 2006) | 3 lines
+
+Make text insertion work
+First pass at Up navigation.  Very broken
+
+------------------------------------------------------------------------
+r2 | don | 2006-07-09 19:18:25 +0100 (Sun, 09 Jul 2006) | 3 lines
+
+Moving back / forward while editing thought
+Backspace / delete actually work as expected
+
+------------------------------------------------------------------------
+r1 | don | 2006-07-09 18:59:02 +0100 (Sun, 09 Jul 2006) | 2 lines
+
+Initial Import of Labyrinth to new home
+
+------------------------------------------------------------------------

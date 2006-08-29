@@ -1,0 +1,36 @@
+v0.1
+----
+New features:
+ * Tomboy style loading and saving of maps
+   * Saves all thoughts and links
+   * Saves window title, current mode, geometry and placement of window
+ * Link strengthening and weakening
+   * Drag a link from a current parent to a current child to strengthen the link by 1
+   * Drag from child to parent to weaken the link by 1
+   * If strength reaches 0, link is deleted
+ * Massive internal rework (Yes, again)
+   * No more parent-child relationship in code
+   * Makes it much easier to maintain and write save files for
+ * Make install work again
+
+
+v0.0.5
+------
+
+New features:
+ * Menubar and toolbar added.  Beginnings of a user-interface.  Yay!
+ * Allow multiple Labyrinth windows to open at the same time
+ * Added an About dialog
+ * Allow windows to be closed (ctrl-W) or quit the app (ctrl-Q).  Also from the menu.
+ * Different modes:
+   * Move Mode allows you to drag thoughts around and delete them with the delete / backspace key.
+   * Edit Mode</b> allows you to enter new thoughts, edit old thoughts and link up thoughts.
+ * Deletion of nodes.  Either through delete / backspace key in Move Mode or by menu item in any mode.  Note, when no node is selected, this silently fails.  The menu item is always sensitive.
+ * Massive code rework.  Code is now cleaner than before and easier to work with. (Of course, it will likely be screwed with again before becoming serious)
+ * Window title becomes Primary Thought content.  If no primary thought, default to "Untitled Map %d"
+ * Break Install   
+
+
+v0.0.2
+------
+Initial release

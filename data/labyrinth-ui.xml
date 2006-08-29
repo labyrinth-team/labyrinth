@@ -1,0 +1,24 @@
+<ui>
+  <menubar name="MenuBar">
+    <menu action="FileMenu">
+      <menuitem action="New"/>
+      <separator/>
+      <menuitem action="Close"/>
+    </menu>
+    <menu action="ModeMenu">
+      <menuitem action="Edit"/>
+      <menuitem action="Move"/>
+      <separator/>
+      <menuitem action="DeleteNodes"/>
+    </menu>
+    <menu action="HelpMenu">
+      <menuitem action="About"/>
+    </menu>
+  </menubar>
+  <toolbar name="ToolBar">
+    <toolitem action="New"/>
+    <separator/>
+    <toolitem action="Edit"/>
+    <toolitem action="Move"/>
+  </toolbar>
+</ui>

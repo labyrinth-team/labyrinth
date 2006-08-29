@@ -1,0 +1,81 @@
+Labyrinth
+---------
+
+What is it?
+-----------
+
+Labyrinth is a mind-mapping tool, written in Python using Gtk and Cairo to do the drawing.  It was written by me (DonScorgie@Blueyonder.co.uk).
+
+A mind-map is a diagram used to represent words, ideas, tasks or other items linked to and arranged radially around a central key word or idea. It is used to generate, visualise, structure and classify ideas, and as an aid in study, organisation, problem solving, and decision making. (From wikipedia)
+
+Current Release
+---------------
+
+This is v0.1.  It is not even pre-alpha yet.  It doesn't have much of an interface.  It is liable to kill kittens if used.  It has been tested by me, and works under my configuration (Ubuntu Dapper and now Ubuntu Edgy).  I'm not guaranteeing anything about anyone else's computer or work or anything.  You may also notice it's pretty ugly and probably highly inefficient.  I'm working on it.
+
+Requirements
+------------
+
+I don't really know what the exact requirements are.  In the configure script, the following are checked:
+Python              == 2.4
+gtk+                >= 2.8
+pygtk-2.0           >= 2.8
+pygobject-2.0       >= 2.10
+gnome-python-2.0    >= 2.12
+gnome-desktop-2.0   >= 2.14
+pycairo             >= 1.0
+
+which probably means (to compile) you need the -dev versions of all these (except Python).
+
+How to use it
+-------------
+
+From the top directory of the package, run the command:
+python src/labyrinth.py
+
+It can also be installed using the ./configure && make dance thus:
+./configure --prefix=<prefix_to_use>
+make
+make install
+
+and run with:
+labyrinth
+
+This will open a browser window, showing you all the maps currently available and allow you to modify / delete them and create new maps.  The title is (currently) the primary thought text(truncated to 27 characters long).  This is usually the first thought created in a new map.
+
+In a new map, single click somewhere to create a new "thought".  This is your root.  Add your main thought to this.  Click somewhere else will create a new thought, linked to the first.  Clicking on the root allows you to drag it around.  Double click to edit it.  Clicking on another thought will make that the root, with future thoughts linking back to it.  Changing to Move mode allows thoughts to be dragged around and delete (with the delete key).
+
+Links between thoughts can be created, strengthened and weakened.  To create a new link, in edit mode, click and drag from the "parent" thought to the "child" thought.  Doing this with a link already in place will strengthen the link by 1 and dragging from child to parent will weaken the link by 1.  If the link goes to 0 strength (it starts at 2), the link is deleted.
+
+That's basically all there is too it.  Oh, you can move the (text) cursor around within a thought and thoughts can span > 1 line if you like.
+
+Loading and saving of maps is in the tomboy style - they are automatically saved, you shouldn't have to worry about them.  For reference anyway, the maps are saved in ~/.gnome2/labyrinth/<longstring>.map
+
+a11y, themes and i18n
+---------------------
+
+All these are currently missing.  The background is always white.  The font is always the same.  The interface is always in English.
+
+This should change soon, with bits 'n pieces marked for translation and different font sizes allowed.  The colours should be changable and (where possible) follow the current theme.
+
+I'm also looking at ways of making Labyrinth accessible.  Don't know exactly how to do this yet and my previous attempts at adding simple a11y stuff failed miserably.
+
+
+Future Plans
+------------
+
+Really don't know.  Haven't thought about anything more than this stage.  I don't even know whats going to be in the next release - it'll be a magical mystery tour.
+
+On the other hand, if you really want to know, check TheFuture in the docs directory.
+
+It is also very possible that future work may break the map format, so be warned that this might happen.
+
+Getting the Latest Development Code
+-----------------------------------
+
+It's sitting in a SVN repo on my computer.  email me if you want a copy.  Or pester me a little and I might put it in a  public place.
+
+Helping Out
+-----------
+
+Please.  Email me and let me know what you want to work on.  Send patches.

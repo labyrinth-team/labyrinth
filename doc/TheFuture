@@ -1,0 +1,75 @@
+Labyrinth - Future Work
+---------
+
+v0.1
+----
+
+Version 0.1 of Labyrinth was all about getting a basic working thing.
+
+Loading and saving work and not a lot else.
+
+v0.2
+----
+
+I'm following the "cairo" model here.  Basically, the new version will be released when the "Required Features" are in place, in a usable form.  Any "Desired Features" are a plus.  New "Required" and "Desired" features are made very near release of previous version.
+
+Required Features:
+* Beginnings of a "drawing" thought
+  - Allow the user to add purty pictures to their maps
+  - How?
+    > Current thought is to have a new mode - "Drawing Mode"
+    > When selected and somewhere (empty!) is clicked on a map, a new window opens
+    > This window allows the user to scribble in it with the mouse
+    > When closed, the resulting picture is added to the map as a node
+  - Alternatively
+    > When in drawing mode, the user can scribble anywhere on the map
+    > The resulting image becomes a node when exiting drawing mode
+  - Alternatively (2)
+    > As above, but a very light border is shown where the node extends
+    > User can draw the border bigger or smaller
+    > Drawing is finished when clicking outside the area
+  - All have disadvantages and advantages.  Which one to go for?  Dunno
+* Icon and menu entry
+* Beginning of i18n support
+
+Desired Features:
+* Alternate text sizes
+  - Ideally, text should (in the first instance) follow the theme size
+  - Additional text sizes available from a drop-down list
+* Follow theme
+  - Should check which theme is running and follow the colours defined in it
+* Colourful thoughts
+  - Should be able to select fg / bg colours for thoughts
+* Accessibility
+  - Figure out a way to display all the thoughts in a completely accessible way
+  - Use a tree-view?
+  - Figure out how to make thoughts actually add (accessibly) to the map area
+* Icon and menu entry
+* Beginning of i18n support
+
+
+To infinity and beyond
+----------------------
+
+Some ideas for later versions.  These are planned for some point, just not right now.
+
+* Export
+  - Export maps as png / pdf / print / XML
+  - Allow import as well (from XML)
+* Different thought types
+  - "Elegant" (only 2 sides have thin border), "Jazzy" (huge great spikes out of it), cloud (fluffy) etc.
+    > I know what they look like in my head and thats enough for me
+* Grouping of thoughts
+  - Select multiple thoughts
+  - Place a coloured background behind them
+* More intuitive controls
+* More crack!!!!
+
+
+
+
+
+
+
+
+
