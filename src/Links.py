@@ -23,7 +23,7 @@
 
 import gobject
 
-import Thoughts
+import TextThought
 import utils
 
 class Link (gobject.GObject):

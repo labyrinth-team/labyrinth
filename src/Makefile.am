@@ -17,6 +17,20 @@ labyrinth_PYTHON = 	\
 	Browser.py	\
 	BaseThought.py
 
+nodist_labyrinth_PYTHON = defs.py
+
+defs.py: defs.py.in
+	sed						\
+		-e s!\@prefix\@!$(prefix)!		\
+		-e s!\@datadir\@!$(datadir)!		\
+		-e s!\@pkgdatadir\@!$(pkgdatadir)!	\
+		-e s!\@libexecdir\@!$(libexecdir)!	\
+		-e s!\@libdir\@!$(libdir)!		\
+		-e s!\@PACKAGE\@!$(PACKAGE)!		\
+		-e s!\@VERSION\@!$(VERSION)!		\
+		< $< > $@
+defs.py: Makefile
+
 BUILT_SOURCES = labyrinth
 
 CLEANFILES = $(BUILT_SOURCES)

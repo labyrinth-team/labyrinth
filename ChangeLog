@@ -1,5 +1,13 @@
 2006-09-06  Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* configure.ac:
+	* src/Makefile.am:
+	* src/defs.py.in:
+	Make defs get generated properly.  Hopefully (taken from Alacarte)
+	
+	* src/Links.py:
+	Import TextThought instead of Thoughts
+
 	* data/labyrinth-??.png:
 	* data/labyrinth.svg:
 	* data/labyrinth.desktop.in:

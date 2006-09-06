@@ -76,7 +76,6 @@ AC_MSG_RESULT($PYGTK_DEFSDIR)
 AC_OUTPUT([
 Makefile
 src/Makefile
-src/defs.py
 data/Makefile
 doc/Makefile
 po/Makefile.in
