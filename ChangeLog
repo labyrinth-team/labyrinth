@@ -1,5 +1,10 @@
 2006-09-06  Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* TextThought.py:
+	* MMapArea.py:
+	Move Thoughts.py to new file
+	Update MMapArea to use the file
+
 	* BaseThought.py:
 	New file: Base class for thoughts
 	

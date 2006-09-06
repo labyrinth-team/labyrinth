@@ -28,7 +28,7 @@ import gobject
 import xml.dom.minidom as dom
 
 import Links
-import Thoughts
+import TextThought
 
 MODE_EDITING = 0
 MODE_MOVING = 1
@@ -233,7 +233,7 @@ class MMapArea (gtk.DrawingArea):
 		text_element = self.save.createTextNode ("GOOBAH")
 		elem.appendChild (text_element)
 		self.element.appendChild (elem)
-		thought = Thoughts.TextThought (coords, self.pango_context, self.nthoughts, elem, text_element)
+		thought = ThextThought.TextThought (coords, self.pango_context, self.nthoughts, elem, text_element)
 		self.nthoughts += 1
 		if self.current_root:
 			self.link_thoughts (self.current_root, thought)
@@ -253,7 +253,7 @@ class MMapArea (gtk.DrawingArea):
 		text_element = self.save.createTextNode ("")
 		elem.appendChild (text_element)
 		self.element.appendChild (elem)
-		thought = Thoughts.TextThought (element = elem, text_element = text_element, pango=self.pango_context, load=node)
+		thought = TextThought.TextThought (element = elem, text_element = text_element, pango=self.pango_context, load=node)
 		self.thoughts.append (thought)
 		self.nthoughts += 1
 		
