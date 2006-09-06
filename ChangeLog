@@ -1,3 +1,9 @@
+2006-09-06  Don Scorgie  <DonScorgie@Blueyonder.co.uk>
+
+	* MMapArea.py:
+	Don't redraw on mouse motion when not watching
+	Only redraw every 1/40th second to stop from hammering X server
+
 2006-08-29  Don Scorgie  <DonScorgie@Blueyonder.co.uk>
 
 	* Initial Import into new home on Google

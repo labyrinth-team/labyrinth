@@ -88,6 +88,8 @@ class MMapArea (gtk.DrawingArea):
 		impl = dom.getDOMImplementation()
 		self.save = impl.createDocument("http://www.donscorgie.blueyonder.co.uk/labns", "MMap", None)
 		self.element = self.save.documentElement
+		
+		self.time_elapsed = 0.0
 	
 # Signal Handlers for the Map Class
 	
@@ -120,7 +122,6 @@ class MMapArea (gtk.DrawingArea):
 		
 	def motion (self, widget, event):
 		if not self.watching_movement:
-			self.invalidate ()
 			return False
 
 		if self.mode == MODE_EDITING:
@@ -213,9 +214,12 @@ class MMapArea (gtk.DrawingArea):
 	
 	def invalidate (self):
 		'''Helper function to invalidate the entire screen, forcing a redraw'''
-		alloc = self.get_allocation ()
-		rect = gtk.gdk.Rectangle (0, 0, alloc.width, alloc.height)
-		self.window.invalidate_rect (rect, True)
+		ntime = time.time ()
+		if ntime - self.time_elapsed > 0.025:
+			alloc = self.get_allocation ()
+			rect = gtk.gdk.Rectangle (0, 0, alloc.width, alloc.height)
+			self.window.invalidate_rect (rect, True)
+			self.time_elapsed = ntime
 	
 	def find_thought_at (self, coords):
 		'''Checks the given coords and sees if there are any thoughts there'''
