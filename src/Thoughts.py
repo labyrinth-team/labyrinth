@@ -100,14 +100,14 @@ class Thought (gobject.GObject):
 			context.line_to (self.lr[0], self.lr[1])
 			context.line_to (self.lr[0], self.ul[1]-5)
 			context.line_to (self.ul[0]-5, self.ul[1]-5)
-			if self.am_primary:
-				context.set_source_rgb (1.0,0.5,0.5)
-				context.fill_preserve ()
-				context.set_source_rgb (0,0,0)
 			if self.am_root:
 				context.set_source_rgb (0.0,0.9,0.9)
-				context.fill_preserve ()
-				context.set_source_rgb (0,0,0) 
+			elif self.am_primary:
+				context.set_source_rgb (1.0,0.5,0.5)
+			else:
+				context.set_source_rgb (1.0,1.0,1.0)
+			context.fill_preserve ()
+			context.set_source_rgb (0,0,0)
 			context.stroke ()
 		else:
 			(strong, weak) = layout.get_cursor_pos (self.index)

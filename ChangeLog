@@ -1,6 +1,10 @@
 2006-09-06  Don Scorgie  <DonScorgie@Blueyonder.co.uk>
 
 	* MMapArea.py:
+	* Thoughts.py:
+	Draw links behind thoughts to make thoughts feel more solid
+
+	* MMapArea.py:
 	Don't redraw on mouse motion when not watching
 	Only redraw every 1/40th second to stop from hammering X server
 

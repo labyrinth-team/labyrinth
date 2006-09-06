@@ -205,12 +205,12 @@ class MMapArea (gtk.DrawingArea):
 		context.move_to (0,0)
 		context.paint ()
 		context.set_source_rgb (0.0,0.0,0.0)
-		for t in self.thoughts:
-			t.draw (context)
 		for l in self.links:
 			l.draw (context)
 		if self.unended_link:
 			self.unended_link.draw (context)
+		for t in self.thoughts:
+			t.draw (context)
 	
 	def invalidate (self):
 		'''Helper function to invalidate the entire screen, forcing a redraw'''
