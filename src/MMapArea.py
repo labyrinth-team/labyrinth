@@ -233,7 +233,7 @@ class MMapArea (gtk.DrawingArea):
 		text_element = self.save.createTextNode ("GOOBAH")
 		elem.appendChild (text_element)
 		self.element.appendChild (elem)
-		thought = Thoughts.Thought (coords, self.pango_context, self.nthoughts, elem, text_element)
+		thought = Thoughts.TextThought (coords, self.pango_context, self.nthoughts, elem, text_element)
 		self.nthoughts += 1
 		if self.current_root:
 			self.link_thoughts (self.current_root, thought)
@@ -253,7 +253,7 @@ class MMapArea (gtk.DrawingArea):
 		text_element = self.save.createTextNode ("")
 		elem.appendChild (text_element)
 		self.element.appendChild (elem)
-		thought = Thoughts.Thought (element = elem, text_element = text_element, pango=self.pango_context, load=node)
+		thought = Thoughts.TextThought (element = elem, text_element = text_element, pango=self.pango_context, load=node)
 		self.thoughts.append (thought)
 		self.nthoughts += 1
 		

@@ -43,3 +43,4 @@ def parse_coords (string):
 	coord = (float(local),	float(local_2))
 	return coord
 
+

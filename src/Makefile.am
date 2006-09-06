@@ -14,7 +14,8 @@ labyrinth_PYTHON = 	\
 	__init__.py	\
 	Links.py	\
 	utils.py	\
-	Browser.py
+	Browser.py	\
+	BaseThought.py
 
 BUILT_SOURCES = labyrinth
 

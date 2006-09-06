@@ -25,10 +25,11 @@ import pango
 import gobject
 import Links
 import utils
+import BaseThought
 
 import xml.dom
 
-class Thought (gobject.GObject):
+class TextThought (BaseThought.BaseThought):
 	__gsignals__ = dict (delete_thought		= (gobject.SIGNAL_RUN_FIRST,
 											   gobject.TYPE_NONE,
 											   (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT)),
@@ -37,7 +38,7 @@ class Thought (gobject.GObject):
 											   (gobject.TYPE_STRING, gobject.TYPE_PYOBJECT)))
 	
 	def __init__ (self, coords=None, pango=None, ident=None, element=None, text_element=None, load=None):
-		super (Thought, self).__init__()
+		super (TextThought, self).__init__()
 		self.pango_context = pango
 		self.text = ""
 		self.index = 0
@@ -347,5 +348,3 @@ class Thought (gobject.GObject):
 		self.parents.append (parent)
 
 
-
-	

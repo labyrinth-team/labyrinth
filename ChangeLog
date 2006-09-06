@@ -1,5 +1,12 @@
-2006-09-06  Don Scorgie  <DonScorgie@Blueyonder.co.uk>
+2006-09-06  Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* BaseThought.py:
+	New file: Base class for thoughts
+	
+    * Thoughts.py:
+    * MMapArea.py:
+    Update to use BaseThought.  Rename Thought to TextThought
+    
 	* MMapArea.py:
 	* Thoughts.py:
 	Draw links behind thoughts to make thoughts feel more solid
