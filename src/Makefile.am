@@ -10,7 +10,7 @@ labyrinth_PYTHON = 	\
 	defs.py		\
 	MainWindow.py	\
 	MMapArea.py	\
-	Thoughts.py	\
+	TextThought.py	\
 	__init__.py	\
 	Links.py	\
 	utils.py	\

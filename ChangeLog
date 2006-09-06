@@ -1,5 +1,14 @@
 2006-09-06  Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* data/labyrinth-??.png:
+	* data/labyrinth.svg:
+	* data/labyrinth.desktop.in:
+	Add these vital files.  Labyrinth should now show up in the Applications->Office menu
+	Complete with its own (very ugly) icon
+	
+	* data/Makefile.am:
+	Update to install icons and desktop file
+
 	* TextThought.py:
 	* MMapArea.py:
 	Move Thoughts.py to new file
