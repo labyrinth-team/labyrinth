@@ -20,5 +20,6 @@
     <separator/>
     <toolitem action="Edit"/>
     <toolitem action="Move"/>
+    <toolitem action="AddImage"/>
   </toolbar>
 </ui>

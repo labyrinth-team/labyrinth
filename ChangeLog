@@ -1,3 +1,14 @@
+2006-09-09 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+    * src/MainWindow.py:
+	* data/labyrinth-ui.xml:
+	Added "add image" button in preperation for future work
+
+    * src/Makefile.am:
+    * src/defs.py.in:
+	Fix compilation once again.  Sigh
+
+
 2006-09-06  Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* configure.ac:

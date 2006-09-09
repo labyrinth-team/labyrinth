@@ -104,6 +104,8 @@ class LabyrinthWindow (gtk.Window):
 			('ModeMenu', None, '_Mode'),
 			('DeleteNodes', gtk.STOCK_DELETE, '_Delete Selected Thoughts', None,
 			 'Delete the selected element(s)', self.delete_cb),
+			('AddImage', None, '_Add Image', None,
+			 'Add an image to selected thought', self.add_image_cb),
 			('HelpMenu', None, '_Help'),
 			('About',gtk.STOCK_ABOUT, '_About', None,
 			 'Learn about the application', self.about_cb)]
@@ -122,6 +124,7 @@ class LabyrinthWindow (gtk.Window):
 		self.ui = gtk.UIManager ()
 		self.ui.insert_action_group (ag, 0)
 		try:
+			print "Looking for "+defs.DATA_DIR
 			self.ui.add_ui_from_file (defs.DATA_DIR+'/labyrinth/labyrinth-ui.xml')
 		except:
 			print "Cannot find "+defs.DATA_DIR+".  Looking in ./data"
@@ -197,6 +200,10 @@ class LabyrinthWindow (gtk.Window):
 		
 	def doc_del_cb (self, w, a):
 		self.emit ('window_closed', None)
+
+	def add_image_cb (self, w):
+		print "Adding image"
+
 		
 	def doc_save_cb (self, widget, doc, top_element):
 		top_element.setAttribute ("title", self.title_cp)

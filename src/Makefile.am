@@ -28,6 +28,7 @@ defs.py: defs.py.in
 		-e s!\@libdir\@!$(libdir)!		\
 		-e s!\@PACKAGE\@!$(PACKAGE)!		\
 		-e s!\@VERSION\@!$(VERSION)!		\
+		-e s!\@PYTHONDIR\@!$(PYTHONDIR)!    \
 		< $< > $@
 defs.py: Makefile
 
