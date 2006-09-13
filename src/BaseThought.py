@@ -168,11 +168,6 @@ class ResizableThought (BaseThought):
 					return True
 		return coords[0] < self.lr[0] and coords[0] > self.ul[0] and \
 			   coords[1] < self.lr[1] and coords[1] > self.ul[1]
-			
-		
-			#return coords[0] < self.lr[0] and coords[0] > self.ul[0] and \
-			#coords[1] < self.lr[1] and coords[1] > self.ul[1]
-		
 		
 		
 	def draw (self, context):
@@ -215,33 +210,6 @@ class ResizableThought (BaseThought):
 		elif self.resizing == self.MOTION_LR:
 			self.lr = (self.lr[0]+diffx, self.lr[1]+diffy)
 		
-		return
-	
-	def handle_key (self, string, keysym):
-		return False
-		
-	def find_connection (self, other):
-		return (None, None)
-		
-	def update_save (self):
-		return
-		
-	def load_data (self, node):
-		return
-		
-	def begin_editing (self):
-		return
-	
-	def finish_editing (self):
-		return
-	
-	def become_active_root (self):
-		return
-		
-	def finish_active_root (self):
-		return
-		
-	def become_primary_thought (self):
 		return
 		
 	def want_movement (self):
