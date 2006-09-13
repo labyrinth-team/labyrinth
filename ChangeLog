@@ -1,5 +1,8 @@
 2006-09-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/ImageThought.py:
+	Clip title to only be actual filename (ignore path and suffix)
+	
 	* src/BaseThought.py:
 	* src/MMapArea.py:
 	* src/ImageThought.py:

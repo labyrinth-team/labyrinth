@@ -43,7 +43,7 @@ class ImageThought (BaseThought.ResizableThought):
 			
 				self.lr = (self.ul[0]+self.width+5, self.ul[1]+self.height+5)
 				self.pic = self.orig_pic
-				self.text = filename
+				self.text = filename[filename.rfind('/')+1:filename.rfind('.')]
 				self.emit ("title_changed", self.text, 65)
 		else:
 			self.load_data (load)
