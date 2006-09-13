@@ -105,14 +105,14 @@ class ResizableThought (BaseThought):
 	MOTION_LL = 7
 	MOTION_LR = 8
 	
-	def __init__ (self, coords, identity):
+	def __init__ (self):
 		super (ResizableThought, self).__init__()
 		self.sensitive = 5
 		self.resizing = False
 		# Temporary testing stuff now
-		self.identity = identity
-		self.ul = coords
-		self.lr = (coords[0]+60, coords[1]+60)
+		#self.identity = identity
+		#self.ul = coords
+		#self.lr = (coords[0]+60, coords[1]+60)
 		
 	def includes (self, coords, allow_resize = False):
 		self.resizing = self.MOTION_NONE
@@ -158,11 +158,13 @@ class ResizableThought (BaseThought):
 				else:
 				# Not interested
 					return False
-			elif abs (coords[1] - self.ul[1]) < self.sensitive:
+			elif abs (coords[1] - self.ul[1]) < self.sensitive and \
+				 (coords[0] < self.lr[0] and coords[0] > self.ul[0]):
 				# Along the top edge somewhere
 					self.resizing = self.MOTION_TOP
 					return True
-			elif abs (coords[1] - self.lr[1]) < self.sensitive:
+			elif abs (coords[1] - self.lr[1]) < self.sensitive and \
+				 (coords[0] < self.lr[0] and coords[0] > self.ul[0]):
 				# Along the bottom edge somewhere
 					self.resizing = self.MOTION_BOTTOM
 					return True

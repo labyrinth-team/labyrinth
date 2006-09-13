@@ -29,6 +29,7 @@ import xml.dom.minidom as dom
 
 import Links
 import TextThought
+import ImageThought
 
 #Temporary
 import BaseThought
@@ -114,6 +115,7 @@ class MMapArea (gtk.DrawingArea):
 		self.watching_movement = False
 		if len (self.selected_thoughts) > 0:
 			self.selected_thoughts[0].finish_motion ()
+			self.update_links (self.selected_thoughts[0])
 		
 		self.prev_release_time = self.release_time
 		self.release_time = event.get_time ()
@@ -166,7 +168,7 @@ class MMapArea (gtk.DrawingArea):
 		thought = self.find_thought_at (coords)
 		
 		#We may have a dangling link.  Need to destroy it now
-		self.unended_link = None	   
+		self.unended_link = None
 
 		if thought:
 			if self.num_selected == 1 and thought != self.selected_thoughts[0]:
@@ -304,6 +306,7 @@ class MMapArea (gtk.DrawingArea):
 		# We can only be called (for now) if a node is selected.  Plan accordingly.
 		if self.selected_thoughts[0].want_movement ():
 			self.selected_thoughts[0].handle_movement (coords)
+			self.update_links (self.selected_thoughts[0])
 			self.invalidate ()
 			return
 		if not self.unended_link:
@@ -379,6 +382,9 @@ class MMapArea (gtk.DrawingArea):
 		if mode == MODE_MOVING:
 			for s in self.selected_thoughts:
 				self.finish_editing (s)
+		if mode == MODE_IMAGE:
+			self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.CROSSHAIR))
+			self.old_mode = self.mode
 		if invalidate:
 			self.invalidate ()
 	
@@ -442,27 +448,36 @@ class MMapArea (gtk.DrawingArea):
 				self.delete_link (l)
 		del thought
 
-	def prepare_for_image (self):
-		self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.CROSSHAIR))
-		self.old_mode = self.mode
-		self.mode = MODE_IMAGE
-
 	def create_image (self, coords):
 		self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.LEFT_PTR))
 		self.mode = self.old_mode
-		print "Creating image at "+str(coords)
-		thought = BaseThought.ResizableThought (coords, self.nthoughts)
-		self.nthoughts+=1
-		if self.current_root:
-			self.link_thoughts (self.current_root, thought)
-		else:
-			self.make_current_root (thought)
-			
-		if not self.primary_thought:
-			self.make_primary_root (thought)
 		
-		self.thoughts.append (thought)
-		self.invalidate ()
+		# Present a dialog for the user to choose an image here
+		dialog = gtk.FileSelection("Choose image to insert")
+		res = dialog.run ()
+		dialog.hide ()
+		if res == gtk.RESPONSE_OK:
+			fname = dialog.get_filename()
+			thought = ImageThought.ImageThought (fname, coords, self.nthoughts)
+			if not thought.okay:
+				dialog = gtk.MessageDialog (None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, 
+											gtk.MESSAGE_WARNING, gtk.BUTTONS_CLOSE,
+											"Error loading file")
+				dialog.format_secondary_text (fname+" could not be read.  Please ensure its a valid image.")
+				dialog.run ()
+				dialog.hide ()
+				return
+			self.nthoughts+=1
+			if self.current_root:
+				self.link_thoughts (self.current_root, thought)
+			else:
+				self.make_current_root (thought)
+			
+			if not self.primary_thought:
+				self.make_primary_root (thought)
+		
+			self.thoughts.append (thought)
+			self.invalidate ()
 
 	def select_thought (self, thought):
 		self.selected_thoughts = [thought]

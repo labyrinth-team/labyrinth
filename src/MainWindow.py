@@ -104,8 +104,6 @@ class LabyrinthWindow (gtk.Window):
 			('ModeMenu', None, '_Mode'),
 			('DeleteNodes', gtk.STOCK_DELETE, '_Delete Selected Thoughts', None,
 			 'Delete the selected element(s)', self.delete_cb),
-			('AddImage', None, '_Add Image', None,
-			 'Add an image to selected thought', self.add_image_cb),
 			('HelpMenu', None, '_Help'),
 			('About',gtk.STOCK_ABOUT, '_About', None,
 			 'Learn about the application', self.about_cb)]
@@ -113,7 +111,9 @@ class LabyrinthWindow (gtk.Window):
 			('Edit', None, '_Edit Mode', '<control>E',
 			 'Turn on edit mode', MMapArea.MODE_EDITING),
 			('Move', None, '_Move Mode', '<control>M',
-			 'Turn on move mode', MMapArea.MODE_MOVING)]
+			 'Turn on move mode', MMapArea.MODE_MOVING),
+			 ('AddImage', None, '_Add Image', None,
+			 'Add an image to selected thought', MMapArea.MODE_IMAGE)]
 
 		ag = gtk.ActionGroup ('WindowActions')
 		ag.add_actions (actions)
@@ -200,10 +200,6 @@ class LabyrinthWindow (gtk.Window):
 		
 	def doc_del_cb (self, w, a):
 		self.emit ('window_closed', None)
-
-	def add_image_cb (self, w):
-		self.MainArea.prepare_for_image ()
-
 		
 	def doc_save_cb (self, widget, doc, top_element):
 		top_element.setAttribute ("title", self.title_cp)
