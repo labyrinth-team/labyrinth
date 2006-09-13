@@ -20,26 +20,36 @@
 #
 
 import gtk
+import xml.dom
 
 import BaseThought
+import utils
 
 
 class ImageThought (BaseThought.ResizableThought):
 	def __init__ (self, filename=None, coords=None, ident=None, element=None, load=None):
 		super (ImageThought, self).__init__()
-		self.element = element
-		self.ul = (coords[0]-5, coords[1]-5)
 		
 		self.element = element
+		self.filename = filename
 		
 		if not load:
+			self.ul = (coords[0]-5, coords[1]-5)
 			self.identity = ident
+			self.okay = self.load_image (filename)
+			if self.okay:
+				self.width = self.orig_pic.get_width ()
+				self.height = self.orig_pic.get_height ()
+			
+				self.lr = (self.ul[0]+self.width+5, self.ul[1]+self.height+5)
+				self.pic = self.orig_pic
+				self.text = filename
+				self.emit ("title_changed", self.text, 65)
 		else:
 			self.load_data (load)
-		self.okay = self.load_image (filename)
 		
 	def load_image (self, filename):
-		if not filename:
+		if filename == None:
 			print "Error: Filename not given!!!!"
 			return False
 			
@@ -47,13 +57,6 @@ class ImageThought (BaseThought.ResizableThought):
 			self.orig_pic = gtk.gdk.pixbuf_new_from_file (filename)
 		except:
 			return False
-		self.width = self.orig_pic.get_width ()
-		self.height = self.orig_pic.get_height ()
-		
-		self.lr = (self.ul[0]+self.width+5, self.ul[1]+self.height+5)
-		self.pic = self.orig_pic
-		self.text = filename
-		self.emit ("title_changed", self.text, 65)
 		return True
 
 	def draw (self, context):
@@ -194,5 +197,53 @@ class ImageThought (BaseThought.ResizableThought):
 		self.am_primary = True
 		return
 
+	# These haven't been done yet...
+	def update_save (self):
+		self.element.setAttribute ("ul-coords", str(self.ul))
+		self.element.setAttribute ("lr-coords", str(self.lr))
+		self.element.setAttribute ("identity", str(self.identity))
+		self.element.setAttribute ("file", str(self.filename))
+		self.element.setAttribute ("image_width", str(self.width))
+		self.element.setAttribute ("image_height", str(self.height))
+		if self.am_root:
+				self.element.setAttribute ("current_root", "true")
+		else:
+			try:
+				self.element.removeAttribute ("current_root")
+			except xml.dom.NotFoundErr:
+				pass
+		if self.am_primary:
+			self.element.setAttribute ("primary_root", "true");
+		else:
+			try:
+				self.element.removeAttribute ("primary_root")
+			except xml.dom.NotFoundErr:
+				pass
+		return
+		
+	def load_data (self, node):
+		tmp = node.getAttribute ("ul-coords")
+		self.ul = utils.parse_coords (tmp)
+		tmp = node.getAttribute ("lr-coords")
+		self.lr = utils.parse_coords (tmp)
+		self.filename = node.getAttribute ("file")
+		self.identity = int (node.getAttribute ("identity"))
+		self.width = float(node.getAttribute ("image_width"))
+		self.height = float(node.getAttribute ("image_height"))
+		if node.hasAttribute ("current_root"):
+			self.am_root = True
+		else:
+			self.am_root = False
+		if node.hasAttribute ("primary_root"):
+			self.am_primary = True
+		else:
+			self.am_primary = False
+			
+		for n in node.childNodes:
+			print "Unknown: "+n.nodeName
+		self.okay = self.load_image (self.filename)
+		self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), gtk.gdk.INTERP_HYPER)
+		
+		return
 			
 	

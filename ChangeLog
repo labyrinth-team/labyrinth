@@ -1,5 +1,12 @@
 2006-09-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/BaseThought.py:
+	* src/MMapArea.py:
+	* src/ImageThought.py:
+	Make loading and saving of image thoughts work.  Fingers crossed.
+	Should work.
+	Cleanup temp stuff from BaseThought
+
 	* src/TextThought.py:
 	* src/ImageThought.py:
 	Make links originate and end in the center of thoughts

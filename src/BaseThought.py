@@ -109,10 +109,6 @@ class ResizableThought (BaseThought):
 		super (ResizableThought, self).__init__()
 		self.sensitive = 5
 		self.resizing = False
-		# Temporary testing stuff now
-		#self.identity = identity
-		#self.ul = coords
-		#self.lr = (coords[0]+60, coords[1]+60)
 		
 	def includes (self, coords, allow_resize = False):
 		self.resizing = self.MOTION_NONE

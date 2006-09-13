@@ -404,6 +404,8 @@ class MMapArea (gtk.DrawingArea):
 				self.load_thought (node)
 			elif node.nodeName == "link":
 				self.load_link (node)
+			elif node.nodeName == "image_thought":
+				self.load_image (node)
 			else:
 				print "Warning: Unknown element type.  Ignoring: "+node.nodeName
 				
@@ -458,7 +460,9 @@ class MMapArea (gtk.DrawingArea):
 		dialog.hide ()
 		if res == gtk.RESPONSE_OK:
 			fname = dialog.get_filename()
-			thought = ImageThought.ImageThought (fname, coords, self.nthoughts)
+			elem = self.save.createElement ("image_thought")
+			self.element.appendChild (elem)
+			thought = ImageThought.ImageThought (fname, coords, self.nthoughts, elem)
 			if not thought.okay:
 				dialog = gtk.MessageDialog (None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, 
 											gtk.MESSAGE_WARNING, gtk.BUTTONS_CLOSE,
@@ -478,6 +482,15 @@ class MMapArea (gtk.DrawingArea):
 		
 			self.thoughts.append (thought)
 			self.invalidate ()
+
+	def load_image (self, node):
+		elem = self.save.createElement ("image_thought")
+		self.element.appendChild (elem)
+		thought = ImageThought.ImageThought (element = elem, load=node)
+		self.thoughts.append (thought)
+		self.nthoughts += 1	
+
+		pass
 
 	def select_thought (self, thought):
 		self.selected_thoughts = [thought]
