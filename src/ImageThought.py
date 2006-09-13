@@ -60,11 +60,20 @@ class ImageThought (BaseThought.ResizableThought):
 		return True
 
 	def draw (self, context):
-		context.move_to (self.ul[0], self.ul[1])
-		context.line_to (self.ul[0], self.lr[1])
-		context.line_to (self.lr[0], self.lr[1])
-		context.line_to (self.lr[0], self.ul[1])
-		context.line_to (self.ul[0], self.ul[1])
+		context.move_to (self.ul[0], self.ul[1]+10)
+		context.line_to (self.ul[0], self.lr[1]-10)
+		context.curve_to (self.ul[0], self.lr[1], self.ul[0], self.lr[1], self.ul[0]+10, self.lr[1])
+		context.line_to (self.lr[0]-10, self.lr[1])
+		context.curve_to (self.lr[0], self.lr[1], self.lr[0], self.lr[1], self.lr[0], self.lr[1]-10)
+		context.line_to (self.lr[0], self.ul[1]+10)
+		context.curve_to (self.lr[0], self.ul[1], self.lr[0], self.ul[1], self.lr[0]-10, self.ul[1])
+		context.line_to (self.ul[0]+10, self.ul[1])
+		context.curve_to (self.ul[0], self.ul[1], self.ul[0], self.ul[1], self.ul[0], self.ul[1]+10)
+	
+		#	context.line_to (self.ul[0], self.lr[1])
+		#context.line_to (self.lr[0], self.lr[1])
+		#context.line_to (self.lr[0], self.ul[1])
+		#context.line_to (self.ul[0], self.ul[1])
 
 		context.set_source_rgb (1.0,1.0,1.0)
 		if self.am_root:

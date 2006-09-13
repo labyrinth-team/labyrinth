@@ -1,6 +1,11 @@
 2006-09-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* src/ImageThought.py:
+	* src/TextThought.py:
+	Curve the corners of thoughts slightly.  Makes the entire thing slightly prettier
+	and less intimidating
+	
+	* src/ImageThought.py:
 	Clip title to only be actual filename (ignore path and suffix)
 	
 	* src/BaseThought.py:
