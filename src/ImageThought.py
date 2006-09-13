@@ -151,7 +151,7 @@ class ImageThought (BaseThought.ResizableThought):
 			self.width += diffx
 			self.height += diffy
 		
-		self.pic = self.orig_pic.scale_simple (self.width, self.height, gtk.gdk.INTERP_NEAREST)
+		self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), gtk.gdk.INTERP_NEAREST)
 		
 		return
 			
@@ -159,7 +159,7 @@ class ImageThought (BaseThought.ResizableThought):
 		# Up till now, we've been using the fastest interp.  Here, its made best
 		# Yes, it makes quite a big difference actually
 		self.pic = self.orig_pic.scale_simple (int (self.width), int (self.height), gtk.gdk.INTERP_HYPER)
-	
+		self.emit ("change_cursor", gtk.gdk.LEFT_PTR, None)
 		self.resizing = self.MOTION_NONE
 		return	
 	

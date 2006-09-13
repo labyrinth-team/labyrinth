@@ -20,6 +20,7 @@
 #
 
 import gobject
+import gtk
 import utils
 
 class BaseThought (gobject.GObject):
@@ -29,7 +30,10 @@ class BaseThought (gobject.GObject):
 											   (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT)),
 						 title_changed		= (gobject.SIGNAL_RUN_FIRST,
 											   gobject.TYPE_NONE,
-											   (gobject.TYPE_STRING, gobject.TYPE_PYOBJECT)))
+											   (gobject.TYPE_STRING, gobject.TYPE_PYOBJECT)),
+						 change_cursor      = (gobject.SIGNAL_RUN_FIRST,
+						 					   gobject.TYPE_NONE,
+						 					   (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT)))
 	
 	def __init__ (self):
 		super (BaseThought, self).__init__()
@@ -126,14 +130,17 @@ class ResizableThought (BaseThought):
 				if abs (coords[1] - self.ul[1]) < self.sensitive:
 				# Its in the ul corner
 					self.resizing = self.MOTION_UL
+					self.emit ("change_cursor", gtk.gdk.TOP_LEFT_CORNER, None)
 					return True
 				elif abs (coords[1] - self.lr[1]) < self.sensitive:
 				# Its in the ll corner
 					self.resizing = self.MOTION_LL
+					self.emit ("change_cursor", gtk.gdk.BOTTOM_LEFT_CORNER, None)
 					return True
 				elif coords[1] < self.lr[1] and coords[1] > self.ul[1]:
 				#anywhere else along the left edge
 					self.resizing = self.MOTION_LEFT
+					self.emit ("change_cursor", gtk.gdk.LEFT_SIDE, None)
 					return True
 				else:
 				# Not interested
@@ -142,14 +149,17 @@ class ResizableThought (BaseThought):
 				if abs (coords[1] - self.ul[1]) < self.sensitive:
 				# Its in the UR corner
 					self.resizing = self.MOTION_UR
+					self.emit ("change_cursor", gtk.gdk.TOP_RIGHT_CORNER, None)
 					return True
 				elif abs (coords[1] - self.lr[1]) < self.sensitive:
 				# Its in the lr corner
 					self.resizing = self.MOTION_LR
+					self.emit ("change_cursor", gtk.gdk.BOTTOM_RIGHT_CORNER, None)
 					return True
 				elif coords[1] < self.lr[1] and coords[1] > self.ul[1]:
 				#anywhere else along the right edge
 					self.resizing = self.MOTION_RIGHT
+					self.emit ("change_cursor", gtk.gdk.RIGHT_SIDE, None)
 					return True
 				else:
 				# Not interested
@@ -158,11 +168,13 @@ class ResizableThought (BaseThought):
 				 (coords[0] < self.lr[0] and coords[0] > self.ul[0]):
 				# Along the top edge somewhere
 					self.resizing = self.MOTION_TOP
+					self.emit ("change_cursor", gtk.gdk.TOP_SIDE, None)
 					return True
 			elif abs (coords[1] - self.lr[1]) < self.sensitive and \
 				 (coords[0] < self.lr[0] and coords[0] > self.ul[0]):
 				# Along the bottom edge somewhere
 					self.resizing = self.MOTION_BOTTOM
+					self.emit ("change_cursor", gtk.gdk.BOTTOM_SIDE, None)
 					return True
 		return coords[0] < self.lr[0] and coords[0] > self.ul[0] and \
 			   coords[1] < self.lr[1] and coords[1] > self.ul[1]

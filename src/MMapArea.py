@@ -89,6 +89,7 @@ class MMapArea (gtk.DrawingArea):
 
 		self.unended_link = None
 		self.nthoughts = 0
+		self.b_down = False
 		
 		impl = dom.getDOMImplementation()
 		self.save = impl.createDocument("http://www.donscorgie.blueyonder.co.uk/labns", "MMap", None)
@@ -99,6 +100,7 @@ class MMapArea (gtk.DrawingArea):
 # Signal Handlers for the Map Class
 	
 	def button_down (self, widget, event):
+		self.b_down = True
 		for s in self.selected_thoughts:
 			self.finish_editing (s)
 			
@@ -112,6 +114,7 @@ class MMapArea (gtk.DrawingArea):
 		return False
 		
 	def button_release (self, widget, event):	
+		self.b_down = False
 		self.watching_movement = False
 		if len (self.selected_thoughts) > 0:
 			self.selected_thoughts[0].finish_motion ()
@@ -233,7 +236,7 @@ class MMapArea (gtk.DrawingArea):
 	
 	def find_thought_at (self, coords):
 		'''Checks the given coords and sees if there are any thoughts there'''
-		if self.mode == MODE_EDITING:
+		if self.mode == MODE_EDITING and self.b_down:
 			allow_resize = True
 		else:
 			allow_resize = False
@@ -471,6 +474,7 @@ class MMapArea (gtk.DrawingArea):
 				dialog.run ()
 				dialog.hide ()
 				return
+			thought.connect ("change_cursor", self.cursor_change_cb)
 			self.nthoughts+=1
 			if self.current_root:
 				self.link_thoughts (self.current_root, thought)
@@ -487,6 +491,7 @@ class MMapArea (gtk.DrawingArea):
 		elem = self.save.createElement ("image_thought")
 		self.element.appendChild (elem)
 		thought = ImageThought.ImageThought (element = elem, load=node)
+		thought.connect ("change_cursor", self.cursor_change_cb)
 		self.thoughts.append (thought)
 		self.nthoughts += 1	
 
@@ -500,8 +505,9 @@ class MMapArea (gtk.DrawingArea):
 		self.save_thyself ()
 
 		
-		
-		
+	def cursor_change_cb (self, thought, cursor_type, a):
+		self.window.set_cursor (gtk.gdk.Cursor (cursor_type))	
+		return
 		
 		
 		
