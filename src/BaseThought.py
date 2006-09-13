@@ -24,6 +24,12 @@ import utils
 
 class BaseThought (gobject.GObject):
 	''' the basic class to derive other thouhts from'''
+	__gsignals__ = dict (delete_thought		= (gobject.SIGNAL_RUN_FIRST,
+											   gobject.TYPE_NONE,
+											   (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT)),
+						 title_changed		= (gobject.SIGNAL_RUN_FIRST,
+											   gobject.TYPE_NONE,
+											   (gobject.TYPE_STRING, gobject.TYPE_PYOBJECT)))
 	
 	def __init__ (self):
 		super (BaseThought, self).__init__()
@@ -31,8 +37,9 @@ class BaseThought (gobject.GObject):
 		self.am_root = False
 		self.editing = False
 		self.identity = -1
+		self.text = "Unknown Thought Type"
 		
-	def includes (self, coords):
+	def includes (self, coords, allow_resize = False):
 		print "Warning: includes is not implemented for one thought type"
 		return False
 		
@@ -79,13 +86,167 @@ class BaseThought (gobject.GObject):
 	def become_primary_thought (self):
 		print "Warning: Become primary root isn't implemented for this node type"
 		return
+
+	def want_movement (self):
+		return False
+	
+	def finish_motion (self):
+		return
 		
 	
+class ResizableThought (BaseThought):
+	MOTION_NONE = 0
+	MOTION_LEFT = 1
+	MOTION_RIGHT = 2
+	MOTION_TOP = 3
+	MOTION_BOTTOM = 4
+	MOTION_UL = 5
+	MOTION_UR = 6
+	MOTION_LL = 7
+	MOTION_LR = 8
+	
+	def __init__ (self, coords, identity):
+		super (ResizableThought, self).__init__()
+		self.sensitive = 5
+		self.resizing = False
+		# Temporary testing stuff now
+		self.identity = identity
+		self.ul = coords
+		self.lr = (coords[0]+60, coords[1]+60)
+		
+	def includes (self, coords, allow_resize = False):
+		self.resizing = self.MOTION_NONE
+		self.motion_coords = coords
+		if not self.ul or not self.lr:
+			return False
+		elif allow_resize:
+			# 2 cases: 1. The click was within the main area
+			#		   2. The click was near the border
+			# In the first case, we handle as normal
+			# In the second case, we want to intercept all the fun thats
+			# going to happen so we can resize the thought
+			if abs (coords[0] - self.ul[0]) < self.sensitive:
+				# its near the top edge somewhere
+				if abs (coords[1] - self.ul[1]) < self.sensitive:
+				# Its in the ul corner
+					self.resizing = self.MOTION_UL
+					return True
+				elif abs (coords[1] - self.lr[1]) < self.sensitive:
+				# Its in the ll corner
+					self.resizing = self.MOTION_LL
+					return True
+				elif coords[1] < self.lr[1] and coords[1] > self.ul[1]:
+				#anywhere else along the left edge
+					self.resizing = self.MOTION_LEFT
+					return True
+				else:
+				# Not interested
+					return False
+			elif abs (coords[0] - self.lr[0]) < self.sensitive:
+				if abs (coords[1] - self.ul[1]) < self.sensitive:
+				# Its in the UR corner
+					self.resizing = self.MOTION_UR
+					return True
+				elif abs (coords[1] - self.lr[1]) < self.sensitive:
+				# Its in the lr corner
+					self.resizing = self.MOTION_LR
+					return True
+				elif coords[1] < self.lr[1] and coords[1] > self.ul[1]:
+				#anywhere else along the right edge
+					self.resizing = self.MOTION_RIGHT
+					return True
+				else:
+				# Not interested
+					return False
+			elif abs (coords[1] - self.ul[1]) < self.sensitive:
+				# Along the top edge somewhere
+					self.resizing = self.MOTION_TOP
+					return True
+			elif abs (coords[1] - self.lr[1]) < self.sensitive:
+				# Along the bottom edge somewhere
+					self.resizing = self.MOTION_BOTTOM
+					return True
+		return coords[0] < self.lr[0] and coords[0] > self.ul[0] and \
+			   coords[1] < self.lr[1] and coords[1] > self.ul[1]
+			
+		
+			#return coords[0] < self.lr[0] and coords[0] > self.ul[0] and \
+			#coords[1] < self.lr[1] and coords[1] > self.ul[1]
 		
 		
 		
+	def draw (self, context):
+		context.move_to (self.ul[0], self.ul[1])
+		context.line_to (self.ul[0], self.lr[1])
+		context.line_to (self.lr[0], self.lr[1])
+		context.line_to (self.lr[0], self.ul[1])
+		context.line_to (self.ul[0], self.ul[1])
+		context.set_source_rgb (1.0,1.0,1.0)
+		context.fill_preserve ()
+		context.set_source_rgb (0,0,0)
+		context.stroke ()
+		return
 		
+	def handle_movement (self, coords):
+		diffx = coords[0] - self.motion_coords[0]
+		diffy = coords[1] - self.motion_coords[1]
+		self.motion_coords = coords
+		if self.resizing == self.MOTION_NONE:
+			# Actually, we have to move the entire thing
+			self.ul = (self.ul[0]+diffx, self.ul[1]+diffy)
+			self.lr = (self.lr[0]+diffx, self.lr[1]+diffy)
+			return
+		elif self.resizing == self.MOTION_LEFT:
+			self.ul = (self.ul[0]+diffx, self.ul[1])
+		elif self.resizing == self.MOTION_RIGHT:
+			self.lr = (self.lr[0]+diffx, self.lr[1])
+		elif self.resizing == self.MOTION_TOP:
+			self.ul = (self.ul[0], self.ul[1]+diffy)
+		elif self.resizing == self.MOTION_BOTTOM:
+			self.lr = (self.lr[0], self.lr[1]+diffy)
+		elif self.resizing == self.MOTION_UL:
+			self.ul = (self.ul[0]+diffx, self.ul[1]+diffy)
+		elif self.resizing == self.MOTION_UR:
+			self.ul = (self.ul[0], self.ul[1]+diffy)
+			self.lr = (self.lr[0]+diffx, self.lr[1])
+		elif self.resizing == self.MOTION_LL:
+			self.ul = (self.ul[0]+diffx, self.ul[1])
+			self.lr = (self.lr[0], self.lr[1]+diffy)
+		elif self.resizing == self.MOTION_LR:
+			self.lr = (self.lr[0]+diffx, self.lr[1]+diffy)
 		
+		return
+	
+	def handle_key (self, string, keysym):
+		return False
 		
+	def find_connection (self, other):
+		return (None, None)
 		
+	def update_save (self):
+		return
 		
+	def load_data (self, node):
+		return
+		
+	def begin_editing (self):
+		return
+	
+	def finish_editing (self):
+		return
+	
+	def become_active_root (self):
+		return
+		
+	def finish_active_root (self):
+		return
+		
+	def become_primary_thought (self):
+		return
+		
+	def want_movement (self):
+		return self.resizing != self.MOTION_NONE
+		
+	def finish_motion (self):
+		self.resizing = self.MOTION_NONE
+		return

@@ -30,8 +30,12 @@ import xml.dom.minidom as dom
 import Links
 import TextThought
 
+#Temporary
+import BaseThought
+
 MODE_EDITING = 0
 MODE_MOVING = 1
+MODE_IMAGE = 2
 
 class MMapArea (gtk.DrawingArea):
 	'''A MindMapArea Widget.  A blank canvas with a collection of child thoughts.\
@@ -108,6 +112,8 @@ class MMapArea (gtk.DrawingArea):
 		
 	def button_release (self, widget, event):	
 		self.watching_movement = False
+		if len (self.selected_thoughts) > 0:
+			self.selected_thoughts[0].finish_motion ()
 		
 		self.prev_release_time = self.release_time
 		self.release_time = event.get_time ()
@@ -170,6 +176,8 @@ class MMapArea (gtk.DrawingArea):
 		else:
 			if self.mode == MODE_EDITING:
 				self.create_new_thought (coords)
+			elif self.mode == MODE_IMAGE:
+				self.create_image (coords)
 			else:
 				self.unselect_all ()
 					
@@ -223,8 +231,12 @@ class MMapArea (gtk.DrawingArea):
 	
 	def find_thought_at (self, coords):
 		'''Checks the given coords and sees if there are any thoughts there'''
+		if self.mode == MODE_EDITING:
+			allow_resize = True
+		else:
+			allow_resize = False
 		for thought in self.thoughts:
-			if thought.includes (coords):
+			if thought.includes (coords, allow_resize):
 				return thought
 		return None
 
@@ -290,6 +302,10 @@ class MMapArea (gtk.DrawingArea):
 			
 	def handle_movement (self, coords):
 		# We can only be called (for now) if a node is selected.  Plan accordingly.
+		if self.selected_thoughts[0].want_movement ():
+			self.selected_thoughts[0].handle_movement (coords)
+			self.invalidate ()
+			return
 		if not self.unended_link:
 			self.unended_link = Links.Link (parent = self.selected_thoughts[0], from_coords = coords)
 		self.unended_link.set_new_end (coords)
@@ -357,6 +373,8 @@ class MMapArea (gtk.DrawingArea):
 		self.emit ("title_changed", thought.text, thought)
 		
 	def set_mode (self, mode, invalidate = True):
+		if self.mode == MODE_IMAGE:
+			self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.LEFT_PTR))
 		self.mode = mode
 		if mode == MODE_MOVING:
 			for s in self.selected_thoughts:
@@ -424,6 +442,27 @@ class MMapArea (gtk.DrawingArea):
 				self.delete_link (l)
 		del thought
 
+	def prepare_for_image (self):
+		self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.CROSSHAIR))
+		self.old_mode = self.mode
+		self.mode = MODE_IMAGE
+
+	def create_image (self, coords):
+		self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.LEFT_PTR))
+		self.mode = self.old_mode
+		print "Creating image at "+str(coords)
+		thought = BaseThought.ResizableThought (coords, self.nthoughts)
+		self.nthoughts+=1
+		if self.current_root:
+			self.link_thoughts (self.current_root, thought)
+		else:
+			self.make_current_root (thought)
+			
+		if not self.primary_thought:
+			self.make_primary_root (thought)
+		
+		self.thoughts.append (thought)
+		self.invalidate ()
 
 	def select_thought (self, thought):
 		self.selected_thoughts = [thought]

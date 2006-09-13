@@ -202,7 +202,7 @@ class LabyrinthWindow (gtk.Window):
 		self.emit ('window_closed', None)
 
 	def add_image_cb (self, w):
-		print "Adding image"
+		self.MainArea.prepare_for_image ()
 
 		
 	def doc_save_cb (self, widget, doc, top_element):

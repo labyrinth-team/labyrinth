@@ -2,6 +2,19 @@
 
     * src/MMapArea.py:
     Fix typo (Rogi Lemar)
+    
+    * src/BaseThought.py:
+    * src/MainWindow.py:
+    * src/MMapArea.py:
+    * src/TextThought.py:
+    New base thought type: resizable.  Will be used to contain drawings and images
+    Hook up "New Image" Button to (temporarily) draw a basic resizable thought
+    Fit everything else in required
+    - Click-dragging (in edit mode) near a resizable thoughts edge will allow it to be resized
+    - Move mode works as expected
+    WARNING: as the resizable thought isn't fully supported, its likely to corrupt maps if used
+    WARNING: No, really, any use of resizable thoughts is likely to destroy maps, creating random links
+             and screwing everything up (They also aren't saved)
 
 2006-09-09 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 

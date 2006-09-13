@@ -30,12 +30,6 @@ import BaseThought
 import xml.dom
 
 class TextThought (BaseThought.BaseThought):
-	__gsignals__ = dict (delete_thought		= (gobject.SIGNAL_RUN_FIRST,
-											   gobject.TYPE_NONE,
-											   (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT)),
-						 title_changed		= (gobject.SIGNAL_RUN_FIRST,
-											   gobject.TYPE_NONE,
-											   (gobject.TYPE_STRING, gobject.TYPE_PYOBJECT)))
 	
 	def __init__ (self, coords=None, pango=None, ident=None, element=None, text_element=None, load=None):
 		super (TextThought, self).__init__()
@@ -68,7 +62,7 @@ class TextThought (BaseThought.BaseThought):
 				self.update_bbox ()
 		return False
 		
-	def includes (self, coords):
+	def includes (self, coords, allow_resize = False):
 		if not self.ul or not self.lr:
 			return False
 		else:
