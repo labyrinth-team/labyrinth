@@ -1,5 +1,8 @@
 2006-09-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/MMapArea.py:
+	Use the FileChooser instead of the old, nasty FileSelector
+
 	* src/ImageThought.py:
 	* src/TextThought.py:
 	Curve the corners of thoughts slightly.  Makes the entire thing slightly prettier

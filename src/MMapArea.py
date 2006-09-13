@@ -385,7 +385,7 @@ class MMapArea (gtk.DrawingArea):
 		if mode == MODE_MOVING:
 			for s in self.selected_thoughts:
 				self.finish_editing (s)
-		if mode == MODE_IMAGE:
+		if mode == MODE_IMAGE and invalidate:
 			self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.CROSSHAIR))
 			self.old_mode = self.mode
 		if invalidate:
@@ -458,7 +458,8 @@ class MMapArea (gtk.DrawingArea):
 		self.mode = self.old_mode
 		
 		# Present a dialog for the user to choose an image here
-		dialog = gtk.FileSelection("Choose image to insert")
+		dialog = gtk.FileChooserDialog ("Choose image to insert", None, gtk.FILE_CHOOSER_ACTION_OPEN, \
+		(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK))
 		res = dialog.run ()
 		dialog.hide ()
 		if res == gtk.RESPONSE_OK:
