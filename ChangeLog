@@ -1,5 +1,17 @@
 2006-09-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/MainWindow.py:
+	* src/BaseThought.py:
+	* src/Makefile.am:
+	* src/MMapArea.py:
+	* src/ImageThought.py:
+	Beginnings of an Image Thought.  New mode: "Add Image".  Dosn't drop out when image added though :(
+	In edit mode, image can be resized
+	In mode mode, image is moved
+	Links are screwed up
+	Doesn't save or load (hence still screws up any maps using them)
+	Can't add text to images
+
     * src/MMapArea.py:
     Fix typo (Rogi Lemar)
     
