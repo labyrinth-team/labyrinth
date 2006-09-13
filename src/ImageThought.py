@@ -169,23 +169,11 @@ class ImageThought (BaseThought.ResizableThought):
 		   In reality, we just calculate which corners are closest and return them'''
 		if self.editing or other.editing:
 			return (None, None)
+		xfrom = self.ul[0]-((self.ul[0]-self.lr[0]) / 2.)
+		yfrom = self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)
+		xto = other.ul[0]-((other.ul[0]-other.lr[0]) / 2.)
+		yto = other.ul[1]-((other.ul[1]-other.lr[1]) / 2.)
 
-		distance = 100000000
-		xfrom = None
-		yfrom = None
-		xto = None
-		yto = None
-		for x in [other.ul[0]-5, other.lr[0]]:
-			for y in [other.ul[1]-5, other.lr[1]]:
-				for x1 in [self.ul[0]-5, self.lr[0]]:
-					for y1 in [self.ul[1]-5, self.lr[1]]:
-						d = (x-x1)**2 + (y-y1)**2
-						if d < distance:
-							xfrom = x
-							xto = x1
-							yfrom = y
-							yto = y1
-							distance = d
 		return ((xfrom, yfrom), (xto, yto))
 		
 	def begin_editing (self):

@@ -1,5 +1,10 @@
 2006-09-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/TextThought.py:
+	* src/ImageThought.py:
+	Make links originate and end in the center of thoughts
+	which looks so much cooler :)
+	
 	* src/MainWindow.py:
 	* src/BaseThought.py:
 	* src/Makefile.am:
