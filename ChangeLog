@@ -1,3 +1,11 @@
+2006-09-25 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+    * src/TextThought.py:
+    Fix corner rounding when a thought only contains an 'i'
+    * src/MMapArea.py:
+    Fix problem when loading a map stuck in "AddImage" mode
+
+
 2006-09-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* src/MMapArea.py:

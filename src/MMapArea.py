@@ -455,7 +455,10 @@ class MMapArea (gtk.DrawingArea):
 
 	def create_image (self, coords):
 		self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.LEFT_PTR))
-		self.mode = self.old_mode
+		try:
+			self.mode = self.old_mode
+		except:
+			self.mode = MODE_EDITING
 		
 		# Present a dialog for the user to choose an image here
 		dialog = gtk.FileChooserDialog ("Choose image to insert", None, gtk.FILE_CHOOSER_ACTION_OPEN, \

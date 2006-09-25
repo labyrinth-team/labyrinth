@@ -92,7 +92,7 @@ class TextThought (BaseThought.BaseThought):
 				return
 			context.move_to (self.ul[0]-5, self.ul[1]-5+10)
 			context.line_to (self.ul[0]-5, self.lr[1]-10)
-			context.curve_to (self.ul[0]-5, self.lr[1], self.ul[0]-5, self.lr[1], self.ul[0]+10, self.lr[1])
+			context.curve_to (self.ul[0]-5, self.lr[1], self.ul[0]-5, self.lr[1], self.ul[0]+5, self.lr[1])
 			context.line_to (self.lr[0]-10, self.lr[1])
 			context.curve_to (self.lr[0], self.lr[1], self.lr[0], self.lr[1], self.lr[0], self.lr[1]-10)
 			context.line_to (self.lr[0], self.ul[1]-5+10)
