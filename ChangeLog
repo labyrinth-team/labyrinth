@@ -1,3 +1,20 @@
+2006-10-03 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* src/MainWindow.py:
+	* src/BaseThought.py:
+	* src/DrawingThought.py:
+	* src/Links.py:
+	* src/Makefile.am:
+	* src/MMapArea.py:
+	* src/ImageThought.py:
+	* src/TextThought.py:
+	* data/labyrinth-ui.xml:
+	Add DrawingThought.  Add "Drawing Mode" to toolbar
+	Attempt to fix various problems with XML loading in all thought types
+	Various code cleanups
+	Make removing links work properly again (I hope)
+
+
 2006-09-25 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
     * src/TextThought.py:

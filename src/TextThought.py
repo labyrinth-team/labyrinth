@@ -27,6 +27,7 @@ import Links
 import utils
 import BaseThought
 
+import xml.dom.minidom as dom
 import xml.dom
 
 class TextThought (BaseThought.BaseThought):

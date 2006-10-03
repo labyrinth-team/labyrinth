@@ -20,6 +20,7 @@
 #
 
 import gtk
+import xml.dom.minidom as dom
 import xml.dom
 
 import BaseThought
@@ -91,7 +92,7 @@ class ImageThought (BaseThought.ResizableThought):
 		
 		return
 		
-	def handle_movement (self, coords):
+	def handle_movement (self, coords, move=True):
 		diffx = coords[0] - self.motion_coords[0]
 		diffy = coords[1] - self.motion_coords[1]
 		
@@ -150,7 +151,7 @@ class ImageThought (BaseThought.ResizableThought):
 			self.width -= diffx
 			self.height += diffy
 		elif self.resizing == self.MOTION_LR:
-			if self.height + diffy < 0:
+			if self.height + diffy < 10:
 				self.motion_coords = tmp
 				return
 			if self.width + diffx < 10:
@@ -172,8 +173,8 @@ class ImageThought (BaseThought.ResizableThought):
 		self.resizing = self.MOTION_NONE
 		return	
 	
-	def handle_key (self):
-		# Since we can't handle text in an image node, we ignore it
+	def handle_key (self, string, keysym):
+		# Since we can't handle text in an image node, we ignore it.
 		return False
 		
 	def find_connection (self, other):

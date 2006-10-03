@@ -30,13 +30,12 @@ import xml.dom.minidom as dom
 import Links
 import TextThought
 import ImageThought
-
-#Temporary
-import BaseThought
+import DrawingThought
 
 MODE_EDITING = 0
 MODE_MOVING = 1
 MODE_IMAGE = 2
+MODE_DRAW = 3
 
 class MMapArea (gtk.DrawingArea):
 	'''A MindMapArea Widget.  A blank canvas with a collection of child thoughts.\
@@ -135,7 +134,7 @@ class MMapArea (gtk.DrawingArea):
 		if not self.watching_movement:
 			return False
 
-		if self.mode == MODE_EDITING:
+		if self.mode == MODE_EDITING or self.mode == MODE_DRAW:
 			self.handle_movement (event.get_coords ())
 			self.invalidate ()
 			return False
@@ -173,7 +172,7 @@ class MMapArea (gtk.DrawingArea):
 		#We may have a dangling link.  Need to destroy it now
 		self.unended_link = None
 
-		if thought:
+		if thought:            
 			if self.num_selected == 1 and thought != self.selected_thoughts[0]:
 				self.link_thoughts (self.selected_thoughts[0], thought)
 			elif self.num_selected == 1:
@@ -183,6 +182,8 @@ class MMapArea (gtk.DrawingArea):
 				self.create_new_thought (coords)
 			elif self.mode == MODE_IMAGE:
 				self.create_image (coords)
+			elif self.mode == MODE_DRAW:
+			    self.create_drawing (coords)
 			else:
 				self.unselect_all ()
 					
@@ -308,7 +309,7 @@ class MMapArea (gtk.DrawingArea):
 	def handle_movement (self, coords):
 		# We can only be called (for now) if a node is selected.  Plan accordingly.
 		if self.selected_thoughts[0].want_movement ():
-			self.selected_thoughts[0].handle_movement (coords)
+			self.selected_thoughts[0].handle_movement (coords, False)
 			self.update_links (self.selected_thoughts[0])
 			self.invalidate ()
 			return
@@ -385,7 +386,7 @@ class MMapArea (gtk.DrawingArea):
 		if mode == MODE_MOVING:
 			for s in self.selected_thoughts:
 				self.finish_editing (s)
-		if mode == MODE_IMAGE and invalidate:
+		if (mode == MODE_IMAGE or mode == MODE_DRAW) and invalidate:
 			self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.CROSSHAIR))
 			self.old_mode = self.mode
 		if invalidate:
@@ -409,6 +410,8 @@ class MMapArea (gtk.DrawingArea):
 				self.load_link (node)
 			elif node.nodeName == "image_thought":
 				self.load_image (node)
+			elif node.nodeName == "drawing_thought":
+				self.load_drawing (node)
 			else:
 				print "Warning: Unknown element type.  Ignoring: "+node.nodeName
 				
@@ -431,10 +434,12 @@ class MMapArea (gtk.DrawingArea):
 
 	def delete_link (self, link):
 		self.element.removeChild (link.element)
+		link.element.unlink ()
 		self.links.remove (link)
 
 	def delete_thought (self, thought):
 		self.element.removeChild (thought.element)
+		thought.element.unlink ()
 		self.thoughts.remove (thought)
 		try:
 			self.selected_thoughts.remove (thought)
@@ -450,7 +455,9 @@ class MMapArea (gtk.DrawingArea):
 		rem_links = []
 		for l in self.links:
 			if l.uses (thought):
-				self.delete_link (l)
+				rem_links.append (l)
+		for l in rem_links:
+			self.delete_link (l)
 		del thought
 
 	def create_image (self, coords):
@@ -491,6 +498,25 @@ class MMapArea (gtk.DrawingArea):
 			self.thoughts.append (thought)
 			self.invalidate ()
 
+	def create_drawing (self, coords):
+		self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.LEFT_PTR))
+		try:
+			self.mode = self.old_mode
+		except:
+			self.mode = MODE_EDITING
+		elem = self.save.createElement ("drawing_thought")
+		self.element.appendChild (elem)
+		thought = DrawingThought.DrawingThought (coords, self.nthoughts, elem)
+		thought.connect ("change_cursor", self.cursor_change_cb)
+		self.nthoughts+=1
+		if self.current_root:
+			self.link_thoughts (self.current_root, thought)
+		else:
+			self.make_current_root (thought)
+		if not self.primary_thought:
+			self.make_primary_root (thought)
+		self.thoughts.append (thought)
+
 	def load_image (self, node):
 		elem = self.save.createElement ("image_thought")
 		self.element.appendChild (elem)
@@ -499,7 +525,13 @@ class MMapArea (gtk.DrawingArea):
 		self.thoughts.append (thought)
 		self.nthoughts += 1	
 
-		pass
+	def load_drawing (self, node):
+		elem = self.save.createElement ("drawing_thought")
+		self.element.appendChild (elem)
+		thought = DrawingThought.DrawingThought (element = elem, load=node)
+		thought.connect ("change_cursor", self.cursor_change_cb)
+		self.thoughts.append (thought)
+		self.nthoughts += 1	
 
 	def select_thought (self, thought):
 		self.selected_thoughts = [thought]

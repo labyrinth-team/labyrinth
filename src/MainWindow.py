@@ -32,15 +32,8 @@ import utils
 
 import xml.dom.minidom as dom
 
-#windows = []
 num_maps= 1
 
-
-
-#def global_new_window (from_filename = None):
-#	window = LabyrinthWindow (from_filename)
-#	windows.append (window)
-#	window.show_all ()
 
 def number_windows ():
 	return len(windows)
@@ -113,7 +106,9 @@ class LabyrinthWindow (gtk.Window):
 			('Move', None, '_Move Mode', '<control>M',
 			 'Turn on move mode', MMapArea.MODE_MOVING),
 			 ('AddImage', None, '_Add Image', None,
-			 'Add an image to selected thought', MMapArea.MODE_IMAGE)]
+			 'Add an image to selected thought', MMapArea.MODE_IMAGE),
+			 ('Drawing', None, '_Drawing Mode', None,
+			 'Make a pretty drawing', MMapArea.MODE_DRAW)]
 
 		ag = gtk.ActionGroup ('WindowActions')
 		ag.add_actions (actions)

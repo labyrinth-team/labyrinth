@@ -16,7 +16,8 @@ labyrinth_PYTHON = 	\
 	utils.py	\
 	Browser.py	\
 	BaseThought.py	\
-	ImageThought.py
+	ImageThought.py	\
+	DrawingThought.py
 
 nodist_labyrinth_PYTHON = defs.py
 

@@ -25,6 +25,7 @@ import gobject
 
 import TextThought
 import utils
+import xml.dom.minidom as dom
 
 class Link (gobject.GObject):
 	

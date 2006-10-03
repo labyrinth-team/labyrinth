@@ -51,7 +51,7 @@ class BaseThought (gobject.GObject):
 		print "Warning: drawing is not implemented for one thought type"
 		return
 		
-	def handle_movement (self, coords):
+	def handle_movement (self, coords, move=True):
 		print "Warning: handle_movement is not implemented for this node type"
 		return
 	
