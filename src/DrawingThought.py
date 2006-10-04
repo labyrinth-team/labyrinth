@@ -22,6 +22,8 @@
 import gtk
 import xml.dom.minidom as dom
 import xml.dom
+import gettext
+_ = gettext.gettext
 
 import BaseThought
 import utils
@@ -49,7 +51,7 @@ class DrawingThought (BaseThought.ResizableThought):
 		ndraw+=1
 		self.element = element
 		self.points = []
-		self.text = "Drawing #"+str(ndraw)
+		self.text = _("Drawing #%d" %ndraw)
 		if not load:
 			self.ul = (coords[0]-5, coords[1]-5)
 			self.identity = ident
@@ -313,10 +315,3 @@ class DrawingThought (BaseThought.ResizableThought):
 			tmp = n.getAttribute ("coords")
 			c = utils.parse_coords (tmp)
 			self.points.append (DrawingPoint (c, style))
-			
-			
-			
-			
-			
-		
-		

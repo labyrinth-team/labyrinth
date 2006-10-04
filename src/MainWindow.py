@@ -25,7 +25,8 @@ import gtk
 import sha
 import os
 import gobject
-
+import gettext
+_ = gettext.gettext
 import MMapArea
 import defs
 import utils
@@ -74,9 +75,9 @@ class LabyrinthWindow (gtk.Window):
 			self.MainArea.set_size_request (500, 500)
 			self.map_number = num_maps
 			num_maps += 1
-			self.title_cp = "Untitled Map %d" % self.map_number			   
+			self.title_cp = _("Untitled Map %d" % self.map_number)
 		else:
-			self.title_cp = "Somethings broken"
+			self.title_cp = (_('Somethings broken'))
 		self.set_title (self.title_cp)
 		self.mode = MMapArea.MODE_EDITING
 
@@ -93,27 +94,27 @@ class LabyrinthWindow (gtk.Window):
 	def create_ui (self):
 		actions = [
 			('FileMenu', None, '_File'),
-			('New', gtk.STOCK_NEW, '_New', '<control>N',
-			 'Create a new mind-map', self.new_window_cb),
-			('Close', gtk.STOCK_CLOSE, '_Close', '<control>W',
-			 'Close the current window', self.close_window_cb),
-			('Quit', gtk.STOCK_QUIT, '_Quit', '<control>Q',
-			 'Close all the windows and exit the application', self.quit_cb),
+			('New', gtk.STOCK_NEW, _('_New'), '<control>N',
+			 _('Create a new mind-map'), self.new_window_cb),
+			('Close', gtk.STOCK_CLOSE, _('_Close'), '<control>W',
+			 _('Close the current window'), self.close_window_cb),
+			('Quit', gtk.STOCK_QUIT, _('_Quit'), '<control>Q',
+			 _('Close all the windows and exit the application'), self.quit_cb),
 			('ModeMenu', None, '_Mode'),
-			('DeleteNodes', gtk.STOCK_DELETE, '_Delete Selected Thoughts', None,
-			 'Delete the selected element(s)', self.delete_cb),
+			('DeleteNodes', gtk.STOCK_DELETE, _('_Delete Selected Thoughts'), None,
+			 _('Delete the selected element(s)'), self.delete_cb),
 			('HelpMenu', None, '_Help'),
-			('About',gtk.STOCK_ABOUT, '_About', None,
-			 'Learn about the application', self.about_cb)]
+			('About',gtk.STOCK_ABOUT, _('_About'), None,
+			 _('Learn about the application'), self.about_cb)]
 		self.radio_actions = [
-			('Edit', None, '_Edit Mode', '<control>E',
-			 'Turn on edit mode', MMapArea.MODE_EDITING),
-			('Move', None, '_Move Mode', '<control>M',
-			 'Turn on move mode', MMapArea.MODE_MOVING),
-			 ('AddImage', None, '_Add Image', None,
-			 'Add an image to selected thought', MMapArea.MODE_IMAGE),
-			 ('Drawing', None, '_Drawing Mode', None,
-			 'Make a pretty drawing', MMapArea.MODE_DRAW)]
+			('Edit', None, _('_Edit Mode'), '<control>E',
+			 _('Turn on edit mode'), MMapArea.MODE_EDITING),
+			('Move', None, _('_Move Mode'), '<control>M',
+			 _('Turn on move mode'), MMapArea.MODE_MOVING),
+			 ('AddImage', None, _('_Add Image'), None,
+			 _('Add an image to selected thought'), MMapArea.MODE_IMAGE),
+			 ('Drawing', None, _('_Drawing Mode'), None,
+			 _('Make a pretty drawing'), MMapArea.MODE_DRAW)]
 
 		ag = gtk.ActionGroup ('WindowActions')
 		ag.add_actions (actions)
@@ -124,7 +125,6 @@ class LabyrinthWindow (gtk.Window):
 		self.ui = gtk.UIManager ()
 		self.ui.insert_action_group (ag, 0)
 		try:
-			print "Looking for "+defs.DATA_DIR
 			self.ui.add_ui_from_file (defs.DATA_DIR+'/labyrinth/labyrinth-ui.xml')
 		except:
 			print "Cannot find "+defs.DATA_DIR+".  Looking in ./data"
@@ -177,7 +177,7 @@ class LabyrinthWindow (gtk.Window):
 	def title_changed_cb (self, widget, new_title, obj):
 		self.title_cp = ''
 		if new_title == '':
-			self.title_cp = 'Untitled Map %d' % self.map_number
+			self.title_cp = _('Untitled Map %d' % self.map_number)
 		else:
 			split = new_title.splitlines ()
 			if split:

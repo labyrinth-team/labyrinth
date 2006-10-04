@@ -265,8 +265,6 @@ class TextThought (BaseThought.BaseThought):
 			line += 1
 
 	def find_connection (self, other):
-		'''Should find the closest distance between us and our child.
-		   In reality, we just calculate which corners are closest and return them'''
 		if self.editing or other.editing:
 			return (None, None)
 

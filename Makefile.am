@@ -5,7 +5,8 @@ DISTCLEANFILES = \
 	intltool-merge   \
 	intltool-update
 
-EXTRA_DIST = \
+EXTRA_DIST = config.rpath  \
 	intltool-update.in  \
 	intltool-extract.in \
 	intltool-merge.in
+ACLOCAL_AMFLAGS = -I m4

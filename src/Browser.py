@@ -30,6 +30,8 @@ import os
 import os
 import gtk.glade
 import MainWindow, defs
+import gettext
+_ = gettext.gettext
 import xml.dom.minidom as dom
 
 class Browser (gtk.Window):
@@ -121,7 +123,7 @@ class Browser (gtk.Window):
 		if not it:
 			return
 		dialog = gtk.MessageDialog (self, gtk.DIALOG_MODAL, gtk.MESSAGE_WARNING, gtk.BUTTONS_YES_NO,
-									"Do you really want to delete this Map?")
+									_("Do you really want to delete this Map?"))
 		resp = dialog.run ()
 		dialog.hide ()
 		del (dialog)
@@ -131,8 +133,8 @@ class Browser (gtk.Window):
 		(fname, active) = self.mapslist.get (it, self.COL_FNAME, self.COL_OPEN)
 		if active or not fname:
 			dialog = gtk.MessageDialog (self, gtk.DIALOG_MODAL, gtk.MESSAGE_WARNING, gtk.BUTTONS_OK,
-									"Cannot delete this map")
-			dialog.format_secondary_text ("The map cannot be deleted right now.  Is it open?")
+									_("Cannot delete this map"))
+			dialog.format_secondary_text (_("The map cannot be deleted right now.  Is it open?"))
 			dialog.run ()
 			dialog.hide ()
 			del (dialog)

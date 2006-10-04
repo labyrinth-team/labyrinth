@@ -23,6 +23,7 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
+import gettext
 import optparse
 import sys
 from os.path import *
@@ -47,6 +48,11 @@ def main():
 	parser = optparse.OptionParser()
 	(options, args) = parser.parse_args()
 	MapBrowser = Browser.Browser ()
+	gettext.bindtextdomain('labyrinth')
+	gettext.textdomain('labyrinth')
+	gtk.glade.bindtextdomain('labyrinth')
+	gtk.glade.textdomain('labyrinth')
+
 	
 	try:
 		gtk.main()

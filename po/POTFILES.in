@@ -1,0 +1,8 @@
+# List of source files containing translatable strings.
+[encoding: UTF-8]
+src/Browser.py
+src/MainWindow.py
+src/DrawingThought.py
+src/MMapArea.py
+data/labyrinth.glade
+data/labyrinth.desktop.in

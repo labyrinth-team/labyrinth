@@ -24,6 +24,8 @@ import time
 import gtk
 import pango
 import gobject
+import gettext
+_ = gettext.gettext
 
 import xml.dom.minidom as dom
 
@@ -313,6 +315,7 @@ class MMapArea (gtk.DrawingArea):
 		# We can only be called (for now) if a node is selected.  Plan accordingly.
 		if self.selected_thoughts[0].want_movement () and \
 		(self.mode == MODE_DRAW or self.selected_thoughts[0].__class__!= DrawingThought.DrawingThought):
+			self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.LEFT_PTR))
 			self.selected_thoughts[0].handle_movement (coords, False)
 			self.update_links (self.selected_thoughts[0])
 			self.invalidate ()
@@ -473,7 +476,7 @@ class MMapArea (gtk.DrawingArea):
 
 		self.emit ("change_mode", mode)
 		# Present a dialog for the user to choose an image here
-		dialog = gtk.FileChooserDialog ("Choose image to insert", None, gtk.FILE_CHOOSER_ACTION_OPEN, \
+		dialog = gtk.FileChooserDialog (_("Choose image to insert"), None, gtk.FILE_CHOOSER_ACTION_OPEN, \
 		(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK))
 		res = dialog.run ()
 		dialog.hide ()
@@ -485,8 +488,8 @@ class MMapArea (gtk.DrawingArea):
 			if not thought.okay:
 				dialog = gtk.MessageDialog (None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, 
 											gtk.MESSAGE_WARNING, gtk.BUTTONS_CLOSE,
-											"Error loading file")
-				dialog.format_secondary_text (fname+" could not be read.  Please ensure its a valid image.")
+											_("Error loading file"))
+				dialog.format_secondary_text (_("%s could not be read.  Please ensure its a valid image."%fname))
 				dialog.run ()
 				dialog.hide ()
 				return
@@ -505,10 +508,7 @@ class MMapArea (gtk.DrawingArea):
 
 	def create_drawing (self, coords):
 		self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.LEFT_PTR))
-		try:
-			self.mode = self.old_mode
-		except:
-			self.mode = MODE_EDITING
+
 		elem = self.save.createElement ("drawing_thought")
 		self.element.appendChild (elem)
 		thought = DrawingThought.DrawingThought (coords, self.nthoughts, elem)
@@ -549,14 +549,3 @@ class MMapArea (gtk.DrawingArea):
 	def cursor_change_cb (self, thought, cursor_type, a):
 		self.window.set_cursor (gtk.gdk.Cursor (cursor_type))	
 		return
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		

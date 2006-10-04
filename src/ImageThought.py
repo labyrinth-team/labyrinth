@@ -70,11 +70,6 @@ class ImageThought (BaseThought.ResizableThought):
 		context.curve_to (self.lr[0], self.ul[1], self.lr[0], self.ul[1], self.lr[0]-10, self.ul[1])
 		context.line_to (self.ul[0]+10, self.ul[1])
 		context.curve_to (self.ul[0], self.ul[1], self.ul[0], self.ul[1], self.ul[0], self.ul[1]+10)
-	
-		#	context.line_to (self.ul[0], self.lr[1])
-		#context.line_to (self.lr[0], self.lr[1])
-		#context.line_to (self.lr[0], self.ul[1])
-		#context.line_to (self.ul[0], self.ul[1])
 
 		context.set_source_rgb (1.0,1.0,1.0)
 		if self.am_root:
@@ -178,8 +173,6 @@ class ImageThought (BaseThought.ResizableThought):
 		return False
 		
 	def find_connection (self, other):
-		'''Should find the closest distance between us and our child.
-		   In reality, we just calculate which corners are closest and return them'''
 		if self.editing or other.editing:
 			return (None, None)
 		xfrom = self.ul[0]-((self.ul[0]-self.lr[0]) / 2.)

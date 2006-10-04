@@ -1,5 +1,19 @@
 2006-10-04 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* configure.ac:
+	* src/MainWindow.py:
+	* src/labyrinth.py:
+	* src/DrawingThought.py:
+	* src/Browser.py:
+	* src/MMapArea.py:
+	* src/ImageThought.py:
+	* src/TextThought.py:
+	* Makefile.am:
+	* po/LINGUAS:
+	* po/ChangeLog:
+	* po/POTFILES.in:
+	Add i18n framework.  Maybe.
+
 	* src/Browser.py:
 	Only activate 'Open' and 'Delete' when an item is selected
 	
