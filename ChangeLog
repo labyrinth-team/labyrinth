@@ -1,5 +1,8 @@
 2006-10-04 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* MMapArea.py:
+	Only allow drawing in "Drawing" mode.  In edit mode, allow linking thoughts instead
+
 	* src/Browser.py:
 	* src/MainWindow.py:
 	Set icon for browser and windows to be Labyrinth icon
