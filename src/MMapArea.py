@@ -56,7 +56,10 @@ class MMapArea (gtk.DrawingArea):
 											   (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT)),
 						 doc_delete         = (gobject.SIGNAL_RUN_FIRST,
 						 					   gobject.TYPE_NONE,
-						 					   (gobject.TYPE_PYOBJECT, )))
+						 					   (gobject.TYPE_PYOBJECT, )),
+						 change_mode        = (gobject.SIGNAL_RUN_LAST,
+						 					   gobject.TYPE_NONE,
+						 					   (gobject.TYPE_INT, )))
 
 	def __init__(self):
 		super (MMapArea, self).__init__()
@@ -383,13 +386,13 @@ class MMapArea (gtk.DrawingArea):
 	def set_mode (self, mode, invalidate = True):
 		if self.mode == MODE_IMAGE:
 			self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.LEFT_PTR))
-		self.mode = mode
 		if mode == MODE_MOVING:
 			for s in self.selected_thoughts:
 				self.finish_editing (s)
 		if (mode == MODE_IMAGE or mode == MODE_DRAW) and invalidate:
 			self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.CROSSHAIR))
 			self.old_mode = self.mode
+		self.mode = mode
 		if invalidate:
 			self.invalidate ()
 	
@@ -464,10 +467,11 @@ class MMapArea (gtk.DrawingArea):
 	def create_image (self, coords):
 		self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.LEFT_PTR))
 		try:
-			self.mode = self.old_mode
+			mode = self.old_mode
 		except:
-			self.mode = MODE_EDITING
-		
+			mode = MODE_EDITING
+
+		self.emit ("change_mode", mode)
 		# Present a dialog for the user to choose an image here
 		dialog = gtk.FileChooserDialog ("Choose image to insert", None, gtk.FILE_CHOOSER_ACTION_OPEN, \
 		(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK))

@@ -66,7 +66,8 @@ class LabyrinthWindow (gtk.Window):
 		self.set_focus_child (self.MainArea)
 		self.MainArea.connect ("title_changed", self.title_changed_cb)
 		self.MainArea.connect ("doc_save", self.doc_save_cb)
-		self.MainArea.connect ("doc_delete", self.doc_del_cb)		
+		self.MainArea.connect ("doc_delete", self.doc_del_cb)
+		self.MainArea.connect ("change_mode", self.mode_request_cb)
 		self.save_file = filename
 		
 		if not filename:
@@ -104,7 +105,7 @@ class LabyrinthWindow (gtk.Window):
 			('HelpMenu', None, '_Help'),
 			('About',gtk.STOCK_ABOUT, '_About', None,
 			 'Learn about the application', self.about_cb)]
-		radio_actions = [
+		self.radio_actions = [
 			('Edit', None, '_Edit Mode', '<control>E',
 			 'Turn on edit mode', MMapArea.MODE_EDITING),
 			('Move', None, '_Move Mode', '<control>M',
@@ -116,9 +117,9 @@ class LabyrinthWindow (gtk.Window):
 
 		ag = gtk.ActionGroup ('WindowActions')
 		ag.add_actions (actions)
-		ag.add_radio_actions (radio_actions, value=self.mode)
-		act = ag.get_action ('Edit')
-		act.connect ("changed", self.mode_change_cb)
+		ag.add_radio_actions (self.radio_actions, value=self.mode)
+		self.act = ag.get_action ('Edit')
+		self.act.connect ("changed", self.mode_change_cb)
 				 
 		self.ui = gtk.UIManager ()
 		self.ui.insert_action_group (ag, 0)
@@ -169,6 +170,9 @@ class LabyrinthWindow (gtk.Window):
 		self.MainArea.set_mode (activated.get_current_value ())
 		self.mode = activated.get_current_value ()
 		return
+		
+	def mode_request_cb (self, widget, mode):
+		self.act.set_current_value (mode)
 
 	def title_changed_cb (self, widget, new_title, obj):
 		self.title_cp = ''

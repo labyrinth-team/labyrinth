@@ -1,6 +1,10 @@
 2006-10-04 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
-	* MMapArea.py:
+	* src/MMapArea.py:
+	* src/MainWindow.py:	
+	Set mode back properly when image is inserted
+	
+	* src/MMapArea.py:
 	Only allow drawing in "Drawing" mode.  In edit mode, allow linking thoughts instead
 
 	* src/Browser.py:
