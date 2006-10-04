@@ -1,5 +1,8 @@
 2006-10-04 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/Browser.py:
+	Only activate 'Open' and 'Delete' when an item is selected
+	
 	* src/MMapArea.py:
 	* src/MainWindow.py:	
 	Set mode back properly when image is inserted

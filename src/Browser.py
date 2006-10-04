@@ -105,6 +105,8 @@ class Browser (gtk.Window):
 	
 	def open_clicked (self, button):
 		selected = self.get_selected ()
+		if not selected:
+			return
 		(fname,cur, num) = self.mapslist.get (selected, self.COL_FNAME, self.COL_OPEN, self.COL_ID)
 		if not cur:
 			self.open_map (fname, num)
@@ -115,6 +117,9 @@ class Browser (gtk.Window):
 		self.mapslist.append ([num, win.title_cp, None, True])
 			
 	def delete_clicked (self, button):
+		it = self.get_selected ()
+		if not it:
+			return
 		dialog = gtk.MessageDialog (self, gtk.DIALOG_MODAL, gtk.MESSAGE_WARNING, gtk.BUTTONS_YES_NO,
 									"Do you really want to delete this Map?")
 		resp = dialog.run ()
@@ -123,7 +128,6 @@ class Browser (gtk.Window):
 		if resp != gtk.RESPONSE_YES:
 			return
 
-		it = self.get_selected ()
 		(fname, active) = self.mapslist.get (it, self.COL_FNAME, self.COL_OPEN)
 		if active or not fname:
 			dialog = gtk.MessageDialog (self, gtk.DIALOG_MODAL, gtk.MESSAGE_WARNING, gtk.BUTTONS_OK,
