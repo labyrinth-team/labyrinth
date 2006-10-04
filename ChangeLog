@@ -1,3 +1,10 @@
+2006-10-04 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* src/Browser.py:
+	* src/MainWindow.py:
+	Set icon for browser and windows to be Labyrinth icon
+
+
 2006-10-03 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* src/MainWindow.py:

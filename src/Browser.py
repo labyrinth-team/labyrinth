@@ -60,6 +60,10 @@ class Browser (gtk.Window):
 		self.glade.get_widget('QuitButton').connect ('clicked', self.quit_clicked)
 
 		self.main_window = self.glade.get_widget ('MapBrowser')
+		try:
+			self.main_window.set_icon_from_file (defs.DATA_DIR+'/labyrinth/labyrinth.svg')
+		except:
+			self.main_window.set_icon_from_file('data/labyrinth.svg')
 		self.main_window.connect ('destroy', self.quit_clicked, None)
 		self.main_window.show_all ()
 		self.main_window.set_size_request (400, 300)
