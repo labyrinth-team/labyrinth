@@ -63,7 +63,7 @@ class Browser (gtk.Window):
 
 		self.main_window = self.glade.get_widget ('MapBrowser')
 		try:
-			self.main_window.set_icon_from_file (defs.DATA_DIR+'/labyrinth/labyrinth.svg')
+			self.main_window.set_icon_name ('labyrinth')
 		except:
 			self.main_window.set_icon_from_file('data/labyrinth.svg')
 		self.main_window.connect ('destroy', self.quit_clicked, None)

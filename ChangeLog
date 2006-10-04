@@ -1,5 +1,9 @@
 2006-10-04 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* Browser.py:
+	* MainWindow.py:
+	Fix window icon
+
 	* configure.ac:
 	* src/MainWindow.py:
 	* src/labyrinth.py:
