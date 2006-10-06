@@ -1,1 +1,1 @@
-EXTRA_DIST = TheFuture
+EXTRA_DIST = TheFuture FileFormat

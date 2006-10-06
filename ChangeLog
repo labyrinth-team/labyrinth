@@ -1,5 +1,11 @@
 2006-10-06 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* doc/FileFormat:
+	Add new file (incomplete) describing the save format for Labyrinth maps
+	
+	* doc/Makefile.am:
+	Add FileFormat to EXTRA_DIST
+
 	* src/MainWindow.py:
 	* src/Browser.py:
 	* src/labyrinth.py:

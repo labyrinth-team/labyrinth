@@ -1,0 +1,78 @@
+LAST UPDATE: 6th October 2006
+
+0. Preamble
+-----------
+
+This describes the current save format for Labyrinth maps.  It is intended to make life easier for anyone interested in accessing them or importing them.
+
+WARNING: At the time of writing, Labyrinth is at version 0.2.  The file format is liable to change upto V1.0.  The format described here isn't the final version.  I'll keep this file up to date with any changes that happen to the format.  The date at the top of the file states when this was last updated.
+
+1. Location
+-----------
+
+Currently, Labyrinth stores its files "internally".  The files themselves can be found in the $HOME/.gnome2/labyrinth/ folder with a format like f59b62e734f3f65a1e34d7bf1fc33bb191c3777f.map.  That is to say <hexdigest>.map though labyrinth will attempt to read any .map file in that folder.  The hexdigest is created using the sha of the generated XML the first time the file is saved.
+
+Currently, Labyrinth is unable to import / export in other formats (hey, its only at v0.2).  This is (potentially) planned for V0.3.
+
+2. Format
+---------
+
+The basic format is a flat XML file.  The file starts with the XML decleration:
+<?xml version="1.0" ?>
+
+An example top-level node is:
+<MMap mode="0" number="1" position="(35, 97)" size="(523, 609)" title="Labyrinth 0.2">
+All other nodes are children of this.
+
+MMap is the name of the node (duh).  All files must have this.  In addition, each of the Attributes are required to form a valid file:
+
+Attribute				Description
+-----------------------------------
+mode					The current "mode" Labyrinth is working in for that map
+						1: "Edit" mode - typing into thoughts, linking thoughts, resizing thoughts (if available)
+						2: "Move" mode - move thoughts around
+						3: "Image" mode - add an (external) image to the map.  Clicking somewhere will pop up a
+						   dialog to select the image file
+						4: "Drawing" mode - With drawing thoughts (described below), draw within thoughts.
+						   Otherwise, add new drawing thought and begin drawing (in empty space)
+						   
+number					Current map number.  Used internally to set initial title.  Can be set to any number.
+						(Currently broken.  I think)
+
+position				Screen location (in pixels) of upper-left corner of map window
+
+size					Size (in pixels) of map window
+
+title					Map name.  Generally same as primary root text
+
+3. Children
+-----------
+
+The children are the "meat" of the map.  They come in several flavours, described in subsections here
+
+3.1. Links
+----------
+
+Unlike other programs (I believe), Labyrinth stored links as top-level objects.  That is to say, they don't actually belong to thoughts.
+
+An example link might look like:
+<link child="6" end="(437.5, 55.5)" parent="1" start="(324.0, 79.0)" strength="2"/>
+
+Again, all attributes must be 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
