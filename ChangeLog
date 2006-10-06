@@ -1,5 +1,8 @@
 2006-10-06 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/MainWindow.py:
+	Actually set the window icon properly.  No, really this time
+
 	* src/Browser.py:
 	Make 'Open' and 'Delete' buttons only sensitive when a map is selected
 

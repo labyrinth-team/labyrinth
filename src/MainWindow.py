@@ -62,7 +62,7 @@ class LabyrinthWindow (gtk.Window):
 		global num_maps
 		super(LabyrinthWindow, self).__init__()
 		try:
-			self.set_icon_name (defs.DATA_DIR+'/labyrinth/labyrinth.svg')
+			self.set_icon_name ('labyrinth')
 		except:
 			self.set_icon_from_file('data/labyrinth.svg')
 		self.MainArea = MMapArea.MMapArea ()
