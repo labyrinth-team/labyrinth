@@ -4,5 +4,6 @@ src/Browser.py
 src/MainWindow.py
 src/DrawingThought.py
 src/MMapArea.py
+src/ImageThought.py
 data/labyrinth.glade
 data/labyrinth.desktop.in

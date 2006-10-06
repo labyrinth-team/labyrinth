@@ -1,5 +1,17 @@
 2006-10-06 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/ImageThought.py:
+	Gracefully handle case where image file isn't available (display empty thought)
+	
+	* src/MMapArea.py:
+	When bad (unended) links are loaded, assume them to be broken and remove them properly
+	
+	* po/POTFILES.in:
+	Add ImageThought as it now contains translatable strings
+
+	* doc/TheFuture:
+	Update for v0.2
+
 	* doc/FileFormat:
 	Add new file (incomplete) describing the save format for Labyrinth maps
 	

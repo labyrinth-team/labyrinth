@@ -22,6 +22,8 @@
 import gtk
 import xml.dom.minidom as dom
 import xml.dom
+import gettext
+_ = gettext.gettext
 
 import BaseThought
 import utils
@@ -79,10 +81,10 @@ class ImageThought (BaseThought.ResizableThought):
 		context.fill_preserve ()
 		context.set_source_rgb (0,0,0)
 		context.stroke ()
-		
-		context.set_source_pixbuf (self.pic, self.ul[0]+5, self.ul[1]+5)
-		context.rectangle (self.ul[0], self.ul[1], self.width, self.height)
-		context.fill ()
+		if self.pic:
+			context.set_source_pixbuf (self.pic, self.ul[0]+5, self.ul[1]+5)
+			context.rectangle (self.ul[0], self.ul[1], self.width, self.height)
+			context.fill ()
 		context.set_source_rgb (0,0,0)
 		
 		return
@@ -155,15 +157,16 @@ class ImageThought (BaseThought.ResizableThought):
 			self.lr = (self.lr[0]+diffx, self.lr[1]+diffy)
 			self.width += diffx
 			self.height += diffy
-		
-		self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), gtk.gdk.INTERP_NEAREST)
+		if self.orig_pic:
+			self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), gtk.gdk.INTERP_NEAREST)
 		
 		return
 			
 	def finish_motion (self):
 		# Up till now, we've been using the fastest interp.  Here, its made best
 		# Yes, it makes quite a big difference actually
-		self.pic = self.orig_pic.scale_simple (int (self.width), int (self.height), gtk.gdk.INTERP_HYPER)
+		if self.orig_pic:
+			self.pic = self.orig_pic.scale_simple (int (self.width), int (self.height), gtk.gdk.INTERP_HYPER)
 		self.emit ("change_cursor", gtk.gdk.LEFT_PTR, None)
 		self.resizing = self.MOTION_NONE
 		return	
@@ -216,7 +219,7 @@ class ImageThought (BaseThought.ResizableThought):
 			except xml.dom.NotFoundErr:
 				pass
 		if self.am_primary:
-			self.element.setAttribute ("primary_root", "true");
+			self.element.setAttribute ("primary_root", "true")
 		else:
 			try:
 				self.element.removeAttribute ("primary_root")
@@ -245,7 +248,17 @@ class ImageThought (BaseThought.ResizableThought):
 		for n in node.childNodes:
 			print "Unknown: "+n.nodeName
 		self.okay = self.load_image (self.filename)
-		self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), gtk.gdk.INTERP_HYPER)
+		if not self.okay:
+			dialog = gtk.MessageDialog (None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, 
+										gtk.MESSAGE_WARNING, gtk.BUTTONS_CLOSE,
+										_("Error loading file"))
+			dialog.format_secondary_text (_("%s could not be found.  Associated thought will be empty."%self.filename))
+			dialog.run ()
+			dialog.hide ()
+			self.pic = None
+			self.orig_pic = None
+		else:
+			self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), gtk.gdk.INTERP_HYPER)
 		
 		return
 			

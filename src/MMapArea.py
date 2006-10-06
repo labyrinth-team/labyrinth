@@ -297,9 +297,10 @@ class MMapArea (gtk.DrawingArea):
 			if t.editing:
 				self.selected_thoughts = [t]
 				self.num_selected = 1
+		del_links = []
 		for l in self.links:
 			if l.parent_number == -1 and l.child_number == -1:
-				self.delete_link (l)
+				del_links.append (l)
 				continue
 			parent = child = None
 			for t in self.thoughts:
@@ -310,6 +311,10 @@ class MMapArea (gtk.DrawingArea):
 				if parent and child:
 					break
 			l.set_ends (parent, child)
+			if not l.parent or not l.child:
+				del_links.append (l)
+		for l in del_links:
+			self.delete_link (l)
 			
 	def handle_movement (self, coords):
 		# We can only be called (for now) if a node is selected.  Plan accordingly.
@@ -524,8 +529,8 @@ class MMapArea (gtk.DrawingArea):
 
 	def load_image (self, node):
 		elem = self.save.createElement ("image_thought")
-		self.element.appendChild (elem)
 		thought = ImageThought.ImageThought (element = elem, load=node)
+		self.element.appendChild (elem)
 		thought.connect ("change_cursor", self.cursor_change_cb)
 		self.thoughts.append (thought)
 		self.nthoughts += 1	
