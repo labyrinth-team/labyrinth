@@ -58,10 +58,108 @@ Unlike other programs (I believe), Labyrinth stored links as top-level objects. 
 An example link might look like:
 <link child="6" end="(437.5, 55.5)" parent="1" start="(324.0, 79.0)" strength="2"/>
 
-Again, all attributes must be 
+Again, all attributes must be specified (sorry!)
+
+Attribute					Description
+---------------------------------------
+child						The thought number of the child thought connected by the link
+
+parent						The thought number of the originating thought for the link
+
+start						Canvas coordinates of the start location (parent location) for the link
+
+end							Canvas coordinates of the end location (child location) for the link
+
+3.2. Thoughts
+-------------
+
+Thoughts, in Labyrinth-speak, are the text, images and drawing that appear on the canvas.  There are 3 types currently and each have some attributes in common.
+
+The three types are: Text, Image and Drawing.  Text is (surprisingly) text thoughts.  Image thoughts are external images while drawings are "internal" images - simple lines that the user has drawn to make simple diagrams.
+
+3.2.1. Common Attributes
+------------------------
+
+As stated above, thoughts have several attributes that may be set that are common across all thought types:
+
+Attribute					Description
+---------------------------------------
+current_root				If set, the thoughts is "selected" - any new thoughts are automatically linked to this one
+							(Currently, only 1 may be set.  In Labyrinth, they show up as blue)
+
+primary_root				The "Major thought" for the map.  Generally, places at the centre of the map
+							(Only 1 may be set.  In Labyrinth, they show up as reddish-pink)
+
+ul-coords					The upper-left canvas coords for the thought
+
+lr-coords					The lower-right canvas coords for the thought
+
+identity					The thought number (for link child / parent numbers and other things internally)
+
+Examples of these are given later.
+
+3.2.2. Text Thoughts
+--------------------
+
+<thought cursor="13" identity="0" editing="true" lr-coords="(249.0, 196.0)" ul-coords="(161.0, 174.0)">Labyrinth 0.2</thought>
+
+Text thoughts are denoted by "thought" XML elements.  In addition to the common attributes, there are several more available
+
+Attribute					Description
+---------------------------------------
+cursor						Cursor location in text.  Specified in terms of characters.
+
+edit						Whether the current node is being edited.  Thoughts being edited don't get a full box
+							drawn around then, instead only a small sector is drawn in the upper-left corner in Labyrinth
 
 
+The text within the XML node is as should be displayed onscreen (i.e. line-breaks mean the line breaks at that point within the thought).
 
+3.2.3. Image Thoughts
+---------------------
+
+<image_thought file="/home/don/Pictures/Picture.jpg" identity="6" image_height="80.0" image_width="136.0" lr-coords="(508.0, 98.0)" ul-coords="(367.0, 13.0)"/>
+
+Attribute					Description
+---------------------------------------
+file						The file path for the image to use within the thought
+
+image_height				Labyrinth can resize images.  This gives the current height the image should be
+
+image_width					Ditto above for width
+
+
+3.2.4. Drawing Thoughts
+-----------------------
+
+<drawing_thought identity="1" lr-coords="(184.0, 463.0)" max_x="165.0" max_y="463.0" min_x="83.0" min_y="212.0" ul-coords="(79.0, 190.0)"><point coords="(146.0, 222.0)" type="2"/><point coords="(144.0, 232.0)" type="0
+"/><point coords="(164.0, 65.0)" type="1"/></drawing_thought>
+
+The "big one".  Children of the drawing thought are all the points that make up the image.  Before that, the attributes for the drawing_thought itself.
+
+Attribute					Description
+---------------------------------------
+max_{x,y}					The {x,y} location of the furthest {right,down} points of the drawing.
+							Used to determine where the thought can be resized to (i.e. right edge cannot be dragged
+							left of max_x and similar for max_y)
+
+min_{x,y}					Same for {left, top} points
+
+
+3.2.4.1. Children
+-----------------
+
+Each child node is another point to draw.  It is assumed (under normal circumstances) that each point is connected with a straight line.
+
+The coords give the canvas coordinates of the point.  The "type" can be  of (currently) 3 types:
+0: Continue
+Draw a line from  the previous point to this one
+
+1: End
+End of a line segment
+
+2: Begin
+Move from the previous point to this one without drawing
 
 
 
