@@ -29,7 +29,12 @@ from os.path import *
 import os
 import os
 import gtk.glade
-import MainWindow, defs
+import MainWindow
+try:
+	import defs
+except:
+	class defs:
+		DATA_DIR="./data"
 import gettext
 _ = gettext.gettext
 import xml.dom.minidom as dom
@@ -46,10 +51,9 @@ class Browser (gtk.Window):
 		super(Browser, self).__init__()
 		self.maps=[]
 		self.nmap = 0
-		try:
+		if isfile (defs.DATA_DIR+'/labyrinth/labyrinth.glade'):
 			self.glade = gtk.glade.XML (defs.DATA_DIR+'/labyrinth/labyrinth.glade')
-		except:
-			print "Cannot find "+defs.DATA_DIR+".  Looking in ./data"
+		else:
 			self.glade = gtk.glade.XML ('data/labyrinth.glade')
 
 		self.view = self.glade.get_widget ('MainView')

@@ -28,7 +28,12 @@ import gobject
 import gettext
 _ = gettext.gettext
 import MMapArea
-import defs
+try:
+	import defs
+except:
+	class defs:
+		DATA_DIR="./data"
+		VERSION="Uninstalled"
 import utils
 
 import xml.dom.minidom as dom
@@ -127,7 +132,6 @@ class LabyrinthWindow (gtk.Window):
 		try:
 			self.ui.add_ui_from_file (defs.DATA_DIR+'/labyrinth/labyrinth-ui.xml')
 		except:
-			print "Cannot find "+defs.DATA_DIR+".  Looking in ./data"
 			self.ui.add_ui_from_file ('data/labyrinth-ui.xml')
 		self.add_accel_group (self.ui.get_accel_group ())
 		 

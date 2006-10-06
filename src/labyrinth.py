@@ -34,21 +34,26 @@ def _check (path):
 
 name = join(dirname(__file__), '..')
 if _check(name):
-		print 'Running uninstalled, modifying PYTHONPATH'
 		sys.path.insert(0, abspath(name))
+		print 'Running uninstalled, modifying PYTHONPATH: [@PYTHONDIR@:$PYTHONPATH]'
 else:
 		sys.path.insert(0, abspath("@PYTHONDIR@"))
 		print "Running installed, using [@PYTHONDIR@:$PYTHONPATH]"
 
 # Hopefully this will work now ;)
 import Browser
-import defs
+try:
+	import defs
+	localedir = abspath(join(defs.DATA_DIR, "locale"))
+except:
+	localedir = ""
+		
 
-gettext.bindtextdomain('labyrinth', abspath(join(defs.DATA_DIR, "locale")))
+gettext.bindtextdomain('labyrinth', localedir)
 if hasattr(gettext, 'bind_textdomain_codeset'):
 	gettext.bind_textdomain_codeset('labyrinth','UTF-8')
 gettext.textdomain('labyrinth')
-locale.bindtextdomain('labyrinth', abspath(join(defs.DATA_DIR, "locale")))
+locale.bindtextdomain('labyrinth', localedir)
 if hasattr(locale, 'bind_textdomain_codeset'):
 	locale.bind_textdomain_codeset('labyrinth','UTF-8')
 locale.textdomain('labyrinth')

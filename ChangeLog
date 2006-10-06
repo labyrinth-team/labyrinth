@@ -1,8 +1,12 @@
 2006-10-06 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/MainWindow.py:
+	* src/Browser.py:
+	* src/labyrinth.py:
+	Fix uninstalled mode.  Silence glade warning when not really a warning	
+
 	* src/labyrinth.py:
 	fix i18n stuff.  Hopefully.
-
 
 2006-10-04 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
