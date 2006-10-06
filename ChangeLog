@@ -1,5 +1,9 @@
+======= Version 0.2 ======================
 2006-10-06 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* configure.ac:
+	Bump version
+	
 	* src/MainWindow.py:
 	Actually set the window icon properly.  No, really this time
 

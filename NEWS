@@ -1,3 +1,30 @@
+v0.2
+----
+New Features:
+ * Base thought class for future thought types to derive from
+ * Add new document to docs describing (current) file format
+ * Add i18n framework.  No translations yet thought
+ * Add Image Thought for adding images from external files
+ * Add image mode for adding an image 
+ * Add Drawing Thought for simple drawings
+ * Add drawing mode for drawing in drawing thoughts
+ * Both Image and Drawing Thoughts are resizable by dragging corners / edges
+ * New (crappy) Labyrinth icon
+ * Add menu entry (shows up in Applications->Office)
+ * Set window icon to new Labyrinth icon in Browser and map windows
+ * All thought types now have slightly rounded corners
+ * When resizing thoughts, change the cursor to reflect this
+ * Links now originate at the centre of thoughts, making them look prettier
+ 
+Fixes:
+ * Fix uninstalled mode
+ * Only allow 'Open' and 'Delete' to be used when a map is selected in Browser window
+ * Make removal of links work properly
+ * Various code cleanups (Thanks to Rogi Lemar)
+ * Make defs get generated properly (From Alacarte)
+ * Only redraw every 1/40th second when required to stop hammering X server
+ * Draw links behind thoughts for added solidity
+
 v0.1
 ----
 New features:
