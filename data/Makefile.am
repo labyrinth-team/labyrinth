@@ -30,4 +30,4 @@ install-data-local: install-icons
 
 CLEANFILES = $(desktop_DATA)
 
-EXTRA_DIST = $(ui_DATA) labyrinth-16.png labyrinth-22.png labyrinth-24.png labyrinth.svg desktop_in_files
+EXTRA_DIST = $(ui_DATA) labyrinth-16.png labyrinth-22.png labyrinth-24.png labyrinth.svg $(desktop_in_files)
