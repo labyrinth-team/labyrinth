@@ -23,7 +23,7 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import gettext
+import gettext, locale
 import optparse
 import sys
 from os.path import *
@@ -42,16 +42,25 @@ else:
 
 # Hopefully this will work now ;)
 import Browser
+import defs
+
+gettext.bindtextdomain('labyrinth', abspath(join(defs.DATA_DIR, "locale")))
+if hasattr(gettext, 'bind_textdomain_codeset'):
+	gettext.bind_textdomain_codeset('labyrinth','UTF-8')
+gettext.textdomain('labyrinth')
+locale.bindtextdomain('labyrinth', abspath(join(defs.DATA_DIR, "locale")))
+if hasattr(locale, 'bind_textdomain_codeset'):
+	locale.bind_textdomain_codeset('labyrinth','UTF-8')
+locale.textdomain('labyrinth')
+
+gtk.glade.bindtextdomain('labyrinth')
+gtk.glade.textdomain('labyrinth')
 
 
 def main():
 	parser = optparse.OptionParser()
-	(options, args) = parser.parse_args()
+	(options, args) = parser.parse_args()	
 	MapBrowser = Browser.Browser ()
-	gettext.bindtextdomain('labyrinth')
-	gettext.textdomain('labyrinth')
-	gtk.glade.bindtextdomain('labyrinth')
-	gtk.glade.textdomain('labyrinth')
 
 	
 	try:
