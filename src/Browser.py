@@ -59,11 +59,18 @@ class Browser (gtk.Window):
 		self.view = self.glade.get_widget ('MainView')
 		self.populate_view ()
 		self.view.connect ('row-activated', self.open_row_cb)
+		self.view.connect ('cursor-changed', self.cursor_change_cb)
 
-		self.glade.get_widget('OpenButton').connect ('clicked', self.open_clicked)
+		self.open_button = self.glade.get_widget('OpenButton')
+		self.delete_button = self.glade.get_widget('DeleteButton')
+
+		self.open_button.connect ('clicked', self.open_clicked)
 		self.glade.get_widget('NewButton').connect ('clicked', self.new_clicked)
-		self.glade.get_widget('DeleteButton').connect ('clicked', self.delete_clicked)
+		self.delete_button.connect ('clicked', self.delete_clicked)
 		self.glade.get_widget('QuitButton').connect ('clicked', self.quit_clicked)
+
+		self.open_button.set_sensitive (False)
+		self.delete_button.set_sensitive (False)
 
 		self.main_window = self.glade.get_widget ('MapBrowser')
 		try:
@@ -109,6 +116,16 @@ class Browser (gtk.Window):
 		self.nmap += 1
 		return (num, win)
 	
+	def cursor_change_cb (self, treeview):
+		selected = self.get_selected ()
+		if not selected:
+			self.open_button.set_sensitive (False)
+			self.delete_button.set_sensitive (False)
+		else:
+			self.open_button.set_sensitive (True)
+			self.delete_button.set_sensitive (True)
+			
+	
 	def open_clicked (self, button):
 		selected = self.get_selected ()
 		if not selected:
@@ -146,6 +163,8 @@ class Browser (gtk.Window):
 		else:
 			os.unlink (fname)
 			self.mapslist.remove (it)
+		self.view.emit ('cursor-changed')
+
 	
 	def remove_map_cb (self, mobj, a):
 		for m in self.maps:
@@ -162,6 +181,7 @@ class Browser (gtk.Window):
 				if fname:
 					os.unlink (fname)
 				self.maps.remove (m)
+				self.view.emit ('cursor-changed')
 				return
 			it = self.mapslist.iter_next (it)
 		print "Error: Unable to remove properly"
