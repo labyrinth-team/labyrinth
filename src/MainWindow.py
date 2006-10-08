@@ -98,17 +98,17 @@ class LabyrinthWindow (gtk.Window):
 
 	def create_ui (self):
 		actions = [
-			('FileMenu', None, '_File'),
+			('FileMenu', None, _('_File')),
 			('New', gtk.STOCK_NEW, _('_New'), '<control>N',
 			 _('Create a new mind-map'), self.new_window_cb),
 			('Close', gtk.STOCK_CLOSE, _('_Close'), '<control>W',
 			 _('Close the current window'), self.close_window_cb),
 			('Quit', gtk.STOCK_QUIT, _('_Quit'), '<control>Q',
 			 _('Close all the windows and exit the application'), self.quit_cb),
-			('ModeMenu', None, '_Mode'),
+			('ModeMenu', None, _('_Mode')),
 			('DeleteNodes', gtk.STOCK_DELETE, _('_Delete Selected Thoughts'), None,
 			 _('Delete the selected element(s)'), self.delete_cb),
-			('HelpMenu', None, '_Help'),
+			('HelpMenu', None, _('_Help')),
 			('About',gtk.STOCK_ABOUT, _('_About'), None,
 			 _('Learn about the application'), self.about_cb)]
 		self.radio_actions = [

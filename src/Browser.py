@@ -228,7 +228,7 @@ class Browser (gtk.Window):
 		self.nmap += 1
 			
 	def populate_view (self):
-		column = gtk.TreeViewColumn("Map Name", gtk.CellRendererText(), text=self.COL_TITLE)
+		column = gtk.TreeViewColumn(_("Map Name"), gtk.CellRendererText(), text=self.COL_TITLE)
 		self.view.append_column(column)
 
 		self.mapslist = gtk.ListStore (int, str, str, 'gboolean')
