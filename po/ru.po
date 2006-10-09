@@ -1,0 +1,184 @@
+# translation of ru.po to Russian
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Alexandre Prokoudine <alexandre.prokoudine@gmail.com>, 2006.
+msgid ""
+msgstr ""
+"Project-Id-Version: ru\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-10-08 17:05+0400\n"
+"PO-Revision-Date: 2006-10-08 17:07+0400\n"
+"Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
+"Language-Team: Russian <ru@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: ../src/Browser.py:147
+msgid "Do you really want to delete this Map?"
+msgstr "Вы действительно хотите удалить эту карту?"
+
+#: ../src/Browser.py:157
+msgid "Cannot delete this map"
+msgstr "Невозможно удалить эту карту"
+
+#: ../src/Browser.py:158
+msgid "The map cannot be deleted right now.  Is it open?"
+msgstr "Эту карту сейчас невозможно удалить. Она открыта?"
+
+#: ../src/Browser.py:231
+msgid "Map Name"
+msgstr "Название карты"
+
+#: ../src/MainWindow.py:83 ../src/MainWindow.py:184
+#, python-format
+msgid "Untitled Map %d"
+msgstr "Безымянная карта %d"
+
+#: ../src/MainWindow.py:85
+msgid "Somethings broken"
+msgstr "Что-то сломалось"
+
+#: ../src/MainWindow.py:101
+msgid "_File"
+msgstr "_Файл"
+
+#: ../src/MainWindow.py:102
+msgid "_New"
+msgstr "_Создать"
+
+#: ../src/MainWindow.py:103
+msgid "Create a new mind-map"
+msgstr "Создать новую ассоциативную карту"
+
+#: ../src/MainWindow.py:104
+msgid "_Close"
+msgstr "_Закрыть"
+
+#: ../src/MainWindow.py:105
+msgid "Close the current window"
+msgstr "Закрыть активное окно"
+
+#: ../src/MainWindow.py:106
+msgid "_Quit"
+msgstr "Вы_йти"
+
+#: ../src/MainWindow.py:107
+msgid "Close all the windows and exit the application"
+msgstr "Закрыть все окна и выйти из приложения"
+
+#: ../src/MainWindow.py:108
+msgid "_Mode"
+msgstr "_Режим"
+
+#: ../src/MainWindow.py:109
+msgid "_Delete Selected Thoughts"
+msgstr "_Удалить выбранные мысли"
+
+#: ../src/MainWindow.py:110
+msgid "Delete the selected element(s)"
+msgstr "Удалить выбранные элементы"
+
+#: ../src/MainWindow.py:111
+msgid "_Help"
+msgstr "_Справка"
+
+#: ../src/MainWindow.py:112
+msgid "_About"
+msgstr "_О программе"
+
+#: ../src/MainWindow.py:113
+msgid "Learn about the application"
+msgstr "Узнать больше о приложении"
+
+#: ../src/MainWindow.py:115
+msgid "_Edit Mode"
+msgstr "_Правка"
+
+#: ../src/MainWindow.py:116
+msgid "Turn on edit mode"
+msgstr "Переключиться на режим правки"
+
+#: ../src/MainWindow.py:117
+msgid "_Move Mode"
+msgstr "Пере_мещение"
+
+#: ../src/MainWindow.py:118
+msgid "Turn on move mode"
+msgstr "Переключиться на режим перемещения"
+
+#: ../src/MainWindow.py:119
+msgid "_Add Image"
+msgstr "Добавить _изображение"
+
+#: ../src/MainWindow.py:120
+msgid "Add an image to selected thought"
+msgstr "Добавить изображение к выбранной мысли"
+
+#: ../src/MainWindow.py:121
+msgid "_Drawing Mode"
+msgstr "Рисование"
+
+#: ../src/MainWindow.py:122
+msgid "Make a pretty drawing"
+msgstr "Добавить мысли"
+
+#: ../src/DrawingThought.py:54
+#, python-format
+msgid "Drawing #%d"
+msgstr "Рисунок #%d"
+
+#. Present a dialog for the user to choose an image here
+#: ../src/MMapArea.py:484
+msgid "Choose image to insert"
+msgstr "Выберите изображения для вставки"
+
+#: ../src/MMapArea.py:496 ../src/ImageThought.py:254
+msgid "Error loading file"
+msgstr "Ошибка при загрузке файла"
+
+#: ../src/MMapArea.py:497
+#, python-format
+msgid "%s could not be read.  Please ensure its a valid image."
+msgstr "Не удалось открыть %s.  Убедитесь в том, что это изображение."
+
+#: ../src/ImageThought.py:255
+#, python-format
+msgid "%s could not be found.  Associated thought will be empty."
+msgstr "Не удалось найти %s.  Ассоциированная мысль будет пустой."
+
+#: ../data/labyrinth.glade.h:1
+msgid "Delete Map"
+msgstr "Удалить карту"
+
+#: ../data/labyrinth.glade.h:2
+msgid "Labyrinth Maps"
+msgstr "Ассоциативные карты в Labyrinth"
+
+#: ../data/labyrinth.glade.h:3
+msgid "New Map"
+msgstr "Создать карту"
+
+#: ../data/labyrinth.glade.h:4
+msgid "Open Map"
+msgstr "Открыть карту"
+
+#: ../data/labyrinth.glade.h:5
+msgid "Quit"
+msgstr "Выйти"
+
+#: ../data/labyrinth.desktop.in.h:1
+msgid "Labyrinth Mind-mapping"
+msgstr "Ассоциативные карты в Labyrinth"
+
+#: ../data/labyrinth.desktop.in.h:2
+msgid "Map your mind"
+msgstr "Упорядочьте свои знания"
+
+#: ../data/labyrinth.desktop.in.h:3
+msgid "Mind-mapping"
+msgstr "Создание ассоциативных карт"
+
