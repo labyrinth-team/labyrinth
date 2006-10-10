@@ -3,24 +3,75 @@ Labyrinth - Future Work
 
 I'm following the "cairo" model here.  Basically, the new version will be released when the "Required Features" are in place, in a usable form.  Any "Desired Features" are a plus.  New "Required" and "Desired" features are made very near release of previous version.
 
-Older Versions (overview of pervious versions of this file):
+Version 1.0
+-----------
 
-v0.1
-----
+Due to popular demand and also to show where Labyrinth is heading, I will devote a few paragraphs to what is required for a 1.0 release to be made.  The release series up to this point are part of the "Out of Nothing" series.  These goals are (currently) in no particular order.  Once I've got everything written down, I may rearrange them a little.
 
-Version 0.1 of Labyrinth was all about getting a basic working thing.
+The 3 main thought types are now available.  Other thoughts are welcome, but only the 3 current ones are required for a 1.0 release.
 
-Loading and saving work and not a lot else.
+Those marked with a double star are planned for the next release (or at least started in the next release).  Those with a tick (✓) have already been implemented.
 
-v0.2
-----
+General:
+--------
+* New, better, shinier icon
+* Import from (at least) kdissert and freemind
+** Export to (at least) png and XML format (include images in tarball style?)
+** Printing support for maps - includes ps export
+* UI review.  Better interface.  HIG compliance
+* Documentation
+* Full i18n support
+* Theme support
+* "A11y" view - treeview of thoughts and links
+** Selection of multiple thoughts
+* "Background"ing of areas.  Add a coloured background around different areas of maps
+** Extended text for all thoughts
+* Set icons on thoughts
+** Hide / show thoughts
+* Infinite canvas
+* Move and group multiple thoughts
+* More clear primary thought / current root
+* Thought background colour changing
+* Popup menus everywhere
+* Keyboard navigation of thoughts
+* Autoadd new thoughts (Possibly)
+* Selection of links - allow intuitive deletion / editing of links
+  - Link colours
 
-Required Features:
-✓* Beginnings of a "drawing" thought
-✓* Icon and menu entry
-✓* Beginning of i18n support
-In Addition:
-✓* ImageThought.  To add images from file.
+Text Thoughts:
+--------------
+
+** Selection of chunks of text
+* Different font sizes
+* Different font colours
+* Different fonts
+* Default to using current theme fonts
+* Copy text to clipboard / paste text from clipboard
+
+Image Thoughts:
+---------------
+
+* Ability to change images
+
+Drawing Thoughts:
+-----------------
+
+** Eraser mode
+* Different pen widths
+* Different colours
+
+Possible goals.  Not actually required, but if someone wants to do them...
+---------------
+
+If these aren't done when the above are all implemented, they won't be in 1.0 release.
+
+* Different thought types
+  - Make thoughts plugins (?)
+* Draw outline of thoughts in different styles
+  - Abstract out drawing logic (hey, its pretty similar always anyway)
+* Export to kdissert / freemind / ...
+* Import from ...
+
 
 
 
@@ -63,6 +114,26 @@ Carried over from 0.2:
   - Figure out a way to display all the thoughts in a completely accessible way
   - Use a tree-view?
   - Figure out how to make thoughts actually add (accessibly) to the map area
+
+
+Older Versions (overview of pervious versions of this file):
+
+v0.1 (The Beginning Stages of...)
+----
+
+Version 0.1 of Labyrinth was all about getting a basic working thing.
+
+Loading and saving work and not a lot else.
+
+v0.2 (Get the Picture?)
+----
+
+Required Features:
+✓* Beginnings of a "drawing" thought
+✓* Icon and menu entry
+✓* Beginning of i18n support
+In Addition:
+✓* ImageThought.  To add images from file.
 
 
 To infinity and beyond
