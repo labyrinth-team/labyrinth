@@ -1,5 +1,9 @@
 2006-10-10 Don Scorgie <DonScorgie@Blueyonder.co.uk>
-
+	
+	* doc/TheFuture:
+	* doc/FileFormat:
+	Rejig to be more readable in 80-column format
+	
 	* doc/TheFuture:
 	List of goals for 1.0 release
 
