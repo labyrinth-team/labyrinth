@@ -5,6 +5,7 @@
 	Add new command line options:
 	-o / --open: open a map from the given (full) path and filename
 	-m / --map: open a map with the filename from the internal "database"
+	(Based on patch from "qub333".  Fixes issue #3)
 
 	* src/MainWindow.py:
 	Add (stupid) icons to toolbar entries.
