@@ -1,0 +1,180 @@
+# translation of nl.po to Dutch
+# Rigo Ketelings <r.ketelings@gmail.com>, 2006.
+msgid ""
+msgstr ""
+"Project-Id-Version: nl\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-10-11 17:05+0400\n"
+"PO-Revision-Date: 2006-10-10 22:33+0200\n"
+"Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
+"Language-Team: Dutch <nl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
+
+#: ../src/Browser.py:147
+msgid "Do you really want to delete this Map?"
+msgstr "Weet je zeker dat je deze map wilt verwijderen?"
+
+#: ../src/Browser.py:157
+msgid "Cannot delete this map"
+msgstr "Kan deze map niet verwijderen"
+
+#: ../src/Browser.py:158
+msgid "The map cannot be deleted right now.  Is it open?"
+msgstr "De map kan op dit moment niet verwijderd worden. Is de map geopend?"
+
+#: ../src/Browser.py:231
+msgid "Map Name"
+msgstr "Naam map"
+
+#: ../src/MainWindow.py:83 ../src/MainWindow.py:184
+#, python-format
+msgid "Untitled Map %d"
+msgstr "Naamloze map %d"
+
+#: ../src/MainWindow.py:85
+msgid "Somethings broken"
+msgstr "Er is iets kapot."
+
+#: ../src/MainWindow.py:101
+msgid "_File"
+msgstr "_Bestand"
+
+#: ../src/MainWindow.py:102
+msgid "_New"
+msgstr "_Nieuw"
+
+#: ../src/MainWindow.py:103
+msgid "Create a new mind-map"
+msgstr "Creëer een nieuwe mind-map"
+
+#: ../src/MainWindow.py:104
+msgid "_Close"
+msgstr "_Sluit"
+
+#: ../src/MainWindow.py:105
+msgid "Close the current window"
+msgstr "Sluit het huidige scherm"
+
+#: ../src/MainWindow.py:106
+msgid "_Quit"
+msgstr "_Afsluiten"
+
+#: ../src/MainWindow.py:107
+msgid "Close all the windows and exit the application"
+msgstr "Sluit alle schermen en verlaat de applicatie"
+
+#: ../src/MainWindow.py:108
+msgid "_Mode"
+msgstr "_Modus"
+
+#: ../src/MainWindow.py:109
+msgid "_Delete Selected Thoughts"
+msgstr "_Verwijder geselecteerde gedachten"
+
+#: ../src/MainWindow.py:110
+msgid "Delete the selected element(s)"
+msgstr "Verwijder geselecteerd(e) element(en)"
+
+#: ../src/MainWindow.py:111
+msgid "_Help"
+msgstr "_Help"
+
+#: ../src/MainWindow.py:112
+msgid "_About"
+msgstr "_Over"
+
+#: ../src/MainWindow.py:113
+msgid "Learn about the application"
+msgstr "Hulp bij de applicatie"
+
+#: ../src/MainWindow.py:115
+msgid "_Edit Mode"
+msgstr "_Bewerk-mode"
+
+#: ../src/MainWindow.py:116
+msgid "Turn on edit mode"
+msgstr "Zet bewerk-mode aan"
+
+#: ../src/MainWindow.py:117
+msgid "_Move Mode"
+msgstr "_Schuif-mode"
+
+#: ../src/MainWindow.py:118
+msgid "Turn on move mode"
+msgstr "Zet schuif-mode aan"
+
+#: ../src/MainWindow.py:119
+msgid "_Add Image"
+msgstr "_Voeg afbeelding toe"
+
+#: ../src/MainWindow.py:120
+msgid "Add an image to selected thought"
+msgstr "Voeg afbeelding toe aan geselecteerde gedachte"
+
+#: ../src/MainWindow.py:121
+msgid "_Drawing Mode"
+msgstr "_Teken-mode"
+
+#: ../src/MainWindow.py:122
+msgid "Make a pretty drawing"
+msgstr "Maak een mooie tekening"
+
+#: ../src/DrawingThought.py:54
+#, python-format
+msgid "Drawing #%d"
+msgstr "Tekenen %d"
+
+#. Present a dialog for the user to choose an image here
+#: ../src/MMapArea.py:484
+msgid "Choose image to insert"
+msgstr "Kies in te voegen afbeelding"
+
+#: ../src/MMapArea.py:496 ../src/ImageThought.py:254
+msgid "Error loading file"
+msgstr "Fout tijdens laden bestand"
+
+#: ../src/MMapArea.py:497
+#, python-format
+msgid "%s could not be read.  Please ensure its a valid image."
+msgstr "%s kon niet gelezen worden. Verifieer of %s ook daadwerkelijk een afbeelding is."
+
+#: ../src/ImageThought.py:255
+#, python-format
+msgid "%s could not be found.  Associated thought will be empty."
+msgstr "%s kon niet gevonden worden. Geassocieerde gedachte zal leeg zijn."
+
+#: ../data/labyrinth.glade.h:1
+msgid "Delete Map"
+msgstr "Verwijder map"
+
+#: ../data/labyrinth.glade.h:2
+msgid "Labyrinth Maps"
+msgstr "Labyrinth Maps"
+
+#: ../data/labyrinth.glade.h:3
+msgid "New Map"
+msgstr "Nieuwe map"
+
+#: ../data/labyrinth.glade.h:4
+msgid "Open Map"
+msgstr "Open map"
+
+#: ../data/labyrinth.glade.h:5
+msgid "Quit"
+msgstr "Afsluiten"
+
+#: ../data/labyrinth.desktop.in.h:1
+msgid "Labyrinth Mind-mapping"
+msgstr "Labyrinth Mind-mapping"
+
+#: ../data/labyrinth.desktop.in.h:2
+msgid "Map your mind"
+msgstr "Map je gedachten"
+
+#: ../data/labyrinth.desktop.in.h:3
+msgid "Mind-mapping"
+msgstr "Mind-mapping"
+

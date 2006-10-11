@@ -1,3 +1,11 @@
+2006-10-11 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+	* LINGUAS:
+	* nl.po:
+	Add Dutch translation (Rigo Ketelings)
+
+	* labyrinth.pot:
+	Add convenience file to SVN for translators
+
 2006-10-09 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* LINGUAS:
