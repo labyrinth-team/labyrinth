@@ -1,4 +1,14 @@
 2006-10-11 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* src/BaseThought.py:
+	* src/DrawingThought.py:
+	* src/utils.py:
+	* src/MMapArea.py:
+	* src/ImageThought.py:
+	* src/TextThought.py:
+	Split out drawing of thought outlines (into utils.py)
+	Standardise (somewhat more) on what ul and lr really mean
+	Fix resizing of drawing thoughts in edit mode
 	
 	* src/labyrinth.py:
 	Make current path clearer in terminal printing
