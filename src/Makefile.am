@@ -1,5 +1,5 @@
 
-labyrinth: labyrinth.py
+labyrinth: labyrinth.py Makefile
 	sed -e "s|\@PYTHONDIR\@|$(pythondir)/labyrinth|" $< > $@
 
 labyrinthbindir = $(prefix)/bin
@@ -21,7 +21,7 @@ labyrinth_PYTHON = 	\
 
 nodist_labyrinth_PYTHON = defs.py
 
-defs.py: defs.py.in
+defs.py: defs.py.in Makefile
 	sed						\
 		-e s!\@prefix\@!$(prefix)!		\
 		-e s!\@datadir\@!$(datadir)!		\
@@ -32,9 +32,8 @@ defs.py: defs.py.in
 		-e s!\@VERSION\@!$(VERSION)!		\
 		-e s!\@PYTHONDIR\@!$(PYTHONDIR)!    \
 		< $< > $@
-defs.py: Makefile
 
-BUILT_SOURCES = labyrinth
+BUILT_SOURCES = labyrinth defs.py
 
 CLEANFILES = $(BUILT_SOURCES)
 

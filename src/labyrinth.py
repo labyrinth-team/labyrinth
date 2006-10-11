@@ -36,7 +36,7 @@ def _check (path):
 name = join(dirname(__file__), '..')
 if _check(name):
 		sys.path.insert(0, abspath(name))
-		print 'Running uninstalled, modifying PYTHONPATH: [@PYTHONDIR@:$PYTHONPATH]'
+		print 'Running uninstalled, modifying PYTHONPATH: ['+str(abspath(name))+':$PYTHONPATH]'
 else:
 		sys.path.insert(0, abspath("@PYTHONDIR@"))
 		print "Running installed, using [@PYTHONDIR@:$PYTHONPATH]"

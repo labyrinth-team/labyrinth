@@ -1,6 +1,13 @@
 2006-10-11 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 	
 	* src/labyrinth.py:
+	Make current path clearer in terminal printing
+	
+	* src/Makefile.am:
+	Really regenerate defs.py and labyrinth when configure is run
+	Might (hopefully) fix issue #1
+	
+	* src/labyrinth.py:
 	* src/Browser.py:
 	Add new command line options:
 	-o / --open: open a map from the given (full) path and filename

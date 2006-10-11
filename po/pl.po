@@ -1,0 +1,170 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Labyrinth\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-10-08 11:43+0100\n"
+"PO-Revision-Date: 2006-10-11 21:07+0100\n"
+"Last-Translator: Tomasz Dominikowski <dominikowski@gmail.com>\n"
+"Language-Team: Tomasz Dominikowski <dominikowski@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Polish\n"
+"X-Poedit-Country: Poland\n"
+
+#: ../src/Browser.py:147
+msgid "Do you really want to delete this Map?"
+msgstr "Czy chcesz usunąć tę mapę?"
+
+#: ../src/Browser.py:157
+msgid "Cannot delete this map"
+msgstr "Nie można usunąć tej mapy"
+
+#: ../src/Browser.py:158
+msgid "The map cannot be deleted right now.  Is it open?"
+msgstr "Mapa nie może teraz zostać usunięta. Czy jest otwarta?"
+
+#: ../src/MainWindow.py:83
+#: ../src/MainWindow.py:184
+#, python-format
+msgid "Untitled Map %d"
+msgstr "Nienazwana mapa %d"
+
+#: ../src/MainWindow.py:85
+msgid "Somethings broken"
+msgstr "Coś jest zepsute"
+
+#: ../src/MainWindow.py:102
+msgid "_New"
+msgstr "_Nowa"
+
+#: ../src/MainWindow.py:103
+msgid "Create a new mind-map"
+msgstr "Utwórz nową mapę myśli"
+
+#: ../src/MainWindow.py:104
+msgid "_Close"
+msgstr "Z_amknij"
+
+#: ../src/MainWindow.py:105
+msgid "Close the current window"
+msgstr "Zamknij bieżące okno"
+
+#: ../src/MainWindow.py:106
+msgid "_Quit"
+msgstr "_Zakończ"
+
+#: ../src/MainWindow.py:107
+msgid "Close all the windows and exit the application"
+msgstr "Zamknij wszystkie okna i zakończ aplikację"
+
+#: ../src/MainWindow.py:109
+msgid "_Delete Selected Thoughts"
+msgstr "_Usuń wybrane myśli"
+
+#: ../src/MainWindow.py:110
+msgid "Delete the selected element(s)"
+msgstr "Usuń zaznaczony(-e) element(-y)"
+
+#: ../src/MainWindow.py:112
+msgid "_About"
+msgstr "_O programie"
+
+#: ../src/MainWindow.py:113
+msgid "Learn about the application"
+msgstr "Dowiedz się o tej aplikacji"
+
+#: ../src/MainWindow.py:115
+msgid "_Edit Mode"
+msgstr "Tryb _modyfikowania"
+
+#: ../src/MainWindow.py:116
+msgid "Turn on edit mode"
+msgstr "Włącz tryb modyfikowania"
+
+#: ../src/MainWindow.py:117
+msgid "_Move Mode"
+msgstr "Tryb _przemieszczania"
+
+#: ../src/MainWindow.py:118
+msgid "Turn on move mode"
+msgstr "Włącz tryb przemieszczania"
+
+#: ../src/MainWindow.py:119
+msgid "_Add Image"
+msgstr "_Dodaj obraz"
+
+#: ../src/MainWindow.py:120
+msgid "Add an image to selected thought"
+msgstr "Dodaj obraz do wybranej myśli"
+
+#: ../src/MainWindow.py:121
+msgid "_Drawing Mode"
+msgstr "Tryb _rysowania"
+
+#: ../src/MainWindow.py:122
+msgid "Make a pretty drawing"
+msgstr "Utwórz piękny rysunek"
+
+#: ../src/DrawingThought.py:54
+#, python-format
+msgid "Drawing #%d"
+msgstr "Rysunek #%d"
+
+#. Present a dialog for the user to choose an image here
+#: ../src/MMapArea.py:484
+msgid "Choose image to insert"
+msgstr "Wybierz obraz do wstawienia"
+
+#: ../src/MMapArea.py:496
+#: ../src/ImageThought.py:254
+msgid "Error loading file"
+msgstr "Błąd podczas wczytywania pliku"
+
+#: ../src/MMapArea.py:497
+#, python-format
+msgid "%s could not be read.  Please ensure its a valid image."
+msgstr "%s nie mógł zostać odczytany. Proszę sprawdzić, czy jest to poprawny obraz."
+
+#: ../src/ImageThought.py:255
+#, python-format
+msgid "%s could not be found.  Associated thought will be empty."
+msgstr "%s nie mógł zostać odnaleziony. Związana myśl będzie pusta."
+
+#: ../data/labyrinth.glade.h:1
+msgid "Delete Map"
+msgstr "Usuń mapę"
+
+#: ../data/labyrinth.glade.h:2
+msgid "Labyrinth Maps"
+msgstr "Mapy Labyrinth"
+
+#: ../data/labyrinth.glade.h:3
+msgid "New Map"
+msgstr "Nowa mapa"
+
+#: ../data/labyrinth.glade.h:4
+msgid "Open Map"
+msgstr "Otwórz mapę"
+
+#: ../data/labyrinth.glade.h:5
+msgid "Quit"
+msgstr "Zakończ"
+
+#: ../data/labyrinth.desktop.in.h:1
+msgid "Labyrinth Mind-mapping"
+msgstr "Mapowanie myśli Labyrinth"
+
+#: ../data/labyrinth.desktop.in.h:2
+msgid "Map your mind"
+msgstr "Mapowanie myśli"
+
+#: ../data/labyrinth.desktop.in.h:3
+msgid "Mind-mapping"
+msgstr "Mapowanie myśli"
+

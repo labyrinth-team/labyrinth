@@ -1,4 +1,9 @@
 2006-10-11 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* LINGUAS:
+	* pl.po:
+	Add Polish translation (Tomasz Dominikowski)
+
 	* LINGUAS:
 	* nl.po:
 	Add Dutch translation (Rigo Ketelings)
