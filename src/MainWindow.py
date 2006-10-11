@@ -112,13 +112,13 @@ class LabyrinthWindow (gtk.Window):
 			('About',gtk.STOCK_ABOUT, _('_About'), None,
 			 _('Learn about the application'), self.about_cb)]
 		self.radio_actions = [
-			('Edit', None, _('_Edit Mode'), '<control>E',
+			('Edit', gtk.STOCK_EDIT, _('_Edit Mode'), '<control>E',
 			 _('Turn on edit mode'), MMapArea.MODE_EDITING),
-			('Move', None, _('_Move Mode'), '<control>M',
+			('Move', gtk.STOCK_JUMP_TO, _('_Move Mode'), '<control>M',
 			 _('Turn on move mode'), MMapArea.MODE_MOVING),
-			 ('AddImage', None, _('_Add Image'), None,
+			 ('AddImage', gtk.STOCK_ADD, _('_Add Image'), None,
 			 _('Add an image to selected thought'), MMapArea.MODE_IMAGE),
-			 ('Drawing', None, _('_Drawing Mode'), None,
+			 ('Drawing', gtk.STOCK_COLOR_PICKER, _('_Drawing Mode'), None,
 			 _('Make a pretty drawing'), MMapArea.MODE_DRAW)]
 
 		ag = gtk.ActionGroup ('WindowActions')

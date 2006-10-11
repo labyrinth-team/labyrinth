@@ -1,3 +1,10 @@
+2006-10-11 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* src/MainWindow.py:
+	Add (stupid) icons to toolbar entries.
+	Temporarily improves issue #2 until gtk+ fixes it
+
+
 2006-10-10 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 	
 	* doc/TheFuture:
