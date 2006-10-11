@@ -43,4 +43,48 @@ def parse_coords (string):
 	coord = (float(local),	float(local_2))
 	return coord
 
+# Drawing functions
+
+# These are thought outline styles.
+# Currently, there is only 1 - STYLE_NORMAL, which is the slightly rounded corners
+# - The normal thought type
+STYLE_NORMAL = 0
+
+def draw_thought_outline (context, ul, lr, am_root = False, am_primary = False, style=STYLE_NORMAL):
+	if style == STYLE_NORMAL:
+		draw_thought_classic (context, ul, lr, am_root, am_primary)
+	else:
+		print "Error: Unknown thought style: "+str(style)
+
+# This is used to find the required margin from the (real) ul / lr coords to the edge of the
+# box area.  Makes selection of thoughts less erratic
+def margin_required (style = STYLE_NORMAL):
+	if style == STYLE_NORMAL:
+		return margin_thought_classic ()
+	else:
+		print "Error: Unknown thought margine style: "+str(style)
+
+# Classic thought style drawing code
+def margin_thought_classic ():
+	return (5, 5, 5, 5)
+		
+def draw_thought_classic (context, ul, lr, am_root, am_primary):
+	context.move_to (ul[0], ul[1]+5)
+	context.line_to (ul[0], lr[1]-5)
+	context.curve_to (ul[0], lr[1], ul[0], lr[1], ul[0]+5, lr[1])
+	context.line_to (lr[0]-5, lr[1])
+	context.curve_to (lr[0], lr[1], lr[0], lr[1], lr[0], lr[1]-5)
+	context.line_to (lr[0], ul[1]+5)
+	context.curve_to (lr[0], ul[1], lr[0], ul[1], lr[0]-5, ul[1])
+	context.line_to (ul[0]+5, ul[1])
+	context.curve_to (ul[0], ul[1], ul[0], ul[1], ul[0], ul[1]+5)
+	if am_root:
+		context.set_source_rgb (0.0,0.9,0.9)
+	elif am_primary:
+		context.set_source_rgb (1.0,0.5,0.5)
+	else:
+		context.set_source_rgb (1.0,1.0,1.0)
+	context.fill_preserve ()
+	context.set_source_rgb (0,0,0)
+	context.stroke ()
 

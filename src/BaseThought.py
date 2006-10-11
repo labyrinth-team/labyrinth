@@ -51,7 +51,7 @@ class BaseThought (gobject.GObject):
 		print "Warning: drawing is not implemented for one thought type"
 		return
 		
-	def handle_movement (self, coords, move=True):
+	def handle_movement (self, coords, move=True, edit_mode = False):
 		print "Warning: handle_movement is not implemented for this node type"
 		return
 	
@@ -192,7 +192,7 @@ class ResizableThought (BaseThought):
 		context.stroke ()
 		return
 		
-	def handle_movement (self, coords):
+	def handle_movement (self, coords, edit_mode = False):
 		diffx = coords[0] - self.motion_coords[0]
 		diffy = coords[1] - self.motion_coords[1]
 		self.motion_coords = coords

@@ -37,13 +37,19 @@ class TextThought (BaseThought.BaseThought):
 		self.pango_context = pango
 		self.text = ""
 		self.index = 0
-		self.ul = coords
+		self.text_location = coords
 		self.lr = None
 		self.editing = True
 		self.am_root = False
 		self.am_primary = False
 		self.element = element
 		self.text_element = text_element
+
+		margin = utils.margin_required (utils.STYLE_NORMAL)
+		if coords:
+			self.ul = (coords[0]-margin[0], coords[1] - margin[1])
+		else:
+			self.ul = None
 		
 		if not load:
 			self.identity = ident
@@ -91,24 +97,9 @@ class TextThought (BaseThought.BaseThought):
 			if not self.ul or not self.lr:
 				print "Warning: Trying to draw unfinished box "+str(self.identity)+".  Aborting."
 				return
-			context.move_to (self.ul[0]-5, self.ul[1]-5+10)
-			context.line_to (self.ul[0]-5, self.lr[1]-10)
-			context.curve_to (self.ul[0]-5, self.lr[1], self.ul[0]-5, self.lr[1], self.ul[0]+5, self.lr[1])
-			context.line_to (self.lr[0]-10, self.lr[1])
-			context.curve_to (self.lr[0], self.lr[1], self.lr[0], self.lr[1], self.lr[0], self.lr[1]-10)
-			context.line_to (self.lr[0], self.ul[1]-5+10)
-			context.curve_to (self.lr[0], self.ul[1]-5, self.lr[0], self.ul[1]-5, self.lr[0]-10, self.ul[1]-5)
-			context.line_to (self.ul[0]-5+10, self.ul[1]-5)
-			context.curve_to (self.ul[0]-5, self.ul[1]-5, self.ul[0]-5, self.ul[1]-5, self.ul[0]-5, self.ul[1]-5+10)
-			if self.am_root:
-				context.set_source_rgb (0.0,0.9,0.9)
-			elif self.am_primary:
-				context.set_source_rgb (1.0,0.5,0.5)
-			else:
-				context.set_source_rgb (1.0,1.0,1.0)
-			context.fill_preserve ()
-			context.set_source_rgb (0,0,0)
-			context.stroke ()
+
+			utils.draw_thought_outline (context, self.ul, self.lr, self.am_root, self.am_primary, utils.STYLE_NORMAL)
+			
 		else:
 			(strong, weak) = layout.get_cursor_pos (self.index)
 			(startx, starty, curx,cury) = strong
@@ -117,15 +108,15 @@ class TextThought (BaseThought.BaseThought):
 			curx /= pango.SCALE
 			cury /= pango.SCALE
 
-			context.move_to (self.ul[0]+startx, self.ul[1]+starty)
-			context.line_to (self.ul[0]+startx, self.ul[1]+starty+cury)
+			context.move_to (self.text_location[0]+startx, self.text_location[1]+starty)
+			context.line_to (self.text_location[0]+startx, self.text_location[1]+starty+cury)
 			context.stroke ()
-			context.move_to (self.ul[0]-5, self.ul[1]+5)
-			context.line_to (self.ul[0]-5, self.ul[1]-5)
-			context.line_to (self.ul[0]+5, self.ul[1]-5)
+			context.move_to (self.ul[0], self.ul[1]+5)
+			context.line_to (self.ul[0], self.ul[1])
+			context.line_to (self.ul[0]+5, self.ul[1])
 			context.stroke ()
 
-		context.move_to (self.ul[0], self.ul[1])
+		context.move_to (self.text_location[0], self.text_location[1])
 		context.show_layout (layout)
 		context.set_source_rgb (0,0,0)
 		context.stroke () 
@@ -137,9 +128,11 @@ class TextThought (BaseThought.BaseThought):
 		layout.set_text (self.text)
 		
 		(x,y) = layout.get_pixel_size ()
-		self.lr = (x + self.ul[0]+5, y + self.ul[1] + 5)
+		margin = utils.margin_required (utils.STYLE_NORMAL)
+		self.text_location = (self.ul[0] + margin[0], self.ul[1] + margin[1])
+		self.lr = (x + self.text_location[0]+margin[2], y + self.text_location[1] + margin[3])
 		
-	def handle_movement (self, coords):
+	def handle_movement (self, coords, edit_mode = False):
 		if not self.ul or not self.lr:
 			print "Warning: Unable to update: Things are broken.  Returning"
 			return
@@ -330,6 +323,7 @@ class TextThought (BaseThought.BaseThought):
 				self.text = n.data
 			else:
 				print "Unknown: "+n.nodeName
+		self.update_bbox ()
 		
 	def load_add_parent (self, parent):
 		self.parents.append (parent)

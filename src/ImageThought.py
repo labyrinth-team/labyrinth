@@ -37,16 +37,18 @@ class ImageThought (BaseThought.ResizableThought):
 		self.filename = filename
 		
 		if not load:
-			self.ul = (coords[0]-5, coords[1]-5)
+			margin = utils.margin_required (utils.STYLE_NORMAL)
+			self.ul = (coords[0]-margin[0], coords[1]-margin[1])
 			self.identity = ident
 			self.okay = self.load_image (filename)
 			if self.okay:
 				self.width = self.orig_pic.get_width ()
 				self.height = self.orig_pic.get_height ()
-			
-				self.lr = (self.ul[0]+self.width+5, self.ul[1]+self.height+5)
+				
+				self.pic_location = coords
+				self.lr = (self.pic_location[0]+self.width+margin[2], self.pic_location[1]+self.height+margin[3])
 				self.pic = self.orig_pic
-				self.text = filename[filename.rfind('/')+1:filename.rfind('.')]
+				self.text = filename[filename.rfind('/')+1:filename.rfind('.')]				
 				self.emit ("title_changed", self.text, 65)
 		else:
 			self.load_data (load)
@@ -63,33 +65,17 @@ class ImageThought (BaseThought.ResizableThought):
 		return True
 
 	def draw (self, context):
-		context.move_to (self.ul[0], self.ul[1]+10)
-		context.line_to (self.ul[0], self.lr[1]-10)
-		context.curve_to (self.ul[0], self.lr[1], self.ul[0], self.lr[1], self.ul[0]+10, self.lr[1])
-		context.line_to (self.lr[0]-10, self.lr[1])
-		context.curve_to (self.lr[0], self.lr[1], self.lr[0], self.lr[1], self.lr[0], self.lr[1]-10)
-		context.line_to (self.lr[0], self.ul[1]+10)
-		context.curve_to (self.lr[0], self.ul[1], self.lr[0], self.ul[1], self.lr[0]-10, self.ul[1])
-		context.line_to (self.ul[0]+10, self.ul[1])
-		context.curve_to (self.ul[0], self.ul[1], self.ul[0], self.ul[1], self.ul[0], self.ul[1]+10)
+		utils.draw_thought_outline (context, self.ul, self.lr, self.am_root, self.am_primary, utils.STYLE_NORMAL)
 
-		context.set_source_rgb (1.0,1.0,1.0)
-		if self.am_root:
-			context.set_source_rgb (0.0,0.9,0.9)
-		elif self.am_primary:
-			context.set_source_rgb (1.0,0.5,0.5)
-		context.fill_preserve ()
-		context.set_source_rgb (0,0,0)
-		context.stroke ()
 		if self.pic:
-			context.set_source_pixbuf (self.pic, self.ul[0]+5, self.ul[1]+5)
-			context.rectangle (self.ul[0], self.ul[1], self.width, self.height)
+			context.set_source_pixbuf (self.pic, self.pic_location[0], self.pic_location[1])
+			context.rectangle (self.pic_location[0], self.pic_location[1], self.width, self.height)
 			context.fill ()
 		context.set_source_rgb (0,0,0)
 		
 		return
 		
-	def handle_movement (self, coords, move=True):
+	def handle_movement (self, coords, move=True, edit_mode = False):
 		diffx = coords[0] - self.motion_coords[0]
 		diffy = coords[1] - self.motion_coords[1]
 		
@@ -99,12 +85,14 @@ class ImageThought (BaseThought.ResizableThought):
 			# Actually, we have to move the entire thing
 			self.ul = (self.ul[0]+diffx, self.ul[1]+diffy)
 			self.lr = (self.lr[0]+diffx, self.lr[1]+diffy)
+			self.pic_location = (self.pic_location[0]+diffx, self.pic_location[1]+diffy)
 			return
 		elif self.resizing == self.MOTION_LEFT:
 			if self.width - diffx < 10:
 				self.motion_coords = tmp
 				return
 			self.ul = (self.ul[0]+diffx, self.ul[1])
+			self.pic_location = (self.pic_location[0]+diffx, self.pic_location[1])
 			self.width -= diffx
 		elif self.resizing == self.MOTION_RIGHT:
 			if self.width + diffx < 10:
@@ -117,6 +105,7 @@ class ImageThought (BaseThought.ResizableThought):
 				self.motion_coords = tmp
 				return
 			self.ul = (self.ul[0], self.ul[1]+diffy)
+			self.pic_location = (self.pic_location[0], self.pic_location[1]+diffy)
 			self.height -= diffy
 		elif self.resizing == self.MOTION_BOTTOM:
 			if self.height + diffy < 10:
@@ -129,6 +118,7 @@ class ImageThought (BaseThought.ResizableThought):
 				self.motion_coords = tmp
 				return
 			self.ul = (self.ul[0]+diffx, self.ul[1]+diffy)
+			self.pic_location = (self.pic_location[0]+diffx, self.pic_location[1]+diffy)
 			self.width -= diffx
 			self.height -= diffy
 		elif self.resizing == self.MOTION_UR:
@@ -137,6 +127,7 @@ class ImageThought (BaseThought.ResizableThought):
 				return
 			self.ul = (self.ul[0], self.ul[1]+diffy)
 			self.lr = (self.lr[0]+diffx, self.lr[1])
+			self.pic_location = (self.pic_location[1], self.pic_location[1]+diffy)
 			self.width += diffx
 			self.height -= diffy
 		elif self.resizing == self.MOTION_LL:
@@ -145,6 +136,7 @@ class ImageThought (BaseThought.ResizableThought):
 				return
 			self.ul = (self.ul[0]+diffx, self.ul[1])
 			self.lr = (self.lr[0], self.lr[1]+diffy)
+			self.pic_location = (self.pic_location[0]+diffx, self.pic_location[1])
 			self.width -= diffx
 			self.height += diffy
 		elif self.resizing == self.MOTION_LR:
@@ -248,6 +240,9 @@ class ImageThought (BaseThought.ResizableThought):
 		for n in node.childNodes:
 			print "Unknown: "+n.nodeName
 		self.okay = self.load_image (self.filename)
+		margin = utils.margin_required (utils.STYLE_NORMAL)
+		self.pic_location = (self.ul[0]+margin[0], self.ul[1]+margin[1])
+		self.lr = (self.pic_location[0]+self.width+margin[2], self.pic_location[1]+self.height+margin[3])
 		if not self.okay:
 			dialog = gtk.MessageDialog (None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, 
 										gtk.MESSAGE_WARNING, gtk.BUTTONS_CLOSE,
@@ -258,8 +253,7 @@ class ImageThought (BaseThought.ResizableThought):
 			self.pic = None
 			self.orig_pic = None
 		else:
-			self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), gtk.gdk.INTERP_HYPER)
-		
+			self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), gtk.gdk.INTERP_HYPER)	
 		return
 			
 	

@@ -318,10 +318,9 @@ class MMapArea (gtk.DrawingArea):
 			
 	def handle_movement (self, coords):
 		# We can only be called (for now) if a node is selected.  Plan accordingly.
-		if self.selected_thoughts[0].want_movement () and \
-		(self.mode == MODE_DRAW or self.selected_thoughts[0].__class__!= DrawingThought.DrawingThought):
-			self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.LEFT_PTR))
-			self.selected_thoughts[0].handle_movement (coords, False)
+		
+		if self.selected_thoughts[0].want_movement ():
+			self.selected_thoughts[0].handle_movement (coords, False, self.mode == MODE_EDITING)
 			self.update_links (self.selected_thoughts[0])
 			self.invalidate ()
 			return

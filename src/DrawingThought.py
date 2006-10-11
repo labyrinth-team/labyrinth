@@ -53,9 +53,10 @@ class DrawingThought (BaseThought.ResizableThought):
 		self.points = []
 		self.text = _("Drawing #%d" %ndraw)
 		if not load:
-			self.ul = (coords[0]-5, coords[1]-5)
+			margin = utils.margin_required (utils.STYLE_NORMAL)
+			self.ul = (coords[0]-margin[0], coords[1]-margin[1])
 			self.identity = ident
-			self.lr = (coords[0]+100, coords[1]+100)
+			self.lr = (coords[0]+100+margin[2], coords[1]+100+margin[3])
 			self.min_x = coords[0]+90
 			self.max_x = coords[0]+15
 			self.min_y = coords[1]+90
@@ -82,7 +83,7 @@ class DrawingThought (BaseThought.ResizableThought):
 		self.am_primary = True
 		return
 	
-	def handle_movement (self, coords, move=True):
+	def handle_movement (self, coords, move=True, edit_mode=False):
 
 		diffx = coords[0] - self.motion_coords[0]
 		diffy = coords[1] - self.motion_coords[1]
@@ -171,28 +172,29 @@ class DrawingThought (BaseThought.ResizableThought):
 				p.move_by (diffx, diffy)
 			return
 			
-		if coords[0] < self.ul[0]:
-			self.ul = (coords[0]-5, self.ul[1])
-		elif coords[0] > self.lr[0]:
-			self.lr = (coords[0]+5, self.lr[1])
-		if coords[1] < self.ul[1]:
-			self.ul = (self.ul[0], coords[1]-5)
-		elif coords[1] > self.lr[1]:
-			self.lr = (self.lr[0], coords[1]+5)
+		if not edit_mode:
+			if coords[0] < self.ul[0]:
+				self.ul = (coords[0]-5, self.ul[1])
+			elif coords[0] > self.lr[0]:
+				self.lr = (coords[0]+5, self.lr[1])
+			if coords[1] < self.ul[1]:
+				self.ul = (self.ul[0], coords[1]-5)
+			elif coords[1] > self.lr[1]:
+				self.lr = (self.lr[0], coords[1]+5)
 
-		if coords[0] < self.min_x:
-			self.min_x = coords[0]-10
-		elif coords[0] > self.max_x:
-			self.max_x = coords[0]+5
-		if coords[1] < self.min_y:
-			self.min_y = coords[1]-10
-		elif coords[1] > self.max_y:
-			self.max_y = coords[1]+5
-
-		if len(self.points) == 0 or self.points[-1].style == STYLE_END:
-			self.points.append (DrawingPoint (coords, STYLE_BEGIN))
-		else:
-			self.points.append (DrawingPoint (coords, STYLE_CONTINUE))
+			if coords[0] < self.min_x:
+				self.min_x = coords[0]-10
+			elif coords[0] > self.max_x:
+				self.max_x = coords[0]+5
+			if coords[1] < self.min_y:
+				self.min_y = coords[1]-10
+			elif coords[1] > self.max_y:
+				self.max_y = coords[1]+5
+	
+			if len(self.points) == 0 or self.points[-1].style == STYLE_END:
+				self.points.append (DrawingPoint (coords, STYLE_BEGIN))
+			else:
+				self.points.append (DrawingPoint (coords, STYLE_CONTINUE))
 		
 	def handle_key (self, string, keysym):
 		# Since we can't handle text in an drawing node, we ignore it.
@@ -209,23 +211,7 @@ class DrawingThought (BaseThought.ResizableThought):
 		return True
 		
 	def draw (self, context):
-		context.move_to (self.ul[0], self.ul[1]+10)
-		context.line_to (self.ul[0], self.lr[1]-10)
-		context.curve_to (self.ul[0], self.lr[1], self.ul[0], self.lr[1], self.ul[0]+10, self.lr[1])
-		context.line_to (self.lr[0]-10, self.lr[1])
-		context.curve_to (self.lr[0], self.lr[1], self.lr[0], self.lr[1], self.lr[0], self.lr[1]-10)
-		context.line_to (self.lr[0], self.ul[1]+10)
-		context.curve_to (self.lr[0], self.ul[1], self.lr[0], self.ul[1], self.lr[0]-10, self.ul[1])
-		context.line_to (self.ul[0]+10, self.ul[1])
-		context.curve_to (self.ul[0], self.ul[1], self.ul[0], self.ul[1], self.ul[0], self.ul[1]+10)
-
-		context.set_source_rgb (1.0,1.0,1.0)
-		if self.am_root:
-			context.set_source_rgb (0.0,0.9,0.9)
-		elif self.am_primary:
-			context.set_source_rgb (1.0,0.5,0.5)
-		context.fill_preserve ()
-		context.set_source_rgb (0,0,0)
+		utils.draw_thought_outline (context, self.ul, self.lr, self.am_root, self.am_primary, utils.STYLE_NORMAL)
 		cwidth = context.get_line_width ()
 		context.set_line_width (1)
 		if len (self.points) > 0:
