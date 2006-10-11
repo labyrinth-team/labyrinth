@@ -108,6 +108,13 @@ class Browser (gtk.Window):
 		win = MainWindow.LabyrinthWindow (fname)
 		if num == -1:
 			num = self.nmap
+		elif num == -2:
+			it = self.mapslist.get_iter_root ()
+			while it:
+				(mnum, fname_file) = self.mapslist.get (it, self.COL_ID, self.COL_FNAME)
+				if fname_file == fname:
+					num = mnum
+				it = self.mapslist.iter_next (it)
 		self.maps.append ((num, win))
 		win.connect ("title-changed", self.map_title_cb)
 		win.connect ("window_closed", self.remove_map_cb)

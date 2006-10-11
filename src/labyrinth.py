@@ -26,6 +26,7 @@ import gtk
 import gettext, locale
 import optparse
 import sys
+import utils
 from os.path import *
 import os
 
@@ -64,9 +65,19 @@ gtk.glade.textdomain('labyrinth')
 
 def main():
 	parser = optparse.OptionParser()
+	parser.add_option("-m", "--map",
+                  action="store", type="string", dest="filename",
+                  help="Open a map from a given filename (from internal database)")
+	parser.add_option("-o", "--open",
+				  action="store", type="string", dest="filepath",
+				  help="Open a map from a given filename (including path)")
 	(options, args) = parser.parse_args()	
 	MapBrowser = Browser.Browser ()
-
+	if options.filename != None:
+		MapBrowser.open_map(utils.get_save_dir() + options.filename, -2)
+	elif options.filepath != None:
+		MapBrowser.open_map(options.filepath, -2)
+		
 	
 	try:
 		gtk.main()

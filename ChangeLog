@@ -1,4 +1,10 @@
 2006-10-11 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+	
+	* src/labyrinth.py:
+	* src/Browser.py:
+	Add new command line options:
+	-o / --open: open a map from the given (full) path and filename
+	-m / --map: open a map with the filename from the internal "database"
 
 	* src/MainWindow.py:
 	Add (stupid) icons to toolbar entries.
