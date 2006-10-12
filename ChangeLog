@@ -1,3 +1,9 @@
+2006-10-12 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* src/labyrinth.py:
+	Only import utils once labyrinth knows where to look
+
+
 2006-10-11 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* src/BaseThought.py:

@@ -26,7 +26,6 @@ import gtk
 import gettext, locale
 import optparse
 import sys
-import utils
 from os.path import *
 import os
 
@@ -42,6 +41,7 @@ else:
 		print "Running installed, using [@PYTHONDIR@:$PYTHONPATH]"
 
 # Hopefully this will work now ;)
+import utils
 import Browser
 try:
 	import defs
