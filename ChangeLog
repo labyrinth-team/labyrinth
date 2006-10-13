@@ -1,5 +1,8 @@
 2006-10-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 	
+	* src/MMapArea.py:
+	Update view when thought deleted (got lost somewhere along the line)
+	
 	* doc/TheFuture:
 	Update - Text selection now works (damned ugly thought)
 

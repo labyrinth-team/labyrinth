@@ -388,6 +388,7 @@ class MMapArea (gtk.DrawingArea):
 	def delete_selected_nodes (self):
 		for t in self.selected_thoughts:
 			self.delete_thought (t)
+		self.invalidate ()
 
 	def make_primary_root (self, thought):
 		thought.connect ("title_changed", self.title_changed_cb)
