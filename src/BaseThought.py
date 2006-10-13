@@ -55,7 +55,7 @@ class BaseThought (gobject.GObject):
 		print "Warning: handle_movement is not implemented for this node type"
 		return
 	
-	def handle_key (self, string, keysym):
+	def handle_key (self, string, keysym, state):
 		print "Warning: handle_key is not implemented for this node type"
 		return False
 		

@@ -196,7 +196,7 @@ class DrawingThought (BaseThought.ResizableThought):
 			else:
 				self.points.append (DrawingPoint (coords, STYLE_CONTINUE))
 		
-	def handle_key (self, string, keysym):
+	def handle_key (self, string, keysym, modifiers):
 		# Since we can't handle text in an drawing node, we ignore it.
 		return False	
 	

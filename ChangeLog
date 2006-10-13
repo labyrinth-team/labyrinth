@@ -1,8 +1,19 @@
+2006-10-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* src/TextThought.py:
+	Handle text selection using keyboard navigation 
+	(Ignore the hideous colour for now ;)
+	
+	* src/BaseThought.py:
+	* src/DrawingThought.py:
+	* src/ImageThought.py:
+	* src/MMapArea.py:
+	Pass modifier mask when handling keystrokes
+
 2006-10-12 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* src/labyrinth.py:
 	Only import utils once labyrinth knows where to look
-
 
 2006-10-11 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
@@ -28,7 +39,7 @@
 	Add new command line options:
 	-o / --open: open a map from the given (full) path and filename
 	-m / --map: open a map with the filename from the internal "database"
-	(Based on patch from "qub333".  Fixes issue #3)
+	(Based on patch from Kevin Kubasik.  Fixes issue #3)
 
 	* src/MainWindow.py:
 	Add (stupid) icons to toolbar entries.

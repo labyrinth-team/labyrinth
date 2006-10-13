@@ -163,7 +163,7 @@ class ImageThought (BaseThought.ResizableThought):
 		self.resizing = self.MOTION_NONE
 		return	
 	
-	def handle_key (self, string, keysym):
+	def handle_key (self, string, keysym, modifiers):
 		# Since we can't handle text in an image node, we ignore it.
 		return False
 		

@@ -37,6 +37,7 @@ class TextThought (BaseThought.BaseThought):
 		self.pango_context = pango
 		self.text = ""
 		self.index = 0
+		self.end_index = 0
 		self.text_location = coords
 		self.lr = None
 		self.editing = True
@@ -67,6 +68,7 @@ class TextThought (BaseThought.BaseThought):
 				return True
 			else:
 				self.update_bbox ()
+		#self.end_index = self.index
 		return False
 		
 	def includes (self, coords, allow_resize = False):
@@ -115,6 +117,13 @@ class TextThought (BaseThought.BaseThought):
 			context.line_to (self.ul[0], self.ul[1])
 			context.line_to (self.ul[0]+5, self.ul[1])
 			context.stroke ()
+			attrs = pango.AttrList ()
+			if self.index > self.end_index:
+				bgsel = pango.AttrBackground (65535, 0, 0, self.end_index, self.index)
+			else:
+				bgsel = pango.AttrBackground (65535, 0, 0, self.index, self.end_index)
+			attrs.insert (bgsel)
+			layout.set_attributes(attrs)
 
 		context.move_to (self.text_location[0], self.text_location[1])
 		context.show_layout (layout)
@@ -140,13 +149,16 @@ class TextThought (BaseThought.BaseThought):
 		self.ul = (coords[0], coords[1])
 		self.update_bbox ()
 		
-	def handle_key (self, string, keysym):
+	def handle_key (self, string, keysym, modifiers):
 		if not self.editing:
 			self.begin_editing ()		 
 		if string:
 			self.add_text (string)
 
 		else:
+			# Only interested (for now) in whether the "shift" key is pressed
+			mod = modifiers & gtk.gdk.SHIFT_MASK
+			
 			try:
 				{ gtk.keysyms.Delete   : self.delete_char		,
 				  gtk.keysyms.BackSpace: self.backspace_char	,
@@ -155,42 +167,74 @@ class TextThought (BaseThought.BaseThought):
 				  gtk.keysyms.Up	   : self.move_index_up		,
 				  gtk.keysyms.Down	   : self.move_index_down	,
 				  gtk.keysyms.Home	   : self.move_index_home	,
-				  gtk.keysyms.End	   : self.move_index_end	}[keysym]()
+				  gtk.keysyms.End	   : self.move_index_end	}[keysym](mod)
 			except:
 				return False
 		self.emit ("title_changed", self.text, 65)
 		return True
 		
 	def add_text (self, string):
-		left = self.text[:self.index]
-		right = self.text[self.index:]
+		if self.index > self.end_index:
+			left = self.text[:self.end_index]
+			right = self.text[self.index:]
+			self.index = self.end_index
+		elif self.index < self.end_index:
+			left = self.text[:self.index]
+			right = self.text[self.end_index:]
+		else:
+			left = self.text[:self.index]
+			right = self.text[self.index:]
 		self.text = left + string + right
 		self.index += len (string)
+		self.end_index = self.index
+		self.end_index = self.index
 		
-	def delete_char (self):
-		left = self.text[:self.index]
-		right = self.text[self.index+1:]
+	def delete_char (self, mod):
+		if self.index > self.end_index:
+			left = self.text[:self.end_index]
+			right = self.text[self.index:]
+			self.index = self.end_index
+		elif self.index < self.end_index:
+			left = self.text[:self.index]
+			right = self.text[self.end_index:]
+		else:
+			left = self.text[:self.index]
+			right = self.text[self.index:]
 		self.text = left+right
-		
-	def backspace_char (self):
-		left = self.text[:self.index-1]
-		right = self.text[self.index:]
+		self.end_index = self.index
+
+	def backspace_char (self, mod):
+		if self.index > self.end_index:
+			left = self.text[:self.end_index]
+			right = self.text[self.index:]
+			self.index = self.end_index
+		elif self.index < self.end_index:
+			left = self.text[:self.index]
+			right = self.text[self.end_index:]
+		else:
+			left = self.text[:self.index-1]
+			right = self.text[self.index:]
+			self.index-=1
 		self.text = left+right
-		self.index-=1
+		self.end_index = self.index
 		if self.index < 0:
 			self.index = 0
 			
-	def move_index_back (self):
+	def move_index_back (self, mod):
 		if self.index <= 0:
 			return
 		self.index-=1
+		if not mod:
+			self.end_index = self.index
 		
-	def move_index_forward (self):
+	def move_index_forward (self, mod):
 		if self.index >= len(self.text):
 			return
 		self.index+=1
+		if not mod:
+			self.end_index = self.index
 		
-	def move_index_up (self):
+	def move_index_up (self, mod):
 		lines = self.text.splitlines ()
 		if len (lines) == 1:
 			return
@@ -207,6 +251,8 @@ class TextThought (BaseThought.BaseThought):
 			return
 		elif line >= len (lines):
 			self.index -= len (lines[-1])+1
+			if not mod:
+				self.end_index = self.index
 			return
 		dist = self.index - loc -1
 		self.index = loc
@@ -214,8 +260,10 @@ class TextThought (BaseThought.BaseThought):
 			self.index -= (len (lines[line]) - dist)
 		else:
 			self.index -= 1
+		if not mod:
+			self.end_index = self.index
 	
-	def move_index_down (self):
+	def move_index_down (self, mod):
 		lines = self.text.splitlines ()
 		if len (lines) == 1:
 			return
@@ -233,9 +281,11 @@ class TextThought (BaseThought.BaseThought):
 		if dist > len (lines[line+1]):
 			self.index += len (lines[line+1])
 		else:
-			self.index += dist	  
+			self.index += dist
+		if not mod:
+			self.end_index = self.index
 			
-	def move_index_home (self):
+	def move_index_home (self, mod):
 		lines = self.text.splitlines ()
 		loc = 0
 		line = 0
@@ -243,10 +293,12 @@ class TextThought (BaseThought.BaseThought):
 			loc += len (i) + 1
 			if loc > self.index:
 				self.index = loc-len (i) - 1
+				if not mod:
+					self.end_index = self.index
 				return
 			line += 1
 			
-	def move_index_end (self):
+	def move_index_end (self, mod):
 		lines = self.text.splitlines ()
 		loc = 0
 		line = 0
@@ -254,6 +306,8 @@ class TextThought (BaseThought.BaseThought):
 			loc += len (i)+1
 			if loc > self.index:
 				self.index = loc-1
+				if not mod:
+					self.end_index = self.index
 				return
 			line += 1
 
@@ -272,6 +326,7 @@ class TextThought (BaseThought.BaseThought):
 	def update_save (self):
 		self.text_element.replaceWholeText (self.text)
 		self.element.setAttribute ("cursor", str(self.index))
+		self.element.setAttribute ("selection_end", str(self.end_index))
 		self.element.setAttribute ("ul-coords", str(self.ul))
 		self.element.setAttribute ("lr-coords", str(self.lr))
 		self.element.setAttribute ("identity", str(self.identity))
@@ -300,6 +355,10 @@ class TextThought (BaseThought.BaseThought):
 
 	def load_data (self, node):
 		self.index = int (node.getAttribute ("cursor"))
+		if node.hasAttribute ("selection_end"):
+			self.end_index = int (node.getAttribute ("selection_end"))
+		else:
+			self.end_index = self.index
 		tmp = node.getAttribute ("ul-coords")
 		self.ul = utils.parse_coords (tmp)
 		tmp = node.getAttribute ("lr-coords")

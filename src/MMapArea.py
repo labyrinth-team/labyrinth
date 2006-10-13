@@ -156,7 +156,7 @@ class MMapArea (gtk.DrawingArea):
 			if self.num_selected > 1 or self.num_selected == 0:
 				return False
 			self.edit_thought (self.selected_thoughts[0])
-			ret = self.selected_thoughts[0].handle_key (event.string, event.keyval)
+			ret = self.selected_thoughts[0].handle_key (event.string, event.keyval, event.state)
 		else:
 			ret = self.handle_key_global (event.keyval)
 		self.invalidate ()
