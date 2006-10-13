@@ -68,15 +68,31 @@ class TextThought (BaseThought.BaseThought):
 				return True
 			else:
 				self.update_bbox ()
-		#self.end_index = self.index
 		return False
 		
-	def includes (self, coords, allow_resize = False):
+	def includes (self, coords, allow_resize = False, state=0):
 		if not self.ul or not self.lr:
-			return False
+			self.update_bbox ()
+		
+		inside = coords[0] < self.lr[0] and coords[0] > self.ul[0] and \
+		coords[1] < self.lr[1] and coords[1] > self.ul[1]
+		
+		if inside:
+			desc = pango.FontDescription ("normal 12")
+			font = self.pango_context.load_font (desc)
+			layout = pango.Layout (self.pango_context)
+			layout.set_text (self.text)
+			x = int ((coords[0] - self.ul[0])*pango.SCALE)
+			y = int ((coords[1] - self.ul[1])*pango.SCALE)
+			loc = layout.xy_to_index (x, y)
+			self.index = loc[0]
+			if not state & gtk.gdk.SHIFT_MASK:
+				self.end_index = self.index
 		else:
-			return coords[0] < self.lr[0] and coords[0] > self.ul[0] and \
-			coords[1] < self.lr[1] and coords[1] > self.ul[1]
+			delete = self.finish_editing ()
+			if delete:
+				self.emit ("delete_thought", None, None)
+		return inside
 		
 	def become_primary_thought (self):
 		self.am_primary = True

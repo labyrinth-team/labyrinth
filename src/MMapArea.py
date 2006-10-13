@@ -105,12 +105,13 @@ class MMapArea (gtk.DrawingArea):
 	
 	def button_down (self, widget, event):
 		self.b_down = True
-		for s in self.selected_thoughts:
-			self.finish_editing (s)
 			
-		thought = self.find_thought_at (event.get_coords ())
+		thought = self.find_thought_at (event.get_coords (), event.state)
 		
 		if thought:
+			for t in self.selected_thoughts:
+				if t != thought:
+					self.finish_editing (t)
 			self.make_current_root (thought)
 			self.select_thought (thought)
 			self.watching_movement = True
@@ -172,7 +173,7 @@ class MMapArea (gtk.DrawingArea):
 		# For now, ignore any other buttons
 		if button != 1:
 			return
-		thought = self.find_thought_at (coords)
+		thought = self.find_thought_at (coords, state)
 		
 		#We may have a dangling link.  Need to destroy it now
 		self.unended_link = None
@@ -199,7 +200,7 @@ class MMapArea (gtk.DrawingArea):
 		if button != 1:
 			return
 
-		thought = self.find_thought_at (coords)
+		thought = self.find_thought_at (coords, state)
 		
 		if self.mode == MODE_EDITING:
 			if thought:
@@ -240,14 +241,14 @@ class MMapArea (gtk.DrawingArea):
 			self.window.invalidate_rect (rect, True)
 			self.time_elapsed = ntime
 	
-	def find_thought_at (self, coords):
+	def find_thought_at (self, coords, state):
 		'''Checks the given coords and sees if there are any thoughts there'''
 		if self.mode == MODE_EDITING and self.b_down:
 			allow_resize = True
 		else:
 			allow_resize = False
 		for thought in self.thoughts:
-			if thought.includes (coords, allow_resize):
+			if thought.includes (coords, allow_resize, state):
 				return thought
 		return None
 
@@ -265,6 +266,7 @@ class MMapArea (gtk.DrawingArea):
 			
 		if not self.primary_thought:
 			self.make_primary_root (thought)
+		thought.connect ("delete_thought", self.delete_thought)
 		
 		self.edit_thought (thought)
 		self.thoughts.append (thought)
@@ -366,7 +368,7 @@ class MMapArea (gtk.DrawingArea):
 		self.update_links (thought)
 
 	def make_current_root (self, thought):
-		if self.current_root:
+		if self.current_root and self.current_root != thought:
 			self.current_root.finish_active_root ()
 		self.current_root = thought
 		if thought:
@@ -448,7 +450,7 @@ class MMapArea (gtk.DrawingArea):
 		link.element.unlink ()
 		self.links.remove (link)
 
-	def delete_thought (self, thought):
+	def delete_thought (self, thought, a = None, b = None):
 		self.element.removeChild (thought.element)
 		thought.element.unlink ()
 		self.thoughts.remove (thought)

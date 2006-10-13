@@ -1,5 +1,13 @@
 2006-10-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	*  src/BaseThought.py:
+	* src/MMapArea.py:
+	* src/TextThought.py:
+	Rework lots of stuff to allow beginning of text selection with
+	mouse.  Right now, only moves the "index".  Pressing shift + clicking
+	will select a range.  Click-dragging will not.  Yet.
+	Doesn't obey current selected areas either yet.
+
 	* src/TextThought.py:
 	Handle text selection using keyboard navigation 
 	(Ignore the hideous colour for now ;)

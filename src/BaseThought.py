@@ -43,7 +43,7 @@ class BaseThought (gobject.GObject):
 		self.identity = -1
 		self.text = "Unknown Thought Type"
 		
-	def includes (self, coords, allow_resize = False):
+	def includes (self, coords, allow_resize = False, state=None):
 		print "Warning: includes is not implemented for one thought type"
 		return False
 		
@@ -114,7 +114,7 @@ class ResizableThought (BaseThought):
 		self.sensitive = 5
 		self.resizing = False
 		
-	def includes (self, coords, allow_resize = False):
+	def includes (self, coords, allow_resize = False, state = None):
 		self.resizing = self.MOTION_NONE
 		self.motion_coords = coords
 		if not self.ul or not self.lr:
