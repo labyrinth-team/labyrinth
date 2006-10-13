@@ -88,8 +88,8 @@ class TextThought (BaseThought.BaseThought):
 			self.index = loc[0]
 			if loc[0] >= len(self.text) -1 or self.text[loc[0]+1] == '\n':
 				self.index += loc[1]
-			if not state & gtk.gdk.SHIFT_MASK:
-				self.end_index = self.index
+			#if not state & gtk.gdk.SHIFT_MASK:
+			#	self.end_index = self.index
 		else:
 			delete = self.finish_editing ()
 			if delete:
@@ -104,6 +104,9 @@ class TextThought (BaseThought.BaseThought):
 		
 	def finish_active_root (self):
 		self.am_root = False	
+	
+	def select (self):
+		self.end_index = self.index
 	
 	def draw (self, context):
 		desc = pango.FontDescription ("normal 12")
@@ -159,13 +162,35 @@ class TextThought (BaseThought.BaseThought):
 		self.text_location = (self.ul[0] + margin[0], self.ul[1] + margin[1])
 		self.lr = (x + self.text_location[0]+margin[2], y + self.text_location[1] + margin[3])
 		
-	def handle_movement (self, coords, edit_mode = False):
-		if not self.ul or not self.lr:
-			print "Warning: Unable to update: Things are broken.  Returning"
-			return
+	def handle_movement (self, coords, move = True, edit_mode = False):
+		if edit_mode:
+			inside = coords[0] < self.lr[0] and coords[0] > self.ul[0] and \
+			coords[1] < self.lr[1] and coords[1] > self.ul[1]
 		
-		self.ul = (coords[0], coords[1])
-		self.update_bbox ()
+			if inside:
+				desc = pango.FontDescription ("normal 12")
+				font = self.pango_context.load_font (desc)
+				layout = pango.Layout (self.pango_context)
+				layout.set_text (self.text)
+				x = int ((coords[0] - self.ul[0])*pango.SCALE)
+				y = int ((coords[1] - self.ul[1])*pango.SCALE)
+				loc = layout.xy_to_index (x, y)
+				self.index = loc[0]
+				if loc[0] >= len(self.text) -1 or self.text[loc[0]+1] == '\n':
+					self.index += loc[1]
+			else:
+				delete = self.finish_editing ()
+				if delete:
+					self.emit ("delete_thought", None, None)
+			return inside
+	
+		else:
+			if not self.ul or not self.lr:
+				print "Warning: Unable to update: Things are broken.  Returning"
+				return
+		
+			self.ul = (coords[0], coords[1])
+			self.update_bbox ()
 		
 	def handle_key (self, string, keysym, modifiers):
 		if not self.editing:
@@ -217,7 +242,7 @@ class TextThought (BaseThought.BaseThought):
 			right = self.text[self.end_index:]
 		else:
 			left = self.text[:self.index]
-			right = self.text[self.index:]
+			right = self.text[self.index+1:]
 		self.text = left+right
 		self.end_index = self.index
 
@@ -405,4 +430,6 @@ class TextThought (BaseThought.BaseThought):
 	def load_add_parent (self, parent):
 		self.parents.append (parent)
 
+	def want_movement (self):
+		return self.editing
 

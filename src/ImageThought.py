@@ -86,37 +86,37 @@ class ImageThought (BaseThought.ResizableThought):
 			self.ul = (self.ul[0]+diffx, self.ul[1]+diffy)
 			self.lr = (self.lr[0]+diffx, self.lr[1]+diffy)
 			self.pic_location = (self.pic_location[0]+diffx, self.pic_location[1]+diffy)
-			return
+			return True
 		elif self.resizing == self.MOTION_LEFT:
 			if self.width - diffx < 10:
 				self.motion_coords = tmp
-				return
+				return True
 			self.ul = (self.ul[0]+diffx, self.ul[1])
 			self.pic_location = (self.pic_location[0]+diffx, self.pic_location[1])
 			self.width -= diffx
 		elif self.resizing == self.MOTION_RIGHT:
 			if self.width + diffx < 10:
 				self.motion_coords = tmp
-				return
+				return True
 			self.lr = (self.lr[0]+diffx, self.lr[1])
 			self.width += diffx
 		elif self.resizing == self.MOTION_TOP:
 			if self.height - diffy < 10:
 				self.motion_coords = tmp
-				return
+				return True
 			self.ul = (self.ul[0], self.ul[1]+diffy)
 			self.pic_location = (self.pic_location[0], self.pic_location[1]+diffy)
 			self.height -= diffy
 		elif self.resizing == self.MOTION_BOTTOM:
 			if self.height + diffy < 10:
 				self.motion_coords = tmp
-				return
+				return True
 			self.lr = (self.lr[0], self.lr[1]+diffy)
 			self.height += diffy
 		elif self.resizing == self.MOTION_UL:
 			if self.height - diffy < 10 or self.width - diffx < 10:
 				self.motion_coords = tmp
-				return
+				return True
 			self.ul = (self.ul[0]+diffx, self.ul[1]+diffy)
 			self.pic_location = (self.pic_location[0]+diffx, self.pic_location[1]+diffy)
 			self.width -= diffx
@@ -124,7 +124,7 @@ class ImageThought (BaseThought.ResizableThought):
 		elif self.resizing == self.MOTION_UR:
 			if self.height - diffy < 10 or self.width + diffx < 10:
 				self.motion_coords = tmp
-				return
+				return True
 			self.ul = (self.ul[0], self.ul[1]+diffy)
 			self.lr = (self.lr[0]+diffx, self.lr[1])
 			self.pic_location = (self.pic_location[1], self.pic_location[1]+diffy)
@@ -133,7 +133,7 @@ class ImageThought (BaseThought.ResizableThought):
 		elif self.resizing == self.MOTION_LL:
 			if self.height + diffy < 10 or self.width - diffx < 10:
 				self.motion_coords = tmp
-				return
+				return True
 			self.ul = (self.ul[0]+diffx, self.ul[1])
 			self.lr = (self.lr[0], self.lr[1]+diffy)
 			self.pic_location = (self.pic_location[0]+diffx, self.pic_location[1])
@@ -142,17 +142,17 @@ class ImageThought (BaseThought.ResizableThought):
 		elif self.resizing == self.MOTION_LR:
 			if self.height + diffy < 10:
 				self.motion_coords = tmp
-				return
+				return True
 			if self.width + diffx < 10:
 				self.motion_coords = tmp
-				return
+				return True
 			self.lr = (self.lr[0]+diffx, self.lr[1]+diffy)
 			self.width += diffx
 			self.height += diffy
 		if self.orig_pic:
 			self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), gtk.gdk.INTERP_NEAREST)
 		
-		return
+		return True
 			
 	def finish_motion (self):
 		# Up till now, we've been using the fastest interp.  Here, its made best

@@ -253,6 +253,9 @@ class MMapArea (gtk.DrawingArea):
 		return None
 
 	def create_new_thought (self, coords):
+		for t in self.selected_thoughts:
+			t.finish_editing ()
+	
 		elem = self.save.createElement ("thought")
 		text_element = self.save.createTextNode ("GOOBAH")
 		elem.appendChild (text_element)
@@ -267,7 +270,7 @@ class MMapArea (gtk.DrawingArea):
 		if not self.primary_thought:
 			self.make_primary_root (thought)
 		thought.connect ("delete_thought", self.delete_thought)
-		
+		self.select_thought (thought)
 		self.edit_thought (thought)
 		self.thoughts.append (thought)
 		self.invalidate ()
@@ -322,10 +325,11 @@ class MMapArea (gtk.DrawingArea):
 		# We can only be called (for now) if a node is selected.  Plan accordingly.
 		
 		if self.selected_thoughts[0].want_movement ():
-			self.selected_thoughts[0].handle_movement (coords, False, self.mode == MODE_EDITING)
+			handled = self.selected_thoughts[0].handle_movement (coords, False, self.mode == MODE_EDITING)
 			self.update_links (self.selected_thoughts[0])
 			self.invalidate ()
-			return
+			if handled:
+				return
 		if not self.unended_link:
 			self.unended_link = Links.Link (parent = self.selected_thoughts[0], from_coords = coords)
 		self.unended_link.set_new_end (coords)
@@ -363,9 +367,10 @@ class MMapArea (gtk.DrawingArea):
 		self.invalidate ()
 
 	def edit_thought (self, thought):
-		self.select_thought (thought)
-		thought.begin_editing ()
-		self.update_links (thought)
+		if not thought.editing:
+			self.select_thought (thought)
+			thought.begin_editing ()
+			self.update_links (thought)
 
 	def make_current_root (self, thought):
 		if self.current_root and self.current_root != thought:
@@ -546,6 +551,7 @@ class MMapArea (gtk.DrawingArea):
 
 	def select_thought (self, thought):
 		self.selected_thoughts = [thought]
+		thought.select ()
 		self.num_selected = 1
 
 	def area_close (self):

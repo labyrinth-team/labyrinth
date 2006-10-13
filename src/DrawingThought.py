@@ -95,35 +95,35 @@ class DrawingThought (BaseThought.ResizableThought):
 			if self.resizing == self.MOTION_LEFT:
 				if self.ul[0] + diffx > self.min_x:
 					self.motion_coords = tmp
-					return
+					return True
 				self.ul = (self.ul[0]+diffx, self.ul[1])
 				if change:
 					self.max_x += diffx
 			elif self.resizing == self.MOTION_RIGHT:
 				if self.lr[0] + diffx < self.max_x:
 					self.motion_coords = tmp
-					return
+					return True
 				self.lr = (self.lr[0]+diffx, self.lr[1])
 				if change:
 					self.min_x += diffx
 			elif self.resizing == self.MOTION_TOP:
 				if self.ul[1] + diffy > self.min_y:
 					self.motion_coords = tmp
-					return
+					return True
 				self.ul = (self.ul[0], self.ul[1]+diffy)
 				if change:
 					self.max_y += diffy
 			elif self.resizing == self.MOTION_BOTTOM:
 				if self.lr[1] + diffy < self.max_y:
 					self.motion_coords = tmp
-					return
+					return True
 				self.lr = (self.lr[0], self.lr[1]+diffy)
 				if change:
 					self.min_y += diffy
 			elif self.resizing == self.MOTION_UL:
 				if self.ul[1] + diffy > self.min_y or self.ul[0] + diffx > self.min_x:
 					self.motion_coords = tmp
-					return
+					return True
 				self.ul = (self.ul[0]+diffx, self.ul[1]+diffy)
 				if change:
 					self.max_x += diffx
@@ -131,7 +131,7 @@ class DrawingThought (BaseThought.ResizableThought):
 			elif self.resizing == self.MOTION_UR:
 				if self.ul[1] + diffy > self.min_y or self.lr[0] + diffx < self.max_x:
 					self.motion_coords = tmp
-					return
+					return True
 				self.ul = (self.ul[0], self.ul[1]+diffy)
 				self.lr = (self.lr[0]+diffx, self.lr[1])
 				if change:
@@ -140,7 +140,7 @@ class DrawingThought (BaseThought.ResizableThought):
 			elif self.resizing == self.MOTION_LL:
 				if self.lr[1] + diffy < self.max_y or self.ul[0] + diffx > self.min_x:
 					self.motion_coords = tmp
-					return
+					return True
 				self.ul = (self.ul[0]+diffx, self.ul[1])
 				self.lr = (self.lr[0], self.lr[1]+diffy)
 				if change:
@@ -149,15 +149,15 @@ class DrawingThought (BaseThought.ResizableThought):
 			elif self.resizing == self.MOTION_LR:
 				if self.lr[1] + diffy < self.max_y:
 					self.motion_coords = tmp
-					return
+					return True
 				if self.lr[0] + diffx < self.max_x:
 					self.motion_coords = tmp
-					return
+					return True
 				self.lr = (self.lr[0]+diffx, self.lr[1]+diffy)
 				if change:
 					self.min_x += diffx
 					self.min_y += diffy
-			return
+			return True
 		if move:
 			tmp = self.motion_coords
 			self.motion_coords = coords
@@ -170,7 +170,7 @@ class DrawingThought (BaseThought.ResizableThought):
 			self.max_y += diffy
 			for p in self.points:
 				p.move_by (diffx, diffy)
-			return
+			return True
 			
 		if not edit_mode:
 			if coords[0] < self.ul[0]:
@@ -195,6 +195,7 @@ class DrawingThought (BaseThought.ResizableThought):
 				self.points.append (DrawingPoint (coords, STYLE_BEGIN))
 			else:
 				self.points.append (DrawingPoint (coords, STYLE_CONTINUE))
+		return True
 		
 	def handle_key (self, string, keysym, modifiers):
 		# Since we can't handle text in an drawing node, we ignore it.

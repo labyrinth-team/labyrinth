@@ -1,6 +1,22 @@
 2006-10-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* src/TextThought.py:
+	* src/MMapArea.py:
+	Make text selection with cursor by dragging work properly
+	
+	* src/BaseThought.py:
+	* src/DrawingThought.py:
+	* src/ImageThought.py:
+	Add "selected" callback to thoughts.  Used for notification when
+	the user selects the thought.  Makes text selection much easier
+	Make thought.handle_movement return a bool indicating whether
+	movement was in fact handled
+
+
+	* src/TextThought.py:
+	Fix delete key with no selection enabled
+
+	* src/TextThought.py:
 	Allow index to go to end of text / line when user requests it
 	with mouse selection of text
 	

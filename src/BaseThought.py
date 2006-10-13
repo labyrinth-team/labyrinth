@@ -96,6 +96,9 @@ class BaseThought (gobject.GObject):
 	
 	def finish_motion (self):
 		return
+	
+	def select (self):
+		return
 		
 	
 class ResizableThought (BaseThought):
