@@ -86,6 +86,8 @@ class TextThought (BaseThought.BaseThought):
 			y = int ((coords[1] - self.ul[1])*pango.SCALE)
 			loc = layout.xy_to_index (x, y)
 			self.index = loc[0]
+			if loc[0] >= len(self.text) -1 or self.text[loc[0]+1] == '\n':
+				self.index += loc[1]
 			if not state & gtk.gdk.SHIFT_MASK:
 				self.end_index = self.index
 		else:

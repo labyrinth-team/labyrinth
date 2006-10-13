@@ -1,5 +1,9 @@
 2006-10-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/TextThought.py:
+	Allow index to go to end of text / line when user requests it
+	with mouse selection of text
+	
 	*  src/BaseThought.py:
 	* src/MMapArea.py:
 	* src/TextThought.py:
