@@ -1,4 +1,7 @@
 2006-10-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+	
+	* doc/TheFuture:
+	Update - Text selection now works (damned ugly thought)
 
 	* src/TextThought.py:
 	* src/MMapArea.py:

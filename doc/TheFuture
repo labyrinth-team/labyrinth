@@ -71,7 +71,6 @@ of maps
 * Autoadd new thoughts (Possibly)
 * Selection of links - allow intuitive deletion / editing of links
   - Link colours
->>>>>>> .r46
 
 Text Thoughts:
 --------------
@@ -86,7 +85,6 @@ Text Thoughts:
 Image Thoughts:
 ---------------
 
-<<<<<<< .mine
 * Ability to change images
 
 Drawing Thoughts:
@@ -134,9 +132,6 @@ release.
 * Import from ...
 
 
-
-
->>>>>>> .r46
 Current Goals (V0.3 hopefully)
 -------------
 
@@ -146,8 +141,8 @@ Required Features:
 * Select multiple thoughts
 * Hiding / Showing of thoughts
 * Extended info on all thoughts
-    Text Thought
-* Selection of chunks of text
+✓    Text Thought
+✓* Selection of chunks of text
     Drawing Thought
 * Deletion of selected points
     
