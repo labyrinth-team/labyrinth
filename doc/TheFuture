@@ -44,29 +44,6 @@ General:
 * More clear primary thought / current root
 * Thought background colour changing
 * Popup menus everywhere
-
-General:
---------
-* New, better, shinier icon
-* Import from (at least) kdissert and freemind
-** Export to (at least) png and XML format (include images in tarball style?)
-** Printing support for maps - includes ps export
-* UI review.  Better interface.  HIG compliance
-* Documentation
-* Full i18n support
-* Theme support
-* "A11y" view - treeview of thoughts and links
-** Selection of multiple thoughts
-* "Background"ing of areas.  Add a coloured background around different areas 
-of maps
-** Extended text for all thoughts
-* Set icons on thoughts
-** Hide / show thoughts
-* Infinite canvas
-* Move and group multiple thoughts
-* More clear primary thought / current root
-* Thought background colour changing
-* Popup menus everywhere
 * Keyboard navigation of thoughts
 * Autoadd new thoughts (Possibly)
 * Selection of links - allow intuitive deletion / editing of links
@@ -104,33 +81,6 @@ release.
   - Abstract out drawing logic (hey, its pretty similar always anyway)
 * Export to kdissert / freemind / ...
 * Import from ...
-
-
-
-
-=======
-* Ability to change images
-
-Drawing Thoughts:
------------------
-
-** Eraser mode
-* Different pen widths
-* Different colours
-
-Possible goals.  Not actually required, but if someone wants to do them...
----------------
-
-If these aren't done when the above are all implemented, they won't be in 1.0 
-release.
-
-* Different thought types
-  - Make thoughts plugins (?)
-* Draw outline of thoughts in different styles
-  - Abstract out drawing logic (hey, its pretty similar always anyway)
-* Export to kdissert / freemind / ...
-* Import from ...
-
 
 Current Goals (V0.3 hopefully)
 -------------
