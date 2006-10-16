@@ -295,7 +295,8 @@ class MMapArea (gtk.DrawingArea):
 		self.element.appendChild (elem)
 		thought = TextThought.TextThought (element = elem, text_element = text_element, pango=self.pango_context, load=node, extended_element = extended_element)
 		self.thoughts.append (thought)
-		self.nthoughts += 1
+		if thought.identity >= self.nthoughts:
+			self.nthoughts = thought.identity+1
 		
 	def load_link (self, node):
 		link_elem = self.save.createElement ("link")
@@ -466,7 +467,6 @@ class MMapArea (gtk.DrawingArea):
 				l.update ()		
 
 	def delete_link (self, link):
-		print "Removing link from "+str(link.parent.identity)+" to "+str(link.child.identity)
 		self.element.removeChild (link.element)
 		link.element.unlink ()
 		self.links.remove (link)
@@ -567,7 +567,8 @@ class MMapArea (gtk.DrawingArea):
 		self.element.appendChild (elem)
 		thought.connect ("change_cursor", self.cursor_change_cb)
 		self.thoughts.append (thought)
-		self.nthoughts += 1	
+		if thought.identity >= self.nthoughts:
+			self.nthoughts = thought.identity + 1
 
 	def load_drawing (self, node):
 		elem = self.save.createElement ("drawing_thought")
@@ -579,7 +580,8 @@ class MMapArea (gtk.DrawingArea):
 		thought = DrawingThought.DrawingThought (element = elem, load=node, extended=extended_element)
 		thought.connect ("change_cursor", self.cursor_change_cb)
 		self.thoughts.append (thought)
-		self.nthoughts += 1	
+		if thought.identity >= self.nthoughts:
+			self.nthoughts = thought.identity + 1
 
 	def select_thought (self, thought):
 		self.emit ("thought_changed", thought.extended_buffer)

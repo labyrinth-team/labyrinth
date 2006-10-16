@@ -1,5 +1,9 @@
 2006-10-16 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/MMapArea.py:
+	When loading, ensure nthoughts > actual thoughts on canvas
+	Don't create duplicate thought numbers.  Maybe fix issue #6 (possibly)
+
 	* src/DrawingThought.py:
 	Don't draw multiple copies of drawings when saved / loaded
 
