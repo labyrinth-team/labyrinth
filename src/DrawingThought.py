@@ -241,7 +241,7 @@ class DrawingThought (BaseThought.ResizableThought):
 		next = self.element.firstChild
 		while next:
 			m = next.nextSibling
-			if next.nodeName == "Point":
+			if next.nodeName == "point":
 				self.element.removeChild (next)
 				next.unlink ()
 			next = m

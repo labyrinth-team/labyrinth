@@ -1,5 +1,8 @@
 2006-10-16 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/DrawingThought.py:
+	Don't draw multiple copies of drawings when saved / loaded
+
 	* src/MainWindow.py:
 	Fix maximised restore across 2 saves
 
