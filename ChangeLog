@@ -1,3 +1,37 @@
+2006-10-16 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	Merge of "Further Info" personal branch.  This is an
+	experiment into adding a "More Info" text area to the
+	bottom of Map windows (when the user requests it).
+	It also includes several other minor features.
+	These are outlined below (main stuff described
+	below all entries)
+	* doc/TheFuture:
+	Updated what's done.  Added new "non-feature" section
+	
+	* src/MainWindow.py:
+	Save and restore maximised state of windows
+	Remove old "number_windows" function
+	* src/BaseThought.py:
+	* src/DrawingThought.py:
+	* src/TextBufferMarkup.py:
+	* src/Browser.py:
+	Don't display window.  Let window display itself
+	* src/MMapArea.py:
+	* src/ImageThought.py:
+	* src/TextThought.py:
+	* data/labyrinth-ui.xml:
+	Add "Drawing Mode" and "Add Image" to Mode menu
+	(All): Add "more info" option to Mode menu.  When selected,
+	add a text entry to bottom of window (resizeable) to add further
+	info to a thought.  Save and restore this option.  Save and
+	restore text buffer across instances.  Add new toolbar to bottom
+	of window that will (in future) allow text to be bold, italics etc.
+	Allow saving of these text properties (in future) using TextBufferMarkup.py,
+	borrowed from Gourmet Recipe Manager (http://grecipe-manager.sourceforge.net/)
+	Note: This isn't final.  There is still quite a bit of work to do in it
+	It's in a workable state though, so I'm committing.
+
 2006-10-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 	
 	* src/MMapArea.py:

@@ -30,11 +30,12 @@ import utils
 
 
 class ImageThought (BaseThought.ResizableThought):
-	def __init__ (self, filename=None, coords=None, ident=None, element=None, load=None):
+	def __init__ (self, filename=None, coords=None, ident=None, element=None, load=None, extended=None):
 		super (ImageThought, self).__init__()
 		
 		self.element = element
 		self.filename = filename
+		self.extended_element = extended
 		
 		if not load:
 			margin = utils.margin_required (utils.STYLE_NORMAL)
@@ -197,6 +198,11 @@ class ImageThought (BaseThought.ResizableThought):
 
 	# These haven't been done yet...
 	def update_save (self):
+		text = self.extended_buffer.get_text ()
+		if text:
+			self.extended_element.replaceWholeText (text)
+		else:
+			self.extended_element.replaceWholeText ("LABYRINTH_AUTOGEN_TEXT_REMOVE")
 		self.element.setAttribute ("ul-coords", str(self.ul))
 		self.element.setAttribute ("lr-coords", str(self.lr))
 		self.element.setAttribute ("identity", str(self.identity))
@@ -238,7 +244,14 @@ class ImageThought (BaseThought.ResizableThought):
 			self.am_primary = False
 			
 		for n in node.childNodes:
-			print "Unknown: "+n.nodeName
+			if n.nodeName == "Extended":
+				for m in n.childNodes:
+					if m.nodeType == m.TEXT_NODE:
+						text = m.data
+						if text != "LABYRINTH_AUTOGEN_TEXT_REMOVE":
+							self.extended_buffer.set_text (text)
+			else:
+				print "Unknown: "+n.nodeName
 		self.okay = self.load_image (self.filename)
 		margin = utils.margin_required (utils.STYLE_NORMAL)
 		self.pic_location = (self.ul[0]+margin[0], self.ul[1]+margin[1])

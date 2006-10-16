@@ -32,7 +32,8 @@ import xml.dom
 
 class TextThought (BaseThought.BaseThought):
 	
-	def __init__ (self, coords=None, pango=None, ident=None, element=None, text_element=None, load=None):
+	def __init__ (self, coords=None, pango=None, ident=None, element=None, text_element=None, \
+				  load=None, extended_element = None):
 		super (TextThought, self).__init__()
 		self.pango_context = pango
 		self.text = ""
@@ -45,6 +46,7 @@ class TextThought (BaseThought.BaseThought):
 		self.am_primary = False
 		self.element = element
 		self.text_element = text_element
+		self.extended_element = extended_element
 
 		margin = utils.margin_required (utils.STYLE_NORMAL)
 		if coords:
@@ -368,6 +370,11 @@ class TextThought (BaseThought.BaseThought):
 			
 	def update_save (self):
 		self.text_element.replaceWholeText (self.text)
+		text = self.extended_buffer.get_text ()
+		if text:
+			self.extended_element.replaceWholeText (text)
+		else:
+			self.extended_element.replaceWholeText ("LABYRINTH_AUTOGEN_TEXT_REMOVE")
 		self.element.setAttribute ("cursor", str(self.index))
 		self.element.setAttribute ("selection_end", str(self.end_index))
 		self.element.setAttribute ("ul-coords", str(self.ul))
@@ -423,6 +430,12 @@ class TextThought (BaseThought.BaseThought):
 		for n in node.childNodes:
 			if n.nodeType == n.TEXT_NODE:
 				self.text = n.data
+			elif n.nodeName == "Extended":
+				for m in n.childNodes:
+					if m.nodeType == m.TEXT_NODE:
+						text = m.data
+						if text != "LABYRINTH_AUTOGEN_TEXT_REMOVE":
+							self.extended_buffer.set_text (text)
 			else:
 				print "Unknown: "+n.nodeName
 		self.update_bbox ()

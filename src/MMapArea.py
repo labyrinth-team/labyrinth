@@ -61,7 +61,10 @@ class MMapArea (gtk.DrawingArea):
 						 					   (gobject.TYPE_PYOBJECT, )),
 						 change_mode        = (gobject.SIGNAL_RUN_LAST,
 						 					   gobject.TYPE_NONE,
-						 					   (gobject.TYPE_INT, )))
+						 					   (gobject.TYPE_INT, )),
+						 thought_changed    = (gobject.SIGNAL_RUN_LAST,
+						 					   gobject.TYPE_NONE,
+						 					   (gobject.TYPE_OBJECT, )))
 
 	def __init__(self):
 		super (MMapArea, self).__init__()
@@ -258,9 +261,14 @@ class MMapArea (gtk.DrawingArea):
 	
 		elem = self.save.createElement ("thought")
 		text_element = self.save.createTextNode ("GOOBAH")
+		extended_elem = self.save.createElement ("Extended")
+		extended_element = self.save.createTextNode ("Extended")
 		elem.appendChild (text_element)
+		elem.appendChild (extended_elem)
+		extended_elem.appendChild (extended_element)
 		self.element.appendChild (elem)
-		thought = TextThought.TextThought (coords, self.pango_context, self.nthoughts, elem, text_element)
+		thought = TextThought.TextThought (coords, self.pango_context, self.nthoughts, elem, text_element, \
+										   extended_element = extended_element)
 		self.nthoughts += 1
 		if self.current_root:
 			self.link_thoughts (self.current_root, thought)
@@ -279,9 +287,13 @@ class MMapArea (gtk.DrawingArea):
 	def load_thought (self, node):
 		elem = self.save.createElement ("thought")
 		text_element = self.save.createTextNode ("")
+		extended_elem = self.save.createElement ("Extended")
+		extended_element = self.save.createTextNode ("Extended")
 		elem.appendChild (text_element)
+		elem.appendChild (extended_elem)
+		extended_elem.appendChild (extended_element)
 		self.element.appendChild (elem)
-		thought = TextThought.TextThought (element = elem, text_element = text_element, pango=self.pango_context, load=node)
+		thought = TextThought.TextThought (element = elem, text_element = text_element, pango=self.pango_context, load=node, extended_element = extended_element)
 		self.thoughts.append (thought)
 		self.nthoughts += 1
 		
@@ -298,9 +310,11 @@ class MMapArea (gtk.DrawingArea):
 				t.connect ("title_changed", self.title_changed_cb)
 				self.primary_thought = t
 			if t.am_root:
+				self.select_thought (t)
 				self.current_root = t
 			if t.editing:
-				self.selected_thoughts = [t]
+				self.select_thought (t)
+				#self.selected_thoughts = [t]
 				self.num_selected = 1
 		del_links = []
 		for l in self.links:
@@ -495,8 +509,12 @@ class MMapArea (gtk.DrawingArea):
 		if res == gtk.RESPONSE_OK:
 			fname = dialog.get_filename()
 			elem = self.save.createElement ("image_thought")
+			extended_elem = self.save.createElement ("Extended")
+			extended_element = self.save.createTextNode ("Extended")
+			elem.appendChild (extended_elem)
+			extended_elem.appendChild (extended_element)
 			self.element.appendChild (elem)
-			thought = ImageThought.ImageThought (fname, coords, self.nthoughts, elem)
+			thought = ImageThought.ImageThought (fname, coords, self.nthoughts, elem, extended=extended_element)
 			if not thought.okay:
 				dialog = gtk.MessageDialog (None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, 
 											gtk.MESSAGE_WARNING, gtk.BUTTONS_CLOSE,
@@ -522,8 +540,12 @@ class MMapArea (gtk.DrawingArea):
 		self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.LEFT_PTR))
 
 		elem = self.save.createElement ("drawing_thought")
+		extended_elem = self.save.createElement ("Extended")
+		extended_element = self.save.createTextNode ("Extended")
+		elem.appendChild (extended_elem)
+		extended_elem.appendChild (extended_element)
 		self.element.appendChild (elem)
-		thought = DrawingThought.DrawingThought (coords, self.nthoughts, elem)
+		thought = DrawingThought.DrawingThought (coords, self.nthoughts, elem, extended = extended_element)
 		thought.connect ("change_cursor", self.cursor_change_cb)
 		self.nthoughts+=1
 		if self.current_root:
@@ -536,7 +558,11 @@ class MMapArea (gtk.DrawingArea):
 
 	def load_image (self, node):
 		elem = self.save.createElement ("image_thought")
-		thought = ImageThought.ImageThought (element = elem, load=node)
+		extended_elem = self.save.createElement ("Extended")
+		extended_element = self.save.createTextNode ("Extended")
+		elem.appendChild (extended_elem)
+		extended_elem.appendChild (extended_element)
+		thought = ImageThought.ImageThought (element = elem, load=node, extended=extended_element)
 		self.element.appendChild (elem)
 		thought.connect ("change_cursor", self.cursor_change_cb)
 		self.thoughts.append (thought)
@@ -544,13 +570,18 @@ class MMapArea (gtk.DrawingArea):
 
 	def load_drawing (self, node):
 		elem = self.save.createElement ("drawing_thought")
+		extended_elem = self.save.createElement ("Extended")
+		extended_element = self.save.createTextNode ("Extended")
+		elem.appendChild (extended_elem)
+		extended_elem.appendChild (extended_element)
 		self.element.appendChild (elem)
-		thought = DrawingThought.DrawingThought (element = elem, load=node)
+		thought = DrawingThought.DrawingThought (element = elem, load=node, extended=extended_element)
 		thought.connect ("change_cursor", self.cursor_change_cb)
 		self.thoughts.append (thought)
 		self.nthoughts += 1	
 
 	def select_thought (self, thought):
+		self.emit ("thought_changed", thought.extended_buffer)
 		self.selected_thoughts = [thought]
 		thought.select ()
 		self.num_selected = 1

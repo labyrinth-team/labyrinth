@@ -22,6 +22,7 @@
 import gobject
 import gtk
 import utils
+import TextBufferMarkup
 
 class BaseThought (gobject.GObject):
 	''' the basic class to derive other thouhts from'''
@@ -42,6 +43,9 @@ class BaseThought (gobject.GObject):
 		self.editing = False
 		self.identity = -1
 		self.text = "Unknown Thought Type"
+		self.extended_buffer = TextBufferMarkup.InteractivePangoBuffer ()
+		self.extended_buffer.set_text("")
+		
 		
 	def includes (self, coords, allow_resize = False, state=None):
 		print "Warning: includes is not implemented for one thought type"

@@ -40,10 +40,6 @@ import xml.dom.minidom as dom
 
 num_maps= 1
 
-
-def number_windows ():
-	return len(windows)
-
 class LabyrinthWindow (gtk.Window):
 	__gsignals__ = dict (title_changed		= (gobject.SIGNAL_RUN_FIRST,
 											   gobject.TYPE_NONE,
@@ -74,27 +70,62 @@ class LabyrinthWindow (gtk.Window):
 		self.MainArea.connect ("doc_save", self.doc_save_cb)
 		self.MainArea.connect ("doc_delete", self.doc_del_cb)
 		self.MainArea.connect ("change_mode", self.mode_request_cb)
+		self.MainArea.connect ("button-press-event", self.main_area_focus_cb)
+		self.MainArea.connect ("thought_changed", self.switch_buffer_cb)
+		self.extended = gtk.TextView ()
+		self.extended.set_wrap_mode (gtk.WRAP_WORD_CHAR)
 		self.save_file = filename
+		self.maximised = False
+		self.view_type = 0
 		
 		if not filename:
 			self.MainArea.set_size_request (500, 500)
 			self.map_number = num_maps
 			num_maps += 1
+			# TODO: This shouldn't be set to a hard-coded number.  Fix.
+			self.pane_pos = 500
 			self.title_cp = _("Untitled Map %d" % self.map_number)
 		else:
 			self.title_cp = (_('Somethings broken'))
 		self.set_title (self.title_cp)
 		self.mode = MMapArea.MODE_EDITING
 
+		self.extended_visible = False
 		self.connect ("configure_event", self.configure_cb)
+		self.connect ("window-state-event", self.window_state_cb)
 		self.connect ("destroy", self.close_window_cb)
-
+		
+		panes = gtk.VPaned ()
+		panes.connect ("button-release-event", self.pos_changed)
+		self.swin = gtk.ScrolledWindow ()
+		self.swin.set_policy (gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+		
+		self.create_ui ()
 		if filename:
 			self.parse_file (filename)
-		self.create_ui ()
+		(self.width, self.height) = self.get_size ()
+		
+		self.swin.add (self.extended)
+		
+		nvbox = gtk.VBox ()
+		nvbox.pack_start (self.MainArea)
+		nvbox.pack_end (self.ui.get_widget('/AddedTools'), expand=False)
+		panes.add1 (nvbox)
+		panes.add2 (self.swin)
+		panes.set_position (self.pane_pos)
+
 		vbox.pack_start(self.ui.get_widget('/MenuBar'), expand=False)
 		vbox.pack_start(self.ui.get_widget('/ToolBar'), expand=False)
-		vbox.pack_end (self.MainArea, expand = True)
+		vbox.pack_end (panes)
+		
+		# For now, set the Bold et. al. insensitive
+		self.ui.get_widget('/AddedTools/Bold').set_sensitive (False)
+		self.ui.get_widget('/AddedTools/Italics').set_sensitive (False)
+		self.ui.get_widget('/AddedTools/Underline').set_sensitive (False)
+		
+		self.show_all ()
+		if not self.extended_visible:
+			self.swin.hide ()
 
 	def create_ui (self):
 		actions = [
@@ -120,11 +151,23 @@ class LabyrinthWindow (gtk.Window):
 			 _('Add an image to selected thought'), MMapArea.MODE_IMAGE),
 			 ('Drawing', gtk.STOCK_COLOR_PICKER, _('_Drawing Mode'), None,
 			 _('Make a pretty drawing'), MMapArea.MODE_DRAW)]
+		self.toggle_actions = [
+			('ViewExtend', None, _('_View Extended'), None,
+			 _('View extended infor for thoughts'), self.view_extend_cb),
+			('Bold', gtk.STOCK_BOLD, _('Bold'), None,
+			None, self.bold_toggled),
+			('Italics', gtk.STOCK_ITALIC, _('Italics'), None,
+			None, self.italic_toggled),
+			('Underline', gtk.STOCK_UNDERLINE, _('Underline'), None,
+			None, self.underline_toggled)]
+
 
 		ag = gtk.ActionGroup ('WindowActions')
 		ag.add_actions (actions)
 		ag.add_radio_actions (self.radio_actions, value=self.mode)
+		ag.add_toggle_actions (self.toggle_actions)
 		self.act = ag.get_action ('Edit')
+		self.ext_act = ag.get_action ('ViewExtend')
 		self.act.connect ("changed", self.mode_change_cb)
 				 
 		self.ui = gtk.UIManager ()
@@ -135,10 +178,37 @@ class LabyrinthWindow (gtk.Window):
 			self.ui.add_ui_from_file ('data/labyrinth-ui.xml')
 		self.add_accel_group (self.ui.get_accel_group ())
 		 
+	def view_extend_cb (self, arg):
+		if self.extended_visible:
+			self.swin.hide ()
+			self.view_type = 0
+		else:
+			self.swin.show ()
+			self.view_type = 1
+		self.extended_visible = not self.extended_visible
+	
+	def pos_changed (self, panes, arg2):
+		self.pane_pos = panes.get_position ()
+	
+	def bold_toggled (self, arg):
+		print "Bold"
+		
+	def italic_toggled (self, arg):
+		print "Italic"
+		
+	def underline_toggled (self, arg):
+		print "Underline"
+	
 	 
 	def new_window_cb (self, arg):
 		global_new_window ()
 		return
+	
+	def switch_buffer_cb (self, arg, new_buffer):
+		self.extended.set_buffer (new_buffer)
+	
+	def main_area_focus_cb (self, arg, arg2):
+		self.MainArea.grab_focus ()
 	
 	def quit_cb (self, event):
 		gtk.main_quit ()
@@ -200,7 +270,6 @@ class LabyrinthWindow (gtk.Window):
 		self.MainArea.delete_selected_nodes ()
 	
 	def close_window_cb (self, event):
-		#windows.remove (self)
 		self.hide ()
 		self.MainArea.area_close ()
 		del (self)
@@ -214,6 +283,9 @@ class LabyrinthWindow (gtk.Window):
 		top_element.setAttribute ("mode", str(self.mode))
 		top_element.setAttribute ("size", str((self.width,self.height)))
 		top_element.setAttribute ("position", str((self.xpos,self.ypos)))
+		top_element.setAttribute ("maximised", str(self.maximised))
+		top_element.setAttribute ("view_type", str(self.view_type))
+		top_element.setAttribute ("pane_position", str(self.pane_pos))
 		string = doc.toxml ()
 		if not self.save_file:
 			sham = sha.new (string)
@@ -231,6 +303,23 @@ class LabyrinthWindow (gtk.Window):
 		self.title_cp = top_element.getAttribute ("title")
 		self.map_number = int (top_element.getAttribute ("number"))
 		self.mode = int (top_element.getAttribute ("mode"))
+		if top_element.hasAttribute ("maximised"):
+			maxi = top_element.getAttribute ("maximised")
+		else:
+			maxi = False
+		if maxi == "True":
+			self.maximised = True
+			self.maximize ()
+		if top_element.hasAttribute ("pane_position"):
+			self.pane_pos = int (top_element.getAttribute ("pane_position"))
+		else:
+			self.pane_pos = 500
+		if top_element.hasAttribute ("view_type"):
+			vt = int (top_element.getAttribute ("view_type"))
+		else:
+			vt = 0
+		if vt == 1:
+			self.ext_act.set_active (True)
 		tmp = top_element.getAttribute ("size")
 		(width, height) = utils.parse_coords (tmp)
 		tmp = top_element.getAttribute ("position")
@@ -254,5 +343,7 @@ class LabyrinthWindow (gtk.Window):
 		self.height = event.height
 		return False	
 		
-		
+	def window_state_cb (self, window, event):
+		if event.changed_mask & gtk.gdk.WINDOW_STATE_MAXIMIZED:
+			self.maximised = not self.maximised
 		

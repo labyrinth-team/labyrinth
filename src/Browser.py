@@ -78,7 +78,6 @@ class Browser (gtk.Window):
 		except:
 			self.main_window.set_icon_from_file('data/labyrinth.svg')
 		self.main_window.connect ('destroy', self.quit_clicked, None)
-		self.main_window.show_all ()
 		self.main_window.set_size_request (400, 300)
 
 	
@@ -119,7 +118,6 @@ class Browser (gtk.Window):
 		win.connect ("title-changed", self.map_title_cb)
 		win.connect ("window_closed", self.remove_map_cb)
 		win.connect ("file_saved", self.file_save_cb)
-		win.show_all ()
 		self.nmap += 1
 		return (num, win)
 	

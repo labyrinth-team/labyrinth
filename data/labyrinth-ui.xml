@@ -8,8 +8,11 @@
     <menu action="ModeMenu">
       <menuitem action="Edit"/>
       <menuitem action="Move"/>
+      <menuitem action="AddImage"/>
+      <menuitem action="Drawing"/>
       <separator/>
       <menuitem action="DeleteNodes"/>
+      <menuitem action="ViewExtend"/>
     </menu>
     <menu action="HelpMenu">
       <menuitem action="About"/>
@@ -22,5 +25,10 @@
     <toolitem action="Move"/>
     <toolitem action="AddImage"/>
     <toolitem action="Drawing"/>
+  </toolbar>
+  <toolbar name="AddedTools">
+  	<toolitem action="Bold"/>
+  	<toolitem action="Italics"/>
+  	<toolitem action="Underline"/>
   </toolbar>
 </ui>

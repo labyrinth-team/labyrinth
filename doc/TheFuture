@@ -105,7 +105,7 @@ Desired Features:
   - Probably other uses
   - Not necessarily all implemented though
 * Make window into infinite-scrollable if desired
-* Remember maximised state
+✓* Remember maximised state
 * Import from kdissert (in first instance)
 * Popup menus in canvas
 
@@ -121,6 +121,21 @@ Carried over from 0.2:
   - Figure out a way to display all the thoughts in a completely accessible way
   - Use a tree-view?
   - Figure out how to make thoughts actually add (accessibly) to the map area
+
+Added non-feature stuff that needs doing before release:
+(** = Required in 0.3 / Regression needs fixing.  Others *may be* longer term)
+* Reorganise MainWindow.py constructor.  It's pretty messy atm.
+* Split out common thought creation stuff.  Consolidate all thought
+creation stuff into 1 / 2 functions
+* Add (dbus?) interface for accessing existing instances
+* lazy find_thought_at for when mouse moves and we have focus to
+change the cursor as required
+** When beginning editing a thought / creating a new thought the previous one
+should be deselected
+** Cleanup TextBufferMarkup.py somewhat.  Strip down to bare essentials
+* Create a DTD for the file format
+* Create and register a mime type
+* Add (proper) declaration to file format
 
 
 Older Versions (overview of pervious versions of this file):

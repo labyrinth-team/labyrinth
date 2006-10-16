@@ -45,11 +45,12 @@ class DrawingPoint (object):
 		self.y += y
 
 class DrawingThought (BaseThought.ResizableThought):
-	def __init__ (self, coords=None, ident=None, element=None, load=None):
+	def __init__ (self, coords=None, ident=None, element=None, load=None, extended=None):
 		global ndraw
 		super (DrawingThought, self).__init__()
 		ndraw+=1
 		self.element = element
+		self.extended_element = extended
 		self.points = []
 		self.text = _("Drawing #%d" %ndraw)
 		if not load:
@@ -240,10 +241,15 @@ class DrawingThought (BaseThought.ResizableThought):
 		next = self.element.firstChild
 		while next:
 			m = next.nextSibling
-			self.element.removeChild (next)
-			next.unlink ()
+			if next.nodeName == "Point":
+				self.element.removeChild (next)
+				next.unlink ()
 			next = m
-			
+		text = self.extended_buffer.get_text ()
+		if text:
+			self.extended_element.replaceWholeText (text)
+		else:
+			self.extended_element.replaceWholeText ("LABYRINTH_AUTOGEN_TEXT_REMOVE")
 		self.element.setAttribute ("ul-coords", str(self.ul))
 		self.element.setAttribute ("lr-coords", str(self.lr))
 		self.element.setAttribute ("identity", str(self.identity))
@@ -295,10 +301,16 @@ class DrawingThought (BaseThought.ResizableThought):
 			self.am_primary = False
 			
 		for n in node.childNodes:
-			if n.nodeName != "point":
+			if n.nodeName == "Extended":
+				for m in n.childNodes:
+					if m.nodeType == m.TEXT_NODE:
+						text = m.data
+						if text != "LABYRINTH_AUTOGEN_TEXT_REMOVE":
+							self.extended_buffer.set_text (text)
+			elif n.nodeName == "point":
+				style = int (n.getAttribute ("type"))
+				tmp = n.getAttribute ("coords")
+				c = utils.parse_coords (tmp)
+				self.points.append (DrawingPoint (c, style))
+			else:
 				print "Unknown node type: "+str(n.nodeName)
-				continue
-			style = int (n.getAttribute ("type"))
-			tmp = n.getAttribute ("coords")
-			c = utils.parse_coords (tmp)
-			self.points.append (DrawingPoint (c, style))
