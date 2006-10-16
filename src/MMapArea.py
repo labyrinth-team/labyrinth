@@ -466,6 +466,7 @@ class MMapArea (gtk.DrawingArea):
 				l.update ()		
 
 	def delete_link (self, link):
+		print "Removing link from "+str(link.parent.identity)+" to "+str(link.child.identity)
 		self.element.removeChild (link.element)
 		link.element.unlink ()
 		self.links.remove (link)

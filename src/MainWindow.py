@@ -308,7 +308,6 @@ class LabyrinthWindow (gtk.Window):
 		else:
 			maxi = False
 		if maxi == "True":
-			self.maximised = True
 			self.maximize ()
 		if top_element.hasAttribute ("pane_position"):
 			self.pane_pos = int (top_element.getAttribute ("pane_position"))

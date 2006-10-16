@@ -1,11 +1,14 @@
 2006-10-16 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/MainWindow.py:
+	Fix maximised restore across 2 saves
+
 	Merge of "Further Info" personal branch.  This is an
 	experiment into adding a "More Info" text area to the
 	bottom of Map windows (when the user requests it).
 	It also includes several other minor features.
 	These are outlined below (main stuff described
-	below all entries)
+	below all entries).  Sorry for the long entry
 	* doc/TheFuture:
 	Updated what's done.  Added new "non-feature" section
 	
