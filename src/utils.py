@@ -88,3 +88,11 @@ def draw_thought_classic (context, ul, lr, am_root, am_primary):
 	context.set_source_rgb (0,0,0)
 	context.stroke ()
 
+# Export outline stuff
+def export_thought_outline (context, ul, lr, am_root = False, am_primary = False, style=STYLE_NORMAL, move=(0,0)):
+	real_ul = (ul[0]+move[0], ul[1]+move[1])
+	real_lr = (lr[0]+move[0], lr[1]+move[1])
+	if style == STYLE_NORMAL:
+		draw_thought_classic (context, real_ul, real_lr, False, am_primary)
+	else:
+		print "Error: Unknown thought style: "+str(style)

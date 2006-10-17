@@ -1,3 +1,30 @@
+2006-10-17 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* doc/TheFuture:
+	A few minor updates from the Export stuff below
+
+	* src/MainWindow.py:
+	* src/BaseThought.py:
+	* src/DrawingThought.py:
+	* src/Links.py:
+	* src/utils.py:
+	* src/Browser.py:
+	* src/MMapArea.py:
+	* src/ImageThought.py:
+	* src/TextThought.py:
+	* data/labyrinth-ui.xml:
+	* data/labyrinth.glade:
+	Implement "Export as Image" in File menu.
+	Supports png and jpg.  Whether supported is determined
+	based on file extension.  Initial file name comes from
+	map title.
+	Export dialog is in glade file (need to move glade stuff
+	into utils!)
+	Not fully finished - spin boxes need hooked up
+	Several new methods in all thought classes (update_bbox,
+	export, get_max_area)
+
+
 2006-10-16 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* src/MMapArea.py:

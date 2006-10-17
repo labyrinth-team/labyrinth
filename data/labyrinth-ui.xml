@@ -2,6 +2,7 @@
   <menubar name="MenuBar">
     <menu action="FileMenu">
       <menuitem action="New"/>
+      <menuitem action="Export"/>
       <separator/>
       <menuitem action="Close"/>
     </menu>

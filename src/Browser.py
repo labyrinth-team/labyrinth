@@ -79,6 +79,7 @@ class Browser (gtk.Window):
 			self.main_window.set_icon_from_file('data/labyrinth.svg')
 		self.main_window.connect ('destroy', self.quit_clicked, None)
 		self.main_window.set_size_request (400, 300)
+		self.main_window.show ()
 
 	
 	def map_title_cb (self, mobj, new_title, mobj1):

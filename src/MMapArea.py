@@ -596,3 +596,45 @@ class MMapArea (gtk.DrawingArea):
 	def cursor_change_cb (self, thought, cursor_type, a):
 		self.window.set_cursor (gtk.gdk.Cursor (cursor_type))	
 		return
+
+	def export (self, context, width, height, native):
+		context.rectangle (0, 0, width, height)
+		context.clip ()
+		context.set_source_rgb (1.0,1.0,1.0)
+		context.move_to (0,0)
+		context.paint ()
+		context.set_source_rgb (0.0,0.0,0.0)
+		if not native:
+			move_x = self.move_x
+			move_y = self.move_y
+		else:
+			move_x = 0
+			move_y = 0
+		for l in self.links:
+			l.export (context, move_x, move_y)
+		for t in self.thoughts:
+			t.export (context, move_x, move_y)
+
+	def get_max_area (self):
+		minx = 999
+		maxx = -999
+		miny = 999
+		maxy = -999
+		
+		for t in self.thoughts:
+			mx,my,mmx,mmy = t.get_max_area ()
+			if mx < minx:
+				minx = mx
+			if my < miny:
+				miny = my
+			if mmx > maxx:
+				maxx = mmx
+			if mmy > maxy:
+				maxy = mmy
+		# Add a 10px border around all
+		self.move_x = 10-minx
+		self.move_y = 10-miny
+		maxx = maxx-minx+20
+		maxy = maxy-miny+20
+		return (maxx,maxy)
+

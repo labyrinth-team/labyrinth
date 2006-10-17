@@ -132,6 +132,8 @@ class LabyrinthWindow (gtk.Window):
 			('FileMenu', None, _('_File')),
 			('New', gtk.STOCK_NEW, _('_New'), '<control>N',
 			 _('Create a new mind-map'), self.new_window_cb),
+			('Export', None, _('Export as Image'), None,
+			 _("Export you're map as an image"), self.export_cb),
 			('Close', gtk.STOCK_CLOSE, _('_Close'), '<control>W',
 			 _('Close the current window'), self.close_window_cb),
 			('Quit', gtk.STOCK_QUIT, _('_Quit'), '<control>Q',
@@ -345,4 +347,90 @@ class LabyrinthWindow (gtk.Window):
 	def window_state_cb (self, window, event):
 		if event.changed_mask & gtk.gdk.WINDOW_STATE_MAXIMIZED:
 			self.maximised = not self.maximised
+	
+	def toggle_range (self, arg, native_width, native_height, max_width, max_height):
+		if arg.get_active ():
+			self.spin_width.set_value (max_width)
+			self.spin_height.set_value (max_height)
+			# TODO: Fix this (and below) to cope with non-native resolutions properly
+			#self.spin_width.set_sensitive (True)
+			#self.spin_height.set_sensitive (True)
+		else:
+			#self.spin_width.set_sensitive (False)
+			#self.spin_height.set_sensitive (False)
+			self.spin_width.set_value (native_width)
+			self.spin_height.set_value (native_height)
+	
+	def export_cb (self, event):
+		maxx, maxy = self.MainArea.get_max_area ()
 		
+
+		x, y, width, height, bitdepth = self.MainArea.window.get_geometry ()
+		
+		
+		if os.path.isfile (defs.DATA_DIR+'/labyrinth/labyrinth.glade'):
+			glade = gtk.glade.XML (defs.DATA_DIR+'/labyrinth/labyrinth.glade')
+		else:
+			glade = gtk.glade.XML ('data/labyrinth.glade')
+		dialog = glade.get_widget ('ExportImageDialog')
+		box = glade.get_widget ('vbox2')
+		fc = gtk.FileChooserWidget(gtk.FILE_CHOOSER_ACTION_SAVE)
+		box.pack_end (fc)
+		
+		fil = gtk.FileFilter ()
+		fil.set_name("Images")
+		fil.add_pixbuf_formats ()
+		fc.add_filter(fil)
+		fc.set_current_name ("%s.png" % self.title)
+		rad = glade.get_widget ('radiobutton1')
+		rad2 = glade.get_widget ('radiobutton2')
+		self.spin_width = glade.get_widget ('width_spin')
+		self.spin_height = glade.get_widget ('height_spin')
+		self.spin_width.set_value (maxx)
+		self.spin_height.set_value (maxy)
+		self.spin_width.set_sensitive (False)
+		self.spin_height.set_sensitive (False)
+		
+		rad.connect ('toggled', self.toggle_range, width, height,maxx,maxy)
+		
+		fc.show ()
+		while 1:
+		# Cheesy loop.  Break out as needed.
+			response = dialog.run()
+			if response == gtk.RESPONSE_OK:
+				filename = fc.get_filename()
+				ext = filename[filename.rfind('.')+1:]
+
+				if ext == 'png':
+					mime = 'png'
+					break
+				elif ext == 'jpg' or ext == 'jpeg':
+					mime = 'jpeg'
+					break
+				else:
+					msg = gtk.MessageDialog(self, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, \
+											_("Unknown file format"))
+					msg.format_secondary_text (_('The file type \'%s\' is unsupported.  Please use the suffix \'.png\''\
+											   ' or \'.jpg\'' % ext))
+					msg.run ()
+					msg.destroy ()
+			else:
+				dialog.destroy ()
+				return
+		true_width = int (self.spin_width.get_value ())
+		true_height = int (self.spin_height.get_value ())
+		native = not rad.get_active ()
+		dialog.destroy ()
+		
+		
+		
+		pixmap = gtk.gdk.Pixmap (None, true_width, true_height, bitdepth)
+		self.MainArea.export (pixmap.cairo_create (), true_width, true_height, native)
+
+		pb = gtk.gdk.Pixbuf.get_from_drawable(gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, true_width, true_height), \
+											  pixmap, \
+											  gtk.gdk.colormap_get_system(), \
+											  0, 0, 0, 0, true_width, true_height)
+											 
+
+		pb.save(filename, mime)

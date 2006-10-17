@@ -152,6 +152,21 @@ class TextThought (BaseThought.BaseThought):
 		context.show_layout (layout)
 		context.set_source_rgb (0,0,0)
 		context.stroke () 
+		
+	def export (self, context, move_x, move_y):
+		desc = pango.FontDescription ("normal 12")
+		font = self.pango_context.load_font (desc)
+		layout = pango.Layout (self.pango_context)
+		layout.set_text (self.text)
+
+		self.update_bbox ()
+		utils.export_thought_outline (context, self.ul, self.lr, self.am_root, self.am_primary, utils.STYLE_NORMAL,
+									  (move_x, move_y))
+
+		context.move_to (self.text_location[0]+move_x, self.text_location[1]+move_y)
+		context.show_layout (layout)
+		context.set_source_rgb (0,0,0)
+		context.stroke () 
 
 	def update_bbox (self):
 		desc = pango.FontDescription ("normal 12")
@@ -356,10 +371,12 @@ class TextThought (BaseThought.BaseThought):
 				return
 			line += 1
 
-	def find_connection (self, other):
-		if self.editing or other.editing:
+	def find_connection (self, other, export = False):
+		if not export and (self.editing or other.editing):
 			return (None, None)
-
+		elif export:
+			self.update_bbox ()
+			other.update_bbox ()
 
 		xfrom = self.ul[0]-((self.ul[0]-self.lr[0]) / 2.)
 		yfrom = self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)
@@ -446,3 +463,6 @@ class TextThought (BaseThought.BaseThought):
 	def want_movement (self):
 		return self.editing
 
+	def get_max_area (self):
+		self.update_bbox ()
+		return (self.ul[0],self.ul[1],self.lr[0],self.lr[1])

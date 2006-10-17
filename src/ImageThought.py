@@ -75,6 +75,20 @@ class ImageThought (BaseThought.ResizableThought):
 		context.set_source_rgb (0,0,0)
 		
 		return
+	
+	def export (self, context, move_x, move_y):
+		utils.export_thought_outline (context, self.ul, self.lr, self.am_root, self.am_primary, utils.STYLE_NORMAL,
+									  (move_x, move_y))
+
+		if self.pic:
+			print "Putting Pic"
+			context.set_source_pixbuf (self.pic, self.pic_location[0]+move_x, self.pic_location[1]+move_y)
+			context.rectangle (self.pic_location[0]+move_x, self.pic_location[1]+move_y, 
+							   self.width, self.height)
+			context.fill ()
+		context.set_source_rgb (0,0,0)
+		
+		return
 		
 	def handle_movement (self, coords, move=True, edit_mode = False):
 		diffx = coords[0] - self.motion_coords[0]
@@ -168,9 +182,12 @@ class ImageThought (BaseThought.ResizableThought):
 		# Since we can't handle text in an image node, we ignore it.
 		return False
 		
-	def find_connection (self, other):
-		if self.editing or other.editing:
+	def find_connection (self, other, export=False):
+		if not export and self.editing or other.editing:
 			return (None, None)
+		elif export:
+			self.update_bbox ()
+			other.update_bbox ()
 		xfrom = self.ul[0]-((self.ul[0]-self.lr[0]) / 2.)
 		yfrom = self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)
 		xto = other.ul[0]-((other.ul[0]-other.lr[0]) / 2.)
@@ -268,5 +285,7 @@ class ImageThought (BaseThought.ResizableThought):
 		else:
 			self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), gtk.gdk.INTERP_HYPER)	
 		return
-			
+		
+	def get_max_area (self):
+		return (self.ul[0],self.ul[1],self.lr[0],self.lr[1])	
 	

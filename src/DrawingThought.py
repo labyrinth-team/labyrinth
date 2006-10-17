@@ -227,9 +227,28 @@ class DrawingThought (BaseThought.ResizableThought):
 		context.stroke ()
 		return
 	
-	def find_connection (self, other):
-		if self.editing or other.editing:
+	def export (self, context, move_x, move_y):
+		utils.export_thought_outline (context, self.ul, self.lr, self.am_root, self.am_primary, utils.STYLE_NORMAL,
+									  (move_x, move_y))
+		cwidth = context.get_line_width ()
+		context.set_line_width (1)
+		if len (self.points) > 0:
+			for p in self.points:
+				if p.style == STYLE_BEGIN:
+					context.move_to (p.x+move_x, p.y+move_y)
+				else:
+					context.line_to (p.x+move_x,p.y+move_y)		
+		
+		context.set_line_width (cwidth)
+		context.stroke ()
+		return
+	
+	def find_connection (self, other, export=False):
+		if not export and self.editing or other.editing:
 			return (None, None)
+		elif export:
+			self.update_bbox ()
+			other.update_bbox ()
 		xfrom = self.ul[0]-((self.ul[0]-self.lr[0]) / 2.)
 		yfrom = self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)
 		xto = other.ul[0]-((other.ul[0]-other.lr[0]) / 2.)
@@ -314,3 +333,6 @@ class DrawingThought (BaseThought.ResizableThought):
 				self.points.append (DrawingPoint (c, style))
 			else:
 				print "Unknown node type: "+str(n.nodeName)
+
+	def get_max_area (self):
+		return (self.ul[0],self.ul[1],self.lr[0],self.lr[1])

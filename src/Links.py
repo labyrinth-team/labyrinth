@@ -46,8 +46,8 @@ class Link (gobject.GObject):
 			return True
 		return False
 		
-	def update (self):
-		(self.start, self.end) = self.parent.find_connection (self.child)
+	def update (self, export=False):
+		(self.start, self.end) = self.parent.find_connection (self.child, export)
 
 	def set_new_end (self, coords):
 		self.end = coords
@@ -66,7 +66,21 @@ class Link (gobject.GObject):
 		context.line_to (self.end[0], self.end[1])
 		context.stroke ()
 		context.set_line_width (cwidth)
-		
+	
+	def export (self, context, move_x, move_y):
+		rem = False
+		if not self.start or not self.end:
+			self.update (True)
+			rem = True
+		cwidth = context.get_line_width ()
+		context.set_line_width (self.strength)
+		context.move_to (self.start[0]+move_x, self.start[1]+move_y)
+		context.line_to (self.end[0]+move_x, self.end[1]+move_y)
+		context.stroke ()
+		context.set_line_width (cwidth)
+		if rem:
+			self.start = self.end = None
+			
 	def mod_strength (self, parent, child):
 		if self.parent == parent:
 			self.strength += 1

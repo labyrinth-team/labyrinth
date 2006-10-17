@@ -63,10 +63,13 @@ class BaseThought (gobject.GObject):
 		print "Warning: handle_key is not implemented for this node type"
 		return False
 		
-	def find_connection (self, other):
+	def find_connection (self, other, export=False):
 		print "Warning: Unable to find connection for this node type"
 		return (None, None)
-		
+	
+	def update_bbox (self):
+		return
+	
 	def update_save (self):
 		print "Warning: Saving is not working for a node type.  This node will not be saved."
 		return
@@ -101,8 +104,14 @@ class BaseThought (gobject.GObject):
 	def finish_motion (self):
 		return
 	
+	def export (self, context, move_x, move_y):
+		return
+	
 	def select (self):
 		return
+		
+	def get_max_area (self):
+		return (0, 0, 0, 0)
 		
 	
 class ResizableThought (BaseThought):

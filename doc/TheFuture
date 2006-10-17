@@ -87,7 +87,8 @@ Current Goals (V0.3 hopefully)
 
 Required Features:
     General
-* Exporting of maps to png, ps
+✓* Exporting of maps to png
+* Exporting of maps to ps (printing)
 * Select multiple thoughts
 * Hiding / Showing of thoughts
 * Extended info on all thoughts
@@ -136,6 +137,9 @@ should be deselected
 * Create a DTD for the file format
 * Create and register a mime type
 * Add (proper) declaration to file format
+** Split out glade stuff to only load the file once (in utils)
+** convert XML save to UTF-8 format
+** Make export work in non-native formats
 
 
 Older Versions (overview of pervious versions of this file):
