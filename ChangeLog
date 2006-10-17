@@ -1,5 +1,16 @@
 2006-10-17 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/MainWindow.py:
+	* src/BaseThought.py:
+	* src/TextBufferMarkup.py:
+	* src/MMapArea.py:
+	* data/labyrinth-ui.xml:
+	Implement cut / copy / paste for thoughts and extended buffer
+	New menu - "Edit" for copy etc., delete thought and View Extended
+	Minor edit of TextBufferMarkup
+	Clipboard works for both primary selection and main clipboard :)
+
+
 	* doc/TheFuture:
 	A few minor updates from the Export stuff below
 

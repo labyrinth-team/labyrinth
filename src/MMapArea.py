@@ -64,7 +64,10 @@ class MMapArea (gtk.DrawingArea):
 						 					   (gobject.TYPE_INT, )),
 						 thought_changed    = (gobject.SIGNAL_RUN_LAST,
 						 					   gobject.TYPE_NONE,
-						 					   (gobject.TYPE_OBJECT, )))
+						 					   (gobject.TYPE_OBJECT, )),
+						 selection_changed  = (gobject.SIGNAL_RUN_FIRST,
+						 					   gobject.TYPE_NONE,
+						 					   (gobject.TYPE_INT, gobject.TYPE_INT, gobject.TYPE_STRING)))
 
 	def __init__(self):
 		super (MMapArea, self).__init__()
@@ -118,6 +121,7 @@ class MMapArea (gtk.DrawingArea):
 			self.make_current_root (thought)
 			self.select_thought (thought)
 			self.watching_movement = True
+		self.emit ("selection_changed", 0, 0, None)
 		self.invalidate ()
 		return False
 		
@@ -161,8 +165,18 @@ class MMapArea (gtk.DrawingArea):
 				return False
 			self.edit_thought (self.selected_thoughts[0])
 			ret = self.selected_thoughts[0].handle_key (event.string, event.keyval, event.state)
+			index = self.selected_thoughts[0].index
+			end = self.selected_thoughts[0].end_index
+			if end > index:
+				text = self.selected_thoughts[0].text[index:end]
+			elif end < index:
+				text = self.selected_thoughts[0].text[end:index]
+			else:
+				text = ""
+			self.emit ('selection_changed', index, end, text)
 		else:
 			ret = self.handle_key_global (event.keyval)
+			self.emit ('selection_changed', 0, 0, "")
 		self.invalidate ()
 		return ret
 		
@@ -195,7 +209,6 @@ class MMapArea (gtk.DrawingArea):
 			    self.create_drawing (coords)
 			else:
 				self.unselect_all ()
-					
 		self.invalidate ()
 		return
 
@@ -341,6 +354,15 @@ class MMapArea (gtk.DrawingArea):
 		
 		if self.selected_thoughts[0].want_movement ():
 			handled = self.selected_thoughts[0].handle_movement (coords, False, self.mode == MODE_EDITING)
+			index = self.selected_thoughts[0].index
+			end = self.selected_thoughts[0].end_index
+			if end > index:
+				text = self.selected_thoughts[0].text[index:end]
+			elif end < index:
+				text = self.selected_thoughts[0].text[end:index]
+			else:
+				text = ""
+			self.emit ('selection_changed', index, end, text)
 			self.update_links (self.selected_thoughts[0])
 			self.invalidate ()
 			if handled:
@@ -638,3 +660,39 @@ class MMapArea (gtk.DrawingArea):
 		maxy = maxy-miny+20
 		return (maxx,maxy)
 
+	def get_selection_bounds (self):
+		if len (self.selected_thoughts) > 0:
+			return self.selected_thoughts[0].index, self.selected_thoughts[0].end_index
+		else:
+			return None, None
+	
+	def copy_clipboard (self, clip):
+		index = self.selected_thoughts[0].index
+		end = self.selected_thoughts[0].end_index
+		
+		if end > index:
+			clip.set_text (self.selected_thoughts[0].text[index:end])
+		else:
+			clip.set_text (self.selected_thoughts[0].text[end:index])
+	
+	def cut_clipboard (self, clip):
+		index = self.selected_thoughts[0].index
+		end = self.selected_thoughts[0].end_index
+		
+		if end > index:
+			clip.set_text (self.selected_thoughts[0].text[index:end])
+		else:
+			clip.set_text (self.selected_thoughts[0].text[end:index])
+
+		# Be really cheeky here and use already existing functions - 
+		# Pretend a delete key event occured ;)
+		self.selected_thoughts[0].handle_key (None, gtk.keysyms.Delete, 0)
+		self.invalidate ()
+
+	def paste_clipboard (self, clip):
+		text = clip.wait_for_text()
+		# Again, cheekily hitch onto the already existing infrastructure
+		self.selected_thoughts[0].handle_key (text, None, None)
+		self.invalidate ()
+		
+		

@@ -72,7 +72,7 @@ class PangoBuffer (gtk.TextBuffer):
         self.tags = {}
         #self.buf = buf
         #self.set_text(txt)
-        gtk.TextBuffer.__init__(self)
+        super (gtk.TextBuffer, self).__init__()
 
     def set_text (self, txt):
         gtk.TextBuffer.set_text(self,"")
@@ -291,7 +291,7 @@ class InteractivePangoBuffer (PangoBuffer):
         [(widget, (font,attr)),
          (widget2, (font,attr))]
          """
-        PangoBuffer.__init__(self)
+        super (PangoBuffer, self).__init__()
         if normal_button: normal_button.connect('clicked',lambda *args: self.remove_all_tags())
         self.tag_widgets = {}
         self.internal_toggle = False

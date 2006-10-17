@@ -42,6 +42,8 @@ class BaseThought (gobject.GObject):
 		self.am_root = False
 		self.editing = False
 		self.identity = -1
+		self.index = 0
+		self.end_index = 0
 		self.text = "Unknown Thought Type"
 		self.extended_buffer = TextBufferMarkup.InteractivePangoBuffer ()
 		self.extended_buffer.set_text("")

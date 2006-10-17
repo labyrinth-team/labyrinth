@@ -72,11 +72,13 @@ class LabyrinthWindow (gtk.Window):
 		self.MainArea.connect ("change_mode", self.mode_request_cb)
 		self.MainArea.connect ("button-press-event", self.main_area_focus_cb)
 		self.MainArea.connect ("thought_changed", self.switch_buffer_cb)
+		self.MainArea.connect ("selection_changed", self.selection_changed_cb)
 		self.extended = gtk.TextView ()
 		self.extended.set_wrap_mode (gtk.WRAP_WORD_CHAR)
 		self.save_file = filename
 		self.maximised = False
 		self.view_type = 0
+		self.cut_copy_active = False
 		
 		if not filename:
 			self.MainArea.set_size_request (500, 500)
@@ -122,6 +124,12 @@ class LabyrinthWindow (gtk.Window):
 		self.ui.get_widget('/AddedTools/Bold').set_sensitive (False)
 		self.ui.get_widget('/AddedTools/Italics').set_sensitive (False)
 		self.ui.get_widget('/AddedTools/Underline').set_sensitive (False)
+		self.cut = self.ui.get_widget ('/MenuBar/EditMenu/Cut')
+		self.copy = self.ui.get_widget ('/MenuBar/EditMenu/Copy')
+		self.paste = self.ui.get_widget ('/MenuBar/EditMenu/Paste')
+		self.ui.get_widget('/MenuBar/EditMenu').connect ('activate', self.edit_activated_cb)
+		self.cut.set_sensitive (False)
+		self.copy.set_sensitive (False)
 		
 		self.show_all ()
 		if not self.extended_visible:
@@ -138,6 +146,13 @@ class LabyrinthWindow (gtk.Window):
 			 _('Close the current window'), self.close_window_cb),
 			('Quit', gtk.STOCK_QUIT, _('_Quit'), '<control>Q',
 			 _('Close all the windows and exit the application'), self.quit_cb),
+			('EditMenu', None, _('_Edit')),
+			('Cut', gtk.STOCK_CUT, _('Cut'), '<control>X',
+			 None, self.cut_text_cb),
+			('Copy', gtk.STOCK_COPY, _('Copy'), '<control>C',
+			 None, self.copy_text_cb),
+			('Paste', gtk.STOCK_PASTE, _('Paste'), '<control>V',
+			 None, self.paste_text_cb),
 			('ModeMenu', None, _('_Mode')),
 			('DeleteNodes', gtk.STOCK_DELETE, _('_Delete Selected Thoughts'), None,
 			 _('Delete the selected element(s)'), self.delete_cb),
@@ -289,12 +304,13 @@ class LabyrinthWindow (gtk.Window):
 		top_element.setAttribute ("view_type", str(self.view_type))
 		top_element.setAttribute ("pane_position", str(self.pane_pos))
 		string = doc.toxml ()
+		save_string = string.encode ("utf-8" )
 		if not self.save_file:
-			sham = sha.new (string)
+			sham = sha.new (save_string)
 			save_loc = utils.get_save_dir ()
 			self.save_file = save_loc+sham.hexdigest()+".map"
 		f = file (self.save_file, 'w')
-		f.write (string)
+		f.write (save_string)
 		f.close ()
 		self.emit ('file_saved', self.save_file, self)
 		
@@ -434,3 +450,50 @@ class LabyrinthWindow (gtk.Window):
 											 
 
 		pb.save(filename, mime)
+
+	def selection_changed_cb (self, area, start, end, text):
+		clip = gtk.Clipboard (selection="PRIMARY")
+		if text:
+			clip.set_text (text)
+		else:
+			clip.clear ()
+	
+	def edit_activated_cb (self, menu):
+		if self.extended.is_focus ():
+			start, end = self.extended.get_buffer().get_selection_bounds()
+			self.paste.set_sensitive (True)
+		else:
+			start, end = self.MainArea.get_selection_bounds ()
+			if self.mode == MMapArea.MODE_EDITING and len(self.MainArea.selected_thoughts) and \
+			   self.MainArea.selected_thoughts[0].editing:
+				self.paste.set_sensitive (True)
+			else:
+				self.paste.set_sensitive (False)
+		if start and start != end:
+			self.cut.set_sensitive (True)
+			self.copy.set_sensitive (True)
+		else:
+			self.cut.set_sensitive (False)
+			self.copy.set_sensitive (False)
+
+	def cut_text_cb (self, event):
+		clip = gtk.Clipboard ()
+		if self.extended.is_focus ():
+			self.extended.get_buffer().cut_clipboard (clip)
+		else:
+			self.MainArea.cut_clipboard (clip)		
+		
+	def copy_text_cb (self, event):
+		clip = gtk.Clipboard ()
+		if self.extended.is_focus ():
+			self.extended.get_buffer().copy_clipboard (clip)
+		else:
+			self.MainArea.copy_clipboard (clip)
+	
+	def paste_text_cb (self, event):
+		clip = gtk.Clipboard ()
+		#text = clipboard.wait_for_text()
+		if self.extended.is_focus ():
+			self.extended.get_buffer().paste_clipboard (clip)
+		else:
+			self.MainArea.paste_clipboard (clip)
