@@ -1,0 +1,165 @@
+# labrynth translation to Catalan.
+# Copyright (C) 2006 labrynth package
+# Gil Forcada <gilforcada@guifi.net>, 2006
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-10-08 17:05+0400\n"
+"PO-Revision-Date: 2006-10-18 02:22+0200\n"
+"Last-Translator: Gil Forcada <gilforcada@guifi.net>\n"
+"Language-Team: Catalan <tradgnome@softcatala.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../src/Browser.py:147
+msgid "Do you really want to delete this Map?"
+msgstr "Realment voleu suprimir aquest mapa?"
+
+#: ../src/Browser.py:157
+msgid "Cannot delete this map"
+msgstr "No s'ha pogut suprimir el mapa"
+
+#: ../src/Browser.py:158
+msgid "The map cannot be deleted right now.  Is it open?"
+msgstr "No es pot suprimir el mapa ara mateix.  Està obert?"
+
+#: ../src/MainWindow.py:83 ../src/MainWindow.py:184
+#, python-format
+msgid "Untitled Map %d"
+msgstr "Mapa sense nom %d"
+
+#: ../src/MainWindow.py:85
+msgid "Somethings broken"
+msgstr "Hi ha algunes coses trencades"
+
+#: ../src/MainWindow.py:102
+msgid "_New"
+msgstr "_Nou"
+
+#: ../src/MainWindow.py:103
+msgid "Create a new mind-map"
+msgstr "Crea un nou mapa mental"
+
+#: ../src/MainWindow.py:104
+msgid "_Close"
+msgstr "_Tanca"
+
+#: ../src/MainWindow.py:105
+msgid "Close the current window"
+msgstr "Tanca la finestra actual"
+
+#: ../src/MainWindow.py:106
+msgid "_Quit"
+msgstr "_Surt"
+
+#: ../src/MainWindow.py:107
+msgid "Close all the windows and exit the application"
+msgstr "Hi ha algunes coses trencades"
+
+#: ../src/MainWindow.py:109
+msgid "_Delete Selected Thoughts"
+msgstr "_Suprimeix els pensaments seleccionats"
+
+#: ../src/MainWindow.py:110
+msgid "Delete the selected element(s)"
+msgstr "Suprimeix el(s) element(s) seleccionat(s)"
+
+#: ../src/MainWindow.py:112
+msgid "_About"
+msgstr "_Quant a"
+
+#: ../src/MainWindow.py:113
+msgid "Learn about the application"
+msgstr "Aprèn sobre l'aplicació"
+
+#: ../src/MainWindow.py:115
+msgid "_Edit Mode"
+msgstr "Mode d'_edició"
+
+#: ../src/MainWindow.py:116
+msgid "Turn on edit mode"
+msgstr "Activa el mode d'edició"
+
+#: ../src/MainWindow.py:117
+msgid "_Move Mode"
+msgstr "Mode de _moviment"
+
+#: ../src/MainWindow.py:118
+msgid "Turn on move mode"
+msgstr "Activa el mode de moviment"
+
+#: ../src/MainWindow.py:119
+msgid "_Add Image"
+msgstr "_Afegeix una imatge"
+
+#: ../src/MainWindow.py:120
+msgid "Add an image to selected thought"
+msgstr "Afegeix una imatge al pensament seleccionat"
+
+#: ../src/MainWindow.py:121
+msgid "_Drawing Mode"
+msgstr "_Mode de dibuix"
+
+#: ../src/MainWindow.py:122
+msgid "Make a pretty drawing"
+msgstr "Fes un dibuix bonic"
+
+#: ../src/DrawingThought.py:54
+#, python-format
+msgid "Drawing #%d"
+msgstr "Dibuix #%d"
+
+#. Present a dialog for the user to choose an image here
+#: ../src/MMapArea.py:484
+msgid "Choose image to insert"
+msgstr "Escolliu la imatge a inserir"
+
+#: ../src/MMapArea.py:496 ../src/ImageThought.py:254
+msgid "Error loading file"
+msgstr "S'ha produït un error en carregar el fitxer"
+
+#: ../src/MMapArea.py:497
+#, python-format
+msgid "%s could not be read.  Please ensure its a valid image."
+msgstr "No s'ha pogut llegir %s.  Assegureu-vos de que és una imatge vàlida."
+
+#: ../src/ImageThought.py:255
+#, python-format
+msgid "%s could not be found.  Associated thought will be empty."
+msgstr "No s'ha pogut trobar %s.  El pensament associat estarà buit."
+
+#: ../data/labyrinth.glade.h:1
+msgid "Delete Map"
+msgstr "Suprimeix el mapa"
+
+#: ../data/labyrinth.glade.h:2
+msgid "Labyrinth Maps"
+msgstr "Mapes Labyrinth"
+
+#: ../data/labyrinth.glade.h:3
+msgid "New Map"
+msgstr "Nou mapa"
+
+#: ../data/labyrinth.glade.h:4
+msgid "Open Map"
+msgstr "Obre un mapa"
+
+#: ../data/labyrinth.glade.h:5
+msgid "Quit"
+msgstr "Surt"
+
+#: ../data/labyrinth.desktop.in.h:1
+msgid "Labyrinth Mind-mapping"
+msgstr "Creació de mapes mentals Labyrinth"
+
+#: ../data/labyrinth.desktop.in.h:2
+msgid "Map your mind"
+msgstr "Mapejeu la vostra memòria"
+
+#: ../data/labyrinth.desktop.in.h:3
+msgid "Mind-mapping"
+msgstr "Mapa mental"
+
