@@ -1,4 +1,8 @@
-﻿msgid ""
+# labrynth translation to Brazilian Portugese.
+# Copyright (C) 2006 
+# Leonardo Gregianin <leogregianin@gmail.com>, 2006
+#
+msgid ""
 msgstr ""
 "Project-Id-Version: pt-br\n"
 "Report-Msgid-Bugs-To: http://code.google.com/p/labyrinth/issues/list \n"
