@@ -1,3 +1,9 @@
+2006-10-18 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* src/BaseThought.py:
+	Fix typo in docstring (Thanks to Rob Tirrell)
+
+
 2006-10-17 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* src/MainWindow.py:

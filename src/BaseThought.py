@@ -25,7 +25,7 @@ import utils
 import TextBufferMarkup
 
 class BaseThought (gobject.GObject):
-	''' the basic class to derive other thouhts from'''
+	''' the basic class to derive other thouhgts from'''
 	__gsignals__ = dict (delete_thought		= (gobject.SIGNAL_RUN_FIRST,
 											   gobject.TYPE_NONE,
 											   (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT)),
