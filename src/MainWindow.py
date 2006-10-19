@@ -460,7 +460,11 @@ class LabyrinthWindow (gtk.Window):
 	
 	def edit_activated_cb (self, menu):
 		if self.extended.is_focus ():
-			start, end = self.extended.get_buffer().get_selection_bounds()
+			stend = self.extended.get_buffer().get_selection_bounds()
+			if len (stend) > 1:
+				start,end = stend
+			else:
+				start = end = stend
 			self.paste.set_sensitive (True)
 		else:
 			start, end = self.MainArea.get_selection_bounds ()

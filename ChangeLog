@@ -1,4 +1,8 @@
 2006-10-19 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+	
+	* src/MainWindow.py:
+	Don't complain if no selection is made in extended buffer
+	and edit menu is opened with focus on extended buffer
 
 	* src/BaseThought.py:
 	* src/DrawingThought.py:
