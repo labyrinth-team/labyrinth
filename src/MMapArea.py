@@ -83,6 +83,7 @@ class MMapArea (gtk.DrawingArea):
 		self.connect ("button_press_event", self.button_down)
 		self.connect ("motion_notify_event", self.motion)
 		self.connect ("key_press_event", self.key_press)
+		self.connect ("key_release_event", self.key_release)
 		self.connect ("single_click_event", self.single_click)
 		self.connect ("double_click_event", self.double_click)
 		
@@ -104,6 +105,7 @@ class MMapArea (gtk.DrawingArea):
 		impl = dom.getDOMImplementation()
 		self.save = impl.createDocument("http://www.donscorgie.blueyonder.co.uk/labns", "MMap", None)
 		self.element = self.save.documentElement
+		self.im_context = gtk.IMMulticontext ()
 		
 		self.time_elapsed = 0.0
 	
@@ -164,6 +166,8 @@ class MMapArea (gtk.DrawingArea):
 			if self.num_selected > 1 or self.num_selected == 0:
 				return False
 			self.edit_thought (self.selected_thoughts[0])
+			if self.im_context.filter_keypress (event):
+				return True
 			ret = self.selected_thoughts[0].handle_key (event.string, event.keyval, event.state)
 			index = self.selected_thoughts[0].index
 			end = self.selected_thoughts[0].end_index
@@ -179,6 +183,10 @@ class MMapArea (gtk.DrawingArea):
 			self.emit ('selection_changed', 0, 0, "")
 		self.invalidate ()
 		return ret
+		
+	def key_release (self, widget, event):
+		self.im_context.filter_keypress (event)
+		return True
 		
 	def expose (self, widget, event):
 		'''Expose event.  Calls the draw function'''
@@ -248,10 +256,10 @@ class MMapArea (gtk.DrawingArea):
 		for t in self.thoughts:
 			t.draw (context)
 	
-	def invalidate (self):
+	def invalidate (self, ignore = None, urgent = True):
 		'''Helper function to invalidate the entire screen, forcing a redraw'''
 		ntime = time.time ()
-		if ntime - self.time_elapsed > 0.025:
+		if ntime - self.time_elapsed > 0.025 or urgent:
 			alloc = self.get_allocation ()
 			rect = gtk.gdk.Rectangle (0, 0, alloc.width, alloc.height)
 			self.window.invalidate_rect (rect, True)
@@ -270,7 +278,7 @@ class MMapArea (gtk.DrawingArea):
 
 	def create_new_thought (self, coords):
 		for t in self.selected_thoughts:
-			t.finish_editing ()
+			self.finish_editing (t)
 	
 		elem = self.save.createElement ("thought")
 		text_element = self.save.createTextNode ("GOOBAH")
@@ -282,6 +290,7 @@ class MMapArea (gtk.DrawingArea):
 		self.element.appendChild (elem)
 		thought = TextThought.TextThought (coords, self.pango_context, self.nthoughts, elem, text_element, \
 										   extended_element = extended_element)
+		self.edit_thought (thought)
 		self.nthoughts += 1
 		if self.current_root:
 			self.link_thoughts (self.current_root, thought)
@@ -291,6 +300,7 @@ class MMapArea (gtk.DrawingArea):
 		if not self.primary_thought:
 			self.make_primary_root (thought)
 		thought.connect ("delete_thought", self.delete_thought)
+		thought.connect ("update_view", self.invalidate)
 		self.select_thought (thought)
 		self.edit_thought (thought)
 		self.thoughts.append (thought)
@@ -307,9 +317,14 @@ class MMapArea (gtk.DrawingArea):
 		extended_elem.appendChild (extended_element)
 		self.element.appendChild (elem)
 		thought = TextThought.TextThought (element = elem, text_element = text_element, pango=self.pango_context, load=node, extended_element = extended_element)
+		if thought.editing:
+			thought.editing = False
+			self.edit_thought (thought)
 		self.thoughts.append (thought)
 		if thought.identity >= self.nthoughts:
 			self.nthoughts = thought.identity+1
+		thought.connect ("update_view", self.invalidate)
+		thought.connect ("delete_thought", self.delete_thought)
 		
 	def load_link (self, node):
 		link_elem = self.save.createElement ("link")
@@ -406,7 +421,7 @@ class MMapArea (gtk.DrawingArea):
 	def edit_thought (self, thought):
 		if not thought.editing:
 			self.select_thought (thought)
-			thought.begin_editing ()
+			thought.begin_editing (self.im_context)
 			self.update_links (thought)
 
 	def make_current_root (self, thought):

@@ -195,7 +195,7 @@ class ImageThought (BaseThought.ResizableThought):
 
 		return ((xfrom, yfrom), (xto, yto))
 		
-	def begin_editing (self):
+	def begin_editing (self, im_context = None):
 		return
 	
 	def finish_editing (self):

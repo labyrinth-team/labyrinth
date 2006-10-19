@@ -34,7 +34,10 @@ class BaseThought (gobject.GObject):
 											   (gobject.TYPE_STRING, gobject.TYPE_PYOBJECT)),
 						 change_cursor      = (gobject.SIGNAL_RUN_FIRST,
 						 					   gobject.TYPE_NONE,
-						 					   (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT)))
+						 					   (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT)),
+						 update_view		= (gobject.SIGNAL_RUN_LAST,
+						 					   gobject.TYPE_NONE,
+						 					   (gobject.TYPE_BOOLEAN, )))
 	
 	def __init__ (self):
 		super (BaseThought, self).__init__()
@@ -80,7 +83,7 @@ class BaseThought (gobject.GObject):
 		print "Warning: Loading this type of node isn't allowed just now."
 		return
 		
-	def begin_editing (self):
+	def begin_editing (self, im_context = None):
 		print "Warning: Cannot edit this thought type"
 		return
 	

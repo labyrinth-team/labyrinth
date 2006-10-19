@@ -1,3 +1,23 @@
+2006-10-19 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* src/BaseThought.py:
+	* src/DrawingThought.py:
+	* src/ImageThought.py:
+	Adapt to fit new text entry stuff (pass im_context to
+	begin_edit which isn't called for other thought types)
+	
+	* src/MMapArea.py:
+	* src/TextThought.py:
+	New text entry stuff.  Pass all keystrokes
+	through an IM Context.  Picks up dead keys
+	and unicode entry (though no cool underlines u atm).
+	Update view entirely when > 1 key is pressed in
+	quick succession
+	Construct a byte table in text thoughts to handle
+	proper deletion / selection / movement within
+	multibyte characters
+
+
 2006-10-18 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* src/BaseThought.py:

@@ -39,15 +39,19 @@ class TextThought (BaseThought.BaseThought):
 		self.text = ""
 		self.index = 0
 		self.end_index = 0
+		self.bytes = ""
+		self.bindex = 0
 		self.text_location = coords
 		self.lr = None
-		self.editing = True
+		self.editing = False
 		self.am_root = False
 		self.am_primary = False
 		self.element = element
 		self.text_element = text_element
 		self.extended_element = extended_element
 
+		# Convenience function
+		self.b_f_i = self.bindex_from_index
 		margin = utils.margin_required (utils.STYLE_NORMAL)
 		if coords:
 			self.ul = (coords[0]-margin[0], coords[1] - margin[1])
@@ -59,9 +63,17 @@ class TextThought (BaseThought.BaseThought):
 		else:
 			self.load_data (load)
 			
-	def begin_editing (self):
-		self.editing = True
-		self.lr_location = None
+	def begin_editing (self, im_context = None):
+		if not self.editing:
+			self.im = im_context
+			self.editing = True
+			self.lr_location = None
+			if not im_context:
+				print "Warning: Unable to edit thought properly.  Will almost certianly fail"
+			self.commit_handle = im_context.connect ("commit", self.commit_text_cb)
+			self.delete_handle = im_context.connect ("delete-surrounding", self.delete_surround_cb)
+			self.surrounding_handle = im_context.connect ("retrieve-surrounding", self.get_surrounding_cb)
+		
 
 	def finish_editing (self):
 		if self.editing:
@@ -70,6 +82,12 @@ class TextThought (BaseThought.BaseThought):
 				return True
 			else:
 				self.update_bbox ()
+			self.im.disconnect (self.commit_handle)
+			self.im.disconnect (self.delete_handle)
+			self.im.disconnect (self.surrounding_handle)
+			self.commit_handle = 0
+			self.delete_handle = 0
+			self.surrounding_handle = 0
 		return False
 		
 	def includes (self, coords, allow_resize = False, state=0):
@@ -90,8 +108,9 @@ class TextThought (BaseThought.BaseThought):
 			self.index = loc[0]
 			if loc[0] >= len(self.text) -1 or self.text[loc[0]+1] == '\n':
 				self.index += loc[1]
-			#if not state & gtk.gdk.SHIFT_MASK:
-			#	self.end_index = self.index
+			self.bindex = self.bindex_from_index (self.index)
+			if not state & gtk.gdk.SHIFT_MASK:
+				self.end_index = self.index
 		else:
 			delete = self.finish_editing ()
 			if delete:
@@ -108,7 +127,7 @@ class TextThought (BaseThought.BaseThought):
 		self.am_root = False	
 	
 	def select (self):
-		self.end_index = self.index
+		pass
 	
 	def draw (self, context):
 		desc = pango.FontDescription ("normal 12")
@@ -195,6 +214,7 @@ class TextThought (BaseThought.BaseThought):
 				self.index = loc[0]
 				if loc[0] >= len(self.text) -1 or self.text[loc[0]+1] == '\n':
 					self.index += loc[1]
+				self.bindex = self.bindex_from_index (self.index)
 			else:
 				delete = self.finish_editing ()
 				if delete:
@@ -210,26 +230,31 @@ class TextThought (BaseThought.BaseThought):
 			self.update_bbox ()
 		
 	def handle_key (self, string, keysym, modifiers):
-		if not self.editing:
-			self.begin_editing ()		 
+		# TODO: Handle ctrl+relavent special chars	 
+		# Handle escape (finish editing)
 		if string:
 			self.add_text (string)
 
-		else:
-			# Only interested (for now) in whether the "shift" key is pressed
-			mod = modifiers & gtk.gdk.SHIFT_MASK
-			
-			try:
-				{ gtk.keysyms.Delete   : self.delete_char		,
-				  gtk.keysyms.BackSpace: self.backspace_char	,
-				  gtk.keysyms.Left	   : self.move_index_back	,
-				  gtk.keysyms.Right    : self.move_index_forward,
-				  gtk.keysyms.Up	   : self.move_index_up		,
-				  gtk.keysyms.Down	   : self.move_index_down	,
-				  gtk.keysyms.Home	   : self.move_index_home	,
-				  gtk.keysyms.End	   : self.move_index_end	}[keysym](mod)
-			except:
-				return False
+		#else:
+		# Only interested (for now) in whether the "shift" key is pressed
+		if modifiers & gtk.gdk.CONTROL_MASK:
+			# Ignore ctrl mask for now
+			return
+		
+		mod = modifiers & gtk.gdk.SHIFT_MASK
+		
+		try:
+			{ gtk.keysyms.Delete   : self.delete_char		,
+			  gtk.keysyms.BackSpace: self.backspace_char	,
+			  gtk.keysyms.Left	   : self.move_index_back	,
+			  gtk.keysyms.Right    : self.move_index_forward,
+			  gtk.keysyms.Up	   : self.move_index_up		,
+			  gtk.keysyms.Down	   : self.move_index_down	,
+			  gtk.keysyms.Home	   : self.move_index_home	,
+			  gtk.keysyms.End	   : self.move_index_end	}[keysym](mod)
+		except:
+			return False
+		self.bindex = self.bindex_from_index (self.index)
 		self.emit ("title_changed", self.text, 65)
 		return True
 		
@@ -237,65 +262,88 @@ class TextThought (BaseThought.BaseThought):
 		if self.index > self.end_index:
 			left = self.text[:self.end_index]
 			right = self.text[self.index:]
+			bleft = self.bytes[:self.b_f_i (self.end_index)]
+			bright = self.bytes[self.b_f_i (self.index):]
 			self.index = self.end_index
 		elif self.index < self.end_index:
 			left = self.text[:self.index]
 			right = self.text[self.end_index:]
+			bleft = self.bytes[:self.b_f_i (self.index)]
+			bright = self.bytes[self.b_f_i (self.end_indes):]
 		else:
 			left = self.text[:self.index]
 			right = self.text[self.index:]
+			bleft = self.bytes[:self.b_f_i(self.index)]
+			bright = self.bytes[self.b_f_i(self.index):]
 		self.text = left + string + right
 		self.index += len (string)
-		self.end_index = self.index
+		self.bytes = bleft + str(len(string)) + bright
+		self.bindex += 1
 		self.end_index = self.index
 		
 	def delete_char (self, mod):
 		if self.index > self.end_index:
 			left = self.text[:self.end_index]
 			right = self.text[self.index:]
+			bleft = self.bytes[:self.b_f_i (self.end_index)]
+			bright = self.bytes[self.b_f_i (self.index):]
 			self.index = self.end_index
 		elif self.index < self.end_index:
 			left = self.text[:self.index]
 			right = self.text[self.end_index:]
+			bleft = self.bytes[:self.b_f_i (self.index)]
+			bright = self.bytes[self.b_f_i (self.end_index):]
 		else:
 			left = self.text[:self.index]
-			right = self.text[self.index+1:]
+			right = self.text[self.index+int(self.bytes[self.bindex]):]
+			bleft = self.bytes[:self.b_f_i(self.index)]
+			bright = self.bytes[self.b_f_i(self.index)+1:]
 		self.text = left+right
+		self.bytes = bleft+bright
 		self.end_index = self.index
 
 	def backspace_char (self, mod):
 		if self.index > self.end_index:
 			left = self.text[:self.end_index]
 			right = self.text[self.index:]
+			bleft = self.bytes[:self.b_f_i (self.end_index)]
+			bright = self.bytes[self.b_f_i (self.index):]
 			self.index = self.end_index
 		elif self.index < self.end_index:
 			left = self.text[:self.index]
 			right = self.text[self.end_index:]
+			bleft = self.bytes[:self.b_f_i (self.index)]
+			bright = self.bytes[self.b_f_i (self.end_index):]
 		else:
-			left = self.text[:self.index-1]
+			left = self.text[:self.index-int(self.bytes[self.bindex-1])]
 			right = self.text[self.index:]
-			self.index-=1
+			bleft = self.bytes[:self.b_f_i(self.index)-1]
+			bright = self.bytes[self.b_f_i(self.index):]
+			self.index-=int(self.bytes[self.bindex-1])
 		self.text = left+right
+		self.bytes = bleft+bright
 		self.end_index = self.index
+		
 		if self.index < 0:
 			self.index = 0
 			
 	def move_index_back (self, mod):
 		if self.index <= 0:
 			return
-		self.index-=1
+		self.index-=int(self.bytes[self.bindex-1])
 		if not mod:
 			self.end_index = self.index
 		
 	def move_index_forward (self, mod):
 		if self.index >= len(self.text):
 			return
-		self.index+=1
+		self.index+=int(self.bytes[self.bindex])
 		if not mod:
 			self.end_index = self.index
 		
 	def move_index_up (self, mod):
-		lines = self.text.splitlines ()
+		tmp = self.text.decode ()
+		lines = tmp.splitlines ()
 		if len (lines) == 1:
 			return
 		loc = 0
@@ -310,38 +358,44 @@ class TextThought (BaseThought.BaseThought):
 		if line == -1:
 			return
 		elif line >= len (lines):
-			self.index -= len (lines[-1])+1
+			self.bindex -= len (lines[-1])+1
+			self.index = self.index_from_bindex (self.bindex)
 			if not mod:
 				self.end_index = self.index
 			return
-		dist = self.index - loc -1
-		self.index = loc
+		dist = self.bindex - loc -1
+		self.bindex = loc
 		if dist < len (lines[line]):
-			self.index -= (len (lines[line]) - dist)
+			self.bindex -= (len (lines[line]) - dist)
 		else:
-			self.index -= 1
+			self.bindex -= 1
+		if self.bindex < 0:
+			self.bindex = 0
+		self.index = self.index_from_bindex (self.bindex)
 		if not mod:
 			self.end_index = self.index
 	
 	def move_index_down (self, mod):
-		lines = self.text.splitlines ()
+		tmp = self.text.decode ()
+		lines = tmp.splitlines ()
 		if len (lines) == 1:
 			return
 		loc = 0
 		line = 0
 		for i in lines:
 			loc += len (i)+1
-			if loc > self.index:
+			if loc > self.bindex:
 				break
 			line += 1
 		if line >= len (lines)-1:
 			return
-		dist = self.index - (loc - len (lines[line]))+1
-		self.index = loc
+		dist = self.bindex - (loc - len (lines[line]))+1
+		self.bindex = loc
 		if dist > len (lines[line+1]):
-			self.index += len (lines[line+1])
+			self.bindex += len (lines[line+1])
 		else:
-			self.index += dist
+			self.bindex += dist
+		self.index = self.index_from_bindex (self.bindex)
 		if not mod:
 			self.end_index = self.index
 			
@@ -455,6 +509,24 @@ class TextThought (BaseThought.BaseThought):
 							self.extended_buffer.set_text (text)
 			else:
 				print "Unknown: "+n.nodeName
+
+		# Build the Byte table
+		tmp = self.text.encode ("utf-8")
+		current = 0
+		for z in range(len(self.text)):
+			if str(self.text[z]) == str(tmp[current]):
+				self.bytes += '1'
+			else:
+				blen = 2
+				while 1:
+					if str(tmp[current:current+blen].encode()) == str(self.text[z]):
+						self.bytes += str(blen)
+						current+=(blen-1)
+						break
+					blen += 1
+			current+=1
+		self.bindex = self.b_f_i (self.index)
+		self.text = tmp
 		self.update_bbox ()
 		
 	def load_add_parent (self, parent):
@@ -466,3 +538,70 @@ class TextThought (BaseThought.BaseThought):
 	def get_max_area (self):
 		self.update_bbox ()
 		return (self.ul[0],self.ul[1],self.lr[0],self.lr[1])
+
+	def commit_text_cb (self, context, string):
+		self.add_text (string)
+		self.emit ("title_changed", self.text, 65)
+		self.emit ("update_view", True)
+
+	# I don't know if these signals are required.  I've yet to come across
+	# them while testing.  Nevertheless, I'm going to hook them up for now
+		
+	def delete_surround_cb (self, context, offset, n_chars):
+		del_index = offset
+		del_end = del_index + nchars
+		del_bindex = self.bindex_from_index (del_index)
+		del_bend = self.bindex_from_index (del_end)
+		if del_index > del_end:
+			left = self.text[:del_end]
+			right = self.text[del_index:]
+			bleft = self.bytes[:del_bend]
+			bright = self.bytes[del_bindex:]
+		elif del_index < del_end:
+			left = self.text[:del_index]
+			right = self.text[del_end:]
+			bleft = self.bytes[:del_bindex]
+			bright = self.bytes[del_end:]
+		else:
+			left = self.text[:del_index]
+			right = self.text[del_index+int(self.bytes[del_bindex]):]
+			bleft = self.bytes[:del_bindex]
+			bright = self.bytes[del_bindex+1:]
+		self.text = left+right
+		self.bytes = bleft+bright
+		# FIXME:
+		# If this ever gets called, the self.index might be off.
+		# How should the index be altered (or should it?)
+		self.index = del_begin
+		self.bindex = del_bindex
+		self.end_index = self.index
+		self.emit ("update_view", True)
+	
+	
+	def get_surrounding_cb (self, context):
+		self.im.set_surroundings (self.text, -1, self.bindex)
+
+	def index_from_bindex (self, bindex):
+		if bindex == 0:
+			return 0
+		index = 0
+		for x in range(bindex):
+			index += int(self.bytes[x])
+			
+		return index
+
+	def bindex_from_index (self, index):
+		if index == 0:
+			return 0
+		bind = 0
+		nbytes = 0
+		for x in self.bytes:
+			nbytes += int (x)
+			bind+=1
+			if nbytes == index:
+				break
+		if nbytes < index:
+			bind = len(self.bytes)
+		return bind
+
+

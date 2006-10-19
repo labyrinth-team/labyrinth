@@ -66,7 +66,7 @@ class DrawingThought (BaseThought.ResizableThought):
 		else:
 			self.load_data (load)
 
-	def begin_editing (self):
+	def begin_editing (self, im_context = None):
 		return
 	
 	def finish_editing (self):
