@@ -1,0 +1,171 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Labyrinth svn\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-10-08 11:43+0100\n"
+"PO-Revision-Date: 2006-10-20 15:47+0100\n"
+"Last-Translator: Josef Vybíral <josef.vybiral@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-Country: CZECH REPUBLIC\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: ../src/Browser.py:147
+msgid "Do you really want to delete this Map?"
+msgstr "Opravdu chcete smazat tuto mapu?"
+
+#: ../src/Browser.py:157
+msgid "Cannot delete this map"
+msgstr "Tuto mapu nelze smazat"
+
+#: ../src/Browser.py:158
+msgid "The map cannot be deleted right now.  Is it open?"
+msgstr "Tuto mapu nelze v tomto okamžiku smazat. Není otevřená?"
+
+#: ../src/MainWindow.py:83
+#: ../src/MainWindow.py:184
+#, python-format
+msgid "Untitled Map %d"
+msgstr "Nepojmenovaná Mapa %d"
+
+#: ../src/MainWindow.py:85
+msgid "Somethings broken"
+msgstr "Něco se se rozbilo"
+
+#: ../src/MainWindow.py:102
+msgid "_New"
+msgstr "_Nový"
+
+#: ../src/MainWindow.py:103
+msgid "Create a new mind-map"
+msgstr "Vytvořit novou myšlenkovou mapu"
+
+#: ../src/MainWindow.py:104
+msgid "_Close"
+msgstr "_Zavřít"
+
+#: ../src/MainWindow.py:105
+msgid "Close the current window"
+msgstr "Zavřít současné okno"
+
+#: ../src/MainWindow.py:106
+msgid "_Quit"
+msgstr "_Ukončit"
+
+#: ../src/MainWindow.py:107
+msgid "Close all the windows and exit the application"
+msgstr "Zavřít všechna okna aplikace a skončit"
+
+#: ../src/MainWindow.py:109
+msgid "_Delete Selected Thoughts"
+msgstr "Vymazat vybrané myšlenky"
+
+#: ../src/MainWindow.py:110
+msgid "Delete the selected element(s)"
+msgstr "Vymaže vybrané prvky"
+
+#: ../src/MainWindow.py:112
+msgid "_About"
+msgstr "O _aplikaci"
+
+#: ../src/MainWindow.py:113
+msgid "Learn about the application"
+msgstr "Více informací o této aplikaci"
+
+#: ../src/MainWindow.py:115
+msgid "_Edit Mode"
+msgstr "R_ežim Úprav"
+
+#: ../src/MainWindow.py:116
+msgid "Turn on edit mode"
+msgstr "Zapne režim úprav"
+
+#: ../src/MainWindow.py:117
+msgid "_Move Mode"
+msgstr "Reži_m přesunu"
+
+#: ../src/MainWindow.py:118
+msgid "Turn on move mode"
+msgstr "Zapne režim pro přesun objektů"
+
+#: ../src/MainWindow.py:119
+msgid "_Add Image"
+msgstr "Přid_at Obrázek"
+
+#: ../src/MainWindow.py:120
+msgid "Add an image to selected thought"
+msgstr "Vloží obrázek do vybrané myšlenky"
+
+#: ../src/MainWindow.py:121
+msgid "_Drawing Mode"
+msgstr "Režim _Kreslení"
+
+#: ../src/MainWindow.py:122
+msgid "Make a pretty drawing"
+msgstr "Nakreslete něco pěkného"
+
+#: ../src/DrawingThought.py:54
+#, python-format
+msgid "Drawing #%d"
+msgstr "Kresba #%d"
+
+#. Present a dialog for the user to choose an image here
+#: ../src/MMapArea.py:484
+msgid "Choose image to insert"
+msgstr "Vyberte obrázek, který chcete vložit"
+
+#: ../src/MMapArea.py:496
+#: ../src/ImageThought.py:254
+msgid "Error loading file"
+msgstr "Chyba při otevírání obrázku"
+
+#: ../src/MMapArea.py:497
+#, python-format
+msgid "%s could not be read.  Please ensure its a valid image."
+msgstr "Nebylo možné přečíst soubor %s. Ujistěte se prosím, že se skutečně jedná o obrázek."
+
+#: ../src/ImageThought.py:255
+#, python-format
+msgid "%s could not be found.  Associated thought will be empty."
+msgstr "Nebylo možné nalézt soubor %s. Myšlenka zůstane prázdná."
+
+#: ../data/labyrinth.glade.h:1
+msgid "Delete Map"
+msgstr "Vymazat Mapu"
+
+#: ../data/labyrinth.glade.h:2
+msgid "Labyrinth Maps"
+msgstr "Mapy Labyrinth"
+
+#: ../data/labyrinth.glade.h:3
+msgid "New Map"
+msgstr "Nová Mapa"
+
+#: ../data/labyrinth.glade.h:4
+msgid "Open Map"
+msgstr "Otevřít Mapu"
+
+#: ../data/labyrinth.glade.h:5
+msgid "Quit"
+msgstr "Ukončit"
+
+#: ../data/labyrinth.desktop.in.h:1
+msgid "Labyrinth Mind-mapping"
+msgstr "Labyrinth Myšlenkové mapy"
+
+#: ../data/labyrinth.desktop.in.h:2
+msgid "Map your mind"
+msgstr "Zmapujte svou mysl"
+
+#: ../data/labyrinth.desktop.in.h:3
+msgid "Mind-mapping"
+msgstr "Tvorba myšlenkových map"
+
