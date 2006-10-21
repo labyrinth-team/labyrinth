@@ -1,3 +1,10 @@
+2006-10-21 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+    * src/Makefile.am:
+    Add TextBufferMarkup.py (Issue #16)
+    Thanks to "jmalonzo" for spotting :)
+
+
 2006-10-19 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 	
 	* src/MainWindow.py:
