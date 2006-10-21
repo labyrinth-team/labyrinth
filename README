@@ -1,6 +1,17 @@
 Labyrinth
 ---------
 
+License
+-------
+
+This software is released under the GNU GPL v2 (or later) license.  All source files are included in this, unless explicitely stated in the source file itself.  For copyright owners, please refer to the source files individually.
+
+The "labyrinth" icon (data/labyrinth.svg and data/labyrinth-*.png) is copyright Josef Vybíral and is released under the GNU GPL v2 license.
+
+Please refer to the "COPYING" file for a complete copy of the GNU GPL v2 license.
+
+All documentation (This file, anything in the docs directory) released with this package is released as public domain.  The documentation, you can do with as you please.
+
 What is it?
 -----------
 

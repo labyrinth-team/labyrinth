@@ -1,5 +1,15 @@
 2006-10-21 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* README:
+	Added "License" section at the top of the file
+
+	* data/labyrinth.svg:
+	* data/labyrinth-24.png:
+	* data/labyrinth-22.png:
+	* data/labyrinth-16.png:
+	Shiny new icon from Josef Vybíral
+	(icon released under GNU GPL v2)
+
     * src/Makefile.am:
     Add TextBufferMarkup.py (Issue #16)
     Thanks to "jmalonzo" for spotting :)
