@@ -35,10 +35,9 @@ def _check (path):
 name = join(dirname(__file__), '..')
 if _check(name):
 		sys.path.insert(0, abspath(name))
-		print 'Running uninstalled, modifying PYTHONPATH: ['+str(abspath(name))+':$PYTHONPATH]'
 else:
 		sys.path.insert(0, abspath("@PYTHONDIR@"))
-		print "Running installed, using [@PYTHONDIR@:$PYTHONPATH]"
+
 
 # Hopefully this will work now ;)
 import utils
@@ -65,6 +64,12 @@ gtk.glade.textdomain('labyrinth')
 
 def main():
 	parser = optparse.OptionParser()
+        parser.add_option("--use-tray-icon", 
+            dest="tray_icon", action="store_true", default=False)
+        parser.add_option("--no-tray-icon", 
+            dest="tray_icon", action="store_false" )
+        parser.add_option("--hide-main-window", 
+            action="store_true", default=False)
 	parser.add_option("-m", "--map",
                   action="store", type="string", dest="filename",
                   help="Open a map from a given filename (from internal database)")
@@ -72,7 +77,12 @@ def main():
 				  action="store", type="string", dest="filepath",
 				  help="Open a map from a given filename (including path)")
 	(options, args) = parser.parse_args()	
-	MapBrowser = Browser.Browser ()
+        if not options.tray_icon:
+            options.hide_main_window=False
+	MapBrowser = Browser.Browser (
+          start_hidden = options.hide_main_window, 
+          tray_icon= options.tray_icon
+        )
 	if options.filename != None:
 		MapBrowser.open_map(utils.get_save_dir() + options.filename, -2)
 	elif options.filepath != None:

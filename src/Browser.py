@@ -2,6 +2,7 @@
 # This file is part of Labyrinth
 #
 # Copyright (C) 2006 - Don Scorgie <DonScorgie@Blueyonder.co.uk>
+#					 - Andreas Sliwka <andreas.sliwka@gmail.com>
 #
 # Labyrinth is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,32 +31,21 @@ import os
 import os
 import gtk.glade
 import MainWindow
-try:
-	import defs
-except:
-	class defs:
-		DATA_DIR="./data"
+from MapList import MapList
+import TrayIcon
+
 import gettext
 _ = gettext.gettext
-import xml.dom.minidom as dom
+
 
 class Browser (gtk.Window):
 	COL_ID = 0
 	COL_TITLE = 1
-	COL_FNAME = 2
-	COL_OPEN = 3
-	
-	
-	
-	def __init__(self):
-		super(Browser, self).__init__()
-		self.maps=[]
-		self.nmap = 0
-		if isfile (defs.DATA_DIR+'/labyrinth/labyrinth.glade'):
-			self.glade = gtk.glade.XML (defs.DATA_DIR+'/labyrinth/labyrinth.glade')
-		else:
-			self.glade = gtk.glade.XML ('data/labyrinth.glade')
 
+ 
+	def __init__(self, start_hidden, tray_icon):
+		super(Browser, self).__init__()
+		self.glade=gtk.glade.XML(utils.get_data_file_name('/labyrinth.glade'))
 		self.view = self.glade.get_widget ('MainView')
 		self.populate_view ()
 		self.view.connect ('row-activated', self.open_row_cb)
@@ -73,81 +63,110 @@ class Browser (gtk.Window):
 		self.delete_button.set_sensitive (False)
 
 		self.main_window = self.glade.get_widget ('MapBrowser')
+		self.main_window.set_size_request (400, 300)
 		try:
 			self.main_window.set_icon_name ('labyrinth')
 		except:
-			self.main_window.set_icon_from_file('data/labyrinth.svg')
-		self.main_window.connect ('destroy', self.quit_clicked, None)
-		self.main_window.set_size_request (400, 300)
-		self.main_window.show ()
+			self.main_window.set_icon_from_file(utils.get_data_file_name('labyrinth.svg'))
+		if tray_icon: 
+			self.main_window.connect ('delete_event', self.toggle_main_window, None)
+			traymenu = gtk.Menu()
+			quit_item = gtk.MenuItem("Quit")
+			quit_item.connect("activate",self.quit_clicked)
+			traymenu.add(quit_item)
+			traymenu.show_all()
+			self.traymenu = traymenu
+			self.trayicon = TrayIcon.TrayIcon(
+							icon_name="labyrinth",
+							menu=traymenu,
+							activate=self.toggle_main_window)
+		else:
+			self.main_window.connect('delete_event', self.quit_clicked, None) 
+		if start_hidden:
+			self.main_window.hide ()
+		else:
+			self.main_window.show_all ()
 
-	
+	def toggle_main_window(self,*args):
+		visible = self.main_window.get_property("visible")
+		if visible:
+			self.main_window.hide()
+		else:
+			self.main_window.show()
+		return True
+
 	def map_title_cb (self, mobj, new_title, mobj1):
-		for m in self.maps:
-			if m[1] == mobj:
-				break
-		if not m:
-			print "Error: Can't find map"
-			sys.exit(4)
-		it = self.mapslist.get_iter_root ()
-		while it:
-			(mnum, ) = self.mapslist.get (it, self.COL_ID)
-			if mnum == m[0]:
-				self.mapslist.set (it, self.COL_TITLE, new_title)
-				return
-			it = self.mapslist.iter_next (it)
-		print "Error: Unable to set title properly"
-		sys.exit (5)	
+		map = MapList.get_by_window(mobj)
+		if not map:
+			raise "What a mess, can't find the map"
+		map.title=new_title
 	
 	def get_selected (self):
+		raise "this function is deprecated"
+
+	def get_selected_map(self):
 		sel = self.view.get_selection ()
 		(model, it) = sel.get_selected ()
-		return it
-
-	def open_map (self, fname = None, num=-1):
-		win = MainWindow.LabyrinthWindow (fname)
-		if num == -1:
-			num = self.nmap
-		elif num == -2:
-			it = self.mapslist.get_iter_root ()
-			while it:
-				(mnum, fname_file) = self.mapslist.get (it, self.COL_ID, self.COL_FNAME)
-				if fname_file == fname:
-					num = mnum
-				it = self.mapslist.iter_next (it)
-		self.maps.append ((num, win))
-		win.connect ("title-changed", self.map_title_cb)
-		win.connect ("window_closed", self.remove_map_cb)
-		win.connect ("file_saved", self.file_save_cb)
-		self.nmap += 1
-		return (num, win)
+		if it:
+		    (num,) = MapList.tree_view_model.get (it, self.COL_ID)
+		    map = MapList.get_by_index(num)
+		    return  map 
+		else:
+		    return None
 	
 	def cursor_change_cb (self, treeview):
-		selected = self.get_selected ()
-		if not selected:
+		selected_map = self.get_selected_map ()
+		if not selected_map:
 			self.open_button.set_sensitive (False)
 			self.delete_button.set_sensitive (False)
 		else:
 			self.open_button.set_sensitive (True)
 			self.delete_button.set_sensitive (True)
-			
 	
+	def open_map (self, map):
+		win = MainWindow.LabyrinthWindow (map.filename)
+		win.connect ("title-changed", self.map_title_cb)
+		win.connect ("window_closed", self.remove_map_cb)
+		win.connect ("file_saved", self.file_save_cb)
+		map.window = win
+		return (MapList.index(map), win)
+	
+	def open_selected_map(self):
+		map = self.get_selected_map()
+		if map is None:
+			raise "you clicked the 'open' button bud had no map selected"
+		if map.window:
+			print "Window for map '%s' is already open" % map.title
+			# may be the window should be raised?
+		else:
+			self.open_map (map)
+    
 	def open_clicked (self, button):
-		selected = self.get_selected ()
-		if not selected:
-			return
-		(fname,cur, num) = self.mapslist.get (selected, self.COL_FNAME, self.COL_OPEN, self.COL_ID)
-		if not cur:
-			self.open_map (fname, num)
-			self.mapslist.set (selected, self.COL_OPEN, True)
-	
-	def new_clicked (self, button):
-		(num, win) = self.open_map ()		
-		self.mapslist.append ([num, win.title_cp, None, True])
+		self.open_selected_map() 
 			
+	def open_row_cb (self, view, path, col):
+		self.open_selected_map ()
+
+	def new_clicked (self, button):
+		map = MapList.create_empty_map()
+		self.open_map(map)
+
 	def delete_clicked (self, button):
-		it = self.get_selected ()
-		if not it:
+		map = self.get_selected_map ()
+		if not map:
+			raise "You clicked on delete but had no map selected"
+		error_message = ""
+		if map.window:
+			error_message =  _("The map cannot be deleted right now.  Is it open?")
+		elif not map.filename:
+			error_message = _("Error! Error! Error! map has no filename")
+		if error_message:
+			dialog = gtk.MessageDialog (self, gtk.DIALOG_MODAL, gtk.MESSAGE_WARNING, gtk.BUTTONS_OK,
+									_("Cannot delete this map"))
+			dialog.format_secondary_text (error_message)
+			dialog.run ()
+			dialog.hide ()
+			del (dialog)
 			return
 		dialog = gtk.MessageDialog (self, gtk.DIALOG_MODAL, gtk.MESSAGE_WARNING, gtk.BUTTONS_YES_NO,
 									_("Do you really want to delete this Map?"))
@@ -156,95 +175,31 @@ class Browser (gtk.Window):
 		del (dialog)
 		if resp != gtk.RESPONSE_YES:
 			return
-
-		(fname, active) = self.mapslist.get (it, self.COL_FNAME, self.COL_OPEN)
-		if active or not fname:
-			dialog = gtk.MessageDialog (self, gtk.DIALOG_MODAL, gtk.MESSAGE_WARNING, gtk.BUTTONS_OK,
-									_("Cannot delete this map"))
-			dialog.format_secondary_text (_("The map cannot be deleted right now.  Is it open?"))
-			dialog.run ()
-			dialog.hide ()
-			del (dialog)
-			return
-		else:
-			os.unlink (fname)
-			self.mapslist.remove (it)
+		MapList.delete (map)
 		self.view.emit ('cursor-changed')
-
 	
 	def remove_map_cb (self, mobj, a):
-		for m in self.maps:
-			if m[1] == mobj:
-				break
-		if not m:
-			print "Error: Can't find map"
-			sys.exit(4)
-		it = self.mapslist.get_iter_root ()
-		while it:
-			(mnum, fname) = self.mapslist.get (it, self.COL_ID, self.COL_FNAME)
-			if mnum == m[0]:
-				self.mapslist.remove (it)
-				if fname:
-					os.unlink (fname)
-				self.maps.remove (m)
-				self.view.emit ('cursor-changed')
-				return
-			it = self.mapslist.iter_next (it)
-		print "Error: Unable to remove properly"
-		sys.exit (5)	
+		map = MapList.get_by_window(mobj)
+		if map:
+		    MapList.delete(map)
+		    self.view.emit ('cursor-changed')
+		    return
+		raise "Cant remove map of window %s" % mobj
 
 	def file_save_cb (self, mobj, new_fname, mobj1):
-		for m in self.maps:
-			if m[1] == mobj:
-				break
-		if not m:
-			print "Error: Can't find map"
-			sys.exit(4)
-		it = self.mapslist.get_iter_root ()
-		while it:
-			(mnum, fname) = self.mapslist.get (it, self.COL_ID, self.COL_FNAME)
-			if mnum == m[0]:
-				if not fname:
-					self.mapslist.set (it, self.COL_FNAME, new_fname, self.COL_OPEN, False)
-				else:
-					self.mapslist.set (it, self.COL_OPEN, False)
-				self.maps.remove (m)
-				return
-			it = self.mapslist.iter_next (it)
-		print "Error: Unable to set save properly"
-		sys.exit (5)	
+		map = MapList.get_by_window(mobj)
+		map.window = None
+		map.filename = new_fname
+		return
 
-	def quit_clicked (self, button, other=None):
-		for m in self.maps:
-			m[1].close_window_cb (None)
+	def quit_clicked (self, button, other=None, *data):
+		for map in MapList.get_open_windows():
+			map.window.close_window_cb (None)
 		gtk.main_quit ()
-			
-	def open_row_cb (self, view, path, col):
-		self.open_clicked (None)
-		pass
 
-	def populate_model (self, filename):
-		f = file (filename, 'r')
-		doc = dom.parse (f)
-		top_element = doc.documentElement	
-	
-		title = top_element.getAttribute ("title")
-		
-		self.mapslist.append ([self.nmap, title, filename, False])
-		self.nmap += 1
-			
 	def populate_view (self):
 		column = gtk.TreeViewColumn(_("Map Name"), gtk.CellRendererText(), text=self.COL_TITLE)
 		self.view.append_column(column)
 
-		self.mapslist = gtk.ListStore (int, str, str, 'gboolean')
-		self.view.set_model (self.mapslist)
-		
-		save_loc = utils.get_save_dir ()
-		for f in os.listdir(save_loc):
-			self.populate_model (save_loc+f)
-			
-			
-			
-			
-			
+		self.view.set_model (MapList.get_TreeViewModel())
+	       

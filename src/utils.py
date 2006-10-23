@@ -2,6 +2,7 @@
 # This file is part of labyrinth
 #
 # Copyright (C) 2006 - Don Scorgie
+#                    - Andreas Sliwka
 #
 # labyrinth is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,6 +27,14 @@ import sys
 from os.path import *
 import os
 
+__BE_VERBOSE=os.environ.get('DEBUG_LABYRINTH',0)
+if __BE_VERBOSE:
+	def print_debug(*data):
+		sys.stderr.write("\n".join(data) + "\n")
+else:
+	def print_debug(*data):
+		pass
+
 
 def get_save_dir ():
 	''' Returns the path to the directory to save the maps to '''
@@ -42,6 +51,32 @@ def parse_coords (string):
 	local_2 = string[string.find (',')+1:string.find(')')]
 	coord = (float(local),	float(local_2))
 	return coord
+
+__data_dir = None
+
+def get_data_dir():
+	'''returns the data dir. Tries to find it the first time its called'''
+	global __data_dir
+	if __data_dir is None:
+		#decide wether we run under development or if the program has been installed 
+		path = join(dirname(__file__), '..')
+		if exists(path) and isdir(path) and isfile(path+"/AUTHORS"):
+			__data_dir = os.sep.join([dirname(__file__), '..' , 'data']) 
+		else:
+			try:
+				import defs
+				__data_dir=defs.pkgdatadir
+			except:
+				__data_dir = "./data"
+	return __data_dir
+
+def get_data_file_name (file_name):
+	''' takes a string and either returns it with the data directory prepended.'''
+	return get_data_dir() + os.sep + file_name
+
+def get_data_file (file_name):
+	''' takes a string and either returns a data file of that name or raises an exception if it cant find it '''
+	return open(get_data_file_name(file_name))
 
 # Drawing functions
 
@@ -96,3 +131,4 @@ def export_thought_outline (context, ul, lr, am_root = False, am_primary = False
 		draw_thought_classic (context, real_ul, real_lr, False, am_primary)
 	else:
 		print "Error: Unknown thought style: "+str(style)
+

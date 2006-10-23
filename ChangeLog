@@ -1,3 +1,19 @@
+2006-10-23 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* src/TrayIcon.py:
+	* src/labyrinth.py:
+	* src/utils.py:
+	* src/MapList.py:
+	* src/MainWindow.py:
+	* src/Makefile.am:
+	* src/Browser.py:
+	Massive update to Browser from Andreas Sliwka
+	Split into MVC style: MapList contains the maps
+	Browser only shows them
+	Add debug_print function
+	Move defs stuff into utils
+	Add optional TrayIcon (disabled by default: --use-tray-icon)
+
 2006-10-21 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* README:

@@ -18,7 +18,9 @@ labyrinth_PYTHON = 	\
 	BaseThought.py	\
 	ImageThought.py	\
 	DrawingThought.py \
-	TextBufferMarkup.py
+	TextBufferMarkup.py \
+	MapList.py \
+	TrayIcon.py
 
 nodist_labyrinth_PYTHON = defs.py
 

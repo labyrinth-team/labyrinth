@@ -28,14 +28,8 @@ import gobject
 import gettext
 _ = gettext.gettext
 import MMapArea
-try:
-	import defs
-except:
-	class defs:
-		DATA_DIR="./data"
-		VERSION="Uninstalled"
 import utils
-
+from MapList import MapList
 import xml.dom.minidom as dom
 
 num_maps= 1
@@ -55,12 +49,11 @@ class LabyrinthWindow (gtk.Window):
 						 					   (gobject.TYPE_OBJECT, )))	
 	
 	def __init__ (self, filename):
-		global num_maps
 		super(LabyrinthWindow, self).__init__()
 		try:
 			self.set_icon_name ('labyrinth')
 		except:
-			self.set_icon_from_file('data/labyrinth.svg')
+			self.set_icon_from_file(utils.get_data_file_name('labyrinth.svg'))
 		self.MainArea = MMapArea.MMapArea ()
 		vbox = gtk.VBox ()
 		self.add (vbox)
@@ -82,8 +75,7 @@ class LabyrinthWindow (gtk.Window):
 		
 		if not filename:
 			self.MainArea.set_size_request (500, 500)
-			self.map_number = num_maps
-			num_maps += 1
+			self.map_number = MapList.count() +1
 			# TODO: This shouldn't be set to a hard-coded number.  Fix.
 			self.pane_pos = 500
 			self.title_cp = _("Untitled Map %d" % self.map_number)
@@ -189,10 +181,7 @@ class LabyrinthWindow (gtk.Window):
 				 
 		self.ui = gtk.UIManager ()
 		self.ui.insert_action_group (ag, 0)
-		try:
-			self.ui.add_ui_from_file (defs.DATA_DIR+'/labyrinth/labyrinth-ui.xml')
-		except:
-			self.ui.add_ui_from_file ('data/labyrinth-ui.xml')
+		self.ui.add_ui_from_file (utils.get_data_file_name('labyrinth-ui.xml'))
 		self.add_accel_group (self.ui.get_accel_group ())
 		 
 	def view_extend_cb (self, arg):
@@ -274,8 +263,8 @@ class LabyrinthWindow (gtk.Window):
 			if split:
 				final = split.pop ()
 				for s in split:
-				   self.title_cp += s
-				   self.title_cp += ' '
+					self.title_cp += s
+					self.title_cp += ' '
 				self.title_cp += final
 				if len(self.title_cp) > 27:
 					self.title_cp = self.title_cp[0:27]
