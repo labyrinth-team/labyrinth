@@ -9,8 +9,9 @@
 	Catch (temporarily) im_context signals and dump to terminal
 	Add prefs.py to calculate / store preferences
 	Add RTL mode when in a RTL environment -
-	right edge anchored, edit sign displayed in
+	right edge anchored and edit sign displayed in
 	top right corner
+	Mixing RTL and LTR doesn't work so well yet.
 
 	* src/MainWindow.py:
 	Fix creation of new maps - MapNumber wasn't referenced
