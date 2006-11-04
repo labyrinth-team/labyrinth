@@ -1,6 +1,11 @@
 2006-11-04 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* src/TextThought.py:
+	Hook up remaining (interesting) signals from IMContext
+	Insert preedit text where appropriate (including all the
+	shiny pango attrs that go with it)
+
+	* src/TextThought.py:
 	Check the function return for get_direction, not just the function
 	address.  Oops.
 	

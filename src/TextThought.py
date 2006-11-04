@@ -46,7 +46,8 @@ class TextThought (BaseThought.BaseThought):
 		self.identity = thought_number
 		self.pango_context = pango_context
 		self.moving = False
-
+		self.preedit = None
+		self.attrlist = None
 
 		if prefs.get_direction () == gtk.TEXT_DIR_LTR:
 			self.pango_context.set_base_dir (pango.DIRECTION_LTR)
@@ -88,8 +89,31 @@ class TextThought (BaseThought.BaseThought):
 		desc = pango.FontDescription ("normal 12")
 		font = self.pango_context.load_font (desc)
 		del self.layout
+		del self.attrlist
+		self.attrlist = pango.AttrList ()
+		if self.preedit:
+			ins_text = self.preedit[0]
+			ins_style = self.preedit[1]
+			if self.index == len(self.text):
+				show_text = self.text+ins_text
+			elif self.index == 0:
+				show_text = ins_text + self.text
+			else:
+				split1 = self.text[:self.index]
+				split2 = self.text[self.index:]
+				show_text = split1 + ins_text + split2
+			it = ins_style.get_iterator ()
+			while it:
+				for att in it.get_attrs ():
+					att.start_index += self.index
+					att.end_index += self.index
+					self.attrlist.insert (att)
+				if not it.next ():
+					it = None
+		else:
+			show_text = self.text		
 		self.layout = pango.Layout (self.pango_context)
-		self.layout.set_text (self.text)
+		self.layout.set_text (show_text)
 		(x,y) = self.layout.get_pixel_size ()
 		margin = utils.margin_required (utils.STYLE_NORMAL)
 		if prefs.get_direction () == gtk.TEXT_DIR_LTR:
@@ -146,7 +170,10 @@ class TextThought (BaseThought.BaseThought):
 			utils.draw_thought_outline (context, self.ul, self.lr, self.am_selected, self.am_primary, utils.STYLE_NORMAL)
 
 		else:
-			(strong, weak) = self.layout.get_cursor_pos (self.index)
+			if self.preedit:
+				(strong, weak) = self.layout.get_cursor_pos (self.index + self.preedit[2])
+			else:
+				(strong, weak) = self.layout.get_cursor_pos (self.index)
 			(startx, starty, curx,cury) = strong
 			startx /= pango.SCALE
 			starty /= pango.SCALE
@@ -164,13 +191,12 @@ class TextThought (BaseThought.BaseThought):
 				context.line_to (self.lr[0], self.ul[1])
 				context.line_to (self.lr[0]-5, self.ul[1])
 			context.stroke ()
-		attrs = pango.AttrList ()
 		if self.index > self.end_index:
 			bgsel = pango.AttrBackground (65535, 0, 0, self.end_index, self.index)
 		else:
 			bgsel = pango.AttrBackground (65535, 0, 0, self.index, self.end_index)
-		attrs.insert (bgsel)
-		self.layout.set_attributes(attrs)
+		self.attrlist.insert (bgsel)
+		self.layout.set_attributes(self.attrlist) 
 
 		context.move_to (self.text_location[0], self.text_location[1])
 		context.show_layout (self.layout)
@@ -601,10 +627,24 @@ class TextThought (BaseThought.BaseThought):
 		self.emit ("update_view")
 
  	def delete_surroundings(self, imcontext, offset, n_chars, mode):
- 		print "Deleting surroundings"
+		left = self.text[:offset]
+		right = self.text[offset+n_chars:]
+		self.text = left+right
+		self.rebuild_byte_table ()
+		if self.index > len(self.text):
+			self.index = len(self.text)
+		self.recalc_edges ()
+		self.emit ("title_changed", self.text)
+		self.bindex = self.bindex_from_index (self.index)
+		self.emit ("update_view")
  		
  	def preedit_changed (self, imcontext, mode):
- 		print "Preedit changed: "+str(imcontext.get_preedit_string ())
+ 		self.preedit = imcontext.get_preedit_string ()
+ 		if self.preedit[0] == '':
+ 			self.preedit = None
+ 		self.recalc_edges ()
+ 		self.emit ("update_view")
  		
  	def retrieve_surroundings (self, imcontext, mode):
- 		print "Retrieving surroundings"
+ 		imcontext.set_surrounding (self.text, -1, self.bindex)
+ 		return True
