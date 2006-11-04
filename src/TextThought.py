@@ -48,7 +48,7 @@ class TextThought (BaseThought.BaseThought):
 		self.moving = False
 
 
-		if prefs.get_direction == gtk.TEXT_DIR_LTR:
+		if prefs.get_direction () == gtk.TEXT_DIR_LTR:
 			self.pango_context.set_base_dir (pango.DIRECTION_LTR)
 		else:
 			self.pango_context.set_base_dir (pango.DIRECTION_RTL)
@@ -152,7 +152,6 @@ class TextThought (BaseThought.BaseThought):
 			starty /= pango.SCALE
 			curx /= pango.SCALE
 			cury /= pango.SCALE
-
 			context.move_to (self.text_location[0]+startx, self.text_location[1]+starty)
 			context.line_to (self.text_location[0]+startx, self.text_location[1]+starty+cury)
 			context.stroke ()
@@ -600,3 +599,12 @@ class TextThought (BaseThought.BaseThought):
 		self.emit ("title_changed", self.text)
 		self.bindex = self.bindex_from_index (self.index)
 		self.emit ("update_view")
+
+ 	def delete_surroundings(self, imcontext, offset, n_chars, mode):
+ 		print "Deleting surroundings"
+ 		
+ 	def preedit_changed (self, imcontext, mode):
+ 		print "Preedit changed: "+str(imcontext.get_preedit_string ())
+ 		
+ 	def retrieve_surroundings (self, imcontext, mode):
+ 		print "Retrieving surroundings"

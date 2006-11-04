@@ -202,19 +202,19 @@ class BaseThought (gobject.GObject):
 		pass
 
  	def delete_surroundings(self, imcontext, offset, n_chars, mode):
- 		print "Deleting surroundings"
+ 		pass
  		
  	def preedit_changed (self, imcontext, mode):
- 		print "Preedit changed"
+ 		pass
  		
  	def preedit_end (self, imcontext, mode):
- 		print "Preedit End"
+ 		pass
  		
  	def preedit_start (self, imcontext, mode):
- 		print "Preedit start"
+ 		pass
  		
  	def retrieve_surroundings (self, imcontext, mode):
- 		print "Retrieving surroundings"
+ 		pass
 
 
 class ResizableThought (BaseThought):

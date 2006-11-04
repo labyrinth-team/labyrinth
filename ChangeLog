@@ -1,6 +1,13 @@
 2006-11-04 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* src/TextThought.py:
+	Check the function return for get_direction, not just the function
+	address.  Oops.
+	
+	* src/BaseThought.py:
+	Don't print events - just pass silently
+
+	* src/TextThought.py:
 	* src/BaseThought.py:
 	* src/MMapArea.py:
 	* src/prefs.py:
