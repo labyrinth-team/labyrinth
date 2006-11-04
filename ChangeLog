@@ -1,5 +1,9 @@
 2006-11-04 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/MainWindow.py:
+	Fix creation of new maps - MapNumber wasn't referenced
+	properly
+
 	* src/DrawingThought.py:
 	* src/utils.py:
 	* src/MainWindow.py:

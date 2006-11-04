@@ -99,8 +99,8 @@ class LabyrinthWindow (gtk.Window):
 			self.map_number = MapList.count() +1
 			# TODO: This shouldn't be set to a hard-coded number.  Fix.
 			self.pane_pos = 500
-			self.title_cp = _("Untitled Map %d" % map_number)
-			map_number += 1
+			self.title_cp = _("Untitled Map %d" % self.map_number)
+			self.map_number += 1
 			self.mode = MMapArea.MODE_EDITING
 			self.extended_visible = False
 		else:
