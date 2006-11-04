@@ -42,6 +42,7 @@ else:
 # Hopefully this will work now ;)
 import utils
 import Browser
+import prefs
 try:
 	import defs
 	localedir = abspath(join(defs.DATA_DIR, "locale"))

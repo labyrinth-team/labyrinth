@@ -1,5 +1,17 @@
 2006-11-04 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/TextThought.py:
+	* src/BaseThought.py:
+	* src/MMapArea.py:
+	* src/prefs.py:
+	* src/labyrinth.py:
+	* src/Makefile.am:
+	Catch (temporarily) im_context signals and dump to terminal
+	Add prefs.py to calculate / store preferences
+	Add RTL mode when in a RTL environment -
+	right edge anchored, edit sign displayed in
+	top right corner
+
 	* src/MainWindow.py:
 	Fix creation of new maps - MapNumber wasn't referenced
 	properly

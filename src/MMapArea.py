@@ -167,9 +167,7 @@ class MMapArea (gtk.DrawingArea):
 				self.select_thought (thought, None)
 			else:
 				self.emit ("change_buffer", thought.extended_buffer)
-				if self.commit_handler:
-					self.im_context.disconnect (self.commit_handler)
-				self.commit_handler = self.im_context.connect ("commit", thought.commit_text, self.mode)
+				self.hookup_im_context (thought)
 				for x in self.selected:
 					self.create_link (x, None, thought)
 			if self.unending_link:
@@ -249,9 +247,7 @@ class MMapArea (gtk.DrawingArea):
 		self.old_mode = self.mode
 		self.mode = mode
 		self.finish_editing ()
-		if self.commit_handler:
-			self.im_context.disconnect (self.commit_handler)
-			self.commit_handler = None
+		self.hookup_im_context ()
 
 		if self.window:
 			if mode == MODE_IMAGE or mode == MODE_DRAW:
@@ -277,14 +273,37 @@ class MMapArea (gtk.DrawingArea):
 		self.primary = thought
 		thought.make_primary ()
 
+	def hookup_im_context (self, thought = None):
+		if self.commit_handler:
+			self.im_context.disconnect (self.commit_handler)
+			self.im_context.disconnect (self.delete_handler)
+			self.im_context.disconnect (self.preedit_changed_handler)
+			self.im_context.disconnect (self.preedit_end_handler)
+			self.im_context.disconnect (self.preedit_start_handler)
+			self.im_context.disconnect (self.retrieve_handler)
+			self.commit_handler = None
+		if thought:
+			self.commit_handler = self.im_context.connect ("commit", thought.commit_text, self.mode)
+			self.delete_handler = self.im_context.connect ("delete-surrounding", thought.delete_surroundings, self.mode)
+			self.preedit_changed_handler = self.im_context.connect ("preedit-changed", thought.preedit_changed, self.mode)
+			self.preedit_end_handler = self.im_context.connect ("preedit-end", thought.preedit_end, self.mode)
+			self.preedit_start_handler = self.im_context.connect ("preedit-start", thought.preedit_start, self.mode)
+			self.retrieve_handler = self.im_context.connect ("retrieve-surrounding", thought.retrieve_surroundings, \
+															 self.mode)
+			
+#"commit"	 def callback(imcontext, string, user_param1, ...)
+#"delete-surrounding"	def callback(imcontext, offset, n_chars, user_param1, ...)
+#"preedit-changed"	def callback(imcontext, user_param1, ...)
+#"preedit-end"	def callback(imcontext, user_param1, ...)
+#"preedit-start"	def callback(imcontext, user_param1, ...)
+#"retrieve-surrounding"	
+
 	def select_thought (self, thought, modifiers):
 		if modifiers and modifiers & gtk.gdk.SHIFT_MASK and len (self.selected) > 1 and self.selected.count (thought) > 0:
 			self.selected.remove (thought)
 			thought.unselect ()
 			return
-		if self.commit_handler:
-			self.im_context.disconnect (self.commit_handler)
-			self.commit_handler = None
+		self.hookup_im_context ()
 		if self.editing:
 			self.finish_editing ()
 		self.thoughts.remove (thought)
@@ -300,7 +319,7 @@ class MMapArea (gtk.DrawingArea):
 		thought.select ()
 		if len(self.selected) == 1:
 			self.emit ("change_buffer", thought.extended_buffer)
-			self.commit_handler = self.im_context.connect ("commit", thought.commit_text, self.mode)
+			self.hookup_im_context (thought)
 		else:
 			self.emit ("change_buffer", None)
 
@@ -534,7 +553,7 @@ class MMapArea (gtk.DrawingArea):
 				self.begin_editing (t)
 		if len(self.selected) == 1:
 			self.emit ("change_buffer", self.selected[0].extended_buffer)
-			self.commit_handler = self.im_context.connect ("commit", self.selected[0].commit_text, self.mode)
+			self.hookup_im_context (self.selected[0])
 		else:
 			self.emit ("change_buffer", None)
 		del_links = []

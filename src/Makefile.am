@@ -20,7 +20,8 @@ labyrinth_PYTHON = 	\
 	DrawingThought.py \
 	TextBufferMarkup.py \
 	MapList.py \
-	TrayIcon.py
+	TrayIcon.py	\
+	prefs.py
 
 nodist_labyrinth_PYTHON = defs.py
 

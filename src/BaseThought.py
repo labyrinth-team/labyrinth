@@ -24,6 +24,7 @@ import gtk
 import utils
 import TextBufferMarkup
 
+
 MODE_EDITING = 0
 MODE_IMAGE = 1
 MODE_DRAW = 2
@@ -199,6 +200,22 @@ class BaseThought (gobject.GObject):
 
 	def recalc_edges (self):
 		pass
+
+ 	def delete_surroundings(self, imcontext, offset, n_chars, mode):
+ 		print "Deleting surroundings"
+ 		
+ 	def preedit_changed (self, imcontext, mode):
+ 		print "Preedit changed"
+ 		
+ 	def preedit_end (self, imcontext, mode):
+ 		print "Preedit End"
+ 		
+ 	def preedit_start (self, imcontext, mode):
+ 		print "Preedit start"
+ 		
+ 	def retrieve_surroundings (self, imcontext, mode):
+ 		print "Retrieving surroundings"
+
 
 class ResizableThought (BaseThought):
 	''' A resizable thought base class.  This allows the sides and corners \

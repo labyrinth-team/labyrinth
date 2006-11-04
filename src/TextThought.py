@@ -26,6 +26,7 @@ import gobject
 import Links
 import utils
 import BaseThought
+import prefs
 
 import xml.dom.minidom as dom
 import xml.dom
@@ -46,6 +47,12 @@ class TextThought (BaseThought.BaseThought):
 		self.pango_context = pango_context
 		self.moving = False
 
+
+		if prefs.get_direction == gtk.TEXT_DIR_LTR:
+			self.pango_context.set_base_dir (pango.DIRECTION_LTR)
+		else:
+			self.pango_context.set_base_dir (pango.DIRECTION_RTL)
+
 		self.b_f_i = self.bindex_from_index
 		margin = utils.margin_required (utils.STYLE_NORMAL)
 		if coords:
@@ -53,7 +60,6 @@ class TextThought (BaseThought.BaseThought):
 		else:
 			self.ul = None
 		self.all_okay = True
-
 
 	def index_from_bindex (self, bindex):
 		if bindex == 0:
@@ -86,8 +92,16 @@ class TextThought (BaseThought.BaseThought):
 		self.layout.set_text (self.text)
 		(x,y) = self.layout.get_pixel_size ()
 		margin = utils.margin_required (utils.STYLE_NORMAL)
-		self.text_location = (self.ul[0] + margin[0], self.ul[1] + margin[1])
-		self.lr = (x + self.text_location[0]+margin[2], y + self.text_location[1] + margin[3])
+		if prefs.get_direction () == gtk.TEXT_DIR_LTR:
+			self.text_location = (self.ul[0] + margin[0], self.ul[1] + margin[1])
+			self.lr = (x + self.text_location[0]+margin[2], y + self.text_location[1] + margin[3])
+		else:
+			self.layout.set_alignment (pango.ALIGN_RIGHT)
+			tmp1 = self.ul[1]
+			if not self.lr:
+				self.lr = (self.ul[0], self.ul[1] + y + margin[1] + margin[3])
+			self.text_location = (self.lr[0] - margin[2] - x, self.ul[1] + margin[1])
+			self.ul = (self.lr[0] - margin[0] - margin[2] - x, tmp1)
 
 	def commit_text (self, context, string, mode):
 		if not self.editing:
@@ -142,9 +156,14 @@ class TextThought (BaseThought.BaseThought):
 			context.move_to (self.text_location[0]+startx, self.text_location[1]+starty)
 			context.line_to (self.text_location[0]+startx, self.text_location[1]+starty+cury)
 			context.stroke ()
-			context.move_to (self.ul[0], self.ul[1]+5)
-			context.line_to (self.ul[0], self.ul[1])
-			context.line_to (self.ul[0]+5, self.ul[1])
+			if prefs.get_direction() == gtk.TEXT_DIR_LTR:
+				context.move_to (self.ul[0], self.ul[1]+5)
+				context.line_to (self.ul[0], self.ul[1])
+				context.line_to (self.ul[0]+5, self.ul[1])
+			else:
+				context.move_to (self.lr[0], self.ul[1]+5)
+				context.line_to (self.lr[0], self.ul[1])
+				context.line_to (self.lr[0]-5, self.ul[1])
 			context.stroke ()
 		attrs = pango.AttrList ()
 		if self.index > self.end_index:
@@ -197,17 +216,30 @@ class TextThought (BaseThought.BaseThought):
 		elif event.keyval == gtk.keysyms.Escape:
 			self.emit ("finish_editing")
 		elif event.keyval == gtk.keysyms.Left:
-			self.move_index_back (shift)
+			if prefs.get_direction() == gtk.TEXT_DIR_LTR:
+				self.move_index_back (shift)
+			else:
+				self.move_index_forward (shift)
 		elif event.keyval == gtk.keysyms.Right:
-			self.move_index_forward (shift)
+			if prefs.get_direction() == gtk.TEXT_DIR_RTL:
+				self.move_index_back (shift)
+			else:
+				self.move_index_forward (shift)
 		elif event.keyval == gtk.keysyms.Up:
 			self.move_index_up (shift)
 		elif event.keyval == gtk.keysyms.Down:
 			self.move_index_down (shift)
 		elif event.keyval == gtk.keysyms.Home:
+			if prefs.get_direction() == gtk.TEXT_DIR_LTR:
+				self.move_index_home (shift)
+			else:
+				self.move_index_end (shift)
 			self.move_index_home (shift)
 		elif event.keyval == gtk.keysyms.End:
-			self.move_index_end (shift)
+			if prefs.get_direction() == gtk.TEXT_DIR_LTR:
+				self.move_index_end (shift)
+			else:
+				self.move_index_end (shift)
 		elif event.keyval == gtk.keysyms.BackSpace:
 			self.backspace_char ()
 		elif event.keyval == gtk.keysyms.Delete:
