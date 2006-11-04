@@ -16,7 +16,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Labyrinth; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, 
+# Foundation, Inc., 51 Franklin St, Fifth Floor,
 # Boston, MA  02110-1301  USA
 #
 
@@ -102,7 +102,7 @@ def margin_required (style = STYLE_NORMAL):
 # Classic thought style drawing code
 def margin_thought_classic ():
 	return (5, 5, 5, 5)
-		
+
 def draw_thought_classic (context, ul, lr, am_root, am_primary):
 	context.move_to (ul[0], ul[1]+5)
 	context.line_to (ul[0], lr[1]-5)

@@ -15,7 +15,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Labyrinth; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, 
+# Foundation, Inc., 51 Franklin St, Fifth Floor,
 # Boston, MA  02110-1301  USA
 #
 
@@ -33,95 +33,130 @@ STYLE_END=1
 STYLE_BEGIN=2
 ndraw =0
 
-class DrawingPoint (object):
-	def __init__ (self, coords, style=STYLE_CONTINUE):
-		# As this is only really used for drawing and
-		# cairo wants indiviual points, we split coords here
-		self.x = coords[0]
-		self.y = coords[1]
-		self.style=style
-	def move_by (self, x, y):
-		self.x += x
-		self.y += y
+MODE_EDITING = 0
+MODE_IMAGE = 1
+MODE_DRAW = 2
 
 class DrawingThought (BaseThought.ResizableThought):
-	def __init__ (self, coords=None, ident=None, element=None, load=None, extended=None):
+	class DrawingPoint (object):
+		def __init__ (self, coords, style=STYLE_CONTINUE):
+			self.x = coords[0]
+			self.y = coords[1]
+			self.style = style
+		def move_by (self, x, y):
+			self.x += x
+			self.y += y
+
+	def __init__ (self, coords, pango_context, thought_number, save, loading):
 		global ndraw
-		super (DrawingThought, self).__init__()
+		super (DrawingThought, self).__init__(save, "drawing_thought")
 		ndraw+=1
-		self.element = element
-		self.extended_element = extended
+		self.identity = thought_number
+		self.want_move = False
 		self.points = []
-		self.text = _("Drawing #%d" %ndraw)
-		if not load:
+		self.text = _("Drawing #%d" % ndraw)
+		if not loading:
 			margin = utils.margin_required (utils.STYLE_NORMAL)
 			self.ul = (coords[0]-margin[0], coords[1]-margin[1])
-			self.identity = ident
 			self.lr = (coords[0]+100+margin[2], coords[1]+100+margin[3])
 			self.min_x = coords[0]+90
 			self.max_x = coords[0]+15
 			self.min_y = coords[1]+90
 			self.max_y = coords[1]+15
-			self.emit ("title_changed", self.text, 65)
-		else:
-			self.load_data (load)
+			self.width = 100
+			self.height = 100
 
-	def begin_editing (self, im_context = None):
-		return
-	
-	def finish_editing (self):
-		return
-	
-	def become_active_root (self):
-		self.am_root = True
-		return
-		
-	def finish_active_root (self):
-		self.am_root = False
-		return
-		
-	def become_primary_thought (self):
-		self.am_primary = True
-		return
-	
-	def handle_movement (self, coords, move=True, edit_mode=False):
+		self.all_okay = True
 
-		diffx = coords[0] - self.motion_coords[0]
-		diffy = coords[1] - self.motion_coords[1]
+	def draw (self, context):
+		utils.draw_thought_outline (context, self.ul, self.lr, self.am_selected, self.am_primary, utils.STYLE_NORMAL)
+		cwidth = context.get_line_width ()
+		context.set_line_width (1)
+		if len (self.points) > 0:
+			for p in self.points:
+				if p.style == STYLE_BEGIN:
+					context.move_to (p.x, p.y)
+				else:
+					context.line_to (p.x,p.y)
+
+		context.set_line_width (cwidth)
+		context.stroke ()
+		return
+
+	def want_motion (self):
+		return self.want_move
+
+	def recalc_edges (self):
+		self.lr = (self.ul[0]+self.width, self.ul[1]+self.height)
+
+	def process_button_down (self, event, mode):
+		modifiers = gtk.accelerator_get_default_mod_mask ()
+		self.button_down = True
+		if event.button == 1:
+			if event.type == gtk.gdk.BUTTON_PRESS:
+				self.emit ("select_thought", event.state & modifiers)
+				self.emit ("update_view")
+			if self.resizing != self.RESIZE_NONE and mode == MODE_DRAW:
+				self.want_move = True
+				return True
+		elif event.button == 3:
+			self.emit ("popup_requested", (event.x, event.y), 1)
+		self.emit ("update_view")
+
+
+	def process_button_release (self, event, unending_link, mode):
+		self.button_down = False
+		if unending_link:
+			unending_link.set_child (self)
+			self.emit ("claim_unending_link")
+		if len(self.points) > 0:
+			self.points[-1].style=STYLE_END
+		self.emit ("update_view")
+		self.want_move = False
+
+	def handle_motion (self, event, mode):
+		if (self.resizing == self.RESIZE_NONE or not self.want_move or not event.state & gtk.gdk.BUTTON1_MASK) \
+		   and mode != MODE_DRAW:
+			if not event.state & gtk.gdk.BUTTON1_MASK or mode != MODE_EDITING:
+				return False
+			else:
+				self.emit ("create_link", \
+				 (self.ul[0]-((self.ul[0]-self.lr[0]) / 2.), self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)))
+		diffx = event.x - self.motion_coords[0]
+		diffy = event.y - self.motion_coords[1]
 		change = (len(self.points) == 0)
 		tmp = self.motion_coords
-		self.motion_coords = coords
-		
-		if self.resizing != self.MOTION_NONE:
-			if self.resizing == self.MOTION_LEFT:
+		self.motion_coords = (event.x, event.y)
+		if self.resizing != self.RESIZE_NONE:
+			if self.resizing == self.RESIZE_LEFT:
 				if self.ul[0] + diffx > self.min_x:
 					self.motion_coords = tmp
 					return True
 				self.ul = (self.ul[0]+diffx, self.ul[1])
 				if change:
 					self.max_x += diffx
-			elif self.resizing == self.MOTION_RIGHT:
+			elif self.resizing == self.RESIZE_RIGHT:
 				if self.lr[0] + diffx < self.max_x:
 					self.motion_coords = tmp
 					return True
 				self.lr = (self.lr[0]+diffx, self.lr[1])
 				if change:
 					self.min_x += diffx
-			elif self.resizing == self.MOTION_TOP:
+			elif self.resizing == self.RESIZE_TOP:
 				if self.ul[1] + diffy > self.min_y:
 					self.motion_coords = tmp
 					return True
 				self.ul = (self.ul[0], self.ul[1]+diffy)
 				if change:
 					self.max_y += diffy
-			elif self.resizing == self.MOTION_BOTTOM:
+			elif self.resizing == self.RESIZE_BOTTOM:
 				if self.lr[1] + diffy < self.max_y:
 					self.motion_coords = tmp
 					return True
 				self.lr = (self.lr[0], self.lr[1]+diffy)
 				if change:
 					self.min_y += diffy
-			elif self.resizing == self.MOTION_UL:
+			elif self.resizing == self.RESIZE_UL:
 				if self.ul[1] + diffy > self.min_y or self.ul[0] + diffx > self.min_x:
 					self.motion_coords = tmp
 					return True
@@ -129,7 +164,7 @@ class DrawingThought (BaseThought.ResizableThought):
 				if change:
 					self.max_x += diffx
 					self.max_y += diffy
-			elif self.resizing == self.MOTION_UR:
+			elif self.resizing == self.RESIZE_UR:
 				if self.ul[1] + diffy > self.min_y or self.lr[0] + diffx < self.max_x:
 					self.motion_coords = tmp
 					return True
@@ -138,7 +173,7 @@ class DrawingThought (BaseThought.ResizableThought):
 				if change:
 					self.min_x += diffx
 					self.max_y += diffy
-			elif self.resizing == self.MOTION_LL:
+			elif self.resizing == self.RESIZE_LL:
 				if self.lr[1] + diffy < self.max_y or self.ul[0] + diffx > self.min_x:
 					self.motion_coords = tmp
 					return True
@@ -147,7 +182,7 @@ class DrawingThought (BaseThought.ResizableThought):
 				if change:
 					self.max_x += diffx
 					self.min_y += diffy
-			elif self.resizing == self.MOTION_LR:
+			elif self.resizing == self.RESIZE_LR:
 				if self.lr[1] + diffy < self.max_y:
 					self.motion_coords = tmp
 					return True
@@ -158,104 +193,50 @@ class DrawingThought (BaseThought.ResizableThought):
 				if change:
 					self.min_x += diffx
 					self.min_y += diffy
+			self.width = self.lr[0] - self.ul[0]
+			self.height = self.lr[1] - self.ul[1]
+			self.emit ("update_links")
+			self.emit ("update_view")
 			return True
-		if move:
-			tmp = self.motion_coords
-			self.motion_coords = coords
-			# Actually, we have to move the entire thing
-			self.ul = (self.ul[0]+diffx, self.ul[1]+diffy)
-			self.lr = (self.lr[0]+diffx, self.lr[1]+diffy)
-			self.min_x += diffx
-			self.min_y += diffy
-			self.max_x += diffx
-			self.max_y += diffy
-			for p in self.points:
-				p.move_by (diffx, diffy)
-			return True
-			
-		if not edit_mode:
-			if coords[0] < self.ul[0]:
-				self.ul = (coords[0]-5, self.ul[1])
-			elif coords[0] > self.lr[0]:
-				self.lr = (coords[0]+5, self.lr[1])
-			if coords[1] < self.ul[1]:
-				self.ul = (self.ul[0], coords[1]-5)
-			elif coords[1] > self.lr[1]:
-				self.lr = (self.lr[0], coords[1]+5)
 
-			if coords[0] < self.min_x:
-				self.min_x = coords[0]-10
-			elif coords[0] > self.max_x:
-				self.max_x = coords[0]+5
-			if coords[1] < self.min_y:
-				self.min_y = coords[1]-10
-			elif coords[1] > self.max_y:
-				self.max_y = coords[1]+5
-	
+		elif mode == MODE_DRAW and (event.state & gtk.gdk.BUTTON1_MASK):
+			if event.x < self.ul[0]:
+				self.ul = (event.x-5, self.ul[1])
+			elif event.x > self.lr[0]:
+				self.lr = (event.x+5, self.lr[1])
+			if event.y < self.ul[1]:
+				self.ul = (self.ul[0], event.y-5)
+			elif event.y > self.lr[1]:
+				self.lr = (self.lr[0], event.y+5)
+
+			if event.x < self.min_x:
+				self.min_x = event.x-10
+			elif event.x > self.max_x:
+				self.max_x = event.x+5
+			if event.y < self.min_y:
+				self.min_y = event.y-10
+			elif event.y > self.max_y:
+				self.max_y = event.y+5
+			self.width = self.lr[0] - self.ul[0]
+			self.height = self.lr[1] - self.ul[1]
 			if len(self.points) == 0 or self.points[-1].style == STYLE_END:
-				self.points.append (DrawingPoint (coords, STYLE_BEGIN))
+				self.points.append (self.DrawingPoint (event.get_coords(), STYLE_BEGIN))
 			else:
-				self.points.append (DrawingPoint (coords, STYLE_CONTINUE))
+				self.points.append (self.DrawingPoint (event.get_coords(), STYLE_CONTINUE))
+		self.emit ("update_view")
 		return True
-		
-	def handle_key (self, string, keysym, modifiers):
-		# Since we can't handle text in an drawing node, we ignore it.
-		return False	
-	
-	def finish_motion (self):
-		if len(self.points) > 0:
-			self.points[-1].style=STYLE_END
-		self.motion = self.MOTION_NONE
-		self.emit ("change_cursor", gtk.gdk.LEFT_PTR, None)
-		return
-	
-	def want_movement (self):
-		return True
-		
-	def draw (self, context):
-		utils.draw_thought_outline (context, self.ul, self.lr, self.am_root, self.am_primary, utils.STYLE_NORMAL)
-		cwidth = context.get_line_width ()
-		context.set_line_width (1)
-		if len (self.points) > 0:
-			for p in self.points:
-				if p.style == STYLE_BEGIN:
-					context.move_to (p.x, p.y)
-				else:
-					context.line_to (p.x,p.y)		
-		
-		context.set_line_width (cwidth)
-		context.stroke ()
-		return
-	
-	def export (self, context, move_x, move_y):
-		utils.export_thought_outline (context, self.ul, self.lr, self.am_root, self.am_primary, utils.STYLE_NORMAL,
-									  (move_x, move_y))
-		cwidth = context.get_line_width ()
-		context.set_line_width (1)
-		if len (self.points) > 0:
-			for p in self.points:
-				if p.style == STYLE_BEGIN:
-					context.move_to (p.x+move_x, p.y+move_y)
-				else:
-					context.line_to (p.x+move_x,p.y+move_y)		
-		
-		context.set_line_width (cwidth)
-		context.stroke ()
-		return
-	
-	def find_connection (self, other, export=False):
-		if not export and self.editing or other.editing:
-			return (None, None)
-		elif export:
-			self.update_bbox ()
-			other.update_bbox ()
-		xfrom = self.ul[0]-((self.ul[0]-self.lr[0]) / 2.)
-		yfrom = self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)
-		xto = other.ul[0]-((other.ul[0]-other.lr[0]) / 2.)
-		yto = other.ul[1]-((other.ul[1]-other.lr[1]) / 2.)
 
-		return ((xfrom, yfrom), (xto, yto))
-		
+	def move_by (self, x, y):
+		self.ul = (self.ul[0]+x, self.ul[1]+y)
+		self.min_x += x
+		self.min_y += y
+		self.max_x += x
+		self.max_y += y
+		for p in self.points:
+			p.move_by (x,y)
+		self.recalc_edges ()
+		self.emit ("update_links")
+
 	def update_save (self):
 		next = self.element.firstChild
 		while next:
@@ -276,8 +257,8 @@ class DrawingThought (BaseThought.ResizableThought):
 		self.element.setAttribute ("min_y", str(self.min_y))
 		self.element.setAttribute ("max_x", str(self.max_x))
 		self.element.setAttribute ("max_y", str(self.max_y))
-		
-		if self.am_root:
+
+		if self.am_selected:
 				self.element.setAttribute ("current_root", "true")
 		else:
 			try:
@@ -290,7 +271,7 @@ class DrawingThought (BaseThought.ResizableThought):
 			try:
 				self.element.removeAttribute ("primary_root")
 			except xml.dom.NotFoundErr:
-				pass				
+				pass
 		doc = self.element.ownerDocument
 		for p in self.points:
 			elem = doc.createElement ("point")
@@ -298,8 +279,8 @@ class DrawingThought (BaseThought.ResizableThought):
 			elem.setAttribute ("coords", str((p.x,p.y)))
 			elem.setAttribute ("type", str(p.style))
 		return
-		
-	def load_data (self, node):
+
+	def load (self, node):
 		tmp = node.getAttribute ("ul-coords")
 		self.ul = utils.parse_coords (tmp)
 		tmp = node.getAttribute ("lr-coords")
@@ -310,15 +291,18 @@ class DrawingThought (BaseThought.ResizableThought):
 		self.max_x = float(node.getAttribute ("max_x"))
 		self.max_y = float(node.getAttribute ("max_y"))
 
+		self.width = self.lr[0] - self.ul[0]
+		self.height = self.lr[1] - self.ul[1]
+
 		if node.hasAttribute ("current_root"):
-			self.am_root = True
+			self.am_selected = True
 		else:
-			self.am_root = False
+			self.am_selected = False
 		if node.hasAttribute ("primary_root"):
 			self.am_primary = True
 		else:
 			self.am_primary = False
-			
+
 		for n in node.childNodes:
 			if n.nodeName == "Extended":
 				for m in n.childNodes:
@@ -330,9 +314,89 @@ class DrawingThought (BaseThought.ResizableThought):
 				style = int (n.getAttribute ("type"))
 				tmp = n.getAttribute ("coords")
 				c = utils.parse_coords (tmp)
-				self.points.append (DrawingPoint (c, style))
+				self.points.append (self.DrawingPoint (c, style))
 			else:
 				print "Unknown node type: "+str(n.nodeName)
 
-	def get_max_area (self):
-		return (self.ul[0],self.ul[1],self.lr[0],self.lr[1])
+	def export (self, context, move_x, move_y):
+		utils.export_thought_outline (context, self.ul, self.lr, self.am_selected, self.am_primary, utils.STYLE_NORMAL,
+									  (move_x, move_y))
+		cwidth = context.get_line_width ()
+		context.set_line_width (1)
+		if len (self.points) > 0:
+			for p in self.points:
+				if p.style == STYLE_BEGIN:
+					context.move_to (p.x+move_x, p.y+move_y)
+				else:
+					context.line_to (p.x+move_x,p.y+move_y)
+
+		context.set_line_width (cwidth)
+		context.stroke ()
+		return
+
+	def includes (self, coords, mode):
+		if not self.ul or not self.lr:
+			return False
+
+		inside = (coords[0] < self.lr[0] + self.sensitive) and \
+				 (coords[0] > self.ul[0] - self.sensitive) and \
+			     (coords[1] < self.lr[1] + self.sensitive) and \
+			     (coords[1] > self.ul[1] - self.sensitive)
+
+		self.resizing = self.RESIZE_NONE
+		self.motion_coords = coords
+
+		if inside and (mode != MODE_EDITING or self.button_down):
+			if mode == MODE_DRAW:
+				self.emit ("change_mouse_cursor", gtk.gdk.PENCIL)
+			else:
+				self.emit ("change_mouse_cursor", gtk.gdk.LEFT_PTR)
+			return inside
+
+		if inside:
+			# 2 cases: 1. The click was within the main area
+			#		   2. The click was near the border
+			# In the first case, we handle as normal
+			# In the second case, we want to intercept all the fun thats
+			# going to happen so we can resize the thought
+			if abs (coords[0] - self.ul[0]) < self.sensitive:
+				# its near the top edge somewhere
+				if abs (coords[1] - self.ul[1]) < self.sensitive:
+				# Its in the ul corner
+					self.resizing = self.RESIZE_UL
+					self.emit ("change_mouse_cursor", gtk.gdk.TOP_LEFT_CORNER)
+				elif abs (coords[1] - self.lr[1]) < self.sensitive:
+				# Its in the ll corner
+					self.resizing = self.RESIZE_LL
+					self.emit ("change_mouse_cursor", gtk.gdk.BOTTOM_LEFT_CORNER)
+				elif coords[1] < self.lr[1] and coords[1] > self.ul[1]:
+				#anywhere else along the left edge
+					self.resizing = self.RESIZE_LEFT
+					self.emit ("change_mouse_cursor", gtk.gdk.LEFT_SIDE)
+			elif abs (coords[0] - self.lr[0]) < self.sensitive:
+				if abs (coords[1] - self.ul[1]) < self.sensitive:
+				# Its in the UR corner
+					self.resizing = self.RESIZE_UR
+					self.emit ("change_mouse_cursor", gtk.gdk.TOP_RIGHT_CORNER)
+				elif abs (coords[1] - self.lr[1]) < self.sensitive:
+				# Its in the lr corner
+					self.resizing = self.RESIZE_LR
+					self.emit ("change_mouse_cursor", gtk.gdk.BOTTOM_RIGHT_CORNER)
+				elif coords[1] < self.lr[1] and coords[1] > self.ul[1]:
+				#anywhere else along the right edge
+					self.resizing = self.RESIZE_RIGHT
+					self.emit ("change_mouse_cursor", gtk.gdk.RIGHT_SIDE)
+			elif abs (coords[1] - self.ul[1]) < self.sensitive and \
+				 (coords[0] < self.lr[0] and coords[0] > self.ul[0]):
+				# Along the top edge somewhere
+					self.resizing = self.RESIZE_TOP
+					self.emit ("change_mouse_cursor", gtk.gdk.TOP_SIDE)
+			elif abs (coords[1] - self.lr[1]) < self.sensitive and \
+				 (coords[0] < self.lr[0] and coords[0] > self.ul[0]):
+				# Along the bottom edge somewhere
+					self.resizing = self.RESIZE_BOTTOM
+					self.emit ("change_mouse_cursor", gtk.gdk.BOTTOM_SIDE)
+			else:
+				self.emit ("change_mouse_cursor", gtk.gdk.LEFT_PTR)
+		self.want_move = (self.resizing != self.RESIZE_NONE)
+		return inside

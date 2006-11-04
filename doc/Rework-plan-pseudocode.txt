@@ -1,0 +1,197 @@
+pseudo-code for MMapArea:
+
+signals:
+title_changed
+doc_save
+doc_delete
+change_mode
+thought_changed (extended_view change buffer)
+selection_changed (copy-paste)
+
+fun button_down:
+	object = find_object_at ()
+	
+	if object:
+		object.process_button_down (event,...)
+	else:
+		if button1:
+			self.create_new_thought (event.coords,...)
+		elif button3:
+			self.create_popup_menu (event.coords,...)
+			
+fun button_release:
+	object = find_object_at ()
+	
+	if object:
+		object.process_button_release (event, self.unending_link, ...)
+	elif self.unending_link:
+		del (self.unending_link)
+		self.unending_link = None
+	
+fun key_press:
+
+	if not self.imcontext.process_keypress ():
+		if len(self.selected) != 1 or not self.selected[:].process_key_press (event, ...):
+			self.global_key_handler ()
+		
+	
+fun key_release:
+	self.imcontext.process_keypress ()
+	
+fun motion:
+	if unending_link:
+		unending_link.set_end (event.location)
+		self.update_view ()
+	object = find_object_at ()
+	
+	if object:
+		object.handle_motion (event, ...)
+
+
+fun find_object_at:
+	for x in self.thoughts:
+		if x.includes (coords):
+			return x
+	for x in self.links:
+		if x. includes (coords):
+			return x
+	return None
+
+callback select_thought:
+	self.commit_signal_disconnect ()
+	self.commit_signal = None
+	if self.editing:
+		self.editing.finish_editing ()
+		self.editing = None
+	self.thoughts.remove (thought)
+	self.thoughts.prepend (thought)
+	if modmask & ctrl:
+		self.selected.append(thought)
+	elif modmask & shift:
+		# FIX somehow
+		self.selected.append(thought)
+	else:
+		for x in self.selected:
+			x.unselect ()
+		self.selected = None
+		self.selected = [thought]
+	if len(self.selected) == 1:
+		connect_commit_signal_from_im ()
+
+callback begin_editing:
+	if self.editing:
+		self.editing.finish_editing ()
+	self.editing = thought
+	thought.begin_editing ()
+
+callback create_link:
+	if self.unending_link:
+		del self.unending_link
+	self.unending_link = Link.Link (parent = thought, child = None, start_coords = coords,
+									end_coords = end_coords)
+	
+callback link_owned:
+	if not self.unending_link:
+		return
+	else self.links.append(self.unending_link)
+	self.unending_link = None
+
+callback popup_menu:
+	# TODO Fix
+	print "Popping up"
+
+callback finish_editing:
+	thought.finish_editing ()
+	self.editing = None
+
+callback update_view ():
+	self.invalidate ()
+	
+
+
+pseudo-code for thought:
+
+common signals:
+"select_thought"
+"begin_editing"
+"popup_menu"
+"link_owned"
+"update_view"
+"create_link"
+"finish_editing"
+"delete_thought"
+
+
+fun process_button_down:
+	moving = modmask & ctrl
+	if button1:
+		self.initial_coords = event.coords
+		other_initial = self.ul
+		if type == button_press:
+			self.emit ("select_thought", modmask)
+		elif type == 2button_press:
+			self.emit ("Begin_editing")
+		emit ("update_view")	
+	elif button3:
+		self.emit ("popup-menu", event.coords, self.menu)
+	
+fun process_button_release:
+	if moving:
+		add_undo_function (other_initial, self.ul)
+		moving = False
+		initial_coords = None
+	elif link:
+		link.set_child (self)
+		self.emit ("link_owned")
+
+fun handle_motion:
+	if moving:
+		self.ul += (event.coords - self.initial_coords)
+		emit ("update_view")
+	elif event.button1_down:
+		self.emit ("create_link", self.centre, event.coords)
+	
+fun process_key_press:
+	if event.keysym == Escape:
+		self.emit ("finish_editing")
+	elif event.modifiers & ctrl:
+		if event.keysym == a:
+			self.select_all_text ()
+		elif ...
+	elif event.keysym = left_arrow:
+		move_back()
+	...
+	
+	elif event.keysym == Return || enter:
+		add_text (...)
+
+	...
+	else:	
+		return False
+	return True
+
+fun finish_editing:
+	if len (self.text) == 0:
+		self.emit ("delete_thought")
+	
+callback commit:
+	if not self.editing:
+		self.emit ("begin_editing")
+	add_text (text)
+	self.emit ("update_view")
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

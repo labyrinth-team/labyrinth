@@ -16,7 +16,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Labyrinth; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, 
+# Foundation, Inc., 51 Franklin St, Fifth Floor,
 # Boston, MA  02110-1301  USA
 #
 
@@ -31,121 +31,108 @@ import xml.dom.minidom as dom
 import xml.dom
 
 class TextThought (BaseThought.BaseThought):
-	
-	def __init__ (self, coords=None, pango=None, ident=None, element=None, text_element=None, \
-				  load=None, extended_element = None):
-		super (TextThought, self).__init__()
-		self.pango_context = pango
-		self.text = ""
+	def __init__ (self, coords, pango_context, thought_number, save, loading):
+		super (TextThought, self).__init__(save, "thought")
+
 		self.index = 0
 		self.end_index = 0
 		self.bytes = ""
 		self.bindex = 0
 		self.text_location = coords
-		self.lr = None
-		self.editing = False
-		self.am_root = False
-		self.am_primary = False
-		self.element = element
-		self.text_element = text_element
-		self.extended_element = extended_element
+		self.text_element = save.createTextNode ("GOOBAH")
+		self.element.appendChild (self.text_element)
+		self.layout = None
+		self.identity = thought_number
+		self.pango_context = pango_context
+		self.moving = False
 
-		# Convenience function
 		self.b_f_i = self.bindex_from_index
 		margin = utils.margin_required (utils.STYLE_NORMAL)
 		if coords:
 			self.ul = (coords[0]-margin[0], coords[1] - margin[1])
 		else:
 			self.ul = None
-		
-		if not load:
-			self.identity = ident
-		else:
-			self.load_data (load)
-			
-	def begin_editing (self, im_context = None):
-		if not self.editing:
-			self.im = im_context
-			self.editing = True
-			self.lr_location = None
-			if not im_context:
-				print "Warning: Unable to edit thought properly.  Will almost certianly fail"
-			self.commit_handle = im_context.connect ("commit", self.commit_text_cb)
-			self.delete_handle = im_context.connect ("delete-surrounding", self.delete_surround_cb)
-			self.surrounding_handle = im_context.connect ("retrieve-surrounding", self.get_surrounding_cb)
-		
+		self.all_okay = True
 
-	def finish_editing (self):
-		if self.editing:
-			self.editing = False
-			if len(self.text) == 0:
-				return True
-			else:
-				self.update_bbox ()
-			self.im.disconnect (self.commit_handle)
-			self.im.disconnect (self.delete_handle)
-			self.im.disconnect (self.surrounding_handle)
-			self.commit_handle = 0
-			self.delete_handle = 0
-			self.surrounding_handle = 0
-		return False
-		
-	def includes (self, coords, allow_resize = False, state=0):
-		if not self.ul or not self.lr:
-			self.update_bbox ()
-		
-		inside = coords[0] < self.lr[0] and coords[0] > self.ul[0] and \
-		coords[1] < self.lr[1] and coords[1] > self.ul[1]
-		
-		if inside:
-			desc = pango.FontDescription ("normal 12")
-			font = self.pango_context.load_font (desc)
-			layout = pango.Layout (self.pango_context)
-			layout.set_text (self.text)
-			x = int ((coords[0] - self.ul[0])*pango.SCALE)
-			y = int ((coords[1] - self.ul[1])*pango.SCALE)
-			loc = layout.xy_to_index (x, y)
-			self.index = loc[0]
-			if loc[0] >= len(self.text) -1 or self.text[loc[0]+1] == '\n':
-				self.index += loc[1]
-			self.bindex = self.bindex_from_index (self.index)
-			if not state & gtk.gdk.SHIFT_MASK:
-				self.end_index = self.index
-		else:
-			delete = self.finish_editing ()
-			if delete:
-				self.emit ("delete_thought", None, None)
-		return inside
-		
-	def become_primary_thought (self):
-		self.am_primary = True
-	
-	def become_active_root (self):
-		self.am_root = True
-		
-	def finish_active_root (self):
-		self.am_root = False	
-	
-	def select (self):
-		pass
-	
-	def draw (self, context):
+
+	def index_from_bindex (self, bindex):
+		if bindex == 0:
+			return 0
+		index = 0
+		for x in range(bindex):
+			index += int(self.bytes[x])
+
+		return index
+
+	def bindex_from_index (self, index):
+		if index == 0:
+			return 0
+		bind = 0
+		nbytes = 0
+		for x in self.bytes:
+			nbytes += int (x)
+			bind+=1
+			if nbytes == index:
+				break
+		if nbytes < index:
+			bind = len(self.bytes)
+		return bind
+
+	def recalc_edges (self):
 		desc = pango.FontDescription ("normal 12")
 		font = self.pango_context.load_font (desc)
-		layout = pango.Layout (self.pango_context)
-		layout.set_text (self.text)
+		del self.layout
+		self.layout = pango.Layout (self.pango_context)
+		self.layout.set_text (self.text)
+		(x,y) = self.layout.get_pixel_size ()
+		margin = utils.margin_required (utils.STYLE_NORMAL)
+		self.text_location = (self.ul[0] + margin[0], self.ul[1] + margin[1])
+		self.lr = (x + self.text_location[0]+margin[2], y + self.text_location[1] + margin[3])
 
+	def commit_text (self, context, string, mode):
+		if not self.editing:
+			self.emit ("begin_editing")
+		self.add_text (string)
+		self.recalc_edges ()
+		self.emit ("title_changed", self.text)
+		self.emit ("update_view")
+
+	def add_text (self, string):
+		if self.index > self.end_index:
+			left = self.text[:self.end_index]
+			right = self.text[self.index:]
+			bleft = self.bytes[:self.b_f_i (self.end_index)]
+			bright = self.bytes[self.b_f_i (self.index):]
+			self.index = self.end_index
+		elif self.index < self.end_index:
+			left = self.text[:self.index]
+			right = self.text[self.end_index:]
+			bleft = self.bytes[:self.b_f_i (self.index)]
+			bright = self.bytes[self.b_f_i (self.end_index):]
+		else:
+			left = self.text[:self.index]
+			right = self.text[self.index:]
+			bleft = self.bytes[:self.b_f_i(self.index)]
+			bright = self.bytes[self.b_f_i(self.index):]
+		self.text = left + string + right
+		self.index += len (string)
+		self.bytes = bleft + str(len(string)) + bright
+		self.bindex = self.b_f_i (self.index)
+		self.end_index = self.index
+
+	def draw (self, context):
+		if not self.layout:
+			self.recalc_edges ()
 		if not self.editing:
 			# We should draw the entire bounding box around ourselves
 			# We should also have our coordinates figured out.	If not, scream!
 			if not self.ul or not self.lr:
 				print "Warning: Trying to draw unfinished box "+str(self.identity)+".  Aborting."
 				return
+			utils.draw_thought_outline (context, self.ul, self.lr, self.am_selected, self.am_primary, utils.STYLE_NORMAL)
 
-			utils.draw_thought_outline (context, self.ul, self.lr, self.am_root, self.am_primary, utils.STYLE_NORMAL)
-			
 		else:
-			(strong, weak) = layout.get_cursor_pos (self.index)
+			(strong, weak) = self.layout.get_cursor_pos (self.index)
 			(startx, starty, curx,cury) = strong
 			startx /= pango.SCALE
 			starty /= pango.SCALE
@@ -159,129 +146,86 @@ class TextThought (BaseThought.BaseThought):
 			context.line_to (self.ul[0], self.ul[1])
 			context.line_to (self.ul[0]+5, self.ul[1])
 			context.stroke ()
-			attrs = pango.AttrList ()
-			if self.index > self.end_index:
-				bgsel = pango.AttrBackground (65535, 0, 0, self.end_index, self.index)
-			else:
-				bgsel = pango.AttrBackground (65535, 0, 0, self.index, self.end_index)
-			attrs.insert (bgsel)
-			layout.set_attributes(attrs)
+		attrs = pango.AttrList ()
+		if self.index > self.end_index:
+			bgsel = pango.AttrBackground (65535, 0, 0, self.end_index, self.index)
+		else:
+			bgsel = pango.AttrBackground (65535, 0, 0, self.index, self.end_index)
+		attrs.insert (bgsel)
+		self.layout.set_attributes(attrs)
 
 		context.move_to (self.text_location[0], self.text_location[1])
-		context.show_layout (layout)
+		context.show_layout (self.layout)
 		context.set_source_rgb (0,0,0)
-		context.stroke () 
-		
-	def export (self, context, move_x, move_y):
-		desc = pango.FontDescription ("normal 12")
-		font = self.pango_context.load_font (desc)
-		layout = pango.Layout (self.pango_context)
-		layout.set_text (self.text)
+		context.stroke ()
 
-		self.update_bbox ()
-		utils.export_thought_outline (context, self.ul, self.lr, self.am_root, self.am_primary, utils.STYLE_NORMAL,
-									  (move_x, move_y))
-
-		context.move_to (self.text_location[0]+move_x, self.text_location[1]+move_y)
-		context.show_layout (layout)
-		context.set_source_rgb (0,0,0)
-		context.stroke () 
-
-	def update_bbox (self):
-		desc = pango.FontDescription ("normal 12")
-		font = self.pango_context.load_font (desc)
-		layout = pango.Layout (self.pango_context)
-		layout.set_text (self.text)
-		
-		(x,y) = layout.get_pixel_size ()
-		margin = utils.margin_required (utils.STYLE_NORMAL)
-		self.text_location = (self.ul[0] + margin[0], self.ul[1] + margin[1])
-		self.lr = (x + self.text_location[0]+margin[2], y + self.text_location[1] + margin[3])
-		
-	def handle_movement (self, coords, move = True, edit_mode = False):
-		if edit_mode:
-			inside = coords[0] < self.lr[0] and coords[0] > self.ul[0] and \
-			coords[1] < self.lr[1] and coords[1] > self.ul[1]
-		
-			if inside:
-				desc = pango.FontDescription ("normal 12")
-				font = self.pango_context.load_font (desc)
-				layout = pango.Layout (self.pango_context)
-				layout.set_text (self.text)
-				x = int ((coords[0] - self.ul[0])*pango.SCALE)
-				y = int ((coords[1] - self.ul[1])*pango.SCALE)
-				loc = layout.xy_to_index (x, y)
-				self.index = loc[0]
-				if loc[0] >= len(self.text) -1 or self.text[loc[0]+1] == '\n':
-					self.index += loc[1]
-				self.bindex = self.bindex_from_index (self.index)
-			else:
-				delete = self.finish_editing ()
-				if delete:
-					self.emit ("delete_thought", None, None)
-			return inside
-	
-		else:
-			if not self.ul or not self.lr:
-				print "Warning: Unable to update: Things are broken.  Returning"
-				return
-		
-			self.ul = (coords[0], coords[1])
-			self.update_bbox ()
-		
-	def handle_key (self, string, keysym, modifiers):
-		# TODO: Handle ctrl+relavent special chars	 
-		# Handle escape (finish editing)
-		if string:
-			self.add_text (string)
-
-		#else:
-		# Only interested (for now) in whether the "shift" key is pressed
-		if modifiers & gtk.gdk.CONTROL_MASK:
-			# Ignore ctrl mask for now
-			return
-		
-		mod = modifiers & gtk.gdk.SHIFT_MASK
-		
-		try:
-			{ gtk.keysyms.Delete   : self.delete_char		,
-			  gtk.keysyms.BackSpace: self.backspace_char	,
-			  gtk.keysyms.Left	   : self.move_index_back	,
-			  gtk.keysyms.Right    : self.move_index_forward,
-			  gtk.keysyms.Up	   : self.move_index_up		,
-			  gtk.keysyms.Down	   : self.move_index_down	,
-			  gtk.keysyms.Home	   : self.move_index_home	,
-			  gtk.keysyms.End	   : self.move_index_end	}[keysym](mod)
-		except:
-			return False
-		self.bindex = self.bindex_from_index (self.index)
-		self.emit ("title_changed", self.text, 65)
+	def begin_editing (self):
+		self.editing = True
+		self.emit ("update_links")
 		return True
-		
-	def add_text (self, string):
-		if self.index > self.end_index:
-			left = self.text[:self.end_index]
-			right = self.text[self.index:]
-			bleft = self.bytes[:self.b_f_i (self.end_index)]
-			bright = self.bytes[self.b_f_i (self.index):]
-			self.index = self.end_index
-		elif self.index < self.end_index:
-			left = self.text[:self.index]
-			right = self.text[self.end_index:]
-			bleft = self.bytes[:self.b_f_i (self.index)]
-			bright = self.bytes[self.b_f_i (self.end_indes):]
-		else:
-			left = self.text[:self.index]
-			right = self.text[self.index:]
-			bleft = self.bytes[:self.b_f_i(self.index)]
-			bright = self.bytes[self.b_f_i(self.index):]
-		self.text = left + string + right
-		self.index += len (string)
-		self.bytes = bleft + str(len(string)) + bright
-		self.bindex += 1
+
+	def finish_editing (self):
+		if not self.editing:
+			return
+		self.editing = False
 		self.end_index = self.index
-		
-	def delete_char (self, mod):
+		self.emit ("update_links")
+		if len (self.text) == 0:
+			self.emit ("delete_thought")
+
+	def includes (self, coords, mode):
+		if not self.ul or not self.lr:
+			return False
+
+		inside = (coords[0] < self.lr[0] + self.sensitive) and \
+				 (coords[0] > self.ul[0] - self.sensitive) and \
+			     (coords[1] < self.lr[1] + self.sensitive) and \
+			     (coords[1] > self.ul[1] - self.sensitive)
+		if inside and self.editing:
+			self.emit ("change_mouse_cursor", gtk.gdk.XTERM)
+		elif inside:
+			self.emit ("change_mouse_cursor", gtk.gdk.LEFT_PTR)
+		return inside
+
+	def process_key_press (self, event, mode):
+		modifiers = gtk.accelerator_get_default_mod_mask ()
+		shift = event.state & modifiers == gtk.gdk.SHIFT_MASK
+		handled = True
+		if (event.state & modifiers) & gtk.gdk.CONTROL_MASK:
+			pass
+			#TODO: Handle ctrl-?? etc.
+		elif event.keyval == gtk.keysyms.Escape:
+			self.emit ("finish_editing")
+		elif event.keyval == gtk.keysyms.Left:
+			self.move_index_back (shift)
+		elif event.keyval == gtk.keysyms.Right:
+			self.move_index_forward (shift)
+		elif event.keyval == gtk.keysyms.Up:
+			self.move_index_up (shift)
+		elif event.keyval == gtk.keysyms.Down:
+			self.move_index_down (shift)
+		elif event.keyval == gtk.keysyms.Home:
+			self.move_index_home (shift)
+		elif event.keyval == gtk.keysyms.End:
+			self.move_index_end (shift)
+		elif event.keyval == gtk.keysyms.BackSpace:
+			self.backspace_char ()
+		elif event.keyval == gtk.keysyms.Delete:
+			self.delete_char ()
+		elif len (event.string) != 0:
+			self.add_text (event.string)
+		else:
+			handled = False
+		self.recalc_edges ()
+		self.selection_changed ()
+		self.emit ("title_changed", self.text)
+		self.bindex = self.bindex_from_index (self.index)
+		self.emit ("update_view")
+		return handled
+
+	def delete_char (self):
+		if self.index == self.end_index == len (self.text):
+			return
 		if self.index > self.end_index:
 			left = self.text[:self.end_index]
 			right = self.text[self.index:]
@@ -302,7 +246,9 @@ class TextThought (BaseThought.BaseThought):
 		self.bytes = bleft+bright
 		self.end_index = self.index
 
-	def backspace_char (self, mod):
+	def backspace_char (self):
+		if self.index == self.end_index == 0:
+			return
 		if self.index > self.end_index:
 			left = self.text[:self.end_index]
 			right = self.text[self.index:]
@@ -323,24 +269,24 @@ class TextThought (BaseThought.BaseThought):
 		self.text = left+right
 		self.bytes = bleft+bright
 		self.end_index = self.index
-		
+
 		if self.index < 0:
 			self.index = 0
-			
+
 	def move_index_back (self, mod):
 		if self.index <= 0:
 			return
 		self.index-=int(self.bytes[self.bindex-1])
 		if not mod:
 			self.end_index = self.index
-		
+
 	def move_index_forward (self, mod):
 		if self.index >= len(self.text):
 			return
 		self.index+=int(self.bytes[self.bindex])
 		if not mod:
 			self.end_index = self.index
-		
+
 	def move_index_up (self, mod):
 		tmp = self.text.decode ()
 		lines = tmp.splitlines ()
@@ -374,7 +320,7 @@ class TextThought (BaseThought.BaseThought):
 		self.index = self.index_from_bindex (self.bindex)
 		if not mod:
 			self.end_index = self.index
-	
+
 	def move_index_down (self, mod):
 		tmp = self.text.decode ()
 		lines = tmp.splitlines ()
@@ -398,7 +344,7 @@ class TextThought (BaseThought.BaseThought):
 		self.index = self.index_from_bindex (self.bindex)
 		if not mod:
 			self.end_index = self.index
-			
+
 	def move_index_home (self, mod):
 		lines = self.text.splitlines ()
 		loc = 0
@@ -411,7 +357,7 @@ class TextThought (BaseThought.BaseThought):
 					self.end_index = self.index
 				return
 			line += 1
-			
+
 	def move_index_end (self, mod):
 		lines = self.text.splitlines ()
 		loc = 0
@@ -425,20 +371,81 @@ class TextThought (BaseThought.BaseThought):
 				return
 			line += 1
 
-	def find_connection (self, other, export = False):
-		if not export and (self.editing or other.editing):
-			return (None, None)
-		elif export:
-			self.update_bbox ()
-			other.update_bbox ()
+	def process_button_down (self, event, mode):
+		modifiers = gtk.accelerator_get_default_mod_mask ()
 
-		xfrom = self.ul[0]-((self.ul[0]-self.lr[0]) / 2.)
-		yfrom = self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)
-		xto = other.ul[0]-((other.ul[0]-other.lr[0]) / 2.)
-		yto = other.ul[1]-((other.ul[1]-other.lr[1]) / 2.)
+		if event.button == 1:
+			if event.type == gtk.gdk.BUTTON_PRESS and not self.editing:
+				self.emit ("select_thought", event.state & modifiers)
+			elif event.type == gtk.gdk.BUTTON_PRESS and self.editing:
+				x = int ((event.x - self.ul[0])*pango.SCALE)
+				y = int ((event.y - self.ul[1])*pango.SCALE)
+				loc = self.layout.xy_to_index (x, y)
+				self.index = loc[0]
+				if loc[0] >= len(self.text) -1 or self.text[loc[0]+1] == '\n':
+					self.index += loc[1]
+				self.bindex = self.bindex_from_index (self.index)
+				if not (event.state & modifiers) & gtk.gdk.SHIFT_MASK:
+					self.end_index = self.index
+			elif mode == BaseThought.MODE_EDITING and event.type == gtk.gdk._2BUTTON_PRESS:
+				self.emit ("begin_editing")
+		elif event.button == 2 and self.editing:
+			x = int ((event.x - self.ul[0])*pango.SCALE)
+			y = int ((event.y - self.ul[1])*pango.SCALE)
+			loc = self.layout.xy_to_index (x, y)
+			self.index = loc[0]
+			if loc[0] >= len(self.text) -1 or self.text[loc[0]+1] == '\n':
+				self.index += loc[1]
+			self.bindex = self.bindex_from_index (self.index)
+			self.end_index = self.index
+			clip = gtk.Clipboard (selection="PRIMARY")
+			self.paste_text (clip)
+		elif event.button == 3:
+			self.emit ("popup_requested", (event.x, event.y), 1)
+		self.emit ("update_view")
 
-		return ((xfrom, yfrom), (xto, yto))
-			
+	def process_button_release (self, event, unending_link, mode):
+		if unending_link:
+			unending_link.set_child (self)
+			self.emit ("claim_unending_link")
+
+	def selection_changed (self):
+		if self.index > self.end_index:
+			self.emit ("text_selection_changed", self.end_index, self.index, self.text[self.end_index:self.index])
+		else:
+			self.emit ("text_selection_changed", self.index, self.end_index, self.text[self.index:self.end_index])
+
+	def handle_motion (self, event, mode):
+		if event.state & gtk.gdk.BUTTON1_MASK and self.editing:
+			if event.x < self.lr[0] and event.x > self.ul[0] and \
+			   event.y < self.lr[1] and event.y > self.ul[1]:
+				x = int ((event.x - self.ul[0])*pango.SCALE)
+				y = int ((event.y - self.ul[1])*pango.SCALE)
+				loc = self.layout.xy_to_index (x, y)
+				self.index = loc[0]
+				if loc[0] >= len(self.text) -1 or self.text[loc[0]+1] == '\n':
+					self.index += loc[1]
+				self.bindex = self.bindex_from_index (self.index)
+				self.selection_changed ()
+			elif mode == BaseThought.MODE_EDITING:
+				self.emit ("finish_editing")
+				self.emit ("create_link", \
+				 (self.ul[0]-((self.ul[0]-self.lr[0]) / 2.), self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)))
+				return True
+		elif event.state & gtk.gdk.BUTTON1_MASK and not self.editing and mode == BaseThought.MODE_EDITING:
+			self.emit ("create_link", \
+			 (self.ul[0]-((self.ul[0]-self.lr[0]) / 2.), self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)))
+		self.emit ("update_view")
+
+	def export (self, context, move_x, move_y):
+		utils.export_thought_outline (context, self.ul, self.lr, self.am_selected, self.am_primary, utils.STYLE_NORMAL,
+									  (move_x, move_y))
+
+		context.move_to (self.text_location[0]+move_x, self.text_location[1]+move_y)
+		context.show_layout (self.layout)
+		context.set_source_rgb (0,0,0)
+		context.stroke ()
+
 	def update_save (self):
 		self.text_element.replaceWholeText (self.text)
 		text = self.extended_buffer.get_text ()
@@ -458,7 +465,7 @@ class TextThought (BaseThought.BaseThought):
 				self.element.removeAttribute ("edit")
 			except xml.dom.NotFoundErr:
 				pass
-		if self.am_root:
+		if self.am_selected:
 				self.element.setAttribute ("current_root", "true")
 		else:
 			try:
@@ -473,44 +480,10 @@ class TextThought (BaseThought.BaseThought):
 			except xml.dom.NotFoundErr:
 				pass
 
-
-	def load_data (self, node):
-		self.index = int (node.getAttribute ("cursor"))
-		if node.hasAttribute ("selection_end"):
-			self.end_index = int (node.getAttribute ("selection_end"))
-		else:
-			self.end_index = self.index
-		tmp = node.getAttribute ("ul-coords")
-		self.ul = utils.parse_coords (tmp)
-		tmp = node.getAttribute ("lr-coords")
-		self.lr = utils.parse_coords (tmp)
-		self.identity = int (node.getAttribute ("identity"))
-		if node.hasAttribute ("edit"):
-			self.editing = True
-		else:
-			self.editing = False
-		if node.hasAttribute ("current_root"):
-			self.am_root = True
-		else:
-			self.am_root = False
-		if node.hasAttribute ("primary_root"):
-			self.am_primary = True
-		else:
-			self.am_primary = False
-			
-		for n in node.childNodes:
-			if n.nodeType == n.TEXT_NODE:
-				self.text = n.data
-			elif n.nodeName == "Extended":
-				for m in n.childNodes:
-					if m.nodeType == m.TEXT_NODE:
-						text = m.data
-						if text != "LABYRINTH_AUTOGEN_TEXT_REMOVE":
-							self.extended_buffer.set_text (text)
-			else:
-				print "Unknown: "+n.nodeName
-
+	def rebuild_byte_table (self):
 		# Build the Byte table
+		del self.bytes
+		self.bytes = ''
 		tmp = self.text.encode ("utf-8")
 		current = 0
 		for z in range(len(self.text)):
@@ -527,81 +500,71 @@ class TextThought (BaseThought.BaseThought):
 			current+=1
 		self.bindex = self.b_f_i (self.index)
 		self.text = tmp
-		self.update_bbox ()
-		
-	def load_add_parent (self, parent):
-		self.parents.append (parent)
 
-	def want_movement (self):
-		return self.editing
-
-	def get_max_area (self):
-		self.update_bbox ()
-		return (self.ul[0],self.ul[1],self.lr[0],self.lr[1])
-
-	def commit_text_cb (self, context, string):
-		self.add_text (string)
-		self.emit ("title_changed", self.text, 65)
-		self.emit ("update_view", True)
-
-	# I don't know if these signals are required.  I've yet to come across
-	# them while testing.  Nevertheless, I'm going to hook them up for now
-		
-	def delete_surround_cb (self, context, offset, n_chars):
-		del_index = offset
-		del_end = del_index + nchars
-		del_bindex = self.bindex_from_index (del_index)
-		del_bend = self.bindex_from_index (del_end)
-		if del_index > del_end:
-			left = self.text[:del_end]
-			right = self.text[del_index:]
-			bleft = self.bytes[:del_bend]
-			bright = self.bytes[del_bindex:]
-		elif del_index < del_end:
-			left = self.text[:del_index]
-			right = self.text[del_end:]
-			bleft = self.bytes[:del_bindex]
-			bright = self.bytes[del_end:]
+	def load (self, node):
+		self.index = int (node.getAttribute ("cursor"))
+		if node.hasAttribute ("selection_end"):
+			self.end_index = int (node.getAttribute ("selection_end"))
 		else:
-			left = self.text[:del_index]
-			right = self.text[del_index+int(self.bytes[del_bindex]):]
-			bleft = self.bytes[:del_bindex]
-			bright = self.bytes[del_bindex+1:]
-		self.text = left+right
-		self.bytes = bleft+bright
-		# FIXME:
-		# If this ever gets called, the self.index might be off.
-		# How should the index be altered (or should it?)
-		self.index = del_begin
-		self.bindex = del_bindex
-		self.end_index = self.index
-		self.emit ("update_view", True)
-	
-	
-	def get_surrounding_cb (self, context):
-		self.im.set_surroundings (self.text, -1, self.bindex)
+			self.end_index = self.index
+		tmp = node.getAttribute ("ul-coords")
+		self.ul = utils.parse_coords (tmp)
+		tmp = node.getAttribute ("lr-coords")
+		self.lr = utils.parse_coords (tmp)
+		self.identity = int (node.getAttribute ("identity"))
+		if node.hasAttribute ("edit"):
+			self.editing = True
+		else:
+			self.editing = False
+			self.end_index = self.index
+		if node.hasAttribute ("current_root"):
+			self.am_selected = True
+		else:
+			self.am_selected = False
+		if node.hasAttribute ("primary_root"):
+			self.am_primary = True
+		else:
+			self.am_primary = False
 
-	def index_from_bindex (self, bindex):
-		if bindex == 0:
-			return 0
-		index = 0
-		for x in range(bindex):
-			index += int(self.bytes[x])
-			
-		return index
+		for n in node.childNodes:
+			if n.nodeType == n.TEXT_NODE:
+				self.text = n.data
+			elif n.nodeName == "Extended":
+				for m in n.childNodes:
+					if m.nodeType == m.TEXT_NODE:
+						text = m.data
+						if text != "LABYRINTH_AUTOGEN_TEXT_REMOVE":
+							self.extended_buffer.set_text (text)
+			else:
+				print "Unknown: "+n.nodeName
+		self.rebuild_byte_table ()
+		self.recalc_edges ()
 
-	def bindex_from_index (self, index):
-		if index == 0:
-			return 0
-		bind = 0
-		nbytes = 0
-		for x in self.bytes:
-			nbytes += int (x)
-			bind+=1
-			if nbytes == index:
-				break
-		if nbytes < index:
-			bind = len(self.bytes)
-		return bind
+	def copy_text (self, clip):
+		if self.end_index > self.index:
+			clip.set_text (self.text[self.index:self.end_index])
+		else:
+			clip.set_text (self.text[self.end_index:self.index])
 
 
+	def cut_text (self, clip):
+		if self.end_index > self.index:
+			clip.set_text (self.text[self.index:self.end_index])
+		else:
+			clip.set_text (self.text[self.end_index:self.index])
+		self.delete_char ()
+		self.recalc_edges ()
+		self.emit ("title_changed", self.text)
+		self.bindex = self.bindex_from_index (self.index)
+		self.emit ("update_view")
+
+	def paste_text (self, clip):
+		text = clip.wait_for_text()
+		if not text:
+			return
+		self.add_text (text)
+		self.rebuild_byte_table ()
+		self.recalc_edges ()
+		self.emit ("title_changed", self.text)
+		self.bindex = self.bindex_from_index (self.index)
+		self.emit ("update_view")

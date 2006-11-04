@@ -16,7 +16,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Labyrinth; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, 
+# Foundation, Inc., 51 Franklin St, Fifth Floor,
 # Boston, MA  02110-1301  USA
 #
 
@@ -42,7 +42,7 @@ class Browser (gtk.Window):
 	COL_ID = 0
 	COL_TITLE = 1
 
- 
+
 	def __init__(self, start_hidden, tray_icon):
 		super(Browser, self).__init__()
 		self.glade=gtk.glade.XML(utils.get_data_file_name('/labyrinth.glade'))
@@ -68,7 +68,7 @@ class Browser (gtk.Window):
 			self.main_window.set_icon_name ('labyrinth')
 		except:
 			self.main_window.set_icon_from_file(utils.get_data_file_name('labyrinth.svg'))
-		if tray_icon: 
+		if tray_icon:
 			self.main_window.connect ('delete_event', self.toggle_main_window, None)
 			traymenu = gtk.Menu()
 			quit_item = gtk.MenuItem("Quit")
@@ -81,7 +81,7 @@ class Browser (gtk.Window):
 							menu=traymenu,
 							activate=self.toggle_main_window)
 		else:
-			self.main_window.connect('delete_event', self.quit_clicked, None) 
+			self.main_window.connect('delete_event', self.quit_clicked, None)
 		if start_hidden:
 			self.main_window.hide ()
 		else:
@@ -100,7 +100,7 @@ class Browser (gtk.Window):
 		if not map:
 			raise "What a mess, can't find the map"
 		map.title=new_title
-	
+
 	def get_selected (self):
 		raise "this function is deprecated"
 
@@ -110,10 +110,10 @@ class Browser (gtk.Window):
 		if it:
 		    (num,) = MapList.tree_view_model.get (it, self.COL_ID)
 		    map = MapList.get_by_index(num)
-		    return  map 
+		    return  map
 		else:
 		    return None
-	
+
 	def cursor_change_cb (self, treeview):
 		selected_map = self.get_selected_map ()
 		if not selected_map:
@@ -122,15 +122,16 @@ class Browser (gtk.Window):
 		else:
 			self.open_button.set_sensitive (True)
 			self.delete_button.set_sensitive (True)
-	
+
 	def open_map (self, map):
 		win = MainWindow.LabyrinthWindow (map.filename)
 		win.connect ("title-changed", self.map_title_cb)
 		win.connect ("window_closed", self.remove_map_cb)
 		win.connect ("file_saved", self.file_save_cb)
+		win.show ()
 		map.window = win
 		return (MapList.index(map), win)
-	
+
 	def open_selected_map(self):
 		map = self.get_selected_map()
 		if map is None:
@@ -140,10 +141,10 @@ class Browser (gtk.Window):
 			# may be the window should be raised?
 		else:
 			self.open_map (map)
-    
+
 	def open_clicked (self, button):
-		self.open_selected_map() 
-			
+		self.open_selected_map()
+
 	def open_row_cb (self, view, path, col):
 		self.open_selected_map ()
 
@@ -177,7 +178,7 @@ class Browser (gtk.Window):
 			return
 		MapList.delete (map)
 		self.view.emit ('cursor-changed')
-	
+
 	def remove_map_cb (self, mobj, a):
 		map = MapList.get_by_window(mobj)
 		if map:
@@ -202,4 +203,3 @@ class Browser (gtk.Window):
 		self.view.append_column(column)
 
 		self.view.set_model (MapList.get_TreeViewModel())
-	       

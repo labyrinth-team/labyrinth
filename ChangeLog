@@ -1,3 +1,45 @@
+2006-11-04 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* src/DrawingThought.py:
+	* src/utils.py:
+	* src/MainWindow.py:
+	* src/BaseThought.py:
+	* src/Links.py:
+	* src/Browser.py:
+	* src/MMapArea.py:
+	* src/ImageThought.py:
+	* src/TextThought.py:
+	* data/labyrinth-ui.xml:
+	Merge of "Rework" branch.
+	Architecture rework of MMapArea and Thoughts
+	Fixes (hopefully) many problems encountered thus far
+	In addition, new features that have fallen out:
+	- Kill Move mode.
+	 - In edit mode, single click selects
+	 - Single click + drag moves
+	 - Double click edits
+	 - Single click with ctrl drags a link
+	- Multiple selection of thoughts is now possible
+	  using shift and ctrl keys
+	 - When multiple thoughts selected, extended buffer
+	   clears and becomes insensitive
+	- Don't recalculate every text thought's text every
+	  redraw.  Reduces CPU load significantly
+	- Cursor changes happen on mouse-over
+	- More cursor changes than you can shake a stick at
+	- Middle clicking pastes primary selection text when possible
+	- Thought heirarchy goes by selection order.  Thoughts selected
+	  more recently appear in front of thought that appear less recently
+	- Framework in place for popup menus (though none appear yet)
+	- Framework in place to select links (though not done yet)
+	Bug fixes included are:
+	- Don't "jerk" thoughts around when moving.  Moving is much
+	  smoother now (#19)
+	- Escape key finishes editing a thought (#23)
+	- Backspace at the start of text kills things.  Delete at end of
+	  text ditto (#25)
+	- Fix a fairly strange bug in resizing images using the top-right corner
+
 2006-10-23 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* src/TrayIcon.py:
@@ -32,7 +74,7 @@
 
 
 2006-10-19 Don Scorgie <DonScorgie@Blueyonder.co.uk>
-	
+
 	* src/MainWindow.py:
 	Don't complain if no selection is made in extended buffer
 	and edit menu is opened with focus on extended buffer
@@ -42,7 +84,7 @@
 	* src/ImageThought.py:
 	Adapt to fit new text entry stuff (pass im_context to
 	begin_edit which isn't called for other thought types)
-	
+
 	* src/MMapArea.py:
 	* src/TextThought.py:
 	New text entry stuff.  Pass all keystrokes
@@ -119,7 +161,7 @@
 	below all entries).  Sorry for the long entry
 	* doc/TheFuture:
 	Updated what's done.  Added new "non-feature" section
-	
+
 	* src/MainWindow.py:
 	Save and restore maximised state of windows
 	Remove old "number_windows" function
@@ -144,17 +186,17 @@
 	It's in a workable state though, so I'm committing.
 
 2006-10-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
-	
+
 	* src/MMapArea.py:
 	Update view when thought deleted (got lost somewhere along the line)
-	
+
 	* doc/TheFuture:
 	Update - Text selection now works (damned ugly thought)
 
 	* src/TextThought.py:
 	* src/MMapArea.py:
 	Make text selection with cursor by dragging work properly
-	
+
 	* src/BaseThought.py:
 	* src/DrawingThought.py:
 	* src/ImageThought.py:
@@ -170,7 +212,7 @@
 	* src/TextThought.py:
 	Allow index to go to end of text / line when user requests it
 	with mouse selection of text
-	
+
 	*  src/BaseThought.py:
 	* src/MMapArea.py:
 	* src/TextThought.py:
@@ -180,9 +222,9 @@
 	Doesn't obey current selected areas either yet.
 
 	* src/TextThought.py:
-	Handle text selection using keyboard navigation 
+	Handle text selection using keyboard navigation
 	(Ignore the hideous colour for now ;)
-	
+
 	* src/BaseThought.py:
 	* src/DrawingThought.py:
 	* src/ImageThought.py:
@@ -205,14 +247,14 @@
 	Split out drawing of thought outlines (into utils.py)
 	Standardise (somewhat more) on what ul and lr really mean
 	Fix resizing of drawing thoughts in edit mode
-	
+
 	* src/labyrinth.py:
 	Make current path clearer in terminal printing
-	
+
 	* src/Makefile.am:
 	Really regenerate defs.py and labyrinth when configure is run
 	Might (hopefully) fix issue #1
-	
+
 	* src/labyrinth.py:
 	* src/Browser.py:
 	Add new command line options:
@@ -226,11 +268,11 @@
 
 
 2006-10-10 Don Scorgie <DonScorgie@Blueyonder.co.uk>
-	
+
 	* doc/TheFuture:
 	* doc/FileFormat:
 	Rejig to be more readable in 80-column format
-	
+
 	* doc/TheFuture:
 	List of goals for 1.0 release
 
@@ -247,7 +289,7 @@
 
 	* configure.ac:
 	Bump version
-	
+
 	* src/MainWindow.py:
 	Actually set the window icon properly.  No, really this time
 
@@ -256,10 +298,10 @@
 
 	* src/ImageThought.py:
 	Gracefully handle case where image file isn't available (display empty thought)
-	
+
 	* src/MMapArea.py:
 	When bad (unended) links are loaded, assume them to be broken and remove them properly
-	
+
 	* po/POTFILES.in:
 	Add ImageThought as it now contains translatable strings
 
@@ -268,14 +310,14 @@
 
 	* doc/FileFormat:
 	Add new file (incomplete) describing the save format for Labyrinth maps
-	
+
 	* doc/Makefile.am:
 	Add FileFormat to EXTRA_DIST
 
 	* src/MainWindow.py:
 	* src/Browser.py:
 	* src/labyrinth.py:
-	Fix uninstalled mode.  Silence glade warning when not really a warning	
+	Fix uninstalled mode.  Silence glade warning when not really a warning
 
 	* src/labyrinth.py:
 	fix i18n stuff.  Hopefully.
@@ -302,11 +344,11 @@
 
 	* src/Browser.py:
 	Only activate 'Open' and 'Delete' when an item is selected
-	
+
 	* src/MMapArea.py:
-	* src/MainWindow.py:	
+	* src/MainWindow.py:
 	Set mode back properly when image is inserted
-	
+
 	* src/MMapArea.py:
 	Only allow drawing in "Drawing" mode.  In edit mode, allow linking thoughts instead
 
@@ -349,10 +391,10 @@
 	* src/TextThought.py:
 	Curve the corners of thoughts slightly.  Makes the entire thing slightly prettier
 	and less intimidating
-	
+
 	* src/ImageThought.py:
 	Clip title to only be actual filename (ignore path and suffix)
-	
+
 	* src/BaseThought.py:
 	* src/MMapArea.py:
 	* src/ImageThought.py:
@@ -370,7 +412,7 @@
 	* src/ImageThought.py:
 	Make links originate and end in the center of thoughts
 	which looks so much cooler :)
-	
+
 	* src/MainWindow.py:
 	* src/BaseThought.py:
 	* src/Makefile.am:
@@ -385,7 +427,7 @@
 
     * src/MMapArea.py:
     Fix typo (Rogi Lemar)
-    
+
     * src/BaseThought.py:
     * src/MainWindow.py:
     * src/MMapArea.py:
@@ -416,7 +458,7 @@
 	* src/Makefile.am:
 	* src/defs.py.in:
 	Make defs get generated properly.  Hopefully (taken from Alacarte)
-	
+
 	* src/Links.py:
 	Import TextThought instead of Thoughts
 
@@ -425,7 +467,7 @@
 	* data/labyrinth.desktop.in:
 	Add these vital files.  Labyrinth should now show up in the Applications->Office menu
 	Complete with its own (very ugly) icon
-	
+
 	* data/Makefile.am:
 	Update to install icons and desktop file
 
@@ -436,11 +478,11 @@
 
 	* BaseThought.py:
 	New file: Base class for thoughts
-	
+
     * Thoughts.py:
     * MMapArea.py:
     Update to use BaseThought.  Rename Thought to TextThought
-    
+
 	* MMapArea.py:
 	* Thoughts.py:
 	Draw links behind thoughts to make thoughts feel more solid
@@ -454,7 +496,7 @@
 	* Initial Import into new home on Google
 
 What follows is the svn log dumped from the repo on my machine.  Don't judge it too harshly ;)
-	
+
 ------------------------------------------------------------------------
 r85 | don | 2006-08-28 16:16:00 +0100 (Mon, 28 Aug 2006) | 2 lines
 
@@ -527,7 +569,7 @@ r72 | don | 2006-08-26 14:26:58 +0100 (Sat, 26 Aug 2006) | 5 lines
 
 Updated configure, README
 
-First pass at Browser.  Not too shabby though.  Doesn't work just yet, 
+First pass at Browser.  Not too shabby though.  Doesn't work just yet,
 but give it time
 
 ------------------------------------------------------------------------
@@ -578,19 +620,19 @@ Update TheFuture somewhat (maybe)
 ------------------------------------------------------------------------
 r66 | don | 2006-08-01 21:34:16 +0100 (Tue, 01 Aug 2006) | 3 lines
 
-More loading work.  Seems to be mostly done (first pass).  Issue remains 
+More loading work.  Seems to be mostly done (first pass).  Issue remains
 with saving a doc twice: The text is repeated!The text is repeated!
 
 ------------------------------------------------------------------------
 r65 | don | 2006-08-01 20:54:49 +0100 (Tue, 01 Aug 2006) | 3 lines
 
-More loading work.  Almost working (badly).  Now links are drawn, but it 
+More loading work.  Almost working (badly).  Now links are drawn, but it
 doesn't update properly and moving nodes breaks things
 
 ------------------------------------------------------------------------
 r64 | don | 2006-08-01 19:58:25 +0100 (Tue, 01 Aug 2006) | 3 lines
 
-More work on loading.  Coords are parsed and small squares shown on 
+More work on loading.  Coords are parsed and small squares shown on
 screen
 
 ------------------------------------------------------------------------
@@ -608,13 +650,13 @@ Save to a real-life file!
 ------------------------------------------------------------------------
 r61 | don | 2006-07-31 20:17:55 +0100 (Mon, 31 Jul 2006) | 3 lines
 
-Lots more saving stuff.  Prints out the complete (for now) save file in 
+Lots more saving stuff.  Prints out the complete (for now) save file in
 a pretty format
 
 ------------------------------------------------------------------------
 r60 | don | 2006-07-31 19:36:13 +0100 (Mon, 31 Jul 2006) | 3 lines
 
-First attempt at saving to XML.  Dumps the content of each node and the 
+First attempt at saving to XML.  Dumps the content of each node and the
 cursor position to stdout when double-click happens
 
 ------------------------------------------------------------------------
@@ -655,9 +697,9 @@ Add m4 subdir, forgotten in last commit
 ------------------------------------------------------------------------
 r52 | don | 2006-07-16 16:42:32 +0100 (Sun, 16 Jul 2006) | 7 lines
 
-Move to autotools style setup.  Allows installing to happen.  Takes care 
-of removing .py from labyrinth in bindir.  Adapt everything to cope.  
-Adapt everything to allow to run from either uninstalled or from 
+Move to autotools style setup.  Allows installing to happen.  Takes care
+of removing .py from labyrinth in bindir.  Adapt everything to cope.
+Adapt everything to allow to run from either uninstalled or from
 installed instance.
 
 Based on auto* stuff from deskbar-applet.  Added (empty) changelogs.
@@ -671,7 +713,7 @@ Update md5 sums of packages on web-page
 r50 | don | 2006-07-15 19:15:01 +0100 (Sat, 15 Jul 2006) | 4 lines
 
 Bump version v0.0.5
-Update README et. al. to reflect changes.  Discover install is broken.  
+Update README et. al. to reflect changes.  Discover install is broken.
 Decided "What the fuck.".  Moving to new system (hopefully) soon.
 
 ------------------------------------------------------------------------
@@ -682,7 +724,7 @@ Continued work on index for web-page
 ------------------------------------------------------------------------
 r48 | don | 2006-07-15 18:41:25 +0100 (Sat, 15 Jul 2006) | 5 lines
 
-Make the primary thought red when not selected (Making it easier, for 
+Make the primary thought red when not selected (Making it easier, for
 non-colour-blind people, to pick out).
 Move screenshot to -002.  Add in -005 screenshot.
 Start updating website
@@ -690,16 +732,16 @@ Start updating website
 ------------------------------------------------------------------------
 r47 | don | 2006-07-15 18:11:50 +0100 (Sat, 15 Jul 2006) | 12 lines
 
-Fix stupid bugs.  Find out Python is actually EVIL.  When it doesn't 
+Fix stupid bugs.  Find out Python is actually EVIL.  When it doesn't
 feel like it, it won't alert you to exceptions, just silently fail.
 
 Anyway:  Make deletion of parent nodes work properly.
 	 Make title change as requested
 	 Handle deletion of primary node gracefully
 	 If title text is "", revert to "Unknown Map %d"
-	 Ensure selection of primary and current root works when 
+	 Ensure selection of primary and current root works when
 deleting thoughts
-	 Probably a load more.  True feature parity with before rewrite.  
+	 Probably a load more.  True feature parity with before rewrite.
 Woo-hoo
 
 ------------------------------------------------------------------------
@@ -715,14 +757,14 @@ Bring up to feature-parity with before.  Delete *Classic versions
 ------------------------------------------------------------------------
 r44 | don | 2006-07-13 20:19:23 +0100 (Thu, 13 Jul 2006) | 4 lines
 
-Fix a few regressions about editing and selecting different nodes and 
+Fix a few regressions about editing and selecting different nodes and
 ...
 Nothing terribly interesting :(
 
 ------------------------------------------------------------------------
 r43 | don | 2006-07-13 19:35:21 +0100 (Thu, 13 Jul 2006) | 3 lines
 
-Rework links.  THings are now around the same level as before the 
+Rework links.  THings are now around the same level as before the
 rewrite, but much clearer in the code :)
 
 ------------------------------------------------------------------------
@@ -733,19 +775,19 @@ Start Link rework.  Make Area and Thoughts work together.
 ------------------------------------------------------------------------
 r41 | don | 2006-07-12 22:57:45 +0100 (Wed, 12 Jul 2006) | 3 lines
 
-Rework of Thoughts.  More clean now.  Seems to work for the most part.  
+Rework of Thoughts.  More clean now.  Seems to work for the most part.
 No colouring.  No links as yet.  Not tried things out properly.
 
 ------------------------------------------------------------------------
 r40 | don | 2006-07-12 21:49:24 +0100 (Wed, 12 Jul 2006) | 3 lines
 
-Oops.  Forgot the delete function.  Fixed.  Still nothing works though 
+Oops.  Forgot the delete function.  Fixed.  Still nothing works though
 ;)
 
 ------------------------------------------------------------------------
 r39 | don | 2006-07-12 21:01:10 +0100 (Wed, 12 Jul 2006) | 5 lines
 
-Great MMapArea rewrite.  Breaks program badly until Links and Thoughts 
+Great MMapArea rewrite.  Breaks program badly until Links and Thoughts
 are rewritten to support it.
 
 New code is much cleaner and easier to follow though.
@@ -763,7 +805,7 @@ Add list of children.  Save drawing links the wrong way around
 ------------------------------------------------------------------------
 r36 | don | 2006-07-10 20:46:49 +0100 (Mon, 10 Jul 2006) | 3 lines
 
-Make dragging of links work in editing mode.  Make links update when 
+Make dragging of links work in editing mode.  Make links update when
 dragging thoughts around.
 
 ------------------------------------------------------------------------
@@ -779,8 +821,8 @@ First attempt at adding a link type.  Very, very broken for now.
 ------------------------------------------------------------------------
 r33 | don | 2006-07-10 17:47:44 +0100 (Mon, 10 Jul 2006) | 4 lines
 
-Implement Moving and Editing Modes.  Now, to edit a thought, you have to 
-be in editing mode (default).  To move thoughts around, you must be in 
+Implement Moving and Editing Modes.  Now, to edit a thought, you have to
+be in editing mode (default).  To move thoughts around, you must be in
 move mode.
 
 ------------------------------------------------------------------------
@@ -791,7 +833,7 @@ Add a silly "About" dialog
 ------------------------------------------------------------------------
 r31 | don | 2006-07-10 17:08:43 +0100 (Mon, 10 Jul 2006) | 3 lines
 
-Make NewWindow, CloseWindow and Quit work as expected.  Allows > 1 
+Make NewWindow, CloseWindow and Quit work as expected.  Allows > 1
 window at a time to be worked on
 
 ------------------------------------------------------------------------
@@ -844,7 +886,7 @@ Include MANIFEST.in in dist, adding in other various files
 ------------------------------------------------------------------------
 r21 | don | 2006-07-10 14:27:26 +0100 (Mon, 10 Jul 2006) | 3 lines
 
-Make package installable.  Update TheFuture to show some ideas.  Add 
+Make package installable.  Update TheFuture to show some ideas.  Add
 NEWS file.  Update README to reflect changes
 
 ------------------------------------------------------------------------
@@ -860,13 +902,13 @@ Add some docstrings.  Create README.  Update TheFuture
 ------------------------------------------------------------------------
 r18 | don | 2006-07-10 02:45:16 +0100 (Mon, 10 Jul 2006) | 3 lines
 
-Remove some surplus prints.  A selected thought will now become the root 
+Remove some surplus prints.  A selected thought will now become the root
 node.  Yay.  Means that there can now be multiple root thoughts.
 
 ------------------------------------------------------------------------
 r17 | don | 2006-07-10 02:40:46 +0100 (Mon, 10 Jul 2006) | 3 lines
 
-Rework signals.  Make single click select node.  Make double click edit 
+Rework signals.  Make single click select node.  Make double click edit
 node.  Make dragging nodes actually work as expected.  I hope.
 
 ------------------------------------------------------------------------
@@ -883,7 +925,7 @@ First attempt at drag-moving boxes around.  Doesn't work.  Yet.
 ------------------------------------------------------------------------
 r14 | don | 2006-07-09 23:54:57 +0100 (Sun, 09 Jul 2006) | 3 lines
 
-Make thoughts selectable.  Clicking in them makes them change back to 
+Make thoughts selectable.  Clicking in them makes them change back to
 "editing" state
 
 ------------------------------------------------------------------------
@@ -927,13 +969,13 @@ Update require to actually check version of Gtk available (maybe)
 r6 | don | 2006-07-09 22:04:51 +0100 (Sun, 09 Jul 2006) | 4 lines
 
 Make the background white
-If current_thought is empty when finishing editing, don't bother drawing 
+If current_thought is empty when finishing editing, don't bother drawing
 it
 
 ------------------------------------------------------------------------
 r5 | don | 2006-07-09 21:10:07 +0100 (Sun, 09 Jul 2006) | 5 lines
 
-Added a small overview of where this might be leading in the next 
+Added a small overview of where this might be leading in the next
 version
 
 Bump version number

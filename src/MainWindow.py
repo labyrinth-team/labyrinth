@@ -17,7 +17,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Labyrinth; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, 
+# Foundation, Inc., 51 Franklin St, Fifth Floor,
 # Boston, MA  02110-1301  USA
 #
 
@@ -32,7 +32,7 @@ import utils
 from MapList import MapList
 import xml.dom.minidom as dom
 
-num_maps= 1
+map_number = 1
 
 class LabyrinthWindow (gtk.Window):
 	__gsignals__ = dict (title_changed		= (gobject.SIGNAL_RUN_FIRST,
@@ -46,86 +46,109 @@ class LabyrinthWindow (gtk.Window):
 						 					   (gobject.TYPE_STRING, gobject.TYPE_OBJECT)),
 						 window_closed      = (gobject.SIGNAL_RUN_FIRST,
 						 					   gobject.TYPE_NONE,
-						 					   (gobject.TYPE_OBJECT, )))	
-	
+						 					   (gobject.TYPE_OBJECT, )))
+
 	def __init__ (self, filename):
 		super(LabyrinthWindow, self).__init__()
 		try:
 			self.set_icon_name ('labyrinth')
 		except:
 			self.set_icon_from_file(utils.get_data_file_name('labyrinth.svg'))
+
+		# First, construct the MainArea and connect it all up
 		self.MainArea = MMapArea.MMapArea ()
-		vbox = gtk.VBox ()
-		self.add (vbox)
-		self.MainArea.set_flags (gtk.CAN_FOCUS)
 		self.set_focus_child (self.MainArea)
 		self.MainArea.connect ("title_changed", self.title_changed_cb)
 		self.MainArea.connect ("doc_save", self.doc_save_cb)
 		self.MainArea.connect ("doc_delete", self.doc_del_cb)
 		self.MainArea.connect ("change_mode", self.mode_request_cb)
 		self.MainArea.connect ("button-press-event", self.main_area_focus_cb)
-		self.MainArea.connect ("thought_changed", self.switch_buffer_cb)
-		self.MainArea.connect ("selection_changed", self.selection_changed_cb)
+		self.MainArea.connect ("change_buffer", self.switch_buffer_cb)
+		self.MainArea.connect ("text_selection_changed", self.selection_changed_cb)
+
+		# Then, construct the menubar and toolbar and hook it all up
+		self.create_ui ()
+
+		# TODO: Bold, Italics etc.
+		self.ui.get_widget('/AddedTools/Bold').set_sensitive (False)
+		self.ui.get_widget('/AddedTools/Italics').set_sensitive (False)
+		self.ui.get_widget('/AddedTools/Underline').set_sensitive (False)
+
+		self.cut = self.ui.get_widget ('/MenuBar/EditMenu/Cut')
+		self.copy = self.ui.get_widget ('/MenuBar/EditMenu/Copy')
+		self.paste = self.ui.get_widget ('/MenuBar/EditMenu/Paste')
+
+		self.ui.get_widget('/MenuBar/EditMenu').connect ('activate', self.edit_activated_cb)
+		self.cut.set_sensitive (False)
+		self.copy.set_sensitive (False)
+
+
+		# Add in the extended info view
 		self.extended = gtk.TextView ()
 		self.extended.set_wrap_mode (gtk.WRAP_WORD_CHAR)
-		self.save_file = filename
-		self.maximised = False
-		self.view_type = 0
-		self.cut_copy_active = False
-		
+		self.invisible_buffer = gtk.TextBuffer ()
+
+		# Connect all our signals
+		self.connect ("configure_event", self.configure_cb)
+		self.connect ("window-state-event", self.window_state_cb)
+		self.connect ("destroy", self.close_window_cb)
+
+		# Deal with loading the map
 		if not filename:
 			self.MainArea.set_size_request (500, 500)
 			self.map_number = MapList.count() +1
 			# TODO: This shouldn't be set to a hard-coded number.  Fix.
 			self.pane_pos = 500
-			self.title_cp = _("Untitled Map %d" % self.map_number)
+			self.title_cp = _("Untitled Map %d" % map_number)
+			map_number += 1
+			self.mode = MMapArea.MODE_EDITING
+			self.extended_visible = False
 		else:
-			self.title_cp = (_('Somethings broken'))
-		self.set_title (self.title_cp)
-		self.mode = MMapArea.MODE_EDITING
+			self.parse_file (filename)
 
-		self.extended_visible = False
-		self.connect ("configure_event", self.configure_cb)
-		self.connect ("window-state-event", self.window_state_cb)
-		self.connect ("destroy", self.close_window_cb)
-		
-		panes = gtk.VPaned ()
-		panes.connect ("button-release-event", self.pos_changed)
+
+		# Add all the extra widgets and pack everything in
+
 		self.swin = gtk.ScrolledWindow ()
 		self.swin.set_policy (gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-		
-		self.create_ui ()
-		if filename:
-			self.parse_file (filename)
-		(self.width, self.height) = self.get_size ()
-		
 		self.swin.add (self.extended)
-		
+
 		nvbox = gtk.VBox ()
 		nvbox.pack_start (self.MainArea)
 		nvbox.pack_end (self.ui.get_widget('/AddedTools'), expand=False)
+
+		panes = gtk.VPaned ()
+		panes.connect ("button-release-event", self.pos_changed)
 		panes.add1 (nvbox)
 		panes.add2 (self.swin)
 		panes.set_position (self.pane_pos)
 
+		vbox = gtk.VBox ()
 		vbox.pack_start(self.ui.get_widget('/MenuBar'), expand=False)
 		vbox.pack_start(self.ui.get_widget('/ToolBar'), expand=False)
 		vbox.pack_end (panes)
-		
-		# For now, set the Bold et. al. insensitive
-		self.ui.get_widget('/AddedTools/Bold').set_sensitive (False)
-		self.ui.get_widget('/AddedTools/Italics').set_sensitive (False)
-		self.ui.get_widget('/AddedTools/Underline').set_sensitive (False)
-		self.cut = self.ui.get_widget ('/MenuBar/EditMenu/Cut')
-		self.copy = self.ui.get_widget ('/MenuBar/EditMenu/Copy')
-		self.paste = self.ui.get_widget ('/MenuBar/EditMenu/Paste')
-		self.ui.get_widget('/MenuBar/EditMenu').connect ('activate', self.edit_activated_cb)
-		self.cut.set_sensitive (False)
-		self.copy.set_sensitive (False)
-		
-		self.show_all ()
-		if not self.extended_visible:
-			self.swin.hide ()
+
+		self.add (vbox)
+
+
+		# Other stuff
+		self.width, self.height = self.get_size ()
+		self.save_file = filename
+		self.maximised = False
+		self.view_type = 0
+		self.set_title (self.title_cp)
+		self.act.set_current_value (self.mode)
+		self.ext_act.set_active (self.extended_visible)
+
+		# Show everything required
+		vbox.show ()
+		self.ui.get_widget('/MenuBar').show_all ()
+		self.ui.get_widget('/ToolBar').show_all ()
+		panes.show ()
+		nvbox.show ()
+		self.MainArea.show ()
+		self.ui.get_widget('/AddedTools').show_all ()
+		self.extended.show ()
 
 	def create_ui (self):
 		actions = [
@@ -154,8 +177,6 @@ class LabyrinthWindow (gtk.Window):
 		self.radio_actions = [
 			('Edit', gtk.STOCK_EDIT, _('_Edit Mode'), '<control>E',
 			 _('Turn on edit mode'), MMapArea.MODE_EDITING),
-			('Move', gtk.STOCK_JUMP_TO, _('_Move Mode'), '<control>M',
-			 _('Turn on move mode'), MMapArea.MODE_MOVING),
 			 ('AddImage', gtk.STOCK_ADD, _('_Add Image'), None,
 			 _('Add an image to selected thought'), MMapArea.MODE_IMAGE),
 			 ('Drawing', gtk.STOCK_COLOR_PICKER, _('_Drawing Mode'), None,
@@ -170,55 +191,59 @@ class LabyrinthWindow (gtk.Window):
 			('Underline', gtk.STOCK_UNDERLINE, _('Underline'), None,
 			None, self.underline_toggled)]
 
-
 		ag = gtk.ActionGroup ('WindowActions')
 		ag.add_actions (actions)
-		ag.add_radio_actions (self.radio_actions, value=self.mode)
+		ag.add_radio_actions (self.radio_actions)
 		ag.add_toggle_actions (self.toggle_actions)
 		self.act = ag.get_action ('Edit')
 		self.ext_act = ag.get_action ('ViewExtend')
 		self.act.connect ("changed", self.mode_change_cb)
-				 
+
 		self.ui = gtk.UIManager ()
 		self.ui.insert_action_group (ag, 0)
 		self.ui.add_ui_from_file (utils.get_data_file_name('labyrinth-ui.xml'))
 		self.add_accel_group (self.ui.get_accel_group ())
-		 
+
 	def view_extend_cb (self, arg):
+		self.extended_visible = arg.get_active ()
 		if self.extended_visible:
-			self.swin.hide ()
-			self.view_type = 0
-		else:
 			self.swin.show ()
 			self.view_type = 1
-		self.extended_visible = not self.extended_visible
-	
+		else:
+			self.swin.hide ()
+			self.view_type = 0
+
 	def pos_changed (self, panes, arg2):
 		self.pane_pos = panes.get_position ()
-	
+
 	def bold_toggled (self, arg):
 		print "Bold"
-		
+
 	def italic_toggled (self, arg):
 		print "Italic"
-		
+
 	def underline_toggled (self, arg):
 		print "Underline"
-	
-	 
+
+
 	def new_window_cb (self, arg):
 		global_new_window ()
 		return
-	
+
 	def switch_buffer_cb (self, arg, new_buffer):
-		self.extended.set_buffer (new_buffer)
-	
+		if new_buffer:
+			self.extended.set_editable (True)
+			self.extended.set_buffer (new_buffer)
+		else:
+			self.extended.set_buffer (self.invisible_buffer)
+			self.extended.set_editable (False)
+
 	def main_area_focus_cb (self, arg, arg2):
 		self.MainArea.grab_focus ()
-	
+
 	def quit_cb (self, event):
 		gtk.main_quit ()
-	
+
 	def about_cb (self, arg):
 		about_dialog = gtk.AboutDialog ()
 		about_dialog.set_name ("Labyrinth")
@@ -245,16 +270,16 @@ class LabyrinthWindow (gtk.Window):
 		about_dialog.hide ()
 		del (about_dialog)
 		return
-	
+
 	def mode_change_cb (self, base, activated):
 		self.MainArea.set_mode (activated.get_current_value ())
 		self.mode = activated.get_current_value ()
 		return
-		
+
 	def mode_request_cb (self, widget, mode):
 		self.act.set_current_value (mode)
 
-	def title_changed_cb (self, widget, new_title, obj):
+	def title_changed_cb (self, widget, new_title):
 		self.title_cp = ''
 		if new_title == '':
 			self.title_cp = _('Untitled Map %d' % self.map_number)
@@ -271,18 +296,18 @@ class LabyrinthWindow (gtk.Window):
 					self.title_cp += '...'
 		self.set_title (self.title_cp)
 		self.emit ("title-changed", self.title_cp, self)
-	
+
 	def delete_cb (self, event):
-		self.MainArea.delete_selected_nodes ()
-	
+		self.MainArea.delete_selected_thoughts ()
+
 	def close_window_cb (self, event):
 		self.hide ()
-		self.MainArea.area_close ()
+		self.MainArea.save_thyself ()
 		del (self)
-		
-	def doc_del_cb (self, w, a):
+
+	def doc_del_cb (self, widget):
 		self.emit ('window_closed', None)
-		
+
 	def doc_save_cb (self, widget, doc, top_element):
 		top_element.setAttribute ("title", self.title_cp)
 		top_element.setAttribute ("number", str(self.map_number))
@@ -298,11 +323,17 @@ class LabyrinthWindow (gtk.Window):
 			sham = sha.new (save_string)
 			save_loc = utils.get_save_dir ()
 			self.save_file = save_loc+sham.hexdigest()+".map"
+			counter = 1
+			while os.path.exists(self.save_file):
+				print "Warning: Duplicate File.  Saving to alternative"
+				self.save_file = save_loc + "Dup"+str(counter)+sham.hexdigest()+".map"
+				counter+=1
+
 		f = file (self.save_file, 'w')
 		f.write (save_string)
 		f.close ()
 		self.emit ('file_saved', self.save_file, self)
-		
+
 	def parse_file (self, filename):
 		f = file (filename, 'r')
 		doc = dom.parse (f)
@@ -325,34 +356,36 @@ class LabyrinthWindow (gtk.Window):
 		else:
 			vt = 0
 		if vt == 1:
-			self.ext_act.set_active (True)
+			self.extended_visible = True
+		else:
+			self.extended_visible = False
 		tmp = top_element.getAttribute ("size")
 		(width, height) = utils.parse_coords (tmp)
 		tmp = top_element.getAttribute ("position")
 		(x, y) = utils.parse_coords (tmp)
 		self.resize (int (width), int (height))
-		
+
 		# Don't know why, but metacity seems to move the window 24 pixels
 		# further down than requested.  Compensate by removing 24
 		# pixels from the stored size
 		y -= 24
 		self.move (int (x), int (y))
-		
+
 		self.set_title (self.title_cp)
-		self.MainArea.set_mode (self.mode, False)
+		self.MainArea.set_mode (self.mode)
 		self.MainArea.load_thyself (top_element, doc)
-		
+
 	def configure_cb (self, window, event):
 		self.xpos = event.x
 		self.ypos = event.y
 		self.width = event.width
 		self.height = event.height
-		return False	
-		
+		return False
+
 	def window_state_cb (self, window, event):
 		if event.changed_mask & gtk.gdk.WINDOW_STATE_MAXIMIZED:
 			self.maximised = not self.maximised
-	
+
 	def toggle_range (self, arg, native_width, native_height, max_width, max_height):
 		if arg.get_active ():
 			self.spin_width.set_value (max_width)
@@ -365,14 +398,12 @@ class LabyrinthWindow (gtk.Window):
 			#self.spin_height.set_sensitive (False)
 			self.spin_width.set_value (native_width)
 			self.spin_height.set_value (native_height)
-	
+
 	def export_cb (self, event):
 		maxx, maxy = self.MainArea.get_max_area ()
-		
 
 		x, y, width, height, bitdepth = self.MainArea.window.get_geometry ()
-		
-		
+
 		if os.path.isfile (defs.DATA_DIR+'/labyrinth/labyrinth.glade'):
 			glade = gtk.glade.XML (defs.DATA_DIR+'/labyrinth/labyrinth.glade')
 		else:
@@ -381,7 +412,7 @@ class LabyrinthWindow (gtk.Window):
 		box = glade.get_widget ('vbox2')
 		fc = gtk.FileChooserWidget(gtk.FILE_CHOOSER_ACTION_SAVE)
 		box.pack_end (fc)
-		
+
 		fil = gtk.FileFilter ()
 		fil.set_name("Images")
 		fil.add_pixbuf_formats ()
@@ -395,9 +426,9 @@ class LabyrinthWindow (gtk.Window):
 		self.spin_height.set_value (maxy)
 		self.spin_width.set_sensitive (False)
 		self.spin_height.set_sensitive (False)
-		
+
 		rad.connect ('toggled', self.toggle_range, width, height,maxx,maxy)
-		
+
 		fc.show ()
 		while 1:
 		# Cheesy loop.  Break out as needed.
@@ -426,9 +457,7 @@ class LabyrinthWindow (gtk.Window):
 		true_height = int (self.spin_height.get_value ())
 		native = not rad.get_active ()
 		dialog.destroy ()
-		
-		
-		
+
 		pixmap = gtk.gdk.Pixmap (None, true_width, true_height, bitdepth)
 		self.MainArea.export (pixmap.cairo_create (), true_width, true_height, native)
 
@@ -436,8 +465,6 @@ class LabyrinthWindow (gtk.Window):
 											  pixmap, \
 											  gtk.gdk.colormap_get_system(), \
 											  0, 0, 0, 0, true_width, true_height)
-											 
-
 		pb.save(filename, mime)
 
 	def selection_changed_cb (self, area, start, end, text):
@@ -446,7 +473,7 @@ class LabyrinthWindow (gtk.Window):
 			clip.set_text (text)
 		else:
 			clip.clear ()
-	
+
 	def edit_activated_cb (self, menu):
 		if self.extended.is_focus ():
 			stend = self.extended.get_buffer().get_selection_bounds()
@@ -457,8 +484,8 @@ class LabyrinthWindow (gtk.Window):
 			self.paste.set_sensitive (True)
 		else:
 			start, end = self.MainArea.get_selection_bounds ()
-			if self.mode == MMapArea.MODE_EDITING and len(self.MainArea.selected_thoughts) and \
-			   self.MainArea.selected_thoughts[0].editing:
+			if self.mode == MMapArea.MODE_EDITING and len(self.MainArea.selected) and \
+			   self.MainArea.selected[0].editing:
 				self.paste.set_sensitive (True)
 			else:
 				self.paste.set_sensitive (False)
@@ -474,18 +501,17 @@ class LabyrinthWindow (gtk.Window):
 		if self.extended.is_focus ():
 			self.extended.get_buffer().cut_clipboard (clip)
 		else:
-			self.MainArea.cut_clipboard (clip)		
-		
+			self.MainArea.cut_clipboard (clip)
+
 	def copy_text_cb (self, event):
 		clip = gtk.Clipboard ()
 		if self.extended.is_focus ():
 			self.extended.get_buffer().copy_clipboard (clip)
 		else:
 			self.MainArea.copy_clipboard (clip)
-	
+
 	def paste_text_cb (self, event):
 		clip = gtk.Clipboard ()
-		#text = clipboard.wait_for_text()
 		if self.extended.is_focus ():
 			self.extended.get_buffer().paste_clipboard (clip)
 		else:
