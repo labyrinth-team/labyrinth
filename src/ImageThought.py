@@ -27,14 +27,17 @@ _ = gettext.gettext
 
 import BaseThought
 import utils
+import UndoManager
 
 MODE_EDITING = 0
 MODE_IMAGE = 1
 MODE_DRAW = 2
 
+UNDO_RESIZE = 0
+
 class ImageThought (BaseThought.ResizableThought):
-	def __init__ (self, coords, pango_context, thought_number, save, loading):
-		super (ImageThought, self).__init__(save, "image_thought")
+	def __init__ (self, coords, pango_context, thought_number, save, undo, loading):
+		super (ImageThought, self).__init__(save, "image_thought", undo)
 
 		self.identity = thought_number
 		margin = utils.margin_required (utils.STYLE_NORMAL)
@@ -112,6 +115,21 @@ class ImageThought (BaseThought.ResizableThought):
 		self.pic_location = (self.ul[0]+margin[0], self.ul[1]+margin[1])
 		self.lr = (self.pic_location[0]+self.width+margin[2], self.pic_location[1]+self.height+margin[3])
 
+	def undo_resize (self, action, mode):
+		self.undo.block ()
+		if mode == UndoManager.UNDO:
+			choose = 0
+		else:
+			choose = 1
+		self.ul = action.args[choose][0]
+		self.width = action.args[choose][1]
+		self.height = action.args[choose][2]
+		self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), gtk.gdk.INTERP_HYPER)
+		self.recalc_edges ()
+		self.emit ("update_links")
+		self.emit ("update_view")
+		self.undo.unblock ()
+
 	def process_button_down (self, event, mode):
 		modifiers = gtk.accelerator_get_default_mod_mask ()
 		self.button_down = True
@@ -120,6 +138,7 @@ class ImageThought (BaseThought.ResizableThought):
 				self.emit ("select_thought", event.state & modifiers)
 				self.emit ("update_view")
 			if mode == MODE_EDITING and self.resizing != self.RESIZE_NONE:
+				self.orig_size = (self.ul, self.width, self.height)
 				self.want_move = True
 				return True
 		elif event.button == 3:
@@ -135,7 +154,10 @@ class ImageThought (BaseThought.ResizableThought):
 		if self.orig_pic:
 			self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), gtk.gdk.INTERP_HYPER)
 		self.emit ("update_view")
-		self.want_move = False
+		if self.want_move:
+			self.undo.add_undo (UndoManager.UndoAction (self, UNDO_RESIZE, self.undo_resize, \
+														self.orig_size, (self.ul, self.width, self.height)))
+			self.want_move = False
 
 	def handle_motion (self, event, mode):
 		if self.resizing == self.RESIZE_NONE or not self.want_move or not event.state & gtk.gdk.BUTTON1_MASK:

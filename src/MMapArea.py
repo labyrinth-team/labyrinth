@@ -25,6 +25,7 @@ import gtk
 import pango
 import gobject
 import gettext
+import copy
 _ = gettext.gettext
 
 import xml.dom.minidom as dom
@@ -33,6 +34,7 @@ import Links
 import TextThought
 import ImageThought
 import DrawingThought
+import UndoManager
 
 MODE_EDITING = 0
 MODE_IMAGE = 1
@@ -46,6 +48,16 @@ TYPE_DRAWING = 2
 
 # TODO: Need to expand to support popup menus
 MENU_EMPTY_SPACE = 0
+
+# UNDO actions
+UNDO_MOVE = 0
+UNDO_CREATE = 1
+UNDO_DELETE = 2
+UNDO_DELETE_SINGLE = 3
+UNDO_COMBINE_DELETE_NEW = 4
+UNDO_DELETE_LINK = 5
+UNDO_STRENGTHEN_LINK = 6
+UNDO_CREATE_LINK = 7
 
 # Note: This is (atm) very broken.  It will allow you to create new canvases, but not
 # create new thoughts or load existing maps.
@@ -75,9 +87,12 @@ class MMapArea (gtk.DrawingArea):
 						 					   (gobject.TYPE_OBJECT, )),
 						 text_selection_changed  = (gobject.SIGNAL_RUN_FIRST,
 						 					   gobject.TYPE_NONE,
-						 					   (gobject.TYPE_INT, gobject.TYPE_INT, gobject.TYPE_STRING)))
+						 					   (gobject.TYPE_INT, gobject.TYPE_INT, gobject.TYPE_STRING)),
+						 set_focus				 = (gobject.SIGNAL_RUN_FIRST,
+						 							gobject.TYPE_NONE,
+						 							(gobject.TYPE_PYOBJECT, gobject.TYPE_BOOLEAN)))
 
-	def __init__(self):
+	def __init__(self, undo):
 		super (MMapArea, self).__init__()
 
 		self.thoughts = []
@@ -87,6 +102,7 @@ class MMapArea (gtk.DrawingArea):
 		self.primary = None
 		self.editing = None
 		self.pango_context = self.create_pango_context()
+		self.undo = undo
 
 		self.unending_link = None
 		self.nthoughts = 0
@@ -111,6 +127,7 @@ class MMapArea (gtk.DrawingArea):
 		self.move_origin = None
 		self.move_origin_new = None
 		self.motion = None
+		self.move_action = None
 
 		self.set_events (gtk.gdk.KEY_PRESS_MASK |
 						 gtk.gdk.KEY_RELEASE_MASK |
@@ -144,8 +161,29 @@ class MMapArea (gtk.DrawingArea):
 			ret = self.create_popup_menu (None, event.get_coords (), MENU_EMPTY_SPACE)
 		return ret
 
+	def undo_move (self, action, mode):
+		self.undo.block ()
+		move_thoughts = action.args[1]
+		old_coords = action.args[0]
+		new_coords = action.args[2]
+		move_x = old_coords[0] - new_coords[0]
+		move_y = old_coords[1] - new_coords[1]
+		if mode == UndoManager.REDO:
+			move_x = -move_x
+			move_y = -move_y
+		self.unselect_all ()
+		for t in move_thoughts:
+			self.select_thought (t, -1)
+			t.move_by (move_x, move_y)
+		self.undo.unblock ()
+		self.invalidate ()
+
 	def button_release (self, widget, event):
 		ret = False
+		if self.moving and self.move_action:
+			self.move_action.add_arg (event.get_coords ())
+			self.undo.add_undo (self.move_action)
+			self.move_action = None
 		self.motion = None
 		self.moving = False
 		self.move_origin = None
@@ -159,6 +197,7 @@ class MMapArea (gtk.DrawingArea):
 		if obj:
 			ret = obj.process_button_release (event, self.unending_link, self.mode)
 		elif self.unending_link or event.button == 1:
+			sel = self.selected
 			thought = self.create_new_thought (event.get_coords ())
 			if not thought:
 				return True
@@ -168,6 +207,8 @@ class MMapArea (gtk.DrawingArea):
 			else:
 				self.emit ("change_buffer", thought.extended_buffer)
 				self.hookup_im_context (thought)
+				# Creating links adds an undo action.  Block it here
+				self.undo.block ()
 				for x in self.selected:
 					self.create_link (x, None, thought)
 			if self.unending_link:
@@ -176,9 +217,34 @@ class MMapArea (gtk.DrawingArea):
 				element = self.unending_link.get_save_element ()
 				self.element.appendChild (element)
 				self.unending_link = None
+			self.undo.unblock ()
+			act = UndoManager.UndoAction (self, UNDO_CREATE, self.undo_create_cb, thought, sel, \
+										  self.mode, self.old_mode, event.get_coords())
+			for l in self.links:
+				if l.uses (thought):
+					act.add_arg (l)
+			if self.undo.peak ().undo_type == UNDO_DELETE_SINGLE:
+				last_action = self.undo.pop ()
+				action = UndoManager.UndoAction (self, UNDO_COMBINE_DELETE_NEW, self.undo_joint_cb, \
+												 last_action, act)
+				self.undo.add_undo (action)
+			else:
+				self.undo.add_undo (act)
 			self.begin_editing (thought)
 		self.invalidate ()
 		return ret
+
+	def undo_joint_cb (self, action, mode):
+		delete = action.args[0]
+		create = action.args[1]
+
+		if mode == UndoManager.UNDO:
+			self.undo_create_cb (create, mode)
+			self.undo_deletion (delete, mode)
+		else:
+			self.undo_deletion (delete, mode)
+			self.undo_create_cb (create, mode)
+		self.invalidate ()
 
 	def key_press (self, widget, event):
 		if not self.im_context.filter_keypress (event):
@@ -205,6 +271,9 @@ class MMapArea (gtk.DrawingArea):
 			return True
 		elif self.moving and not self.editing and not self.unending_link:
 			self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.FLEUR))
+			if not self.move_action:
+				self.move_action = UndoManager.UndoAction (self, UNDO_MOVE, self.undo_move, self.move_origin,
+														   self.selected)
 			for t in self.selected:
 				t.move_by (event.x - self.move_origin_new[0], event.y - self.move_origin_new[1])
 			self.move_origin_new = (event.x, event.y)
@@ -290,13 +359,12 @@ class MMapArea (gtk.DrawingArea):
 			self.preedit_start_handler = self.im_context.connect ("preedit-start", thought.preedit_start, self.mode)
 			self.retrieve_handler = self.im_context.connect ("retrieve-surrounding", thought.retrieve_surroundings, \
 															 self.mode)
-			
-#"commit"	 def callback(imcontext, string, user_param1, ...)
-#"delete-surrounding"	def callback(imcontext, offset, n_chars, user_param1, ...)
-#"preedit-changed"	def callback(imcontext, user_param1, ...)
-#"preedit-end"	def callback(imcontext, user_param1, ...)
-#"preedit-start"	def callback(imcontext, user_param1, ...)
-#"retrieve-surrounding"	
+
+	def unselect_all (self):
+		self.hookup_im_context ()
+		for t in self.selected:
+			t.unselect ()
+		self.selected = []
 
 	def select_thought (self, thought, modifiers):
 		if modifiers and modifiers & gtk.gdk.SHIFT_MASK and len (self.selected) > 1 and self.selected.count (thought) > 0:
@@ -324,22 +392,46 @@ class MMapArea (gtk.DrawingArea):
 			self.emit ("change_buffer", None)
 
 	def begin_editing (self, thought):
-		#if self.selected.count (thought) != 1 or len (self.selected) != 1:
-		#	return
-		if self.editing:
+		if self.editing and thought != self.editing:
 			self.finish_editing ()
 		do_edit = thought.begin_editing ()
 		if do_edit:
 			self.editing = thought
 
-	def create_link (self, thought, thought_coords = None, child = None, child_coords = None):
+	def undo_link_action (self, action, mode):
+		self.undo.block ()
+		if self.editing:
+			self.finish_editing ()
+		link = action.args[0]
+		if action.undo_type == UNDO_CREATE_LINK:
+			if mode == UndoManager.REDO:
+				self.element.appendChild (link.element)
+				self.links.append (link)
+			else:
+				self.delete_link (link)
+		elif action.undo_type == UNDO_DELETE_LINK:
+			if mode == UndoManager.UNDO:
+				self.element.appendChild (link.element)
+				self.links.append (link)
+			else:
+				self.delete_link (link)
+		elif action.undo_type == UNDO_STRENGTHEN_LINK:
+			if mode == UndoManager.UNDO:
+				link.set_strength (action.args[1])
+			else:
+				link.set_strength (action.args[2])
+
+		self.undo.unblock ()
+		self.invalidate ()
+
+	def create_link (self, thought, thought_coords = None, child = None, child_coords = None, strength = 2):
 		if child:
 			for x in self.links:
 				if x.connects (thought, child):
-					if not x.change_strength (thought, child):
+					if x.change_strength (thought, child):
 						self.delete_link (x)
 					return
-			link = Links.Link (self.save, parent = thought, child = child)
+			link = Links.Link (self.save, parent = thought, child = child, strength = strength)
 			element = link.get_save_element ()
 			self.element.appendChild (element)
 			self.links.append (link)
@@ -347,7 +439,7 @@ class MMapArea (gtk.DrawingArea):
 			if self.unending_link:
 				del self.unending_link
 			self.unending_link = Links.Link (self.save, parent = thought, start_coords = thought_coords,
-											 end_coords = child_coords)
+											 end_coords = child_coords, strength = strength)
 
 	def set_mouse_cursor_cb (self, thought, cursor_type):
 		if not self.moving:
@@ -367,10 +459,16 @@ class MMapArea (gtk.DrawingArea):
 			return
 		for x in self.links:
 			if x.connects (self.unending_link.parent, thought):
+				old_strength = x.strength
 				x.change_strength (self.unending_link.parent, thought)
+				new_strength = x.strength
+				self.undo.add_undo (UndoManager.UndoAction (self, UNDO_STRENGTHEN_LINK, self.undo_link_action, x, \
+															old_strength, new_strength))
 				del self.unending_link
 				self.unending_link = None
 				return
+
+		self.undo.add_undo (UndoManager.UndoAction (self, UNDO_CREATE_LINK, self.undo_link_action, self.unending_link))
 		self.unending_link.set_child (thought)
 		self.links.append (self.unending_link)
 		element = self.unending_link.get_save_element ()
@@ -419,26 +517,56 @@ class MMapArea (gtk.DrawingArea):
 		for t in self.thoughts:
 			t.draw (context)
 
+	def undo_create_cb (self, action, mode):
+		self.undo.block ()
+		if mode == UndoManager.UNDO:
+			if action.args[0] == self.editing:
+				self.editing = None
+			self.unselect_all ()
+			for t in action.args[1]:
+				self.select_thought (t, -1)
+			self.delete_thought (action.args[0])
+			self.emit ("change_mode", action.args[3])
+		else:
+			self.emit ("change_mode", action.args[2])
+			thought = action.args[0]
+			self.thoughts.append (thought)
+			for t in action.args[1]:
+				self.unselect_all ()
+				self.select_thought (t, -1)
+			self.hookup_im_context (thought)
+			self.emit ("change_buffer", thought.extended_buffer)
+			self.element.appendChild (thought.element)
+			for l in action.args[5:]:
+				self.links.append (l)
+				self.element.appendChild (l.element)
+
+			self.begin_editing (thought)
+		self.emit ("set_focus", None, False)
+		self.undo.unblock ()
+		self.invalidate ()
+
 	def create_new_thought (self, coords, thought_type = None, loading = False):
 		if self.editing:
 			self.editing.finish_editing ()
-
 		if thought_type!= None:
 			type = thought_type
 		else:
 			type = self.mode
 
 		if type == TYPE_TEXT:
-			thought = TextThought.TextThought (coords, self.pango_context, self.nthoughts, self.save, loading)
+			thought = TextThought.TextThought (coords, self.pango_context, self.nthoughts, self.save, self.undo, loading)
 		elif type == TYPE_IMAGE:
-			thought = ImageThought.ImageThought (coords, self.pango_context, self.nthoughts, self.save, loading)
+			thought = ImageThought.ImageThought (coords, self.pango_context, self.nthoughts, self.save, self.undo, loading)
 		elif type == TYPE_DRAWING:
-			thought = DrawingThought.DrawingThought (coords, self.pango_context, self.nthoughts, self.save, loading)
+			thought = DrawingThought.DrawingThought (coords, self.pango_context, self.nthoughts, self.save, self.undo,	\
+													 loading)
 		if not thought.okay ():
 			return None
-		elif type == TYPE_IMAGE:
-			self.emit ("change_mode", self.old_mode)
 
+
+		if type == TYPE_IMAGE:
+			self.emit ("change_mode", self.old_mode)
 		self.nthoughts += 1
 		element = thought.element
 		self.element.appendChild (thought.element)
@@ -453,18 +581,24 @@ class MMapArea (gtk.DrawingArea):
 		thought.connect ("text_selection_changed", self.text_selection_cb)
 		thought.connect ("change_mouse_cursor", self.set_mouse_cursor_cb)
 		thought.connect ("update_links", self.update_links_cb)
+		thought.connect ("grab_focus", self.regain_focus_cb)
 		self.thoughts.append (thought)
-
 		return thought
 
+	def regain_focus_cb (self, thought, ext):
+		self.emit ("set_focus", None, ext)
+
 	def delete_thought (self, thought):
+		action = UndoManager.UndoAction (self, UNDO_DELETE_SINGLE, self.undo_deletion, [thought])
 		self.element.removeChild (thought.element)
-		thought.element.unlink ()
 		self.thoughts.remove (thought)
 		try:
 			self.selected.remove (thought)
 		except:
 			pass
+		if self.editing == thought:
+			self.hookup_im_context ()
+			self.editing = None
 		if self.primary == thought:
 			thought.disconnect (self.title_change_handler)
 			self.title_change_handler = None
@@ -474,28 +608,65 @@ class MMapArea (gtk.DrawingArea):
 		rem_links = []
 		for l in self.links:
 			if l.uses (thought):
+				action.add_arg (l)
 				rem_links.append (l)
 		for l in rem_links:
 			self.delete_link (l)
-		del thought
+		self.undo.add_undo (action)
 		return True
+
+	def undo_deletion (self, action, mode):
+		self.undo.block ()
+		if mode == UndoManager.UNDO:
+			self.unselect_all ()
+			for t in action.args[0]:
+				self.thoughts.append (t)
+				self.select_thought (t, -1)
+				self.element.appendChild (t.element)
+			for l in action.args[1:]:
+				self.links.append (l)
+				self.element.appendChild (l.element)
+			if action.undo_type == UNDO_DELETE_SINGLE:
+				self.begin_editing (action.args[0][0])
+				self.emit ("change_buffer", action.args[0][0].extended_buffer)
+				if not self.primary:
+					self.make_primary (action.args[0][0])
+			else:
+				self.emit ("change_buffer", None)
+		else:
+			for t in action.args[0]:
+				self.delete_thought (t)
+			for l in action.args[1:]:
+				self.delete_link (l)
+		self.emit ("set_focus", None, False)
+		self.undo.unblock ()
+		self.invalidate ()
+
 
 	def delete_selected_thoughts (self):
 		if len(self.selected) == 0:
 			return
+		action = UndoManager.UndoAction (self, UNDO_DELETE, self.undo_deletion, copy.copy(self.selected))
+		# delete_thought as a callback adds it's own undo action.  Block that here
+		self.undo.block ()
 		tmp = self.selected
 		t = tmp.pop()
 		while t:
+			for l in self.links:
+				if l.uses (t):
+					action.add_arg (l)
 			self.delete_thought (t)
 			if len (tmp) == 0:
 				t = None
 			else:
 				t = tmp.pop()
+		self.undo.unblock ()
+		self.undo.add_undo (action)
 		self.invalidate ()
 
 	def delete_link (self, link):
 		self.element.removeChild (link.element)
-		link.element.unlink ()
+		#link.element.unlink ()
 		self.links.remove (link)
 
 	def popup_menu_key (self, event):

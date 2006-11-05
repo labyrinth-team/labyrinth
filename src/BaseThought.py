@@ -72,14 +72,17 @@ class BaseThought (gobject.GObject):
 						 						   (gobject.TYPE_INT,)),
 						 update_links			= (gobject.SIGNAL_RUN_LAST,
 						 						   gobject.TYPE_NONE,
-						 						   ()))
+						 						   ()),
+						 grab_focus				= (gobject.SIGNAL_RUN_FIRST,
+						 						   gobject.TYPE_NONE,
+						 						   (gobject.TYPE_BOOLEAN,)))
 
 	# The first thing that should be called is this constructor
 	# It sets some basic properties of all thoughts and should be called
 	# before you start doing you're own thing with thoughts
 	# save: the save document passed into the derived constructor
 	# elem_type: a string representing the thought type (e.g. "image_thought")
-	def __init__ (self, save, elem_type):
+	def __init__ (self, save, elem_type, undo):
 		# Note: Once the thought has been successfully initialised (i.e. at the end
 		# of the constructor) you MUST set all_okay to True
 		# Otherwise, bad things will happen.
@@ -95,9 +98,10 @@ class BaseThought (gobject.GObject):
 		self.end_index = 0
 		self.text = ""
 		self.want_move = False
-		self.extended_buffer = TextBufferMarkup.InteractivePangoBuffer ()
+		self.undo = undo
+		self.extended_buffer = TextBufferMarkup.InteractivePangoBuffer (self.undo)
 		self.extended_buffer.set_text("")
-
+		self.extended_buffer.connect ("set_focus", self.focus_buffer)
 		self.element = save.createElement (elem_type)
 		extended_elem = save.createElement ("Extended")
 		self.extended_element = save.createTextNode ("Extended")
@@ -130,6 +134,11 @@ class BaseThought (gobject.GObject):
 		self.ul = (self.ul[0]+x, self.ul[1]+y)
 		self.recalc_edges ()
 		self.emit ("update_links")
+		self.emit ("update_view")
+
+	def focus_buffer (self, buf):
+		self.emit ("select_thought", None)
+		self.emit ("grab_focus", True)
 
 	# This, you may want to change.  Though, doing so will only affect
 	# thoughts that are "parents"
@@ -203,16 +212,16 @@ class BaseThought (gobject.GObject):
 
  	def delete_surroundings(self, imcontext, offset, n_chars, mode):
  		pass
- 		
+
  	def preedit_changed (self, imcontext, mode):
  		pass
- 		
+
  	def preedit_end (self, imcontext, mode):
  		pass
- 		
+
  	def preedit_start (self, imcontext, mode):
  		pass
- 		
+
  	def retrieve_surroundings (self, imcontext, mode):
  		pass
 
@@ -233,8 +242,8 @@ class ResizableThought (BaseThought):
 	RESIZE_LL = 7
 	RESIZE_LR = 8
 
-	def __init__ (self, save, elem_type):
-		super (ResizableThought, self).__init__(save, elem_type)
+	def __init__ (self, save, elem_type, undo):
+		super (ResizableThought, self).__init__(save, elem_type, undo)
 		self.resizing = False
 		self.button_down = False
 

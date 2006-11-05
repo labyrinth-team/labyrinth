@@ -1,3 +1,24 @@
+2006-11-05 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* src/TextBufferMarkup.py:
+	* src/DrawingThought.py:
+	* src/UndoManager.py:
+	* src/MainWindow.py:
+	* src/BaseThought.py:
+	* src/ImageThought.py:
+	* src/TextThought.py:
+	* src/MMapArea.py:
+	* src/Makefile.am:
+	* data/labyrinth-ui.xml:
+	Add undo and redo capabilities
+	Each action should be mirrored properly
+	Thought selection across undo's may be somewhat
+	shaky and inconsistant.
+
+	* src/Links.py:
+	Clean up old Links class
+
+
 2006-11-04 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* src/TextThought.py:
@@ -8,7 +29,7 @@
 	* src/TextThought.py:
 	Check the function return for get_direction, not just the function
 	address.  Oops.
-	
+
 	* src/BaseThought.py:
 	Don't print events - just pass silently
 

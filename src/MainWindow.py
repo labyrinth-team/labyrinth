@@ -28,11 +28,16 @@ import gobject
 import gettext
 _ = gettext.gettext
 import MMapArea
+import UndoManager
 import utils
 from MapList import MapList
 import xml.dom.minidom as dom
 
 map_number = 1
+
+# UNDO varieties for us
+UNDO_MODE = 0
+UNDO_SHOW_EXTENDED = 1
 
 class LabyrinthWindow (gtk.Window):
 	__gsignals__ = dict (title_changed		= (gobject.SIGNAL_RUN_FIRST,
@@ -56,7 +61,9 @@ class LabyrinthWindow (gtk.Window):
 			self.set_icon_from_file(utils.get_data_file_name('labyrinth.svg'))
 
 		# First, construct the MainArea and connect it all up
-		self.MainArea = MMapArea.MMapArea ()
+		self.undo = UndoManager.UndoManager (self)
+		self.undo.block ()
+		self.MainArea = MMapArea.MMapArea (self.undo)
 		self.set_focus_child (self.MainArea)
 		self.MainArea.connect ("title_changed", self.title_changed_cb)
 		self.MainArea.connect ("doc_save", self.doc_save_cb)
@@ -65,6 +72,7 @@ class LabyrinthWindow (gtk.Window):
 		self.MainArea.connect ("button-press-event", self.main_area_focus_cb)
 		self.MainArea.connect ("change_buffer", self.switch_buffer_cb)
 		self.MainArea.connect ("text_selection_changed", self.selection_changed_cb)
+		self.MainArea.connect ("set_focus", self.main_area_focus_cb)
 
 		# Then, construct the menubar and toolbar and hook it all up
 		self.create_ui ()
@@ -149,6 +157,7 @@ class LabyrinthWindow (gtk.Window):
 		self.MainArea.show ()
 		self.ui.get_widget('/AddedTools').show_all ()
 		self.extended.show ()
+		self.undo.unblock ()
 
 	def create_ui (self):
 		actions = [
@@ -162,6 +171,8 @@ class LabyrinthWindow (gtk.Window):
 			('Quit', gtk.STOCK_QUIT, _('_Quit'), '<control>Q',
 			 _('Close all the windows and exit the application'), self.quit_cb),
 			('EditMenu', None, _('_Edit')),
+			('Undo', gtk.STOCK_UNDO, None, '<control>Z', None),
+			('Redo', gtk.STOCK_REDO, None, '<control><shift>Z', None),
 			('Cut', gtk.STOCK_CUT, _('Cut'), '<control>X',
 			 None, self.cut_text_cb),
 			('Copy', gtk.STOCK_COPY, _('Copy'), '<control>C',
@@ -198,13 +209,20 @@ class LabyrinthWindow (gtk.Window):
 		self.act = ag.get_action ('Edit')
 		self.ext_act = ag.get_action ('ViewExtend')
 		self.act.connect ("changed", self.mode_change_cb)
+		self.undo.set_widgets (ag.get_action ('Undo'), ag.get_action ('Redo'))
 
 		self.ui = gtk.UIManager ()
 		self.ui.insert_action_group (ag, 0)
 		self.ui.add_ui_from_file (utils.get_data_file_name('labyrinth-ui.xml'))
 		self.add_accel_group (self.ui.get_accel_group ())
 
+	def undo_show_extended (self, action, mode):
+		self.undo.block ()
+		self.ext_act.set_active (not self.ext_act.get_active ())
+		self.undo.unblock ()
+
 	def view_extend_cb (self, arg):
+		self.undo.add_undo (UndoManager.UndoAction (self, UNDO_SHOW_EXTENDED, self.undo_show_extended))
 		self.extended_visible = arg.get_active ()
 		if self.extended_visible:
 			self.swin.show ()
@@ -238,8 +256,11 @@ class LabyrinthWindow (gtk.Window):
 			self.extended.set_buffer (self.invisible_buffer)
 			self.extended.set_editable (False)
 
-	def main_area_focus_cb (self, arg, arg2):
-		self.MainArea.grab_focus ()
+	def main_area_focus_cb (self, arg, event, extended = False):
+		if not extended:
+			self.MainArea.grab_focus ()
+		else:
+			self.extended.grab_focus ()
 
 	def quit_cb (self, event):
 		gtk.main_quit ()
@@ -270,6 +291,14 @@ class LabyrinthWindow (gtk.Window):
 		about_dialog.hide ()
 		del (about_dialog)
 		return
+
+	def revert_mode (self, action, mode):
+		self.undo.block ()
+		if mode == UndoManager.UNDO:
+			self.mode_request_cb (None, action.args[0])
+		else:
+			self.mode_request_cb (None, action.args[1])
+		self.undo.unblock ()
 
 	def mode_change_cb (self, base, activated):
 		self.MainArea.set_mode (activated.get_current_value ())

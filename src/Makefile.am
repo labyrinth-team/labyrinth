@@ -21,7 +21,8 @@ labyrinth_PYTHON = 	\
 	TextBufferMarkup.py \
 	MapList.py \
 	TrayIcon.py	\
-	prefs.py
+	prefs.py \
+	UndoManager.py
 
 nodist_labyrinth_PYTHON = defs.py
 

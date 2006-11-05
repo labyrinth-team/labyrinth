@@ -20,12 +20,14 @@
 # found at http://grecipe-manager.sourceforge.net/
 
 import pango,gtk, xml.sax.saxutils
+import UndoManager
 #from gdebug import *
+import gobject
 
 class PangoBuffer (gtk.TextBuffer):
     desc_to_attr_table = {
         'family':[pango.AttrFamily,""],
-        'style':[pango.AttrStyle,pango.STYLE_NORMAL],        
+        'style':[pango.AttrStyle,pango.STYLE_NORMAL],
         'variant':[pango.AttrVariant,pango.VARIANT_NORMAL],
         'weight':[pango.AttrWeight,pango.WEIGHT_NORMAL],
         'stretch':[pango.AttrStretch,pango.STRETCH_NORMAL],
@@ -51,7 +53,7 @@ class PangoBuffer (gtk.TextBuffer):
                        pango.STRETCH_EXPANDED:'expanded',
                        pango.STRETCH_EXTRA_EXPANDED:'extraexpanded',
                        pango.STRETCH_EXTRA_CONDENSED:'extracondensed',
-                       pango.STRETCH_ULTRA_CONDENSED:'ultracondensed',                                              
+                       pango.STRETCH_ULTRA_CONDENSED:'ultracondensed',
                        pango.STRETCH_CONDENSED:'condensed',
                        pango.STRETCH_NORMAL:'normal',
                        },
@@ -83,7 +85,7 @@ class PangoBuffer (gtk.TextBuffer):
             txt=xml.sax.saxutils.escape(txt)
             self.parsed,self.txt,self.separator = pango.parse_markup(txt,u'\x00')
         self.attrIter = self.parsed.get_iterator()
-        self.add_iter_to_buffer()        
+        self.add_iter_to_buffer()
         while self.attrIter.next():
             self.add_iter_to_buffer()
 
@@ -91,19 +93,19 @@ class PangoBuffer (gtk.TextBuffer):
         range=self.attrIter.range()
         font,lang,attrs = self.attrIter.get_font()
         tags = self.get_tags_from_attrs(font,lang,attrs)
-        text = self.txt[range[0]:range[1]]        
+        text = self.txt[range[0]:range[1]]
         if tags: self.insert_with_tags(self.get_end_iter(),text,*tags)
         else: self.insert_with_tags(self.get_end_iter(),text)
-        
+
     def get_tags_from_attrs (self, font,lang,attrs):
         tags = []
-        if font:            
+        if font:
             font,fontattrs = self.fontdesc_to_attrs(font)
             fontdesc = font.to_string()
             if fontattrs:
                 attrs.extend(fontattrs)
             if fontdesc and fontdesc!='Normal':
-                if not self.tags.has_key(font.to_string()):                    
+                if not self.tags.has_key(font.to_string()):
                     tag=self.create_tag()
                     tag.set_property('font-desc',font)
                     if not self.tagdict.has_key(tag): self.tagdict[tag]={}
@@ -159,7 +161,7 @@ class PangoBuffer (gtk.TextBuffer):
                 #else:
                     #debug("Don't know what to do with attr %s"%a,1)
         return tags
-    
+
     def get_tags (self):
         tagdict = {}
         for pos in range(self.get_char_count()):
@@ -175,7 +177,7 @@ class PangoBuffer (gtk.TextBuffer):
         return tagdict
 
     def get_text (self, start=None, end=None, include_hidden_chars=True):
-        tagdict=self.get_tags()        
+        tagdict=self.get_tags()
         if not start: start=self.get_start_iter()
         if not end: end=self.get_end_iter()
         txt = gtk.TextBuffer.get_text(self,start,end)
@@ -190,7 +192,7 @@ class PangoBuffer (gtk.TextBuffer):
         last_pos = 0
         outbuff = ""
         cut_indices = cuts.keys()
-        cut_indices.sort()        
+        cut_indices.sort()
         soffset = start.get_offset()
         eoffset = end.get_offset()
         cut_indices = filter(lambda i: eoffset >= i >= soffset, cut_indices)
@@ -221,7 +223,7 @@ class PangoBuffer (gtk.TextBuffer):
                 # unset our font's value
                 getattr(font,'set_%s'%n)(norm)
         return font,attrs
-        
+
     def pango_color_to_gdk (self, pc):
         return gtk.gdk.Color(pc.red,pc.green,pc.blue)
 
@@ -232,7 +234,7 @@ class PangoBuffer (gtk.TextBuffer):
             if len(hexfrag)<2: hexfrag = "0" + hexfrag
             hexstring += hexfrag
         return hexstring
-        
+
     def apply_font_and_attrs (self, font, attrs):
         tags = self.get_tags_from_attrs(font,None,attrs)
         for t in tags: self.apply_tag_to_selection(t)
@@ -280,7 +282,11 @@ class PangoBuffer (gtk.TextBuffer):
                 self.remove_tag(t,*selection)
 
 class InteractivePangoBuffer (PangoBuffer):
-    def __init__ (self, 
+    __gsignals__ = dict (set_focus		= (gobject.SIGNAL_RUN_FIRST,
+										   gobject.TYPE_NONE,
+										   ()))
+
+    def __init__ (self, undo_manager,
                   normal_button=None,
                   toggle_widget_alist=[]):
         """An interactive interface to allow marking up a gtk.TextBuffer.
@@ -295,9 +301,12 @@ class InteractivePangoBuffer (PangoBuffer):
         if normal_button: normal_button.connect('clicked',lambda *args: self.remove_all_tags())
         self.tag_widgets = {}
         self.internal_toggle = False
-        self.insert = self.get_insert()
+        self.insert_mark = self.get_insert()
+        self.undo = undo_manager
         self.connect('mark-set',self._mark_set_cb)
-        self.connect('changed',self._changed_cb)        
+        self.connect('changed',self._changed_cb)
+        self.connect('insert-text', self._insert_text_cb)
+        self.connect('delete-range', self._delete_range_cb)
         for w,tup in toggle_widget_alist:
             self.setup_widget(w,*tup)
 
@@ -308,7 +317,7 @@ class InteractivePangoBuffer (PangoBuffer):
         ai=a.get_iterator()
         font,lang,attrs=ai.get_font()
         return self.setup_widget(widg,font,attrs)
-    
+
     def setup_widget (self, widg, font, attr):
         tags=self.get_tags_from_attrs(font,None,attr)
         self.tag_widgets[tuple(tags)]=widg
@@ -335,18 +344,18 @@ class InteractivePangoBuffer (PangoBuffer):
                 self.internal_toggle=True
                 widg.set_active(active)
                 self.internal_toggle=False
-        if hasattr(self,'last_mark'):                
+        if hasattr(self,'last_mark'):
             self.move_mark(self.last_mark,iter)
         else:
             self.last_mark = self.create_mark('last',iter,left_gravity=True)
         self._in_mark_set = False
-            
+
     def _changed_cb (self, tb):
         if not hasattr(self,'last_mark'): return
         # If our insertion point has a mark, we want to apply the tag
         # each time the user types...
         old_itr = self.get_iter_at_mark(self.last_mark)
-        insert_itr = self.get_iter_at_mark(self.insert)
+        insert_itr = self.get_iter_at_mark(self.insert_mark)
         if old_itr!=insert_itr:
             # Use the state of our widgets to determine what
             # properties to apply...
@@ -354,9 +363,31 @@ class InteractivePangoBuffer (PangoBuffer):
                 if w.get_active():
                     #print 'apply tags...',tags
                     for t in tags: self.apply_tag(t,old_itr,insert_itr)
-        
-                    
 
+    def _insert_text_cb (self, buffer, iter, text, length):
+        self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.INSERT_LETTER, self.undo_action,
+                           iter.get_offset(), text, length))
+        return False
+
+    def undo_action (self, action, mode):
+        self.undo.block ()
+        self.emit ("set_focus")
+        if action.undo_type == UndoManager.DELETE_LETTER or action.undo_type == UndoManager.DELETE_WORD:
+            real_mode = not mode
+        else:
+            real_mode = mode
+        if real_mode == UndoManager.UNDO:
+            self.delete (self.get_iter_at_offset(action.args[0]),
+            			 self.get_iter_at_offset (action.args[0]+action.args[2]))
+        else:
+            self.insert (self.get_iter_at_offset(action.args[0]), action.args[1])
+        self.undo.unblock ()
+
+    def _delete_range_cb (self, buffer, iter, it1):
+        text = self.get_text (iter, it1)
+        self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.DELETE_LETTER, self.undo_action,
+                           iter.get_offset(), text, len (text)))
+        return False
 
 
 class SimpleEditor:
@@ -365,7 +396,7 @@ class SimpleEditor:
         self.vb = gtk.VBox()
         self.editBox = gtk.HButtonBox()
         self.nb = gtk.Button('Normal')
-        self.editBox.add(self.nb)        
+        self.editBox.add(self.nb)
         self.sw = gtk.ScrolledWindow()
         self.tv = gtk.TextView()
         self.sw.add(self.tv)
@@ -392,7 +423,7 @@ class SimpleEditor:
             self.ipb.setup_widget_from_pango(button,font)
         self.vb.add(self.editBox)
         self.vb.add(self.sw)
-        self.actionBox = gtk.HButtonBox()        
+        self.actionBox = gtk.HButtonBox()
         self.qb = gtk.Button(stock='quit')
         self.pmbut = gtk.Button('Print markup')
         self.pmbut.connect('clicked',self.print_markup)
@@ -405,7 +436,7 @@ class SimpleEditor:
 
     def print_markup (self,*args):
         print self.ipb.get_text()
-        
+
 if __name__ == '__main__':
     se = SimpleEditor()
     se.w.connect('delete-event',lambda *args: gtk.main_quit())

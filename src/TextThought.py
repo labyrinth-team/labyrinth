@@ -27,13 +27,14 @@ import Links
 import utils
 import BaseThought
 import prefs
+import UndoManager
 
 import xml.dom.minidom as dom
 import xml.dom
 
 class TextThought (BaseThought.BaseThought):
-	def __init__ (self, coords, pango_context, thought_number, save, loading):
-		super (TextThought, self).__init__(save, "thought")
+	def __init__ (self, coords, pango_context, thought_number, save, undo, loading):
+		super (TextThought, self).__init__(save, "thought", undo)
 
 		self.index = 0
 		self.end_index = 0
@@ -111,7 +112,7 @@ class TextThought (BaseThought.BaseThought):
 				if not it.next ():
 					it = None
 		else:
-			show_text = self.text		
+			show_text = self.text
 		self.layout = pango.Layout (self.pango_context)
 		self.layout.set_text (show_text)
 		(x,y) = self.layout.get_pixel_size ()
@@ -153,6 +154,8 @@ class TextThought (BaseThought.BaseThought):
 			bleft = self.bytes[:self.b_f_i(self.index)]
 			bright = self.bytes[self.b_f_i(self.index):]
 		self.text = left + string + right
+		self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.INSERT_LETTER, self.undo_text_action,
+							self.bindex, string, len(string)))
 		self.index += len (string)
 		self.bytes = bleft + str(len(string)) + bright
 		self.bindex = self.b_f_i (self.index)
@@ -196,7 +199,7 @@ class TextThought (BaseThought.BaseThought):
 		else:
 			bgsel = pango.AttrBackground (65535, 0, 0, self.index, self.end_index)
 		self.attrlist.insert (bgsel)
-		self.layout.set_attributes(self.attrlist) 
+		self.layout.set_attributes(self.attrlist)
 
 		context.move_to (self.text_location[0], self.text_location[1])
 		context.show_layout (self.layout)
@@ -280,6 +283,31 @@ class TextThought (BaseThought.BaseThought):
 		self.emit ("update_view")
 		return handled
 
+	def undo_text_action (self, action, mode):
+		self.undo.block ()
+		if action.undo_type == UndoManager.DELETE_LETTER or action.undo_type == UndoManager.DELETE_WORD:
+			real_mode = not mode
+			bytes = action.args[3]
+		else:
+			real_mode = mode
+			bytes = None
+		self.bindex = action.args[0]
+		self.index = self.index_from_bindex (self.bindex)
+		self.end_index = self.index
+		if real_mode == UndoManager.UNDO:
+			self.end_index = self.index + action.args[2]
+			self.delete_char ()
+		else:
+			self.add_text (action.text)
+			self.rebuild_byte_table ()
+			self.bindex = self.b_f_i (self.index)
+		self.recalc_edges ()
+		self.emit ("begin_editing")
+		self.emit ("title_changed", self.text)
+		self.emit ("update_view")
+		self.emit ("grab_focus", False)
+		self.undo.unblock ()
+
 	def delete_char (self):
 		if self.index == self.end_index == len (self.text):
 			return
@@ -288,17 +316,25 @@ class TextThought (BaseThought.BaseThought):
 			right = self.text[self.index:]
 			bleft = self.bytes[:self.b_f_i (self.end_index)]
 			bright = self.bytes[self.b_f_i (self.index):]
+			local_text = self.text[self.end_index:self.index]
+			local_bytes = self.bytes[self.b_f_i (self.end_index):self.b_f_i (self.index)]
 			self.index = self.end_index
 		elif self.index < self.end_index:
 			left = self.text[:self.index]
 			right = self.text[self.end_index:]
+			local_text = self.text[self.index:self.end_index]
 			bleft = self.bytes[:self.b_f_i (self.index)]
 			bright = self.bytes[self.b_f_i (self.end_index):]
+			local_bytes = self.bytes[self.b_f_i (self.index):self.b_f_i (self.end_index)]
 		else:
 			left = self.text[:self.index]
 			right = self.text[self.index+int(self.bytes[self.bindex]):]
+			local_text = self.text[self.index:self.index+int(self.bytes[self.bindex])]
 			bleft = self.bytes[:self.b_f_i(self.index)]
 			bright = self.bytes[self.b_f_i(self.index)+1:]
+			local_bytes = self.bytes[self.b_f_i(self.index)]
+		self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.DELETE_LETTER, self.undo_text_action,
+							self.b_f_i (self.index), local_text, len(local_text), local_bytes))
 		self.text = left+right
 		self.bytes = bleft+bright
 		self.end_index = self.index
@@ -311,22 +347,29 @@ class TextThought (BaseThought.BaseThought):
 			right = self.text[self.index:]
 			bleft = self.bytes[:self.b_f_i (self.end_index)]
 			bright = self.bytes[self.b_f_i (self.index):]
+			local_text = self.text[self.end_index:self.index]
+			local_bytes = self.bytes[self.b_f_i (self.end_index):self.b_f_i (self.index)]
 			self.index = self.end_index
 		elif self.index < self.end_index:
 			left = self.text[:self.index]
 			right = self.text[self.end_index:]
 			bleft = self.bytes[:self.b_f_i (self.index)]
 			bright = self.bytes[self.b_f_i (self.end_index):]
+			local_text = self.text[self.index:self.end_index]
+			local_bytes = self.bytes[self.b_f_i (self.index):self.b_f_i (self.end_index)]
 		else:
 			left = self.text[:self.index-int(self.bytes[self.bindex-1])]
 			right = self.text[self.index:]
 			bleft = self.bytes[:self.b_f_i(self.index)-1]
 			bright = self.bytes[self.b_f_i(self.index):]
+			local_text = self.text[self.index-int(self.bytes[self.bindex-1]):self.index]
+			local_bytes = self.bytes[self.b_f_i(self.index-1)]
 			self.index-=int(self.bytes[self.bindex-1])
 		self.text = left+right
 		self.bytes = bleft+bright
 		self.end_index = self.index
-
+		self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.DELETE_LETTER, self.undo_text_action,
+							self.b_f_i (self.index), local_text, len(local_text), local_bytes))
 		if self.index < 0:
 			self.index = 0
 
@@ -629,22 +672,25 @@ class TextThought (BaseThought.BaseThought):
  	def delete_surroundings(self, imcontext, offset, n_chars, mode):
 		left = self.text[:offset]
 		right = self.text[offset+n_chars:]
+		local_text = self.text[offset:offset+n_chars]
 		self.text = left+right
 		self.rebuild_byte_table ()
 		if self.index > len(self.text):
 			self.index = len(self.text)
 		self.recalc_edges ()
+		self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.DELETE_LETTER, self.undo_text_action,
+							self.b_f_i (offset), local_text, len(local_text), local_bytes))
 		self.emit ("title_changed", self.text)
 		self.bindex = self.bindex_from_index (self.index)
 		self.emit ("update_view")
- 		
+
  	def preedit_changed (self, imcontext, mode):
  		self.preedit = imcontext.get_preedit_string ()
  		if self.preedit[0] == '':
  			self.preedit = None
  		self.recalc_edges ()
  		self.emit ("update_view")
- 		
+
  	def retrieve_surroundings (self, imcontext, mode):
  		imcontext.set_surrounding (self.text, -1, self.bindex)
  		return True
