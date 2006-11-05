@@ -1,5 +1,9 @@
 2006-11-05 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/TextThought.py:
+	Don't draw selected text when
+	not editing
+
 	* src/MMapArea.py:
 	Implement ctrl-a when no thought
 	is being edited

@@ -217,6 +217,7 @@ class TextThought (BaseThought.BaseThought):
 		self.editing = False
 		self.end_index = self.index
 		self.emit ("update_links")
+		self.recalc_edges ()
 		if len (self.text) == 0:
 			self.emit ("delete_thought")
 
