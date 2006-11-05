@@ -239,8 +239,9 @@ class TextThought (BaseThought.BaseThought):
 		shift = event.state & modifiers == gtk.gdk.SHIFT_MASK
 		handled = True
 		if (event.state & modifiers) & gtk.gdk.CONTROL_MASK:
-			pass
-			#TODO: Handle ctrl-?? etc.
+			if event.keyval == gtk.keysyms.a:
+				self.index = self.bindex = 0
+				self.end_index = len (self.text)
 		elif event.keyval == gtk.keysyms.Escape:
 			self.emit ("finish_editing")
 		elif event.keyval == gtk.keysyms.Left:
@@ -268,9 +269,9 @@ class TextThought (BaseThought.BaseThought):
 				self.move_index_end (shift)
 			else:
 				self.move_index_end (shift)
-		elif event.keyval == gtk.keysyms.BackSpace:
+		elif event.keyval == gtk.keysyms.BackSpace and self.editing:
 			self.backspace_char ()
-		elif event.keyval == gtk.keysyms.Delete:
+		elif event.keyval == gtk.keysyms.Delete and self.editing:
 			self.delete_char ()
 		elif len (event.string) != 0:
 			self.add_text (event.string)
@@ -375,6 +376,7 @@ class TextThought (BaseThought.BaseThought):
 
 	def move_index_back (self, mod):
 		if self.index <= 0:
+			self.end_index = self.index
 			return
 		self.index-=int(self.bytes[self.bindex-1])
 		if not mod:
@@ -382,6 +384,7 @@ class TextThought (BaseThought.BaseThought):
 
 	def move_index_forward (self, mod):
 		if self.index >= len(self.text):
+			self.end_index = self.index
 			return
 		self.index+=int(self.bytes[self.bindex])
 		if not mod:
@@ -391,6 +394,7 @@ class TextThought (BaseThought.BaseThought):
 		tmp = self.text.decode ()
 		lines = tmp.splitlines ()
 		if len (lines) == 1:
+			self.end_index = self.index
 			return
 		loc = 0
 		line = 0
@@ -402,6 +406,7 @@ class TextThought (BaseThought.BaseThought):
 				break
 			line+=1
 		if line == -1:
+			self.end_index = self.index
 			return
 		elif line >= len (lines):
 			self.bindex -= len (lines[-1])+1
@@ -425,6 +430,7 @@ class TextThought (BaseThought.BaseThought):
 		tmp = self.text.decode ()
 		lines = tmp.splitlines ()
 		if len (lines) == 1:
+			self.end_index = self.index
 			return
 		loc = 0
 		line = 0
@@ -434,6 +440,7 @@ class TextThought (BaseThought.BaseThought):
 				break
 			line += 1
 		if line >= len (lines)-1:
+			self.end_index = self.index
 			return
 		dist = self.bindex - (loc - len (lines[line]))+1
 		self.bindex = loc
