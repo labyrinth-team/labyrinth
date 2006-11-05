@@ -679,6 +679,11 @@ class MMapArea (gtk.DrawingArea):
 			self.delete_selected_thoughts ()
 		elif event.keyval == gtk.keysyms.Menu:
 			self.popup_menu_key (event)
+		elif event.keyval == gtk.keysyms.a and event.state & gtk.gdk.CONTROL_MASK:
+			self.unselect_all ()
+			for t in self.thoughts:
+				t.select ()
+				self.selected.append (t)
 		else:
 			return False
 		self.invalidate ()

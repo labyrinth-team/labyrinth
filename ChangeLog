@@ -1,5 +1,9 @@
 2006-11-05 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/MMapArea.py:
+	Implement ctrl-a when no thought
+	is being edited
+
 	* src/TextThought.py:
 	implement ctrl-a in thoughts.
 	Various improvments in handling

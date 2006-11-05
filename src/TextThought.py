@@ -239,7 +239,9 @@ class TextThought (BaseThought.BaseThought):
 		shift = event.state & modifiers == gtk.gdk.SHIFT_MASK
 		handled = True
 		if (event.state & modifiers) & gtk.gdk.CONTROL_MASK:
-			if event.keyval == gtk.keysyms.a:
+			if not self.editing:
+				handled = False
+			elif event.keyval == gtk.keysyms.a:
 				self.index = self.bindex = 0
 				self.end_index = len (self.text)
 		elif event.keyval == gtk.keysyms.Escape:
