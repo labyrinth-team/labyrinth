@@ -1,5 +1,8 @@
 2006-11-05 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/TextThought.py:
+	Make backspace work again at end of text
+
 	* src/TextBufferMarkup.py:
 	* src/DrawingThought.py:
 	* src/UndoManager.py:

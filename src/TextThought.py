@@ -363,7 +363,7 @@ class TextThought (BaseThought.BaseThought):
 			bleft = self.bytes[:self.b_f_i(self.index)-1]
 			bright = self.bytes[self.b_f_i(self.index):]
 			local_text = self.text[self.index-int(self.bytes[self.bindex-1]):self.index]
-			local_bytes = self.bytes[self.b_f_i(self.index-1)]
+			local_bytes = self.bytes[self.b_f_i(self.index)-1]
 			self.index-=int(self.bytes[self.bindex-1])
 		self.text = left+right
 		self.bytes = bleft+bright
