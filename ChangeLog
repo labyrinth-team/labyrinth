@@ -14,6 +14,8 @@
 	Each action should be mirrored properly
 	Thought selection across undo's may be somewhat
 	shaky and inconsistant.
+	There are probably also many bugs still in the
+	implementation
 
 	* src/Links.py:
 	Clean up old Links class
