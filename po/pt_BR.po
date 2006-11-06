@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt-br\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-06 12:22+0000\n"
+"POT-Creation-Date: 2006-11-06 19:14+0000\n"
 "PO-Revision-Date: 2006-10-16 14:05+0200\n"
 "Last-Translator: Leonardo Gregianin <leonardo@riseup.net>\n"
 "Language-Team: Brazilian Portuguese <leonardo@riseup.net>\n"
@@ -16,28 +16,28 @@ msgstr ""
 "Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ../src/Browser.py:161
+#: ../src/Browser.py:207
 #, fuzzy
 msgid "The map cannot be deleted right now.  Is it open?"
 msgstr "O mapa não pode ser apagado agora. Ele está aberto?"
 
-#: ../src/Browser.py:163
-msgid "Error! Error! Error! map has no filename"
+#: ../src/Browser.py:209
+msgid "The map has no associated filename."
 msgstr ""
 
-#: ../src/Browser.py:166
+#: ../src/Browser.py:212
 msgid "Cannot delete this map"
 msgstr "Não é possível apagar este mapa"
 
-#: ../src/Browser.py:173
+#: ../src/Browser.py:219
 msgid "Do you really want to delete this Map?"
 msgstr "Você quer realmente apagar este mapa?"
 
-#: ../src/Browser.py:202
+#: ../src/Browser.py:248
 msgid "Map Name"
 msgstr "Nome do Mapa"
 
-#: ../src/MainWindow.py:110 ../src/MainWindow.py:307
+#: ../src/MainWindow.py:110 ../src/MainWindow.py:277
 #, python-format
 msgid "Untitled Map %d"
 msgstr "Mapa sem título %d"
@@ -52,7 +52,7 @@ msgid "Export as Image"
 msgstr ""
 
 #: ../src/MainWindow.py:166
-msgid "Export you're map as an image"
+msgid "Export your map as an image"
 msgstr ""
 
 #: ../src/MainWindow.py:168
@@ -76,51 +76,43 @@ msgstr "_Verwijder geselecteerde gedachten"
 msgid "Delete the selected element(s)"
 msgstr "Apagar o(s) elemento(s) selecionado(s)"
 
-#: ../src/MainWindow.py:181
-msgid "_Help"
-msgstr "_Ajuda"
-
-#: ../src/MainWindow.py:183
-msgid "Learn about the application"
-msgstr "Aprender sobre o programa "
-
-#: ../src/MainWindow.py:185
+#: ../src/MainWindow.py:182
 msgid "_Edit Mode"
 msgstr "_Modo Editar"
 
-#: ../src/MainWindow.py:186
+#: ../src/MainWindow.py:183
 msgid "Turn on edit mode"
 msgstr "Voltar ao modo de edição"
 
-#: ../src/MainWindow.py:187
+#: ../src/MainWindow.py:184
 msgid "_Add Image"
 msgstr "_Adicionar image"
 
-#: ../src/MainWindow.py:188
+#: ../src/MainWindow.py:185
 msgid "Add an image to selected thought"
 msgstr "Adicione uma imagem ao mapa selecionado"
 
-#: ../src/MainWindow.py:189
+#: ../src/MainWindow.py:186
 msgid "_Drawing Mode"
 msgstr "_Modo Desenho"
 
-#: ../src/MainWindow.py:190
+#: ../src/MainWindow.py:187
 msgid "Make a pretty drawing"
 msgstr "Fazer um desenho bonito"
 
-#: ../src/MainWindow.py:192
+#: ../src/MainWindow.py:189
 msgid "_View Extended"
 msgstr ""
 
-#: ../src/MainWindow.py:193
-msgid "View extended infor for thoughts"
+#: ../src/MainWindow.py:190
+msgid "View extended info for thoughts"
 msgstr ""
 
-#: ../src/MainWindow.py:470
+#: ../src/MainWindow.py:440
 msgid "Unknown file format"
 msgstr ""
 
-#: ../src/MainWindow.py:471
+#: ../src/MainWindow.py:441
 #, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
@@ -145,12 +137,12 @@ msgid "%s could not be found.  Associated thought will be empty."
 msgstr "%s não pode ser encontrado. Geassocieerde gedachte zal leeg zijn."
 
 #: ../data/labyrinth.glade.h:1
-#, fuzzy
-msgid "Complete Map"
-msgstr "Apagar mapa"
+msgid "<b>Export Map</b>"
+msgstr ""
 
 #: ../data/labyrinth.glade.h:2
-msgid "Delete Map"
+#, fuzzy
+msgid "Complete Map"
 msgstr "Apagar mapa"
 
 #: ../data/labyrinth.glade.h:3
@@ -166,24 +158,21 @@ msgid "Labyrinth Maps"
 msgstr "Mapas do Labyrinth"
 
 #: ../data/labyrinth.glade.h:6
-msgid "New Map"
-msgstr "Novo map"
-
-#: ../data/labyrinth.glade.h:7
-msgid "Open Map"
-msgstr "Abrir"
-
-#: ../data/labyrinth.glade.h:8
-msgid "Quit"
-msgstr "Sair"
-
-#: ../data/labyrinth.glade.h:9
 msgid "Visible Area"
 msgstr ""
 
-#: ../data/labyrinth.glade.h:10
+#: ../data/labyrinth.glade.h:7
 msgid "Width"
 msgstr ""
+
+#: ../data/labyrinth.glade.h:8
+#, fuzzy
+msgid "_File"
+msgstr "_Arquivo"
+
+#: ../data/labyrinth.glade.h:9
+msgid "_Help"
+msgstr "_Ajuda"
 
 #: ../data/labyrinth.desktop.in.h:1
 msgid "Labyrinth Mind-mapping"
@@ -196,6 +185,21 @@ msgstr "Mapeando sua mente"
 #: ../data/labyrinth.desktop.in.h:3
 msgid "Mind-mapping"
 msgstr "Mind-mapping"
+
+#~ msgid "Learn about the application"
+#~ msgstr "Aprender sobre o programa "
+
+#~ msgid "Delete Map"
+#~ msgstr "Apagar mapa"
+
+#~ msgid "New Map"
+#~ msgstr "Novo map"
+
+#~ msgid "Open Map"
+#~ msgstr "Abrir"
+
+#~ msgid "Quit"
+#~ msgstr "Sair"
 
 #~ msgid "_New"
 #~ msgstr "_Novo"

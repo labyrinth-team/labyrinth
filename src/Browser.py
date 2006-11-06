@@ -206,7 +206,7 @@ class Browser (gtk.Window):
 		if map.window:
 			error_message =  _("The map cannot be deleted right now.  Is it open?")
 		elif not map.filename:
-			error_message = _("Error! Error! Error! map has no filename")
+			error_message = _("The map has no associated filename.")
 		if error_message:
 			dialog = gtk.MessageDialog (self, gtk.DIALOG_MODAL, gtk.MESSAGE_WARNING, gtk.BUTTONS_OK,
 									_("Cannot delete this map"))

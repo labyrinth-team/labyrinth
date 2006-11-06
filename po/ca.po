@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-06 12:22+0000\n"
+"POT-Creation-Date: 2006-11-06 19:14+0000\n"
 "PO-Revision-Date: 2006-10-18 02:22+0200\n"
 "Last-Translator: Gil Forcada <gilforcada@guifi.net>\n"
 "Language-Team: Catalan <tradgnome@softcatala.net>\n"
@@ -14,27 +14,27 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/Browser.py:161
+#: ../src/Browser.py:207
 msgid "The map cannot be deleted right now.  Is it open?"
 msgstr "No es pot suprimir el mapa ara mateix.  Està obert?"
 
-#: ../src/Browser.py:163
-msgid "Error! Error! Error! map has no filename"
+#: ../src/Browser.py:209
+msgid "The map has no associated filename."
 msgstr ""
 
-#: ../src/Browser.py:166
+#: ../src/Browser.py:212
 msgid "Cannot delete this map"
 msgstr "No s'ha pogut suprimir el mapa"
 
-#: ../src/Browser.py:173
+#: ../src/Browser.py:219
 msgid "Do you really want to delete this Map?"
 msgstr "Realment voleu suprimir aquest mapa?"
 
-#: ../src/Browser.py:202
+#: ../src/Browser.py:248
 msgid "Map Name"
 msgstr ""
 
-#: ../src/MainWindow.py:110 ../src/MainWindow.py:307
+#: ../src/MainWindow.py:110 ../src/MainWindow.py:277
 #, python-format
 msgid "Untitled Map %d"
 msgstr "Mapa sense nom %d"
@@ -48,7 +48,7 @@ msgid "Export as Image"
 msgstr ""
 
 #: ../src/MainWindow.py:166
-msgid "Export you're map as an image"
+msgid "Export your map as an image"
 msgstr ""
 
 #: ../src/MainWindow.py:168
@@ -73,51 +73,43 @@ msgstr "_Suprimeix els pensaments seleccionats"
 msgid "Delete the selected element(s)"
 msgstr "Suprimeix el(s) element(s) seleccionat(s)"
 
-#: ../src/MainWindow.py:181
-msgid "_Help"
-msgstr ""
-
-#: ../src/MainWindow.py:183
-msgid "Learn about the application"
-msgstr "Aprèn sobre l'aplicació"
-
-#: ../src/MainWindow.py:185
+#: ../src/MainWindow.py:182
 msgid "_Edit Mode"
 msgstr "Mode d'_edició"
 
-#: ../src/MainWindow.py:186
+#: ../src/MainWindow.py:183
 msgid "Turn on edit mode"
 msgstr "Activa el mode d'edició"
 
-#: ../src/MainWindow.py:187
+#: ../src/MainWindow.py:184
 msgid "_Add Image"
 msgstr "_Afegeix una imatge"
 
-#: ../src/MainWindow.py:188
+#: ../src/MainWindow.py:185
 msgid "Add an image to selected thought"
 msgstr "Afegeix una imatge al pensament seleccionat"
 
-#: ../src/MainWindow.py:189
+#: ../src/MainWindow.py:186
 msgid "_Drawing Mode"
 msgstr "_Mode de dibuix"
 
-#: ../src/MainWindow.py:190
+#: ../src/MainWindow.py:187
 msgid "Make a pretty drawing"
 msgstr "Fes un dibuix bonic"
 
-#: ../src/MainWindow.py:192
+#: ../src/MainWindow.py:189
 msgid "_View Extended"
 msgstr ""
 
-#: ../src/MainWindow.py:193
-msgid "View extended infor for thoughts"
+#: ../src/MainWindow.py:190
+msgid "View extended info for thoughts"
 msgstr ""
 
-#: ../src/MainWindow.py:470
+#: ../src/MainWindow.py:440
 msgid "Unknown file format"
 msgstr ""
 
-#: ../src/MainWindow.py:471
+#: ../src/MainWindow.py:441
 #, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
@@ -142,12 +134,12 @@ msgid "%s could not be found.  Associated thought will be empty."
 msgstr "No s'ha pogut trobar %s.  El pensament associat estarà buit."
 
 #: ../data/labyrinth.glade.h:1
-#, fuzzy
-msgid "Complete Map"
-msgstr "Suprimeix el mapa"
+msgid "<b>Export Map</b>"
+msgstr ""
 
 #: ../data/labyrinth.glade.h:2
-msgid "Delete Map"
+#, fuzzy
+msgid "Complete Map"
 msgstr "Suprimeix el mapa"
 
 #: ../data/labyrinth.glade.h:3
@@ -163,23 +155,19 @@ msgid "Labyrinth Maps"
 msgstr "Mapes Labyrinth"
 
 #: ../data/labyrinth.glade.h:6
-msgid "New Map"
-msgstr "Nou mapa"
-
-#: ../data/labyrinth.glade.h:7
-msgid "Open Map"
-msgstr "Obre un mapa"
-
-#: ../data/labyrinth.glade.h:8
-msgid "Quit"
-msgstr "Surt"
-
-#: ../data/labyrinth.glade.h:9
 msgid "Visible Area"
 msgstr ""
 
-#: ../data/labyrinth.glade.h:10
+#: ../data/labyrinth.glade.h:7
 msgid "Width"
+msgstr ""
+
+#: ../data/labyrinth.glade.h:8
+msgid "_File"
+msgstr ""
+
+#: ../data/labyrinth.glade.h:9
+msgid "_Help"
 msgstr ""
 
 #: ../data/labyrinth.desktop.in.h:1
@@ -193,6 +181,21 @@ msgstr "Mapejeu la vostra memòria"
 #: ../data/labyrinth.desktop.in.h:3
 msgid "Mind-mapping"
 msgstr "Mapa mental"
+
+#~ msgid "Learn about the application"
+#~ msgstr "Aprèn sobre l'aplicació"
+
+#~ msgid "Delete Map"
+#~ msgstr "Suprimeix el mapa"
+
+#~ msgid "New Map"
+#~ msgstr "Nou mapa"
+
+#~ msgid "Open Map"
+#~ msgstr "Obre un mapa"
+
+#~ msgid "Quit"
+#~ msgstr "Surt"
 
 #~ msgid "_New"
 #~ msgstr "_Nou"

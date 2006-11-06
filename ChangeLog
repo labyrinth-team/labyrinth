@@ -1,5 +1,10 @@
 2006-11-06 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/Browser.py:
+	* src/MainWindow.py:
+	Fix a couple of typos and unclear messages
+	Issue #28 - Josef Vybíral
+
 	* src/MainWindow.py:
 	* src/Browser.py:
 	* src/utils.py:
@@ -65,6 +70,24 @@
 	* src/TextThought.py:
 	Check the function return for get_direction, not just the function
 	address.  Oops.
+
+	* src/MainWindow.py:
+	* src/Browser.py:
+	* data/labyrinth-ui.xml:
+	* data/labyrinth.glade:
+	New, improved Browser window
+	Add "Convert" to export to image (currently)
+	Move "Help->About" to Browser window.  Remove from map windows
+	Based hevily on a patch from "nekohayo".  Issue #15
+
+	* src/MainWindow.py:
+	* src/Browser.py:
+	* data/labyrinth-ui.xml:
+	* data/labyrinth.glade:
+	New, improved Browser window
+	Add "Convert" to export to image (currently)
+	Move "Help->About" to Browser window.  Remove from map windows
+	Based hevily on a patch from "nekohayo".  Issue #15
 
 	* src/BaseThought.py:
 	Don't print events - just pass silently

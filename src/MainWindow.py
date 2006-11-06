@@ -163,7 +163,7 @@ class LabyrinthWindow (gtk.Window):
 		actions = [
 			('FileMenu', None, _('File')),
 			('Export', None, _('Export as Image'), None,
-			 _("Export you're map as an image"), self.export_cb),
+			 _("Export your map as an image"), self.export_cb),
 			('Close', gtk.STOCK_CLOSE, None, '<control>W',
 			 _('Close the current window'), self.close_window_cb),
 			('EditMenu', None, _('_Edit')),
@@ -187,7 +187,7 @@ class LabyrinthWindow (gtk.Window):
 			 _('Make a pretty drawing'), MMapArea.MODE_DRAW)]
 		self.toggle_actions = [
 			('ViewExtend', None, _('_View Extended'), None,
-			 _('View extended infor for thoughts'), self.view_extend_cb),
+			 _('View extended info for thoughts'), self.view_extend_cb),
 			('Bold', gtk.STOCK_BOLD, None, None,
 			None, self.bold_toggled),
 			('Italics', gtk.STOCK_ITALIC, None, None,
