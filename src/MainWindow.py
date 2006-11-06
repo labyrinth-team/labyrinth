@@ -161,29 +161,25 @@ class LabyrinthWindow (gtk.Window):
 
 	def create_ui (self):
 		actions = [
-			('FileMenu', None, _('_File')),
-			('New', gtk.STOCK_NEW, _('_New'), '<control>N',
-			 _('Create a new mind-map'), self.new_window_cb),
+			('FileMenu', None, _('File')),
 			('Export', None, _('Export as Image'), None,
 			 _("Export you're map as an image"), self.export_cb),
-			('Close', gtk.STOCK_CLOSE, _('_Close'), '<control>W',
+			('Close', gtk.STOCK_CLOSE, None, '<control>W',
 			 _('Close the current window'), self.close_window_cb),
-			('Quit', gtk.STOCK_QUIT, _('_Quit'), '<control>Q',
-			 _('Close all the windows and exit the application'), self.quit_cb),
 			('EditMenu', None, _('_Edit')),
 			('Undo', gtk.STOCK_UNDO, None, '<control>Z', None),
 			('Redo', gtk.STOCK_REDO, None, '<control><shift>Z', None),
-			('Cut', gtk.STOCK_CUT, _('Cut'), '<control>X',
+			('Cut', gtk.STOCK_CUT, None, '<control>X',
 			 None, self.cut_text_cb),
-			('Copy', gtk.STOCK_COPY, _('Copy'), '<control>C',
+			('Copy', gtk.STOCK_COPY, None, '<control>C',
 			 None, self.copy_text_cb),
-			('Paste', gtk.STOCK_PASTE, _('Paste'), '<control>V',
+			('Paste', gtk.STOCK_PASTE, None, '<control>V',
 			 None, self.paste_text_cb),
 			('ModeMenu', None, _('_Mode')),
 			('DeleteNodes', gtk.STOCK_DELETE, _('_Delete Selected Thoughts'), None,
 			 _('Delete the selected element(s)'), self.delete_cb),
 			('HelpMenu', None, _('_Help')),
-			('About',gtk.STOCK_ABOUT, _('_About'), None,
+			('About',gtk.STOCK_ABOUT, None, None,
 			 _('Learn about the application'), self.about_cb)]
 		self.radio_actions = [
 			('Edit', gtk.STOCK_EDIT, _('_Edit Mode'), '<control>E',
@@ -195,11 +191,11 @@ class LabyrinthWindow (gtk.Window):
 		self.toggle_actions = [
 			('ViewExtend', None, _('_View Extended'), None,
 			 _('View extended infor for thoughts'), self.view_extend_cb),
-			('Bold', gtk.STOCK_BOLD, _('Bold'), None,
+			('Bold', gtk.STOCK_BOLD, None, None,
 			None, self.bold_toggled),
-			('Italics', gtk.STOCK_ITALIC, _('Italics'), None,
+			('Italics', gtk.STOCK_ITALIC, None, None,
 			None, self.italic_toggled),
-			('Underline', gtk.STOCK_UNDERLINE, _('Underline'), None,
+			('Underline', gtk.STOCK_UNDERLINE, None, None,
 			None, self.underline_toggled)]
 
 		ag = gtk.ActionGroup ('WindowActions')
@@ -261,9 +257,6 @@ class LabyrinthWindow (gtk.Window):
 			self.MainArea.grab_focus ()
 		else:
 			self.extended.grab_focus ()
-
-	def quit_cb (self, event):
-		gtk.main_quit ()
 
 	def about_cb (self, arg):
 		about_dialog = gtk.AboutDialog ()

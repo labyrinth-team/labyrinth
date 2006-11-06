@@ -1,3 +1,13 @@
+2006-11-06 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* src/MainWindow.py:
+	* data/labyrinth-ui.xml:
+	Remove Quit and New actions.  Remove their callbacks
+	- New hasn't worked for a while anyway and Quit
+	has been removed for a while
+	Convert several menu items to use stock labels
+
+
 2006-11-05 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* src/TextThought.py:
