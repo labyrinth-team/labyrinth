@@ -177,10 +177,7 @@ class LabyrinthWindow (gtk.Window):
 			 None, self.paste_text_cb),
 			('ModeMenu', None, _('_Mode')),
 			('DeleteNodes', gtk.STOCK_DELETE, _('_Delete Selected Thoughts'), None,
-			 _('Delete the selected element(s)'), self.delete_cb),
-			('HelpMenu', None, _('_Help')),
-			('About',gtk.STOCK_ABOUT, None, None,
-			 _('Learn about the application'), self.about_cb)]
+			 _('Delete the selected element(s)'), self.delete_cb)]
 		self.radio_actions = [
 			('Edit', gtk.STOCK_EDIT, _('_Edit Mode'), '<control>E',
 			 _('Turn on edit mode'), MMapArea.MODE_EDITING),
@@ -257,33 +254,6 @@ class LabyrinthWindow (gtk.Window):
 			self.MainArea.grab_focus ()
 		else:
 			self.extended.grab_focus ()
-
-	def about_cb (self, arg):
-		about_dialog = gtk.AboutDialog ()
-		about_dialog.set_name ("Labyrinth")
-		about_dialog.set_version (defs.VERSION)
-		about_dialog.set_license (
-	"Labyrinth is free software; you can redistribute it and/or modify "
-	"it under the terms of the GNU General Public Licence as published by "
-	"the Free Software Foundation; either version 2 of the Licence, or"
-	"(at your option) any later version."
-	"\n\n"
-	"Labyrinth is distributed in the hope that it will be useful,"
-	"but WITHOUT ANY WARRANTY; without even the implied warranty of"
-	"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the"
-	"GNU General Public Licence for more details."
-	"\n\n"
-	"You should have received a copy of the GNU General Public Licence"
-	"along with Nautilus; if not, write to the Free Software Foundation, Inc.,"
-	"59 Temple Place, Suite 330, Boston, MA  02111-1307  USA")
-		about_dialog.set_wrap_license (True)
-		about_dialog.set_copyright ("2006 Don Scorgie")
-		about_dialog.set_authors (["Don Scorgie <DonScorgie@Blueyonder.co.uk>"])
-		about_dialog.set_website ("http://www.donscorgie.pwp.blueyonder.co.uk")
-		about_dialog.run ()
-		about_dialog.hide ()
-		del (about_dialog)
-		return
 
 	def revert_mode (self, action, mode):
 		self.undo.block ()

@@ -21,9 +21,6 @@
       <menuitem action="Drawing"/>
       <menuitem action="AddImage"/>
     </menu>
-    <menu action="HelpMenu">
-      <menuitem action="About"/>
-    </menu>
   </menubar>
   <toolbar name="ToolBar">
     <toolitem action="Edit"/>

@@ -54,14 +54,26 @@ def parse_coords (string):
 
 __data_dir = None
 
+_version = None
+
+def get_version ():
+	global _version
+	if not _version:
+		try:
+			import defs
+			_version = defs.VERSION
+		except:
+			_version = "Uninstalled"
+	return _version
+
 def get_data_dir():
 	'''returns the data dir. Tries to find it the first time its called'''
 	global __data_dir
 	if __data_dir is None:
-		#decide wether we run under development or if the program has been installed 
+		#decide wether we run under development or if the program has been installed
 		path = join(dirname(__file__), '..')
 		if exists(path) and isdir(path) and isfile(path+"/AUTHORS"):
-			__data_dir = os.sep.join([dirname(__file__), '..' , 'data']) 
+			__data_dir = os.sep.join([dirname(__file__), '..' , 'data'])
 		else:
 			try:
 				import defs
@@ -131,4 +143,3 @@ def export_thought_outline (context, ul, lr, am_root = False, am_primary = False
 		draw_thought_classic (context, real_ul, real_lr, False, am_primary)
 	else:
 		print "Error: Unknown thought style: "+str(style)
-

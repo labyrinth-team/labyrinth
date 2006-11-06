@@ -1,12 +1,20 @@
 2006-11-06 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* src/MainWindow.py:
+	* src/Browser.py:
+	* src/utils.py:
+	* data/labyrinth-ui.xml:
+	* data/labyrinth.glade:
+	New, improved Browser window
+	Move "Help->About" to Browser window.  Remove from map windows
+	Based heavily on a patch from Jean-François Fortin Tam.  Issue #15
+
+	* src/MainWindow.py:
 	* data/labyrinth-ui.xml:
 	Remove Quit and New actions.  Remove their callbacks
 	- New hasn't worked for a while anyway and Quit
 	has been removed for a while
 	Convert several menu items to use stock labels
-
 
 2006-11-05 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 

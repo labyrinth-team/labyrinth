@@ -51,16 +51,31 @@ class Browser (gtk.Window):
 		self.view.connect ('row-activated', self.open_row_cb)
 		self.view.connect ('cursor-changed', self.cursor_change_cb)
 
+		self.view_dependants = []
+
 		self.open_button = self.glade.get_widget('OpenButton')
 		self.delete_button = self.glade.get_widget('DeleteButton')
+		self.open_menu = self.glade.get_widget('open1')
+		self.delete_menu = self.glade.get_widget('delete1')
+
+		self.view_dependants.append (self.open_button)
+		self.view_dependants.append (self.delete_button)
+		self.view_dependants.append (self.open_menu)
+		self.view_dependants.append (self.delete_menu)
 
 		self.open_button.connect ('clicked', self.open_clicked)
 		self.glade.get_widget('NewButton').connect ('clicked', self.new_clicked)
 		self.delete_button.connect ('clicked', self.delete_clicked)
 		self.glade.get_widget('QuitButton').connect ('clicked', self.quit_clicked)
 
-		self.open_button.set_sensitive (False)
-		self.delete_button.set_sensitive (False)
+		self.open_menu.connect ('activate', self.open_clicked)
+		self.glade.get_widget('new1').connect ('activate', self.new_clicked)
+		self.delete_menu.connect ('activate', self.delete_clicked)
+		self.glade.get_widget('quit1').connect ('activate', self.quit_clicked)
+		self.glade.get_widget('about1').connect ('activate', self.about_clicked)
+
+		for x in self.view_dependants:
+			x.set_sensitive (False)
 
 		self.main_window = self.glade.get_widget ('MapBrowser')
 		self.main_window.set_size_request (400, 300)
@@ -117,11 +132,11 @@ class Browser (gtk.Window):
 	def cursor_change_cb (self, treeview):
 		selected_map = self.get_selected_map ()
 		if not selected_map:
-			self.open_button.set_sensitive (False)
-			self.delete_button.set_sensitive (False)
+			sensitive = False
 		else:
-			self.open_button.set_sensitive (True)
-			self.delete_button.set_sensitive (True)
+			sensitive = True
+		for x in self.view_dependants:
+			x.set_sensitive (sensitive)
 
 	def open_map (self, map):
 		win = MainWindow.LabyrinthWindow (map.filename)
@@ -141,6 +156,37 @@ class Browser (gtk.Window):
 			# may be the window should be raised?
 		else:
 			self.open_map (map)
+
+	def about_clicked (self, arg):
+		about_dialog = gtk.AboutDialog ()
+		about_dialog.set_name ("Labyrinth")
+		about_dialog.set_version (utils.get_version())
+		try:
+			about_dialog.set_logo_icon_name("labyrinth")
+		except:
+			pass
+		about_dialog.set_license (
+	"Labyrinth is free software; you can redistribute it and/or modify "
+	"it under the terms of the GNU General Public Licence as published by "
+	"the Free Software Foundation; either version 2 of the Licence, or "
+	"(at your option) any later version."
+	"\n\n"
+	"Labyrinth is distributed in the hope that it will be useful, "
+	"but WITHOUT ANY WARRANTY; without even the implied warranty of "
+	"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the "
+	"GNU General Public Licence for more details."
+	"\n\n"
+	"You should have received a copy of the GNU General Public Licence "
+	"along with Labyrinth; if not, write to the Free Software Foundation, Inc., "
+	"59 Temple Place, Suite 330, Boston, MA  02111-1307  USA")
+		about_dialog.set_wrap_license (True)
+		about_dialog.set_copyright ("2006 Don Scorgie")
+		about_dialog.set_authors (["Don Scorgie <DonScorgie@Blueyonder.co.uk>"])
+		about_dialog.set_website ("http://code.google.com/p/labyrinth")
+		about_dialog.run ()
+		about_dialog.hide ()
+		del (about_dialog)
+		return
 
 	def open_clicked (self, button):
 		self.open_selected_map()
