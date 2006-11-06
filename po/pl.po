@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Labyrinth\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-08 11:43+0100\n"
+"POT-Creation-Date: 2006-11-06 12:22+0000\n"
 "PO-Revision-Date: 2006-10-11 21:07+0100\n"
 "Last-Translator: Tomasz Dominikowski <dominikowski@gmail.com>\n"
 "Language-Team: Tomasz Dominikowski <dominikowski@gmail.com>\n"
@@ -17,144 +17,173 @@ msgstr ""
 "X-Poedit-Language: Polish\n"
 "X-Poedit-Country: Poland\n"
 
-#: ../src/Browser.py:147
-msgid "Do you really want to delete this Map?"
-msgstr "Czy chcesz usunąć tę mapę?"
-
-#: ../src/Browser.py:157
-msgid "Cannot delete this map"
-msgstr "Nie można usunąć tej mapy"
-
-#: ../src/Browser.py:158
+#: ../src/Browser.py:161
 msgid "The map cannot be deleted right now.  Is it open?"
 msgstr "Mapa nie może teraz zostać usunięta. Czy jest otwarta?"
 
-#: ../src/MainWindow.py:83
-#: ../src/MainWindow.py:184
+#: ../src/Browser.py:163
+msgid "Error! Error! Error! map has no filename"
+msgstr ""
+
+#: ../src/Browser.py:166
+msgid "Cannot delete this map"
+msgstr "Nie można usunąć tej mapy"
+
+#: ../src/Browser.py:173
+msgid "Do you really want to delete this Map?"
+msgstr "Czy chcesz usunąć tę mapę?"
+
+#: ../src/Browser.py:202
+msgid "Map Name"
+msgstr ""
+
+#: ../src/MainWindow.py:110 ../src/MainWindow.py:307
 #, python-format
 msgid "Untitled Map %d"
 msgstr "Nienazwana mapa %d"
 
-#: ../src/MainWindow.py:85
-msgid "Somethings broken"
-msgstr "Coś jest zepsute"
+#: ../src/MainWindow.py:164
+msgid "File"
+msgstr ""
 
-#: ../src/MainWindow.py:102
-msgid "_New"
-msgstr "_Nowa"
+#: ../src/MainWindow.py:165
+msgid "Export as Image"
+msgstr ""
 
-#: ../src/MainWindow.py:103
-msgid "Create a new mind-map"
-msgstr "Utwórz nową mapę myśli"
+#: ../src/MainWindow.py:166
+msgid "Export you're map as an image"
+msgstr ""
 
-#: ../src/MainWindow.py:104
-msgid "_Close"
-msgstr "Z_amknij"
-
-#: ../src/MainWindow.py:105
+#: ../src/MainWindow.py:168
 msgid "Close the current window"
 msgstr "Zamknij bieżące okno"
 
-#: ../src/MainWindow.py:106
-msgid "_Quit"
-msgstr "_Zakończ"
+#: ../src/MainWindow.py:169
+#, fuzzy
+msgid "_Edit"
+msgstr "Tryb _modyfikowania"
 
-#: ../src/MainWindow.py:107
-msgid "Close all the windows and exit the application"
-msgstr "Zamknij wszystkie okna i zakończ aplikację"
+#: ../src/MainWindow.py:178
+#, fuzzy
+msgid "_Mode"
+msgstr "Tryb _modyfikowania"
 
-#: ../src/MainWindow.py:109
+#: ../src/MainWindow.py:179
 msgid "_Delete Selected Thoughts"
 msgstr "_Usuń wybrane myśli"
 
-#: ../src/MainWindow.py:110
+#: ../src/MainWindow.py:180
 msgid "Delete the selected element(s)"
 msgstr "Usuń zaznaczony(-e) element(-y)"
 
-#: ../src/MainWindow.py:112
-msgid "_About"
-msgstr "_O programie"
+#: ../src/MainWindow.py:181
+msgid "_Help"
+msgstr ""
 
-#: ../src/MainWindow.py:113
+#: ../src/MainWindow.py:183
 msgid "Learn about the application"
 msgstr "Dowiedz się o tej aplikacji"
 
-#: ../src/MainWindow.py:115
+#: ../src/MainWindow.py:185
 msgid "_Edit Mode"
 msgstr "Tryb _modyfikowania"
 
-#: ../src/MainWindow.py:116
+#: ../src/MainWindow.py:186
 msgid "Turn on edit mode"
 msgstr "Włącz tryb modyfikowania"
 
-#: ../src/MainWindow.py:117
-msgid "_Move Mode"
-msgstr "Tryb _przemieszczania"
-
-#: ../src/MainWindow.py:118
-msgid "Turn on move mode"
-msgstr "Włącz tryb przemieszczania"
-
-#: ../src/MainWindow.py:119
+#: ../src/MainWindow.py:187
 msgid "_Add Image"
 msgstr "_Dodaj obraz"
 
-#: ../src/MainWindow.py:120
+#: ../src/MainWindow.py:188
 msgid "Add an image to selected thought"
 msgstr "Dodaj obraz do wybranej myśli"
 
-#: ../src/MainWindow.py:121
+#: ../src/MainWindow.py:189
 msgid "_Drawing Mode"
 msgstr "Tryb _rysowania"
 
-#: ../src/MainWindow.py:122
+#: ../src/MainWindow.py:190
 msgid "Make a pretty drawing"
 msgstr "Utwórz piękny rysunek"
 
-#: ../src/DrawingThought.py:54
+#: ../src/MainWindow.py:192
+msgid "_View Extended"
+msgstr ""
+
+#: ../src/MainWindow.py:193
+msgid "View extended infor for thoughts"
+msgstr ""
+
+#: ../src/MainWindow.py:470
+msgid "Unknown file format"
+msgstr ""
+
+#: ../src/MainWindow.py:471
+#, python-format
+msgid ""
+"The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
+msgstr ""
+
+#: ../src/DrawingThought.py:61
 #, python-format
 msgid "Drawing #%d"
 msgstr "Rysunek #%d"
 
-#. Present a dialog for the user to choose an image here
-#: ../src/MMapArea.py:484
+#: ../src/ImageThought.py:64
 msgid "Choose image to insert"
 msgstr "Wybierz obraz do wstawienia"
 
-#: ../src/MMapArea.py:496
-#: ../src/ImageThought.py:254
+#: ../src/ImageThought.py:304
 msgid "Error loading file"
 msgstr "Błąd podczas wczytywania pliku"
 
-#: ../src/MMapArea.py:497
-#, python-format
-msgid "%s could not be read.  Please ensure its a valid image."
-msgstr "%s nie mógł zostać odczytany. Proszę sprawdzić, czy jest to poprawny obraz."
-
-#: ../src/ImageThought.py:255
+#: ../src/ImageThought.py:305
 #, python-format
 msgid "%s could not be found.  Associated thought will be empty."
 msgstr "%s nie mógł zostać odnaleziony. Związana myśl będzie pusta."
 
 #: ../data/labyrinth.glade.h:1
-msgid "Delete Map"
+#, fuzzy
+msgid "Complete Map"
 msgstr "Usuń mapę"
 
 #: ../data/labyrinth.glade.h:2
+msgid "Delete Map"
+msgstr "Usuń mapę"
+
+#: ../data/labyrinth.glade.h:3
+msgid "Export Map as Image"
+msgstr ""
+
+#: ../data/labyrinth.glade.h:4
+msgid "Height"
+msgstr ""
+
+#: ../data/labyrinth.glade.h:5
 msgid "Labyrinth Maps"
 msgstr "Mapy Labyrinth"
 
-#: ../data/labyrinth.glade.h:3
+#: ../data/labyrinth.glade.h:6
 msgid "New Map"
 msgstr "Nowa mapa"
 
-#: ../data/labyrinth.glade.h:4
+#: ../data/labyrinth.glade.h:7
 msgid "Open Map"
 msgstr "Otwórz mapę"
 
-#: ../data/labyrinth.glade.h:5
+#: ../data/labyrinth.glade.h:8
 msgid "Quit"
 msgstr "Zakończ"
+
+#: ../data/labyrinth.glade.h:9
+msgid "Visible Area"
+msgstr ""
+
+#: ../data/labyrinth.glade.h:10
+msgid "Width"
+msgstr ""
 
 #: ../data/labyrinth.desktop.in.h:1
 msgid "Labyrinth Mind-mapping"
@@ -168,3 +197,34 @@ msgstr "Mapowanie myśli"
 msgid "Mind-mapping"
 msgstr "Mapowanie myśli"
 
+#~ msgid "_New"
+#~ msgstr "_Nowa"
+
+#~ msgid "Create a new mind-map"
+#~ msgstr "Utwórz nową mapę myśli"
+
+#~ msgid "_Close"
+#~ msgstr "Z_amknij"
+
+#~ msgid "_Quit"
+#~ msgstr "_Zakończ"
+
+#~ msgid "Close all the windows and exit the application"
+#~ msgstr "Zamknij wszystkie okna i zakończ aplikację"
+
+#~ msgid "_About"
+#~ msgstr "_O programie"
+
+#~ msgid "Somethings broken"
+#~ msgstr "Coś jest zepsute"
+
+#~ msgid "_Move Mode"
+#~ msgstr "Tryb _przemieszczania"
+
+#~ msgid "Turn on move mode"
+#~ msgstr "Włącz tryb przemieszczania"
+
+#~ msgid "%s could not be read.  Please ensure its a valid image."
+#~ msgstr ""
+#~ "%s nie mógł zostać odczytany. Proszę sprawdzić, czy jest to poprawny "
+#~ "obraz."

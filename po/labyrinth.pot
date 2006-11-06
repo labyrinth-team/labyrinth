@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-08 11:43+0100\n"
+"POT-Creation-Date: 2006-11-06 12:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,141 +16,169 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/Browser.py:147
-msgid "Do you really want to delete this Map?"
-msgstr ""
-
-#: ../src/Browser.py:157
-msgid "Cannot delete this map"
-msgstr ""
-
-#: ../src/Browser.py:158
+#: ../src/Browser.py:161
 msgid "The map cannot be deleted right now.  Is it open?"
 msgstr ""
 
-#: ../src/MainWindow.py:83 ../src/MainWindow.py:184
+#: ../src/Browser.py:163
+msgid "Error! Error! Error! map has no filename"
+msgstr ""
+
+#: ../src/Browser.py:166
+msgid "Cannot delete this map"
+msgstr ""
+
+#: ../src/Browser.py:173
+msgid "Do you really want to delete this Map?"
+msgstr ""
+
+#: ../src/Browser.py:202
+msgid "Map Name"
+msgstr ""
+
+#: ../src/MainWindow.py:110 ../src/MainWindow.py:307
 #, python-format
 msgid "Untitled Map %d"
 msgstr ""
 
-#: ../src/MainWindow.py:85
-msgid "Somethings broken"
+#: ../src/MainWindow.py:164
+msgid "File"
 msgstr ""
 
-#: ../src/MainWindow.py:102
-msgid "_New"
+#: ../src/MainWindow.py:165
+msgid "Export as Image"
 msgstr ""
 
-#: ../src/MainWindow.py:103
-msgid "Create a new mind-map"
+#: ../src/MainWindow.py:166
+msgid "Export you're map as an image"
 msgstr ""
 
-#: ../src/MainWindow.py:104
-msgid "_Close"
-msgstr ""
-
-#: ../src/MainWindow.py:105
+#: ../src/MainWindow.py:168
 msgid "Close the current window"
 msgstr ""
 
-#: ../src/MainWindow.py:106
-msgid "_Quit"
+#: ../src/MainWindow.py:169
+msgid "_Edit"
 msgstr ""
 
-#: ../src/MainWindow.py:107
-msgid "Close all the windows and exit the application"
+#: ../src/MainWindow.py:178
+msgid "_Mode"
 msgstr ""
 
-#: ../src/MainWindow.py:109
+#: ../src/MainWindow.py:179
 msgid "_Delete Selected Thoughts"
 msgstr ""
 
-#: ../src/MainWindow.py:110
+#: ../src/MainWindow.py:180
 msgid "Delete the selected element(s)"
 msgstr ""
 
-#: ../src/MainWindow.py:112
-msgid "_About"
+#: ../src/MainWindow.py:181
+msgid "_Help"
 msgstr ""
 
-#: ../src/MainWindow.py:113
+#: ../src/MainWindow.py:183
 msgid "Learn about the application"
 msgstr ""
 
-#: ../src/MainWindow.py:115
+#: ../src/MainWindow.py:185
 msgid "_Edit Mode"
 msgstr ""
 
-#: ../src/MainWindow.py:116
+#: ../src/MainWindow.py:186
 msgid "Turn on edit mode"
 msgstr ""
 
-#: ../src/MainWindow.py:117
-msgid "_Move Mode"
-msgstr ""
-
-#: ../src/MainWindow.py:118
-msgid "Turn on move mode"
-msgstr ""
-
-#: ../src/MainWindow.py:119
+#: ../src/MainWindow.py:187
 msgid "_Add Image"
 msgstr ""
 
-#: ../src/MainWindow.py:120
+#: ../src/MainWindow.py:188
 msgid "Add an image to selected thought"
 msgstr ""
 
-#: ../src/MainWindow.py:121
+#: ../src/MainWindow.py:189
 msgid "_Drawing Mode"
 msgstr ""
 
-#: ../src/MainWindow.py:122
+#: ../src/MainWindow.py:190
 msgid "Make a pretty drawing"
 msgstr ""
 
-#: ../src/DrawingThought.py:54
+#: ../src/MainWindow.py:192
+msgid "_View Extended"
+msgstr ""
+
+#: ../src/MainWindow.py:193
+msgid "View extended infor for thoughts"
+msgstr ""
+
+#: ../src/MainWindow.py:470
+msgid "Unknown file format"
+msgstr ""
+
+#: ../src/MainWindow.py:471
+#, python-format
+msgid ""
+"The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
+msgstr ""
+
+#: ../src/DrawingThought.py:61
 #, python-format
 msgid "Drawing #%d"
 msgstr ""
 
-#. Present a dialog for the user to choose an image here
-#: ../src/MMapArea.py:484
+#: ../src/ImageThought.py:64
 msgid "Choose image to insert"
 msgstr ""
 
-#: ../src/MMapArea.py:496 ../src/ImageThought.py:254
+#: ../src/ImageThought.py:304
 msgid "Error loading file"
 msgstr ""
 
-#: ../src/MMapArea.py:497
-#, python-format
-msgid "%s could not be read.  Please ensure its a valid image."
-msgstr ""
-
-#: ../src/ImageThought.py:255
+#: ../src/ImageThought.py:305
 #, python-format
 msgid "%s could not be found.  Associated thought will be empty."
 msgstr ""
 
 #: ../data/labyrinth.glade.h:1
-msgid "Delete Map"
+msgid "Complete Map"
 msgstr ""
 
 #: ../data/labyrinth.glade.h:2
-msgid "Labyrinth Maps"
+msgid "Delete Map"
 msgstr ""
 
 #: ../data/labyrinth.glade.h:3
-msgid "New Map"
+msgid "Export Map as Image"
 msgstr ""
 
 #: ../data/labyrinth.glade.h:4
-msgid "Open Map"
+msgid "Height"
 msgstr ""
 
 #: ../data/labyrinth.glade.h:5
+msgid "Labyrinth Maps"
+msgstr ""
+
+#: ../data/labyrinth.glade.h:6
+msgid "New Map"
+msgstr ""
+
+#: ../data/labyrinth.glade.h:7
+msgid "Open Map"
+msgstr ""
+
+#: ../data/labyrinth.glade.h:8
 msgid "Quit"
+msgstr ""
+
+#: ../data/labyrinth.glade.h:9
+msgid "Visible Area"
+msgstr ""
+
+#: ../data/labyrinth.glade.h:10
+msgid "Width"
 msgstr ""
 
 #: ../data/labyrinth.desktop.in.h:1

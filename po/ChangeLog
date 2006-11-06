@@ -1,3 +1,13 @@
+2006-11-06 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* labyrinth.pot:
+	Update for new strings
+
+	* fr.po:
+	* LINGUAS:
+	Add French translation (Mathieu Leduc-Hamel)
+
+
 2006-10-21 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* LINGUAS:
