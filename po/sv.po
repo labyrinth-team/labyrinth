@@ -1,0 +1,192 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Labyrinth 0.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-11-07 12:46+0000\n"
+"PO-Revision-Date: 2006-11-07 18:26+0100\n"
+"Last-Translator: Robin Sonefors <ozamosi@blinkenlights.se>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
+"X-Poedit-Country: SWEDEN\n"
+
+#: ../src/Browser.py:207
+msgid "The map cannot be deleted right now.  Is it open?"
+msgstr "Den här tankekartan går inte att ta bort nu. Är den öppen?"
+
+#: ../src/Browser.py:209
+msgid "The map has no associated filename."
+msgstr "Den här tankekartan har inget filnamn."
+
+#: ../src/Browser.py:212
+msgid "Cannot delete this map"
+msgstr "Kan inte ta bort den här tankekartan"
+
+#: ../src/Browser.py:219
+msgid "Do you really want to delete this Map?"
+msgstr "Vill du verkligen ta bort den här tankekartan?"
+
+#: ../src/Browser.py:248
+msgid "Map Name"
+msgstr "Namn på tankekarta"
+
+#: ../src/MainWindow.py:111
+#: ../src/MainWindow.py:283
+#, python-format
+msgid "Untitled Map %d"
+msgstr "Namnlös tankekarta %d"
+
+#: ../src/MainWindow.py:165
+msgid "File"
+msgstr "Arkiv"
+
+#: ../src/MainWindow.py:166
+msgid "Export as Image"
+msgstr "Exportera som bild"
+
+#: ../src/MainWindow.py:167
+msgid "Export your map as an image"
+msgstr "Exportera din tankekarta som en bild"
+
+#: ../src/MainWindow.py:169
+msgid "Close the current window"
+msgstr "Stäng det här fönstret"
+
+#: ../src/MainWindow.py:170
+msgid "_Edit"
+msgstr "_Redigera"
+
+#: ../src/MainWindow.py:179
+msgid "(Un)Link Thoughts"
+msgstr "(Av)Länka tankar"
+
+#: ../src/MainWindow.py:180
+msgid "(Un)Link the selected thoughts"
+msgstr "(Av)Länka de valda tankarna"
+
+#: ../src/MainWindow.py:181
+msgid "_Mode"
+msgstr "_Läge"
+
+#: ../src/MainWindow.py:182
+msgid "_Delete Selected Thoughts"
+msgstr "_Ta bort valda tankar"
+
+#: ../src/MainWindow.py:183
+msgid "Delete the selected element(s)"
+msgstr "Ta bort det valda elementet/de valda elementen"
+
+#: ../src/MainWindow.py:185
+msgid "_Edit Mode"
+msgstr "_Redigeringsläge"
+
+#: ../src/MainWindow.py:186
+msgid "Turn on edit mode"
+msgstr "Aktivera redigeringsläge"
+
+#: ../src/MainWindow.py:187
+msgid "_Add Image"
+msgstr "_Lägg till bild"
+
+#: ../src/MainWindow.py:188
+msgid "Add an image to selected thought"
+msgstr "Lägg till en bild till den valda tanken"
+
+#: ../src/MainWindow.py:189
+msgid "_Drawing Mode"
+msgstr "_Ritläge"
+
+#: ../src/MainWindow.py:190
+msgid "Make a pretty drawing"
+msgstr "Rita en fin bild"
+
+#: ../src/MainWindow.py:192
+msgid "_View Extended"
+msgstr "_Visa mer information"
+
+#: ../src/MainWindow.py:193
+msgid "View extended info for thoughts"
+msgstr "Visa mer information om tankar"
+
+#: ../src/MainWindow.py:446
+msgid "Unknown file format"
+msgstr "Okänt filformat"
+
+#: ../src/MainWindow.py:447
+#, python-format
+msgid "The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
+msgstr "Filtypen \"%s\" stödjs inte. Använd filändelsen \".png\" eller \".jpg\""
+
+#: ../src/DrawingThought.py:67
+#, python-format
+msgid "Drawing #%d"
+msgstr "Ritning #%d"
+
+#: ../src/ImageThought.py:64
+msgid "Choose image to insert"
+msgstr "Välj bild att infoga"
+
+#: ../src/ImageThought.py:304
+msgid "Error loading file"
+msgstr "Fel vid läsning av fil"
+
+#: ../src/ImageThought.py:305
+#, python-format
+msgid "%s could not be found.  Associated thought will be empty."
+msgstr "%s kunde inte hittas. Dess tanke kommer att vara tom."
+
+#: ../data/labyrinth.glade.h:1
+msgid "<b>Export Map</b>"
+msgstr "<b>Exportera tankekarta</b>"
+
+#: ../data/labyrinth.glade.h:2
+msgid "Complete Map"
+msgstr "Hela tankekartan"
+
+#: ../data/labyrinth.glade.h:3
+msgid "Export Map as Image"
+msgstr "Exportera tankekarta som bild"
+
+#: ../data/labyrinth.glade.h:4
+msgid "Height"
+msgstr "Höjd"
+
+#: ../data/labyrinth.glade.h:5
+msgid "Labyrinth Maps"
+msgstr "Labyrinths tankekartor"
+
+#: ../data/labyrinth.glade.h:6
+msgid "Visible Area"
+msgstr "Synligt område"
+
+#: ../data/labyrinth.glade.h:7
+msgid "Width"
+msgstr "Bredd"
+
+#: ../data/labyrinth.glade.h:8
+msgid "_File"
+msgstr "_Arkiv"
+
+#: ../data/labyrinth.glade.h:9
+msgid "_Help"
+msgstr "_Hjälp"
+
+#: ../data/labyrinth.desktop.in.h:1
+msgid "Labyrinth Mind-mapping"
+msgstr "Tankekarteprogrammet Labyrinth"
+
+#: ../data/labyrinth.desktop.in.h:2
+msgid "Map your mind"
+msgstr "Kartlägg dina tankar"
+
+#: ../data/labyrinth.desktop.in.h:3
+msgid "Mind-mapping"
+msgstr "Tankekartor"
+

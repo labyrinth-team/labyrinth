@@ -1,0 +1,190 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: labyrinth\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-11-07 12:46+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Raphael J. Schmid <rjs@schattenschreiber.org>\n"
+"Language-Team: de_DE <de@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../src/Browser.py:207
+msgid "The map cannot be deleted right now.  Is it open?"
+msgstr "Mindmap kann nicht gelöscht werden - ist sie geöffnet?"
+
+#: ../src/Browser.py:209
+msgid "The map has no associated filename."
+msgstr "Der Mindmap ist kein Dateiname zugewiesen"
+
+#: ../src/Browser.py:212
+msgid "Cannot delete this map"
+msgstr "Mindmap kann nicht gelöscht werden"
+
+#: ../src/Browser.py:219
+msgid "Do you really want to delete this Map?"
+msgstr "Möchten sie die Mindmap wirklich löschen?"
+
+#: ../src/Browser.py:248
+msgid "Map Name"
+msgstr "Mindmap-Name"
+
+#: ../src/MainWindow.py:111 ../src/MainWindow.py:283
+#, python-format
+msgid "Untitled Map %d"
+msgstr "Unbenannte Mindmap #%d"
+
+#: ../src/MainWindow.py:165
+msgid "File"
+msgstr "Datei"
+
+#: ../src/MainWindow.py:166
+msgid "Export as Image"
+msgstr "Als Bild exportieren"
+
+#: ../src/MainWindow.py:167
+msgid "Export your map as an image"
+msgstr "Exportieren Sie ihre Mindmap als Bild"
+
+#: ../src/MainWindow.py:169
+msgid "Close the current window"
+msgstr "Aktuelles Fenster schließen"
+
+#: ../src/MainWindow.py:170
+msgid "_Edit"
+msgstr "B_earbeiten"
+
+#: ../src/MainWindow.py:179
+msgid "(Un)Link Thoughts"
+msgstr "Gedanken ver-/entknüpfen"
+
+#: ../src/MainWindow.py:180
+msgid "(Un)Link the selected thoughts"
+msgstr "Gewählte Gedanken ver-/entknüpfen"
+
+#: ../src/MainWindow.py:181
+msgid "_Mode"
+msgstr "_Modus"
+
+#: ../src/MainWindow.py:182
+msgid "_Delete Selected Thoughts"
+msgstr "Gewählte Ge_danken löschen"
+
+#: ../src/MainWindow.py:183
+msgid "Delete the selected element(s)"
+msgstr "Gewählte(s) Element(e) löschen"
+
+#: ../src/MainWindow.py:185
+msgid "_Edit Mode"
+msgstr "Bearbeitungs_modus"
+
+#: ../src/MainWindow.py:186
+msgid "Turn on edit mode"
+msgstr "Bearbeitungsmodus aktivieren"
+
+#: ../src/MainWindow.py:187
+msgid "_Add Image"
+msgstr "_Bild hinzufügen"
+
+#: ../src/MainWindow.py:188
+msgid "Add an image to selected thought"
+msgstr "Dem gewählten Gedanken ein Bild hinzufügen"
+
+#: ../src/MainWindow.py:189
+msgid "_Drawing Mode"
+msgstr "Zeichenmo_dus"
+
+#: ../src/MainWindow.py:190
+msgid "Make a pretty drawing"
+msgstr "Hübsche Zeichnung erstellen"
+
+#: ../src/MainWindow.py:192
+msgid "_View Extended"
+msgstr "_Erweiterte Ansicht"
+
+#: ../src/MainWindow.py:193
+msgid "View extended info for thoughts"
+msgstr "Erweiterte Informationen für Gedanken anzeigen"
+
+#: ../src/MainWindow.py:446
+msgid "Unknown file format"
+msgstr "Unbekanntes Dateiformat"
+
+#: ../src/MainWindow.py:447
+#, python-format
+msgid ""
+"The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
+msgstr "Der Dateityp '%s' wird nicht unterstützt. Bitte verwenden Sie das Suffix '.png' oder '.jpg'"
+
+#: ../src/DrawingThought.py:67
+#, python-format
+msgid "Drawing #%d"
+msgstr "Zeichnung #%d"
+
+#: ../src/ImageThought.py:64
+msgid "Choose image to insert"
+msgstr "Bild zum Einfügen auswählen"
+
+#: ../src/ImageThought.py:304
+msgid "Error loading file"
+msgstr "Fehler beim Laden der Datei"
+
+#: ../src/ImageThought.py:305
+#, python-format
+msgid "%s could not be found.  Associated thought will be empty."
+msgstr "Konnte %s nicht finden. Verknüpfter Gedanke wird leer sein."
+
+#: ../data/labyrinth.glade.h:1
+msgid "<b>Export Map</b>"
+msgstr "<b>Exportierte Mindmap</b>"
+
+#: ../data/labyrinth.glade.h:2
+msgid "Complete Map"
+msgstr "Vollständige Mindmap"
+
+#: ../data/labyrinth.glade.h:3
+msgid "Export Map as Image"
+msgstr "Mindmap als Bild exportieren"
+
+#: ../data/labyrinth.glade.h:4
+msgid "Height"
+msgstr "Höhe"
+
+#: ../data/labyrinth.glade.h:5
+msgid "Labyrinth Maps"
+msgstr "Labyrinth Mindmaps"
+
+#: ../data/labyrinth.glade.h:6
+msgid "Visible Area"
+msgstr "Sichtbarer Bereich"
+
+#: ../data/labyrinth.glade.h:7
+msgid "Width"
+msgstr "Breite"
+
+#: ../data/labyrinth.glade.h:8
+msgid "_File"
+msgstr "_Datei"
+
+#: ../data/labyrinth.glade.h:9
+msgid "_Help"
+msgstr "_Hilfe"
+
+#: ../data/labyrinth.desktop.in.h:1
+msgid "Labyrinth Mind-mapping"
+msgstr "Labyrinth Mindmaps"
+
+#: ../data/labyrinth.desktop.in.h:2
+msgid "Map your mind"
+msgstr "Map your mind"
+
+#: ../data/labyrinth.desktop.in.h:3
+msgid "Mind-mapping"
+msgstr "Mind-mapping"
