@@ -1,3 +1,24 @@
+2006-11-07 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* LINGUAS:
+	* eu.po:
+	Add Basque translation (Zunbeltz Izaola)
+
+	* pt_PT.po:
+	Add European Portugese translation (Luis Gomes)
+
+	* ca.po:
+	Updated Catalan translation (Gil Forcada)
+
+	* nl.po:
+	Updated Dutch translation (Max Beauchez)
+
+	* cz.po:
+	Updated Czech translation (Josef Vybíral)
+
+	* fr.po:
+	Updated French translation (Jean-François Fortin Tam)
+
 2006-11-06 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* labyrinth.pot:

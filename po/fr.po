@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: 0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-07 12:46+0000\n"
-"PO-Revision-Date: 2006-11-05 19:40-0500\n"
-"Last-Translator: Mathieu Leduc-Hamel <math@arrak.org>\n"
+"PO-Revision-Date: 2006-11-07 11:05-0500\n"
+"Last-Translator: Jean-François Fortin Tam <nekohayo -=at=- gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,11 +16,11 @@ msgstr ""
 
 #: ../src/Browser.py:207
 msgid "The map cannot be deleted right now.  Is it open?"
-msgstr "La carte ne peut présentement pas être supprimée. Est-elle ouverte?"
+msgstr "La carte ne peut présentement pas être supprimée. Est-elle ouverte ?"
 
 #: ../src/Browser.py:209
 msgid "The map has no associated filename."
-msgstr ""
+msgstr "Cette carte n'a pas de nom de fichier associé."
 
 #: ../src/Browser.py:212
 msgid "Cannot delete this map"
@@ -28,47 +28,45 @@ msgstr "Impossible de supprimer cette carte"
 
 #: ../src/Browser.py:219
 msgid "Do you really want to delete this Map?"
-msgstr "Voulez-vous vraiment supprimer cette carte?"
+msgstr "Voulez-vous vraiment supprimer cette carte ?"
 
 #: ../src/Browser.py:248
 msgid "Map Name"
 msgstr "Nom de la carte"
 
-#: ../src/MainWindow.py:111 ../src/MainWindow.py:283
+#: ../src/MainWindow.py:111
+#: ../src/MainWindow.py:283
 #, python-format
 msgid "Untitled Map %d"
 msgstr "Carte sans nom %d"
 
 #: ../src/MainWindow.py:165
-#, fuzzy
 msgid "File"
-msgstr "_Fichier"
+msgstr "Fichier"
 
 #: ../src/MainWindow.py:166
 msgid "Export as Image"
-msgstr ""
+msgstr "Exporter en tant qu'image"
 
 #: ../src/MainWindow.py:167
 msgid "Export your map as an image"
-msgstr ""
+msgstr "Exporte votre carte en tant qu'image de format différent"
 
 #: ../src/MainWindow.py:169
 msgid "Close the current window"
 msgstr "Ferme la fenêtre courante"
 
 #: ../src/MainWindow.py:170
-#, fuzzy
 msgid "_Edit"
-msgstr "Mode _Edition"
+msgstr "_Édition"
 
 #: ../src/MainWindow.py:179
 msgid "(Un)Link Thoughts"
-msgstr ""
+msgstr "(Dé)lier les idées"
 
 #: ../src/MainWindow.py:180
-#, fuzzy
 msgid "(Un)Link the selected thoughts"
-msgstr "Ajouter une image à l'idée sélectionnée"
+msgstr "Lier ou délier les idées sélectionnées"
 
 #: ../src/MainWindow.py:181
 msgid "_Mode"
@@ -76,15 +74,15 @@ msgstr "_Mode"
 
 #: ../src/MainWindow.py:182
 msgid "_Delete Selected Thoughts"
-msgstr "_Supprimer l'idée sélectionée"
+msgstr "_Supprimer les idées sélectionées"
 
 #: ../src/MainWindow.py:183
 msgid "Delete the selected element(s)"
-msgstr "Supprimer l'élément(s) sélectionné(s)"
+msgstr "Supprimer le ou les éléments sélectionnés"
 
 #: ../src/MainWindow.py:185
 msgid "_Edit Mode"
-msgstr "Mode _Edition"
+msgstr "Mode _édition"
 
 #: ../src/MainWindow.py:186
 msgid "Turn on edit mode"
@@ -100,29 +98,30 @@ msgstr "Ajouter une image à l'idée sélectionnée"
 
 #: ../src/MainWindow.py:189
 msgid "_Drawing Mode"
-msgstr "Mode _Dessin"
+msgstr "Mode _dessin"
 
 #: ../src/MainWindow.py:190
 msgid "Make a pretty drawing"
 msgstr "Faire un beau dessin"
 
 #: ../src/MainWindow.py:192
+#, fuzzy
 msgid "_View Extended"
-msgstr ""
+msgstr "_Vue étendue"
 
 #: ../src/MainWindow.py:193
+#, fuzzy
 msgid "View extended info for thoughts"
-msgstr ""
+msgstr "Affiche la vue étendue des informations d'une pensée"
 
 #: ../src/MainWindow.py:446
 msgid "Unknown file format"
-msgstr ""
+msgstr "Type de fichier inconnu"
 
 #: ../src/MainWindow.py:447
 #, python-format
-msgid ""
-"The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
-msgstr ""
+msgid "The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
+msgstr "Le type de fichier '%s' n'est pas supporté. Veuillez utiliser un suffixe '.png' ou '.jpg'"
 
 #: ../src/DrawingThought.py:67
 #, python-format
@@ -144,20 +143,19 @@ msgstr "%s est introuvable. L'idée correspondante sera vide."
 
 #: ../data/labyrinth.glade.h:1
 msgid "<b>Export Map</b>"
-msgstr ""
+msgstr "<b>Exporter la carte</b>"
 
 #: ../data/labyrinth.glade.h:2
-#, fuzzy
 msgid "Complete Map"
-msgstr "Supprimer une carte"
+msgstr "Carte entière"
 
 #: ../data/labyrinth.glade.h:3
 msgid "Export Map as Image"
-msgstr ""
+msgstr "Exporter la carte en tant qu'image"
 
 #: ../data/labyrinth.glade.h:4
 msgid "Height"
-msgstr ""
+msgstr "Hauteur"
 
 #: ../data/labyrinth.glade.h:5
 msgid "Labyrinth Maps"
@@ -165,14 +163,13 @@ msgstr "Carte de Labyrinth"
 
 #: ../data/labyrinth.glade.h:6
 msgid "Visible Area"
-msgstr ""
+msgstr "Aire visible"
 
 #: ../data/labyrinth.glade.h:7
 msgid "Width"
-msgstr ""
+msgstr "Largeur"
 
 #: ../data/labyrinth.glade.h:8
-#, fuzzy
 msgid "_File"
 msgstr "_Fichier"
 
@@ -194,45 +191,32 @@ msgstr "Cartographie d'idées"
 
 #~ msgid "Learn about the application"
 #~ msgstr "En apprendre plus à propos de l'application"
-
 #~ msgid "Delete Map"
 #~ msgstr "Supprimer une carte"
-
 #~ msgid "New Map"
 #~ msgstr "Nouvelle carte"
-
 #~ msgid "Open Map"
 #~ msgstr "Ouvrir une carte"
-
 #~ msgid "Quit"
 #~ msgstr "Quitter"
-
 #~ msgid "_New"
 #~ msgstr "_Nouveau"
-
 #~ msgid "Create a new mind-map"
 #~ msgstr "Créer une nouvelle carte des idées"
-
 #~ msgid "_Close"
 #~ msgstr "_Fermer"
-
 #~ msgid "_Quit"
 #~ msgstr "_Quitter"
-
 #~ msgid "Close all the windows and exit the application"
 #~ msgstr "Fermer toutes les fenêtres et quitter l'application?"
-
 #~ msgid "_About"
 #~ msgstr "_A propos"
-
 #~ msgid "Somethings broken"
 #~ msgstr "Quelque chose est brisé"
-
 #~ msgid "_Move Mode"
 #~ msgstr "Mode _Déplacement"
-
 #~ msgid "Turn on move mode"
 #~ msgstr "Activer le mode déplacement"
-
 #~ msgid "%s could not be read.  Please ensure its a valid image."
 #~ msgstr "%s ne peut être lu. Assurez-vous que c'est une image valide."
+

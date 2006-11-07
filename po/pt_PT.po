@@ -1,156 +1,160 @@
-# labrynth translation to Catalan.
-# Copyright (C) 2006 labrynth package
-# Gil Forcada <gilforcada@guifi.net>, 2006
+# labrynth translation to European Portugese.
+# Copyright (C) 2006
+# Luis Gomes <lmagomes@gmail.com>, 2006.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.3\n"
+"Project-Id-Version: pt-pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-07 12:46+0000\n"
-"PO-Revision-Date: 2006-11-07 15:20+0100\n"
-"Last-Translator: Gil Forcada <gilforcada@guifi.net>\n"
-"Language-Team: Catalan <tradgnome@softcatala.net>\n"
+"PO-Revision-Date: 2006-11-07 15:24+0000\n"
+"Last-Translator: Luis Gomes <lmagomes@gmail.com>\n"
+"Language-Team: European Portuguese <pt-PT@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ../src/Browser.py:207
 msgid "The map cannot be deleted right now.  Is it open?"
-msgstr "No es pot suprimir el mapa ara mateix.  Està obert?"
+msgstr "O mapa não pode ser apagado. Está aberto?"
 
 #: ../src/Browser.py:209
 msgid "The map has no associated filename."
-msgstr "El mapa no te un nom de fitxer associat."
+msgstr "O mapa não tem nenhum ficheiro associado."
 
 #: ../src/Browser.py:212
 msgid "Cannot delete this map"
-msgstr "No s'ha pogut suprimir el mapa"
+msgstr "Não é possível apagar este mapa"
 
 #: ../src/Browser.py:219
 msgid "Do you really want to delete this Map?"
-msgstr "Realment voleu suprimir aquest mapa?"
+msgstr "Quer mesmo apagar este mapa?"
 
 #: ../src/Browser.py:248
 msgid "Map Name"
-msgstr "Nom del mapa"
+msgstr "Nome do Mapa"
 
 #: ../src/MainWindow.py:111 ../src/MainWindow.py:283
 #, python-format
 msgid "Untitled Map %d"
-msgstr "Mapa sense nom %d"
+msgstr "Mapa Sem Nome %d"
 
 #: ../src/MainWindow.py:165
+#, fuzzy
 msgid "File"
-msgstr "Fitxer"
+msgstr "Ficheiro"
 
 #: ../src/MainWindow.py:166
 msgid "Export as Image"
-msgstr "Exporta com a imatge"
+msgstr "Exportar como Imagem"
 
 #: ../src/MainWindow.py:167
 msgid "Export your map as an image"
-msgstr "Exporteu el vostre mapa com a imatge"
+msgstr "Exportar o seu mapa como uma imagem"
 
 #: ../src/MainWindow.py:169
 msgid "Close the current window"
-msgstr "Tanca la finestra actual"
+msgstr "Fechar esta janela"
 
 #: ../src/MainWindow.py:170
+#, fuzzy
 msgid "_Edit"
-msgstr "_Edita"
+msgstr "_Editar"
 
 #: ../src/MainWindow.py:179
 msgid "(Un)Link Thoughts"
-msgstr "(Des)enllaça els pensaments"
+msgstr "(Des)Conectar Pensamentos"
 
 #: ../src/MainWindow.py:180
 msgid "(Un)Link the selected thoughts"
-msgstr "(Des)enllaça els pensaments seleccionats"
+msgstr "(Des)Conectar os pensamentos seleccionados"
 
 #: ../src/MainWindow.py:181
 msgid "_Mode"
-msgstr "_Mode"
+msgstr "_Modo"
 
 #: ../src/MainWindow.py:182
 msgid "_Delete Selected Thoughts"
-msgstr "_Suprimeix els pensaments seleccionats"
+msgstr "_Apagar pensamentos seleccionados"
 
 #: ../src/MainWindow.py:183
 msgid "Delete the selected element(s)"
-msgstr "Suprimeix el(s) element(s) seleccionat(s)"
+msgstr "Apagar o(s) elemento(s) seleccionado(s)"
 
 #: ../src/MainWindow.py:185
 msgid "_Edit Mode"
-msgstr "Mode d'_edició"
+msgstr "Modo de _Edição"
 
 #: ../src/MainWindow.py:186
 msgid "Turn on edit mode"
-msgstr "Activa el mode d'edició"
+msgstr "Ligar o modo de edição"
 
 #: ../src/MainWindow.py:187
 msgid "_Add Image"
-msgstr "_Afegeix una imatge"
+msgstr "_Adicionar Imagem"
 
 #: ../src/MainWindow.py:188
 msgid "Add an image to selected thought"
-msgstr "Afegeix una imatge al pensament seleccionat"
+msgstr "Adicione uma imagem ao pensamento seleccionado"
 
 #: ../src/MainWindow.py:189
 msgid "_Drawing Mode"
-msgstr "_Mode de dibuix"
+msgstr "Modo de _Desenho"
 
 #: ../src/MainWindow.py:190
 msgid "Make a pretty drawing"
-msgstr "Fes un dibuix bonic"
+msgstr "Fazer um desenho engraçado"
 
 #: ../src/MainWindow.py:192
 msgid "_View Extended"
-msgstr "_Visualització estesa"
+msgstr "_Vista Alargada"
 
 #: ../src/MainWindow.py:193
 msgid "View extended info for thoughts"
-msgstr "Visualitza informació addicional pels pensaments"
+msgstr "Ver informação alargada dos pensamentos"
 
 #: ../src/MainWindow.py:446
 msgid "Unknown file format"
-msgstr "Format de fitxer desconegut"
+msgstr "Formato de ficheiro desconhecido"
 
 #: ../src/MainWindow.py:447
 #, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
-msgstr ""
-"No està implementat el tipus de fitxer «%s».  Feu servir el sufix «.png» o «.jpg»"
+msgstr "O tipo de ficheiro '%s' não é suportado. Por favor use o sufixo '.png' ou '.jpg'"
 
 #: ../src/DrawingThought.py:67
 #, python-format
 msgid "Drawing #%d"
-msgstr "Dibuix #%d"
+msgstr "A Desenhar #%d"
 
 #: ../src/ImageThought.py:64
 msgid "Choose image to insert"
-msgstr "Escolliu la imatge a inserir"
+msgstr "Escolha a imagem a inserir"
 
 #: ../src/ImageThought.py:304
 msgid "Error loading file"
-msgstr "S'ha produït un error en carregar el fitxer"
+msgstr "Erro a carregar ficheiro"
 
 #: ../src/ImageThought.py:305
 #, python-format
 msgid "%s could not be found.  Associated thought will be empty."
-msgstr "No s'ha pogut trobar %s.  El pensament associat estarà buit."
+msgstr "%d não foi encontrado. O pensamento associado vai estar vazio."
 
 #: ../data/labyrinth.glade.h:1
 msgid "<b>Export Map</b>"
-msgstr "<b>Exporta el mapa</b>"
+msgstr "<b>Exportar Mapa</b>"
 
 #: ../data/labyrinth.glade.h:2
+#, fuzzy
 msgid "Complete Map"
-msgstr "Mapa complet"
+msgstr "Mapa Completo"
 
 #: ../data/labyrinth.glade.h:3
 msgid "Export Map as Image"
-msgstr "Exporta el mapa com a imatge"
+msgstr "Exportar Mapa como Imagem"
 
 #: ../data/labyrinth.glade.h:4
 msgid "Height"
@@ -158,78 +162,79 @@ msgstr "Altura"
 
 #: ../data/labyrinth.glade.h:5
 msgid "Labyrinth Maps"
-msgstr "Mapes Labyrinth"
+msgstr "Mapas do Labyrinth"
 
 #: ../data/labyrinth.glade.h:6
 msgid "Visible Area"
-msgstr "Àrea visible"
+msgstr "Área Visível"
 
 #: ../data/labyrinth.glade.h:7
 msgid "Width"
-msgstr "Amplada"
+msgstr "Largura"
 
 #: ../data/labyrinth.glade.h:8
+#, fuzzy
 msgid "_File"
-msgstr "_Fitxer"
+msgstr "_Ficheiro"
 
 #: ../data/labyrinth.glade.h:9
 msgid "_Help"
-msgstr "A_juda"
+msgstr "_Ajuda"
 
 #: ../data/labyrinth.desktop.in.h:1
 msgid "Labyrinth Mind-mapping"
-msgstr "Creació de mapes mentals Labyrinth"
+msgstr "Labyrinth Mind-mapping"
 
 #: ../data/labyrinth.desktop.in.h:2
 msgid "Map your mind"
-msgstr "Mapejeu la vostra memòria"
+msgstr "Mapeie a sua mente"
 
 #: ../data/labyrinth.desktop.in.h:3
 msgid "Mind-mapping"
-msgstr "Mapa mental"
+msgstr "Mind-mapping"
 
 #~ msgid "Learn about the application"
-#~ msgstr "Aprèn sobre l'aplicació"
+#~ msgstr "Saiba mais sobre o programa"
 
 #~ msgid "Delete Map"
-#~ msgstr "Suprimeix el mapa"
+#~ msgstr "Apagar Mapa"
 
 #~ msgid "New Map"
-#~ msgstr "Nou mapa"
+#~ msgstr "Novo Mapa"
 
 #~ msgid "Open Map"
-#~ msgstr "Obre un mapa"
+#~ msgstr "Abrir Mapa"
 
 #~ msgid "Quit"
-#~ msgstr "Surt"
+#~ msgstr "Sair"
 
 #~ msgid "_New"
-#~ msgstr "_Nou"
+#~ msgstr "_Novo"
 
 #~ msgid "Create a new mind-map"
-#~ msgstr "Crea un nou mapa mental"
+#~ msgstr "Criar um mapa mental novo"
 
 #~ msgid "_Close"
-#~ msgstr "_Tanca"
+#~ msgstr "_Fechar"
 
 #~ msgid "_Quit"
-#~ msgstr "_Surt"
+#~ msgstr "_Sair"
 
 #~ msgid "Close all the windows and exit the application"
-#~ msgstr "Hi ha algunes coses trencades"
+#~ msgstr "Fechar todas as janelas e sair do programa"
 
 #~ msgid "_About"
-#~ msgstr "_Quant a"
+#~ msgstr "_Sobre"
 
 #~ msgid "Somethings broken"
-#~ msgstr "Hi ha algunes coses trencades"
+#~ msgstr "Algo se partiu"
 
 #~ msgid "_Move Mode"
-#~ msgstr "Mode de _moviment"
+#~ msgstr "_Modo de Movimentação"
 
 #~ msgid "Turn on move mode"
-#~ msgstr "Activa el mode de moviment"
+#~ msgstr "Ligar o modo de movimentação"
 
 #~ msgid "%s could not be read.  Please ensure its a valid image."
 #~ msgstr ""
-#~ "No s'ha pogut llegir %s.  Assegureu-vos de que és una imatge vàlida."
+#~ "%s não pode ser lida. Por favor certifique-se de que é uma imagem válida."

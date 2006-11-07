@@ -1,0 +1,188 @@
+# Translation into Basque by Zunbeltz Izaola
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Labyrinth 0.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-11-07 12:46+0000\n"
+"PO-Revision-Date: 2006-11-07 17:12+0100\n"
+"Last-Translator: Zunbeltz Izaola <zunbeltz@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Basque\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: ../src/Browser.py:207
+msgid "The map cannot be deleted right now.  Is it open?"
+msgstr "Mapa ezin da ezabatu orain.  Zabalik al dago?"
+
+#: ../src/Browser.py:209
+msgid "The map has no associated filename."
+msgstr "Mapak ez dauka elkartutako ftxaegi izenik."
+
+#: ../src/Browser.py:212
+msgid "Cannot delete this map"
+msgstr "Ezin da ezabatu Mapa hau."
+
+#: ../src/Browser.py:219
+msgid "Do you really want to delete this Map?"
+msgstr "Benetan nahi al duzu Mapa hau ezabatzea?"
+
+#: ../src/Browser.py:248
+msgid "Map Name"
+msgstr "Maparen izena"
+
+#: ../src/MainWindow.py:111
+#: ../src/MainWindow.py:283
+#, python-format
+msgid "Untitled Map %d"
+msgstr "Izenik gabeko Mapa %d"
+
+#: ../src/MainWindow.py:165
+msgid "File"
+msgstr "Fitxategia"
+
+#: ../src/MainWindow.py:166
+msgid "Export as Image"
+msgstr "Irudi gisa esportatu"
+
+#: ../src/MainWindow.py:167
+msgid "Export your map as an image"
+msgstr "Zure Mapa irudi gisa ezportatu"
+
+#: ../src/MainWindow.py:169
+msgid "Close the current window"
+msgstr "Itxi momentuko lehioa"
+
+#: ../src/MainWindow.py:170
+msgid "_Edit"
+msgstr "_Editatu"
+
+#: ../src/MainWindow.py:179
+msgid "(Un)Link Thoughts"
+msgstr "Ideiak lotu/eten"
+
+#: ../src/MainWindow.py:180
+msgid "(Un)Link the selected thoughts"
+msgstr "Lotu/Eten aukeratutako gogoetak"
+
+#: ../src/MainWindow.py:181
+msgid "_Mode"
+msgstr "_Modu"
+
+#: ../src/MainWindow.py:182
+msgid "_Delete Selected Thoughts"
+msgstr "_Ezabatu aukeratutako gogoetak"
+
+#: ../src/MainWindow.py:183
+msgid "Delete the selected element(s)"
+msgstr "Ezabatu aukeratutako elementua(k)"
+
+#: ../src/MainWindow.py:185
+msgid "_Edit Mode"
+msgstr "_Editatze modua"
+
+#: ../src/MainWindow.py:186
+msgid "Turn on edit mode"
+msgstr "Piztu editatze modua"
+
+#: ../src/MainWindow.py:187
+msgid "_Add Image"
+msgstr "_Gehitu irudia"
+
+#: ../src/MainWindow.py:188
+msgid "Add an image to selected thought"
+msgstr "Gehitu irudia aukeratutako gogetari"
+
+#: ../src/MainWindow.py:189
+msgid "_Drawing Mode"
+msgstr "_Marrazki modua"
+
+#: ../src/MainWindow.py:190
+msgid "Make a pretty drawing"
+msgstr "Egin irudi polit bat"
+
+#: ../src/MainWindow.py:192
+msgid "_View Extended"
+msgstr "_Ikusi hedatutakoa"
+
+#: ../src/MainWindow.py:193
+msgid "View extended info for thoughts"
+msgstr "Ikusi gogoeten informazio hedatua"
+
+#: ../src/MainWindow.py:446
+msgid "Unknown file format"
+msgstr "Fitxategi-formatu ezezaguna"
+
+#: ../src/MainWindow.py:447
+#, python-format
+msgid "The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
+msgstr "%s fitxategi formatua ezin da onartu. Mesedez erabili '.gng' edo '.jpg' fitxategi-luzapena"
+
+#: ../src/DrawingThought.py:67
+#, python-format
+msgid "Drawing #%d"
+msgstr "%d irudia"
+
+#: ../src/ImageThought.py:64
+msgid "Choose image to insert"
+msgstr "Aukeratu sartzeko irudia"
+
+#: ../src/ImageThought.py:304
+msgid "Error loading file"
+msgstr "Errorea fitxategia kargatzean"
+
+#: ../src/ImageThought.py:305
+#, python-format
+msgid "%s could not be found.  Associated thought will be empty."
+msgstr "Ezin izan da %s aurkitu.  Elkartutako gogoetak utzik egongo dira."
+
+#: ../data/labyrinth.glade.h:1
+msgid "<b>Export Map</b>"
+msgstr "<b>Esportatu Mapa</b>"
+
+#: ../data/labyrinth.glade.h:2
+msgid "Complete Map"
+msgstr "Mapa osoa"
+
+#: ../data/labyrinth.glade.h:3
+msgid "Export Map as Image"
+msgstr "Esportatu Mapa irudi gisa"
+
+#: ../data/labyrinth.glade.h:4
+msgid "Height"
+msgstr "Altuera"
+
+#: ../data/labyrinth.glade.h:5
+msgid "Labyrinth Maps"
+msgstr "Labyrinth-mapak"
+
+#: ../data/labyrinth.glade.h:6
+msgid "Visible Area"
+msgstr "Ageriko area"
+
+#: ../data/labyrinth.glade.h:7
+msgid "Width"
+msgstr "Zabalera"
+
+#: ../data/labyrinth.glade.h:8
+msgid "_File"
+msgstr "_Fitxategia"
+
+#: ../data/labyrinth.glade.h:9
+msgid "_Help"
+msgstr "_Laguntza"
+
+#: ../data/labyrinth.desktop.in.h:1
+msgid "Labyrinth Mind-mapping"
+msgstr "Labyrinth Gogoeta-mapak"
+
+#: ../data/labyrinth.desktop.in.h:2
+msgid "Map your mind"
+msgstr "Zure gogoeten mapa egin"
+
+#: ../data/labyrinth.desktop.in.h:3
+msgid "Mind-mapping"
+msgstr "Gogoeta-mapak"

@@ -1,12 +1,12 @@
 # translation of nl.po to Dutch
-# Rigo Ketelings <r.ketelings@gmail.com>, 2006.
+# Rigo Ketelings <r.ketelings@gmail.com>, Max Beauchez <max.780@gmail.com, 2006.
 msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: max.780 gmail.com (fill in the @)\n"
 "POT-Creation-Date: 2006-11-07 12:46+0000\n"
-"PO-Revision-Date: 2006-10-10 22:33+0200\n"
-"Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
+"PO-Revision-Date: 2006-11-07 15:30+0200\n"
+"Last-Translator: Max Beauchez <max.780@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +20,7 @@ msgstr "De map kan op dit moment niet verwijderd worden. Is de map geopend?"
 
 #: ../src/Browser.py:209
 msgid "The map has no associated filename."
-msgstr ""
+msgstr "De map heeft geen geassocieerde bestandsnaam"
 
 #: ../src/Browser.py:212
 msgid "Cannot delete this map"
@@ -46,11 +46,11 @@ msgstr "_Bestand"
 
 #: ../src/MainWindow.py:166
 msgid "Export as Image"
-msgstr ""
+msgstr "Exporteer als afbeelding"
 
 #: ../src/MainWindow.py:167
 msgid "Export your map as an image"
-msgstr ""
+msgstr "Exporteer uw map als afbeelding"
 
 #: ../src/MainWindow.py:169
 msgid "Close the current window"
@@ -63,16 +63,16 @@ msgstr "_Bewerk-mode"
 
 #: ../src/MainWindow.py:179
 msgid "(Un)Link Thoughts"
-msgstr ""
+msgstr "Verbind/verbreek de gedachte(n)"
 
 #: ../src/MainWindow.py:180
 #, fuzzy
 msgid "(Un)Link the selected thoughts"
-msgstr "Voeg afbeelding toe aan geselecteerde gedachte"
+msgstr "Afbeelding toevoegen aan geselecteerde gedachte"
 
 #: ../src/MainWindow.py:181
 msgid "_Mode"
-msgstr "_Modus"
+msgstr "_Mode"
 
 #: ../src/MainWindow.py:182
 msgid "_Delete Selected Thoughts"
@@ -88,15 +88,15 @@ msgstr "_Bewerk-mode"
 
 #: ../src/MainWindow.py:186
 msgid "Turn on edit mode"
-msgstr "Zet bewerk-mode aan"
+msgstr "Bewerk-mode aanzetten"
 
 #: ../src/MainWindow.py:187
 msgid "_Add Image"
-msgstr "_Voeg afbeelding toe"
+msgstr "_Afbeelding toevoegen"
 
 #: ../src/MainWindow.py:188
 msgid "Add an image to selected thought"
-msgstr "Voeg afbeelding toe aan geselecteerde gedachte"
+msgstr "Afbeelding toevoegen aan geselecteerde gedachte"
 
 #: ../src/MainWindow.py:189
 msgid "_Drawing Mode"
@@ -108,26 +108,26 @@ msgstr "Maak een mooie tekening"
 
 #: ../src/MainWindow.py:192
 msgid "_View Extended"
-msgstr ""
+msgstr "Uitgebreide blik"
 
 #: ../src/MainWindow.py:193
 msgid "View extended info for thoughts"
-msgstr ""
+msgstr "Uitgebreiden gedachteninformatie laten zien"
 
 #: ../src/MainWindow.py:446
 msgid "Unknown file format"
-msgstr ""
+msgstr "Onbekend bestandsformaat"
 
 #: ../src/MainWindow.py:447
 #, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
-msgstr ""
+msgstr "Het bestandstype '%s' wordt niet ondersteund. Gebruik de extensie '.png' of '.jpg'."
 
 #: ../src/DrawingThought.py:67
 #, python-format
 msgid "Drawing #%d"
-msgstr "Tekenen %d"
+msgstr "Tekenen #%d"
 
 #: ../src/ImageThought.py:64
 msgid "Choose image to insert"
@@ -144,7 +144,7 @@ msgstr "%s kon niet gevonden worden. Geassocieerde gedachte zal leeg zijn."
 
 #: ../data/labyrinth.glade.h:1
 msgid "<b>Export Map</b>"
-msgstr ""
+msgstr "Map exporteren"
 
 #: ../data/labyrinth.glade.h:2
 #, fuzzy
@@ -153,23 +153,23 @@ msgstr "Verwijder map"
 
 #: ../data/labyrinth.glade.h:3
 msgid "Export Map as Image"
-msgstr ""
+msgstr "Map als afbeeldingen exporteren"
 
 #: ../data/labyrinth.glade.h:4
 msgid "Height"
-msgstr ""
+msgstr "Hoogte"
 
 #: ../data/labyrinth.glade.h:5
 msgid "Labyrinth Maps"
-msgstr "Labyrinth Maps"
+msgstr "Labyrinth maps"
 
 #: ../data/labyrinth.glade.h:6
 msgid "Visible Area"
-msgstr ""
+msgstr "Zichtbaar gebied"
 
 #: ../data/labyrinth.glade.h:7
 msgid "Width"
-msgstr ""
+msgstr "Breedte"
 
 #: ../data/labyrinth.glade.h:8
 #, fuzzy
@@ -229,12 +229,12 @@ msgstr "Mind-mapping"
 #~ msgstr "Er is iets kapot."
 
 #~ msgid "_Move Mode"
-#~ msgstr "_Schuif-mode"
+#~ msgstr "_Verplaats-mode"
 
 #~ msgid "Turn on move mode"
-#~ msgstr "Zet schuif-mode aan"
+#~ msgstr "Zet verplaats-mode aan"
 
 #~ msgid "%s could not be read.  Please ensure its a valid image."
 #~ msgstr ""
-#~ "%s kon niet gelezen worden. Verifieer of %s ook daadwerkelijk een "
+#~ "%s kon niet gelezen worden. Verifieer of het daadwerkelijk een "
 #~ "afbeelding is."
