@@ -85,6 +85,7 @@ class LabyrinthWindow (gtk.Window):
 		self.cut = self.ui.get_widget ('/MenuBar/EditMenu/Cut')
 		self.copy = self.ui.get_widget ('/MenuBar/EditMenu/Copy')
 		self.paste = self.ui.get_widget ('/MenuBar/EditMenu/Paste')
+		self.link = self.ui.get_widget ('/MenuBar/EditMenu/LinkThoughts')
 
 		self.ui.get_widget('/MenuBar/EditMenu').connect ('activate', self.edit_activated_cb)
 		self.cut.set_sensitive (False)
@@ -175,6 +176,8 @@ class LabyrinthWindow (gtk.Window):
 			 None, self.copy_text_cb),
 			('Paste', gtk.STOCK_PASTE, None, '<control>V',
 			 None, self.paste_text_cb),
+			('LinkThoughts', None, _("(Un)Link Thoughts"), '<control>L',
+			_("(Un)Link the selected thoughts"), self.link_thoughts_cb),
 			('ModeMenu', None, _('_Mode')),
 			('DeleteNodes', gtk.STOCK_DELETE, _('_Delete Selected Thoughts'), None,
 			 _('Delete the selected element(s)'), self.delete_cb)]
@@ -208,6 +211,9 @@ class LabyrinthWindow (gtk.Window):
 		self.ui.insert_action_group (ag, 0)
 		self.ui.add_ui_from_file (utils.get_data_file_name('labyrinth-ui.xml'))
 		self.add_accel_group (self.ui.get_accel_group ())
+
+	def link_thoughts_cb (self, arg):
+		self.MainArea.link_menu_cb ()
 
 	def undo_show_extended (self, action, mode):
 		self.undo.block ()
@@ -474,6 +480,7 @@ class LabyrinthWindow (gtk.Window):
 			else:
 				start = end = stend
 			self.paste.set_sensitive (True)
+			self.link.set_sensitive (False)
 		else:
 			start, end = self.MainArea.get_selection_bounds ()
 			if self.mode == MMapArea.MODE_EDITING and len(self.MainArea.selected) and \
@@ -481,6 +488,12 @@ class LabyrinthWindow (gtk.Window):
 				self.paste.set_sensitive (True)
 			else:
 				self.paste.set_sensitive (False)
+			if len (self.MainArea.selected) == 2:
+				self.link.set_sensitive (True)
+			else:
+				self.link.set_sensitive (False)
+
+
 		if start and start != end:
 			self.cut.set_sensitive (True)
 			self.copy.set_sensitive (True)

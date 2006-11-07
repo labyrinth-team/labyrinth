@@ -13,6 +13,7 @@
 	  <menuitem action="Copy"/>
 	  <menuitem action="Paste"/>
 	  <separator/>
+	  <menuitem action="LinkThoughts"/>
       <menuitem action="DeleteNodes"/>
       <menuitem action="ViewExtend"/>
     </menu>

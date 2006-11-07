@@ -435,6 +435,7 @@ class MMapArea (gtk.DrawingArea):
 			element = link.get_save_element ()
 			self.element.appendChild (element)
 			self.links.append (link)
+			return link
 		else:
 			if self.unending_link:
 				del self.unending_link
@@ -828,3 +829,27 @@ class MMapArea (gtk.DrawingArea):
 			return self.selected[0].index, self.selected[0].end_index
 		else:
 			return None, None
+
+	def thoughts_are_linked (self):
+		if len (self.selected) != 2:
+			return False
+		for l in self.links:
+			if l.connects (self.selected[0], self.selected[1]):
+				return True
+		return False
+
+	def link_menu_cb (self):
+		if len (self.selected) != 2:
+			return
+		lnk = None
+		for l in self.links:
+			if l.connects (self.selected[0], self.selected[1]):
+				lnk = l
+				break
+		if lnk:
+			self.undo.add_undo (UndoManager.UndoAction (self, UNDO_DELETE_LINK, self.undo_link_action, lnk))
+			self.delete_link (lnk)
+		else:
+			lnk = self.create_link (self.selected[0], None, self.selected[1])
+			self.undo.add_undo (UndoManager.UndoAction (self, UNDO_CREATE_LINK, self.undo_link_action, lnk))
+		self.invalidate ()

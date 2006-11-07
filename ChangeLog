@@ -1,5 +1,13 @@
 2006-11-07 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* data/labyrinth-ui.xml:
+	* src/MainWindow.py:
+	* src/MMapArea.py:
+	Add "(Un)Link Thoughts" menu item
+	which links or unlinks thoughts when
+	2 (and only 2) thoughts are selected
+	shortcut: ctrl-L (for want of a better one)
+
 	* data/labyrinth.glade:
 	Follow global toolbar style prefs in
 	browser window (Jean-François Fortin Tam)
