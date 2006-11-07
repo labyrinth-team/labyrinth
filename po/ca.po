@@ -20,7 +20,7 @@ msgstr "No es pot suprimir el mapa ara mateix.  Està obert?"
 
 #: ../src/Browser.py:209
 msgid "The map has no associated filename."
-msgstr "El mapa no te un nom de fitxer associat."
+msgstr "El mapa no té un nom de fitxer associat."
 
 #: ../src/Browser.py:212
 msgid "Cannot delete this map"
@@ -61,11 +61,11 @@ msgstr "_Edita"
 
 #: ../src/MainWindow.py:179
 msgid "(Un)Link Thoughts"
-msgstr "(Des)enllaça els pensaments"
+msgstr "Enllaça/Desenllaça els pensaments"
 
 #: ../src/MainWindow.py:180
 msgid "(Un)Link the selected thoughts"
-msgstr "(Des)enllaça els pensaments seleccionats"
+msgstr "Enllaça/Desenllaça els pensaments seleccionats"
 
 #: ../src/MainWindow.py:181
 msgid "_Mode"
@@ -77,7 +77,7 @@ msgstr "_Suprimeix els pensaments seleccionats"
 
 #: ../src/MainWindow.py:183
 msgid "Delete the selected element(s)"
-msgstr "Suprimeix el(s) element(s) seleccionat(s)"
+msgstr "Suprimeix els elements seleccionats"
 
 #: ../src/MainWindow.py:185
 msgid "_Edit Mode"
@@ -109,7 +109,7 @@ msgstr "_Visualització estesa"
 
 #: ../src/MainWindow.py:193
 msgid "View extended info for thoughts"
-msgstr "Visualitza informació addicional pels pensaments"
+msgstr "Visualitza informació addicional per als pensaments"
 
 #: ../src/MainWindow.py:446
 msgid "Unknown file format"
