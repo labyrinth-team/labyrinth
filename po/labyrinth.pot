@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-06 19:14+0000\n"
+"POT-Creation-Date: 2006-11-07 12:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,86 +36,94 @@ msgstr ""
 msgid "Map Name"
 msgstr ""
 
-#: ../src/MainWindow.py:110 ../src/MainWindow.py:277
+#: ../src/MainWindow.py:111 ../src/MainWindow.py:283
 #, python-format
 msgid "Untitled Map %d"
 msgstr ""
 
-#: ../src/MainWindow.py:164
+#: ../src/MainWindow.py:165
 msgid "File"
 msgstr ""
 
-#: ../src/MainWindow.py:165
+#: ../src/MainWindow.py:166
 msgid "Export as Image"
 msgstr ""
 
-#: ../src/MainWindow.py:166
+#: ../src/MainWindow.py:167
 msgid "Export your map as an image"
 msgstr ""
 
-#: ../src/MainWindow.py:168
+#: ../src/MainWindow.py:169
 msgid "Close the current window"
 msgstr ""
 
-#: ../src/MainWindow.py:169
+#: ../src/MainWindow.py:170
 msgid "_Edit"
 msgstr ""
 
-#: ../src/MainWindow.py:178
-msgid "_Mode"
-msgstr ""
-
 #: ../src/MainWindow.py:179
-msgid "_Delete Selected Thoughts"
+msgid "(Un)Link Thoughts"
 msgstr ""
 
 #: ../src/MainWindow.py:180
-msgid "Delete the selected element(s)"
+msgid "(Un)Link the selected thoughts"
+msgstr ""
+
+#: ../src/MainWindow.py:181
+msgid "_Mode"
 msgstr ""
 
 #: ../src/MainWindow.py:182
-msgid "_Edit Mode"
+msgid "_Delete Selected Thoughts"
 msgstr ""
 
 #: ../src/MainWindow.py:183
-msgid "Turn on edit mode"
-msgstr ""
-
-#: ../src/MainWindow.py:184
-msgid "_Add Image"
+msgid "Delete the selected element(s)"
 msgstr ""
 
 #: ../src/MainWindow.py:185
-msgid "Add an image to selected thought"
+msgid "_Edit Mode"
 msgstr ""
 
 #: ../src/MainWindow.py:186
-msgid "_Drawing Mode"
+msgid "Turn on edit mode"
 msgstr ""
 
 #: ../src/MainWindow.py:187
-msgid "Make a pretty drawing"
+msgid "_Add Image"
+msgstr ""
+
+#: ../src/MainWindow.py:188
+msgid "Add an image to selected thought"
 msgstr ""
 
 #: ../src/MainWindow.py:189
-msgid "_View Extended"
+msgid "_Drawing Mode"
 msgstr ""
 
 #: ../src/MainWindow.py:190
+msgid "Make a pretty drawing"
+msgstr ""
+
+#: ../src/MainWindow.py:192
+msgid "_View Extended"
+msgstr ""
+
+#: ../src/MainWindow.py:193
 msgid "View extended info for thoughts"
 msgstr ""
 
-#: ../src/MainWindow.py:440
+#: ../src/MainWindow.py:446
 msgid "Unknown file format"
 msgstr ""
 
-#: ../src/MainWindow.py:441
+#: ../src/MainWindow.py:447
 #, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
 msgstr ""
 
-#: ../src/DrawingThought.py:61
+#: ../src/DrawingThought.py:67
 #, python-format
 msgid "Drawing #%d"
 msgstr ""

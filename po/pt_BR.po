@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt-br\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-06 19:14+0000\n"
+"POT-Creation-Date: 2006-11-07 12:46+0000\n"
 "PO-Revision-Date: 2006-10-16 14:05+0200\n"
 "Last-Translator: Leonardo Gregianin <leonardo@riseup.net>\n"
 "Language-Team: Brazilian Portuguese <leonardo@riseup.net>\n"
@@ -37,88 +37,97 @@ msgstr "Você quer realmente apagar este mapa?"
 msgid "Map Name"
 msgstr "Nome do Mapa"
 
-#: ../src/MainWindow.py:110 ../src/MainWindow.py:277
+#: ../src/MainWindow.py:111 ../src/MainWindow.py:283
 #, python-format
 msgid "Untitled Map %d"
 msgstr "Mapa sem título %d"
 
-#: ../src/MainWindow.py:164
+#: ../src/MainWindow.py:165
 #, fuzzy
 msgid "File"
 msgstr "_Arquivo"
 
-#: ../src/MainWindow.py:165
+#: ../src/MainWindow.py:166
 msgid "Export as Image"
 msgstr ""
 
-#: ../src/MainWindow.py:166
+#: ../src/MainWindow.py:167
 msgid "Export your map as an image"
 msgstr ""
 
-#: ../src/MainWindow.py:168
+#: ../src/MainWindow.py:169
 msgid "Close the current window"
 msgstr "Fechar esta janela"
 
-#: ../src/MainWindow.py:169
+#: ../src/MainWindow.py:170
 #, fuzzy
 msgid "_Edit"
 msgstr "_Modo Editar"
 
-#: ../src/MainWindow.py:178
+#: ../src/MainWindow.py:179
+msgid "(Un)Link Thoughts"
+msgstr ""
+
+#: ../src/MainWindow.py:180
+#, fuzzy
+msgid "(Un)Link the selected thoughts"
+msgstr "Adicione uma imagem ao mapa selecionado"
+
+#: ../src/MainWindow.py:181
 msgid "_Mode"
 msgstr "_Modo"
 
-#: ../src/MainWindow.py:179
+#: ../src/MainWindow.py:182
 msgid "_Delete Selected Thoughts"
 msgstr "_Verwijder geselecteerde gedachten"
 
-#: ../src/MainWindow.py:180
+#: ../src/MainWindow.py:183
 msgid "Delete the selected element(s)"
 msgstr "Apagar o(s) elemento(s) selecionado(s)"
 
-#: ../src/MainWindow.py:182
+#: ../src/MainWindow.py:185
 msgid "_Edit Mode"
 msgstr "_Modo Editar"
 
-#: ../src/MainWindow.py:183
+#: ../src/MainWindow.py:186
 msgid "Turn on edit mode"
 msgstr "Voltar ao modo de edição"
 
-#: ../src/MainWindow.py:184
+#: ../src/MainWindow.py:187
 msgid "_Add Image"
 msgstr "_Adicionar image"
 
-#: ../src/MainWindow.py:185
+#: ../src/MainWindow.py:188
 msgid "Add an image to selected thought"
 msgstr "Adicione uma imagem ao mapa selecionado"
 
-#: ../src/MainWindow.py:186
+#: ../src/MainWindow.py:189
 msgid "_Drawing Mode"
 msgstr "_Modo Desenho"
 
-#: ../src/MainWindow.py:187
+#: ../src/MainWindow.py:190
 msgid "Make a pretty drawing"
 msgstr "Fazer um desenho bonito"
 
-#: ../src/MainWindow.py:189
+#: ../src/MainWindow.py:192
 msgid "_View Extended"
 msgstr ""
 
-#: ../src/MainWindow.py:190
+#: ../src/MainWindow.py:193
 msgid "View extended info for thoughts"
 msgstr ""
 
-#: ../src/MainWindow.py:440
+#: ../src/MainWindow.py:446
 msgid "Unknown file format"
 msgstr ""
 
-#: ../src/MainWindow.py:441
+#: ../src/MainWindow.py:447
 #, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
 msgstr ""
 
-#: ../src/DrawingThought.py:61
+#: ../src/DrawingThought.py:67
 #, python-format
 msgid "Drawing #%d"
 msgstr "Desenhando #%d"

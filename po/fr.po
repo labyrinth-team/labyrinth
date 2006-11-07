@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-06 19:14+0000\n"
+"POT-Creation-Date: 2006-11-07 12:46+0000\n"
 "PO-Revision-Date: 2006-11-05 19:40-0500\n"
 "Last-Translator: Mathieu Leduc-Hamel <math@arrak.org>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -34,88 +34,97 @@ msgstr "Voulez-vous vraiment supprimer cette carte?"
 msgid "Map Name"
 msgstr "Nom de la carte"
 
-#: ../src/MainWindow.py:110 ../src/MainWindow.py:277
+#: ../src/MainWindow.py:111 ../src/MainWindow.py:283
 #, python-format
 msgid "Untitled Map %d"
 msgstr "Carte sans nom %d"
 
-#: ../src/MainWindow.py:164
+#: ../src/MainWindow.py:165
 #, fuzzy
 msgid "File"
 msgstr "_Fichier"
 
-#: ../src/MainWindow.py:165
+#: ../src/MainWindow.py:166
 msgid "Export as Image"
 msgstr ""
 
-#: ../src/MainWindow.py:166
+#: ../src/MainWindow.py:167
 msgid "Export your map as an image"
 msgstr ""
 
-#: ../src/MainWindow.py:168
+#: ../src/MainWindow.py:169
 msgid "Close the current window"
 msgstr "Ferme la fenêtre courante"
 
-#: ../src/MainWindow.py:169
+#: ../src/MainWindow.py:170
 #, fuzzy
 msgid "_Edit"
 msgstr "Mode _Edition"
 
-#: ../src/MainWindow.py:178
+#: ../src/MainWindow.py:179
+msgid "(Un)Link Thoughts"
+msgstr ""
+
+#: ../src/MainWindow.py:180
+#, fuzzy
+msgid "(Un)Link the selected thoughts"
+msgstr "Ajouter une image à l'idée sélectionnée"
+
+#: ../src/MainWindow.py:181
 msgid "_Mode"
 msgstr "_Mode"
 
-#: ../src/MainWindow.py:179
+#: ../src/MainWindow.py:182
 msgid "_Delete Selected Thoughts"
 msgstr "_Supprimer l'idée sélectionée"
 
-#: ../src/MainWindow.py:180
+#: ../src/MainWindow.py:183
 msgid "Delete the selected element(s)"
 msgstr "Supprimer l'élément(s) sélectionné(s)"
 
-#: ../src/MainWindow.py:182
+#: ../src/MainWindow.py:185
 msgid "_Edit Mode"
 msgstr "Mode _Edition"
 
-#: ../src/MainWindow.py:183
+#: ../src/MainWindow.py:186
 msgid "Turn on edit mode"
 msgstr "Activer le mode d'édition"
 
-#: ../src/MainWindow.py:184
+#: ../src/MainWindow.py:187
 msgid "_Add Image"
 msgstr "_Ajouter une image"
 
-#: ../src/MainWindow.py:185
+#: ../src/MainWindow.py:188
 msgid "Add an image to selected thought"
 msgstr "Ajouter une image à l'idée sélectionnée"
 
-#: ../src/MainWindow.py:186
+#: ../src/MainWindow.py:189
 msgid "_Drawing Mode"
 msgstr "Mode _Dessin"
 
-#: ../src/MainWindow.py:187
+#: ../src/MainWindow.py:190
 msgid "Make a pretty drawing"
 msgstr "Faire un beau dessin"
 
-#: ../src/MainWindow.py:189
+#: ../src/MainWindow.py:192
 msgid "_View Extended"
 msgstr ""
 
-#: ../src/MainWindow.py:190
+#: ../src/MainWindow.py:193
 msgid "View extended info for thoughts"
 msgstr ""
 
-#: ../src/MainWindow.py:440
+#: ../src/MainWindow.py:446
 msgid "Unknown file format"
 msgstr ""
 
-#: ../src/MainWindow.py:441
+#: ../src/MainWindow.py:447
 #, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
 msgstr ""
 
-#: ../src/DrawingThought.py:61
+#: ../src/DrawingThought.py:67
 #, python-format
 msgid "Drawing #%d"
 msgstr "Dessin #%d"
