@@ -24,6 +24,7 @@ import xml.dom.minidom as dom
 import xml.dom
 import gettext
 _ = gettext.gettext
+import math
 
 import BaseThought
 import utils
@@ -40,13 +41,18 @@ MODE_DRAW = 2
 
 UNDO_RESIZE = 0
 UNDO_DRAW = 1
+UNDO_ERASE = 2
 
 class DrawingThought (BaseThought.ResizableThought):
 	class DrawingPoint (object):
-		def __init__ (self, coords, style=STYLE_CONTINUE):
+		def __init__ (self, coords, style=STYLE_CONTINUE, color = (0,0,0), width = 2):
 			self.x = coords[0]
 			self.y = coords[1]
 			self.style = style
+			self.r = color[0]
+			self.g = color[1]
+			self.b = color[2]
+			self.width = 1
 		def move_by (self, x, y):
 			self.x += x
 			self.y += y
@@ -59,6 +65,7 @@ class DrawingThought (BaseThought.ResizableThought):
 		self.want_move = False
 		self.points = []
 		self.text = _("Drawing #%d" % ndraw)
+		self.drawing = 0
 		if not loading:
 			margin = utils.margin_required (utils.STYLE_NORMAL)
 			self.ul = (coords[0]-margin[0], coords[1]-margin[1])
@@ -75,7 +82,7 @@ class DrawingThought (BaseThought.ResizableThought):
 	def draw (self, context):
 		utils.draw_thought_outline (context, self.ul, self.lr, self.am_selected, self.am_primary, utils.STYLE_NORMAL)
 		cwidth = context.get_line_width ()
-		context.set_line_width (1)
+		context.set_line_width (2)
 		if len (self.points) > 0:
 			for p in self.points:
 				if p.style == STYLE_BEGIN:
@@ -84,6 +91,7 @@ class DrawingThought (BaseThought.ResizableThought):
 					context.line_to (p.x,p.y)
 
 		context.set_line_width (cwidth)
+		#context.set_source_rgb (0, 0, 0)
 		context.stroke ()
 		return
 
@@ -134,14 +142,18 @@ class DrawingThought (BaseThought.ResizableThought):
 				self.emit ("update_view")
 			if mode == MODE_EDITING and self.resizing != self.RESIZE_NONE:
 				self.want_move = True
-				self.drawing = False
+				self.drawing = 0
 				self.orig_size = (self.ul, self.width, self.height)
 				return True
 			elif mode == MODE_DRAW:
 				self.want_move = True
-				self.drawing = True
+				if not event.state & gtk.gdk.SHIFT_MASK:
+					self.drawing = 1
+				else:
+					self.drawing = 2
 				self.orig_size = (self.ul, self.width, self.height)
 				self.ins_points = []
+				self.del_points = []
 				return True
 		elif event.button == 3:
 			self.emit ("popup_requested", (event.x, event.y), 1)
@@ -156,14 +168,37 @@ class DrawingThought (BaseThought.ResizableThought):
 		if len(self.points) > 0:
 			self.points[-1].style=STYLE_END
 		self.emit ("update_view")
-		if self.want_move and not self.drawing:
+		if self.want_move and self.drawing == 0:
 			self.undo.add_undo (UndoManager.UndoAction (self, UNDO_RESIZE, self.undo_resize, \
 														self.orig_size, (self.ul, self.width, self.height)))
-		elif self.want_move:
+		elif self.want_move and self.drawing == 1:
 			self.undo.add_undo (UndoManager.UndoAction (self, UNDO_DRAW, self.undo_drawing, \
 														self.ins_points, self.orig_size, \
 														(self.ul, self.width, self.height)))
-			self.want_move = False
+		elif self.want_move and self.drawing == 2:
+			self.undo.add_undo (UndoManager.UndoAction (self, UNDO_ERASE, self.undo_erase, \
+														self.ins_points))
+		self.drawing = 0
+		self.want_move = False
+
+	def undo_erase (self, action, mode):
+		self.undo.block ()
+		action.args[0].reverse ()
+		if mode == UndoManager.UNDO:
+			for x in action.args[0]:
+				if x[0] == 0:
+					self.points.remove (x[2])
+				else:
+					self.points.insert (x[1],x[2])
+		else:
+			for x in action.args[0]:
+				if x[0] == 0:
+					self.points.insert (x[1], x[2])
+				else:
+					self.points.remove (x[2])
+		self.undo.unblock ()
+		self.emit ("update_view")
+
 
 	def handle_motion (self, event, mode):
 		if (self.resizing == self.RESIZE_NONE or not self.want_move or not event.state & gtk.gdk.BUTTON1_MASK) \
@@ -250,7 +285,7 @@ class DrawingThought (BaseThought.ResizableThought):
 			self.emit ("update_view")
 			return True
 
-		elif mode == MODE_DRAW and (event.state & gtk.gdk.BUTTON1_MASK):
+		elif self.drawing == 1:
 			if event.x < self.ul[0]+5:
 				self.ul = (event.x-5, self.ul[1])
 			elif event.x > self.lr[0]-5:
@@ -276,6 +311,114 @@ class DrawingThought (BaseThought.ResizableThought):
 				p = self.DrawingPoint (event.get_coords(), STYLE_CONTINUE)
 			self.points.append (p)
 			self.ins_points.append (p)
+		elif self.drawing == 2 and len (self.points) > 0:
+			out = self.points[0]
+			loc = []
+			handle = []
+			ins_point = -1
+
+			for x in self.points:
+				ins_point += 1
+				dist = (x.x - event.x)**2 + (x.y - event.y)**2
+
+				if dist < 16:
+					if x == self.points[0]:
+						out = None
+					loc.append ((ins_point, x, dist))
+				else:
+					if len(loc) != 0:
+						handle.append ((loc, out, x))
+						loc = []
+					elif x.style != STYLE_BEGIN:
+						x1 = x.x - out.x
+						y1 = x.y - out.y
+						d_rsqr = x1**2 + y1 **2
+						d = ((out.x-event.x)*(x.y-event.y) - (x.x-event.x)*(out.y-event.y))
+						det = (d_rsqr*16) - d**2
+						if det > 0:
+							xt = -99999
+							yt = -99999
+							xalt = -99999
+							yalt = -99999
+							if y1 < 0:
+								sgn = -1
+							else:
+								sgn = 1
+							xt = (((d*y1) + sgn*x1 * math.sqrt (det)) / d_rsqr) +event.x
+							xalt = (((d*y1) - sgn*x1 * math.sqrt (det)) / d_rsqr) +event.x
+							yt = (((-d*x1) + abs(y1)*math.sqrt(det)) / d_rsqr) + event.y
+							yalt = (((-d*x1) - abs(y1)*math.sqrt(det)) / d_rsqr) +event.y
+							x1_inside = (xt > x.x and xt < out.x) or (xt > out.x and xt < x.x)
+							x2_inside = (xalt > x.x and xalt < out.x) or (xalt > out.x and xalt < x.x)
+							y1_inside = (yt > x.y and yt < out.y) or (yt > out.y and yt < x.y)
+							y2_inside = (yalt > x.y and yalt < out.y) or (yalt > out.y and yalt < x.y)
+
+
+							if (x1_inside and x2_inside and y1_inside and y2_inside):
+							   	if abs (xalt - x.x) < abs (xt - x.x):
+							   		handle.append ((None, out, x, ins_point, xt, xalt, yt, yalt))
+							   	else:
+							   		handle.append ((None, out, x, ins_point, xalt, xt, yalt, yt))
+							elif x.x == out.x and y1_inside and y2_inside:
+							   	if abs (yalt - x.y) < abs (yt - x.y):
+							   		handle.append ((None, out, x, ins_point, xt, xalt, yt, yalt))
+							   	else:
+							   		handle.append ((None, out, x, ins_point, xalt, xt, yalt, yt))
+							elif x.y == out.y and x1_inside and x2_inside:
+								if abs (xalt - x.x) < abs (xt - x.x):
+								   	handle.append ((None, out, x, ins_point, xt, xalt, yt, yalt))
+								else:
+								   	handle.append ((None, out, x, ins_point, xalt, xt, yalt, yt))
+
+					out = x
+			if loc:
+				handle.append ((loc, out, None))
+			appends = []
+			dels = []
+			for l in handle:
+				inside = l[0]
+				prev = l[1]
+				next = l[2]
+				if not inside:
+					ins = l[3]
+					x1 = l[4]
+					x2 = l[5]
+					y1 = l[6]
+					y2 = l[7]
+					p1 = self.DrawingPoint ((x1,y1), STYLE_END)
+					p2 = self.DrawingPoint ((x2,y2), STYLE_BEGIN)
+					appends.append ((p1, ins))
+					appends.append ((p2, ins))
+				else:
+					first = inside[0][1]
+					last = inside[-1][1]
+					done_ins = 0
+					if last.style != STYLE_END:
+						end_dist = math.sqrt (inside[-1][2]) - 4
+						alpha = math.atan2 ((last.y-next.y), (last.x-next.x))
+						new_x = end_dist * math.cos(alpha) + last.x
+						new_y = end_dist * math.sin(alpha) + last.y
+						p = self.DrawingPoint ((new_x, new_y), STYLE_BEGIN)
+						appends.append ((p, inside[-1][0]))
+						done_ins = 1
+					if first.style != STYLE_BEGIN:
+						start_dist = math.sqrt (inside[0][2]) - 4
+						alpha = math.atan2 ((first.y-prev.y),(first.x-prev.x))
+						new_x = start_dist * math.cos (alpha) + first.x
+						new_y = start_dist * math.sin (alpha) + first.y
+						p = self.DrawingPoint ((new_x, new_y), STYLE_END)
+						appends.append ((p, inside[0][0]-done_ins))
+					for i in inside:
+						dels.append (i[1])
+			inserts = 0
+			for x in appends:
+				self.points.insert (x[1]+inserts, x[0])
+				self.ins_points.append ((0, x[1]+inserts, x[0]))
+				inserts+=1
+			for x in dels:
+				self.ins_points.append ((1, self.points.index (x), x))
+				self.points.remove (x)
+
 		self.emit ("update_links")
 		self.emit ("update_view")
 		return True

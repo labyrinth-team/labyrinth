@@ -1,3 +1,9 @@
+2006-11-07 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* src/DrawingThought.py:
+	Add erase mode using shift key
+	Add erase action to undo list
+
 2006-11-06 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* src/Browser.py:
