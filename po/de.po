@@ -30,7 +30,7 @@ msgstr "Mindmap kann nicht gelöscht werden"
 
 #: ../src/Browser.py:219
 msgid "Do you really want to delete this Map?"
-msgstr "Möchten sie die Mindmap wirklich löschen?"
+msgstr "Möchten Sie die Mindmap wirklich löschen?"
 
 #: ../src/Browser.py:248
 msgid "Map Name"
