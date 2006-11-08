@@ -1,3 +1,10 @@
+2006-11-08 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* src/MainWindow.py:
+	Only set / change the mode with pygtk versions > 2.8
+	as the function was apparently only introduced
+	during 2.10
+
 2006-11-07 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* data/labyrinth-ui.xml:

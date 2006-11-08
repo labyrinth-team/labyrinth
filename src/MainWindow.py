@@ -60,6 +60,13 @@ class LabyrinthWindow (gtk.Window):
 		except:
 			self.set_icon_from_file(utils.get_data_file_name('labyrinth.svg'))
 
+		if gtk.gtk_version[1] > 8:
+		# FIXME:  This can go when we move entirely to gtk 2.10
+		# pygtk 2.8 doesn't have the correct function :(
+			self.set_val = True
+		else:
+			self.set_val = False
+
 		# First, construct the MainArea and connect it all up
 		self.undo = UndoManager.UndoManager (self)
 		self.undo.block ()
@@ -146,7 +153,8 @@ class LabyrinthWindow (gtk.Window):
 		self.maximised = False
 		self.view_type = 0
 		self.set_title (self.title_cp)
-		self.act.set_current_value (self.mode)
+		if self.set_val:
+			self.act.set_current_value (self.mode)
 		self.ext_act.set_active (self.extended_visible)
 
 		# Show everything required
@@ -275,7 +283,10 @@ class LabyrinthWindow (gtk.Window):
 		return
 
 	def mode_request_cb (self, widget, mode):
-		self.act.set_current_value (mode)
+		if self.set_val:
+			self.act.set_current_value (mode)
+		else:
+			pass
 
 	def title_changed_cb (self, widget, new_title):
 		self.title_cp = ''
