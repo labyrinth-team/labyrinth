@@ -37,12 +37,10 @@ msgid "Map Name"
 msgstr "Nome do Mapa"
 
 #: ../src/MainWindow.py:111 ../src/MainWindow.py:283
-#, python-format
 msgid "Untitled Map %d"
 msgstr "Mapa Sem Nome %d"
 
 #: ../src/MainWindow.py:165
-#, fuzzy
 msgid "File"
 msgstr "Ficheiro"
 
@@ -59,7 +57,6 @@ msgid "Close the current window"
 msgstr "Fechar esta janela"
 
 #: ../src/MainWindow.py:170
-#, fuzzy
 msgid "_Edit"
 msgstr "_Editar"
 
@@ -105,7 +102,7 @@ msgstr "Modo de _Desenho"
 
 #: ../src/MainWindow.py:190
 msgid "Make a pretty drawing"
-msgstr "Fazer um desenho engraçado"
+msgstr "Fazer um desenho bonito"
 
 #: ../src/MainWindow.py:192
 msgid "_View Extended"
@@ -120,15 +117,13 @@ msgid "Unknown file format"
 msgstr "Formato de ficheiro desconhecido"
 
 #: ../src/MainWindow.py:447
-#, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
 msgstr "O tipo de ficheiro '%s' não é suportado. Por favor use o sufixo '.png' ou '.jpg'"
 
 #: ../src/DrawingThought.py:67
-#, python-format
 msgid "Drawing #%d"
-msgstr "A Desenhar #%d"
+msgstr "Desenho #%d"
 
 #: ../src/ImageThought.py:64
 msgid "Choose image to insert"
@@ -139,7 +134,6 @@ msgid "Error loading file"
 msgstr "Erro a carregar ficheiro"
 
 #: ../src/ImageThought.py:305
-#, python-format
 msgid "%s could not be found.  Associated thought will be empty."
 msgstr "%d não foi encontrado. O pensamento associado vai estar vazio."
 
@@ -148,7 +142,6 @@ msgid "<b>Export Map</b>"
 msgstr "<b>Exportar Mapa</b>"
 
 #: ../data/labyrinth.glade.h:2
-#, fuzzy
 msgid "Complete Map"
 msgstr "Mapa Completo"
 
@@ -173,7 +166,6 @@ msgid "Width"
 msgstr "Largura"
 
 #: ../data/labyrinth.glade.h:8
-#, fuzzy
 msgid "_File"
 msgstr "_Ficheiro"
 
