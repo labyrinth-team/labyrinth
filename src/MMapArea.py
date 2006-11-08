@@ -128,6 +128,7 @@ class MMapArea (gtk.DrawingArea):
 		self.move_origin_new = None
 		self.motion = None
 		self.move_action = None
+		self.current_root = []
 
 		self.set_events (gtk.gdk.KEY_PRESS_MASK |
 						 gtk.gdk.KEY_RELEASE_MASK |
@@ -209,8 +210,12 @@ class MMapArea (gtk.DrawingArea):
 				self.hookup_im_context (thought)
 				# Creating links adds an undo action.  Block it here
 				self.undo.block ()
-				for x in self.selected:
+				for x in self.current_root:
 					self.create_link (x, None, thought)
+				for x in self.selected:
+					x.unselect ()
+				self.selected = [thought]
+				thought.select ()
 			if self.unending_link:
 				self.unending_link.set_child (thought)
 				self.links.append (self.unending_link)
@@ -384,6 +389,7 @@ class MMapArea (gtk.DrawingArea):
 			for x in self.selected:
 				x.unselect ()
 			self.selected = [thought]
+		self.current_root = self.selected
 		thought.select ()
 		if len(self.selected) == 1:
 			self.emit ("change_buffer", thought.extended_buffer)
@@ -728,6 +734,10 @@ class MMapArea (gtk.DrawingArea):
 				t.select ()
 			if t.editing:
 				self.begin_editing (t)
+			if self.selected:
+				self.current_root = self.selected
+			else:
+				self.current_root = [self.primary]
 		if len(self.selected) == 1:
 			self.emit ("change_buffer", self.selected[0].extended_buffer)
 			self.hookup_im_context (self.selected[0])

@@ -1,5 +1,9 @@
 2006-11-08 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/MMapArea.py:
+	Add an implicit "current_root" which acts as the
+	anchor for new thoughts without being selected
+
 	* src/MainWindow.py:
 	Only set / change the mode with pygtk versions > 2.8
 	as the function was apparently only introduced

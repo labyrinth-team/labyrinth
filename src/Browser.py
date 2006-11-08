@@ -209,7 +209,7 @@ class Browser (gtk.Window):
 			error_message = _("The map has no associated filename.")
 		if error_message:
 			dialog = gtk.MessageDialog (self, gtk.DIALOG_MODAL, gtk.MESSAGE_WARNING, gtk.BUTTONS_OK,
-									_("Cannot delete this map"))
+ 									_("Cannot delete this map"))
 			dialog.format_secondary_text (error_message)
 			dialog.run ()
 			dialog.hide ()
