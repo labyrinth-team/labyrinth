@@ -195,9 +195,9 @@ class TextThought (BaseThought.BaseThought):
 				context.line_to (self.lr[0]-5, self.ul[1])
 			context.stroke ()
 		if self.index > self.end_index:
-			bgsel = pango.AttrBackground (65535, 0, 0, self.end_index, self.index)
+			bgsel = pango.AttrBackground (61423, 10537, 10537, self.end_index, self.index)
 		else:
-			bgsel = pango.AttrBackground (65535, 0, 0, self.index, self.end_index)
+			bgsel = pango.AttrBackground (61423, 10537, 10537, self.index, self.end_index)
 		self.attrlist.insert (bgsel)
 		self.layout.set_attributes(self.attrlist)
 

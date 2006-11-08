@@ -126,9 +126,9 @@ def draw_thought_classic (context, ul, lr, am_root, am_primary):
 	context.line_to (ul[0]+5, ul[1])
 	context.curve_to (ul[0], ul[1], ul[0], ul[1], ul[0], ul[1]+5)
 	if am_root:
-		context.set_source_rgb (0.0,0.9,0.9)
+		context.set_source_rgb (0.447, 0.624, 0.812)
 	elif am_primary:
-		context.set_source_rgb (1.0,0.5,0.5)
+		context.set_source_rgb (0.937, 0.831, 0.000)
 	else:
 		context.set_source_rgb (1.0,1.0,1.0)
 	context.fill_preserve ()

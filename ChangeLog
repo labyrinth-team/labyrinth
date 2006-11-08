@@ -1,5 +1,13 @@
 2006-11-08 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/utils.py:
+	* src/TextThought.py:
+	Use Tango palette colours, which are slightly
+	less jarring, though feel somewhat strange ;)
+	Text selection is still bright red
+	Primary thought is "Butter"
+	Selected thoughts are "Sky Blue"
+
 	* src/MMapArea.py:
 	Add an implicit "current_root" which acts as the
 	anchor for new thoughts without being selected
