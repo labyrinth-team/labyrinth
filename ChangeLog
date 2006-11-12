@@ -1,5 +1,12 @@
 2006-11-12 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/MMapArea.py:
+	* src/labyrinth.py:
+	* src/Browser.py:
+	Fix thought numbers on loading.  Again.  Sigh (issue #32
+	and previously issue #6)
+	Fix loading of maps from the command line
+
 	* src/MainWindow.py:
 	Make export dialog work again (issue #29)
 

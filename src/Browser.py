@@ -138,6 +138,10 @@ class Browser (gtk.Window):
 		for x in self.view_dependants:
 			x.set_sensitive (sensitive)
 
+	def open_map_filename (self, fname):
+		win = MainWindow.LabyrinthWindow (fname)
+		win.show ()
+
 	def open_map (self, map):
 		win = MainWindow.LabyrinthWindow (map.filename)
 		win.connect ("title-changed", self.map_title_cb)

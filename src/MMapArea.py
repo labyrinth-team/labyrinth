@@ -734,10 +734,12 @@ class MMapArea (gtk.DrawingArea):
 				t.select ()
 			if t.editing:
 				self.begin_editing (t)
-			if self.selected:
-				self.current_root = self.selected
-			else:
-				self.current_root = [self.primary]
+			if t.identity >= self.nthoughts:
+				self.nthoughts = t.identity + 1
+		if self.selected:
+			self.current_root = self.selected
+		else:
+			self.current_root = [self.primary]
 		if len(self.selected) == 1:
 			self.emit ("change_buffer", self.selected[0].extended_buffer)
 			self.hookup_im_context (self.selected[0])

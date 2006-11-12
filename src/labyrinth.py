@@ -16,7 +16,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Labyrinth; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, 
+# Foundation, Inc., 51 Franklin St, Fifth Floor,
 # Boston, MA  02110-1301  USA
 #
 
@@ -48,7 +48,7 @@ try:
 	localedir = abspath(join(defs.DATA_DIR, "locale"))
 except:
 	localedir = ""
-		
+
 
 gettext.bindtextdomain('labyrinth', localedir)
 if hasattr(gettext, 'bind_textdomain_codeset'):
@@ -65,11 +65,11 @@ gtk.glade.textdomain('labyrinth')
 
 def main():
 	parser = optparse.OptionParser()
-        parser.add_option("--use-tray-icon", 
+        parser.add_option("--use-tray-icon",
             dest="tray_icon", action="store_true", default=False)
-        parser.add_option("--no-tray-icon", 
+        parser.add_option("--no-tray-icon",
             dest="tray_icon", action="store_false" )
-        parser.add_option("--hide-main-window", 
+        parser.add_option("--hide-main-window",
             action="store_true", default=False)
 	parser.add_option("-m", "--map",
                   action="store", type="string", dest="filename",
@@ -77,19 +77,19 @@ def main():
 	parser.add_option("-o", "--open",
 				  action="store", type="string", dest="filepath",
 				  help="Open a map from a given filename (including path)")
-	(options, args) = parser.parse_args()	
+	(options, args) = parser.parse_args()
         if not options.tray_icon:
             options.hide_main_window=False
 	MapBrowser = Browser.Browser (
-          start_hidden = options.hide_main_window, 
+          start_hidden = options.hide_main_window,
           tray_icon= options.tray_icon
         )
 	if options.filename != None:
-		MapBrowser.open_map(utils.get_save_dir() + options.filename, -2)
+		MapBrowser.open_map_filename (utils.get_save_dir() + options.filename)
 	elif options.filepath != None:
-		MapBrowser.open_map(options.filepath, -2)
-		
-	
+		MapBrowser.open_map_filename (options.filepath)
+
+
 	try:
 		gtk.main()
 	except:
