@@ -412,11 +412,7 @@ class LabyrinthWindow (gtk.Window):
 		maxx, maxy = self.MainArea.get_max_area ()
 
 		x, y, width, height, bitdepth = self.MainArea.window.get_geometry ()
-
-		if os.path.isfile (defs.DATA_DIR+'/labyrinth/labyrinth.glade'):
-			glade = gtk.glade.XML (defs.DATA_DIR+'/labyrinth/labyrinth.glade')
-		else:
-			glade = gtk.glade.XML ('data/labyrinth.glade')
+		glade = gtk.glade.XML (utils.get_data_file_name('labyrinth.glade'))
 		dialog = glade.get_widget ('ExportImageDialog')
 		box = glade.get_widget ('vbox2')
 		fc = gtk.FileChooserWidget(gtk.FILE_CHOOSER_ACTION_SAVE)
