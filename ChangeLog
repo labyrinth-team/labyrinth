@@ -1,4 +1,10 @@
+=========== V0.3 ===========
 2006-11-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* configure.ac:
+	* NEWS:
+	Bump Version
+	Prepare for 0.3 release
 
 	* data/Makefile.am:
 	Fix make distcheck (add uninstall rule)
