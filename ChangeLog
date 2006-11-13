@@ -1,3 +1,10 @@
+2006-11-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* doc/TheFuture:
+	* README:
+	Update for 0.3 release
+
+
 2006-11-12 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
 	* src/MMapArea.py:

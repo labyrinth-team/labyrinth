@@ -1,46 +1,49 @@
 Labyrinth - Future Work
 ---------
 
-I'm following the "cairo" model here.  Basically, the new version will be 
-released when the "Required Features" are in place, in a usable form.  
-Any "Desired Features" are a plus.  New "Required" and "Desired" features 
+I'm following the "cairo" model here.  Basically, the new version will be
+released when the "Required Features" are in place, in a usable form.
+Any "Desired Features" are a plus.  New "Required" and "Desired" features
 are made very near release of previous version.
 
 Version 1.0
 -----------
 
-Due to popular demand and also to show where Labyrinth is heading, I will 
-devote a few paragraphs to what is required for a 1.0 release to be made.  
-The release series up to this point are part of the "Out of Nothing" series.  
-These goals are (currently) in no particular order.  Once I've got everything 
+Due to popular demand and also to show where Labyrinth is heading, I will
+devote a few paragraphs to what is required for a 1.0 release to be made.
+The release series up to this point are part of the "Out of Nothing" series.
+These goals are (currently) in no particular order.  Once I've got everything
 written down, I may rearrange them a little.
 
-The 3 main thought types are now available.  Other thoughts are welcome, but 
+The 3 main thought types are now available.  Other thoughts are welcome, but
 only the 3 current ones are required for a 1.0 release.
 
-Those marked with a double star are planned for the next release (or at least 
-started in the next release).  Those with a tick (✓) have already been 
+Those marked with a double star are planned for the next release (or at least
+started in the next release).  Those with a tick (✓) have already been
 implemented.
 
 General:
 --------
-* New, better, shinier icon
+✓* New, better, shinier icon
 * Import from (at least) kdissert and freemind
 ** Export to (at least) png and XML format (include images in tarball style?)
+  - Partly working (rudimentary png export)
 ** Printing support for maps - includes ps export
 * UI review.  Better interface.  HIG compliance
 * Documentation
 * Full i18n support
 * Theme support
 * "A11y" view - treeview of thoughts and links
-** Selection of multiple thoughts
-* "Background"ing of areas.  Add a coloured background around different areas 
+✓* Selection of multiple thoughts
+* "Background"ing of areas.  Add a coloured background around different areas
   of maps
-** Extended text for all thoughts
+✓* Extended text for all thoughts
 * Set icons on thoughts
 ** Hide / show thoughts
 * Infinite canvas
 * Move and group multiple thoughts
+  - Partly completed.  Moving multiple thoughts works.  Grouping is covered by
+    "Background"ing option above
 * More clear primary thought / current root
 * Thought background colour changing
 * Popup menus everywhere
@@ -52,12 +55,12 @@ General:
 Text Thoughts:
 --------------
 
-** Selection of chunks of text
+✓** Selection of chunks of text
 * Different font sizes
 * Different font colours
 * Different fonts
 * Default to using current theme fonts
-* Copy text to clipboard / paste text from clipboard
+✓* Copy text to clipboard / paste text from clipboard
 
 Image Thoughts:
 ---------------
@@ -68,37 +71,62 @@ Drawing Thoughts:
 -----------------
 
 ** Eraser mode
+  - Partly.  Using shift when drawing
 * Different pen widths
 * Different colours
 
 Possible goals.  Not actually required, but if someone wants to do them...
 ---------------
 
-If these aren't done when the above are all implemented, they won't be in 1.0 
+If these aren't done when the above are all implemented, they won't be in 1.0
 release.
 
 * Different thought types.  Draw outline of thoughts in different styles
-  - Abstract out drawing logic (hey, its pretty similar always anyway)
+  ✓- Abstract out drawing logic (hey, its pretty similar always anyway)
 * Export to kdissert / freemind / ...
 * Import from ...
 
-Current Goals (V0.3 hopefully)
+
+Current Goals (v0.4)
 -------------
+
+Required Features:
+ * Printing support (ps export)
+ * Integration of changes required for Windows build
+ * Theme support
+ * Populate and enable bottom toolbar
+ * Popup menus
+ * a11y view
+ * Infinite scrollable canvas
+
+Desired Features:
+ * Hiding / Showing Thoughts
+ * Colourful thought
+
+Other (non-feature) Work:
+ * Single instance support (find current running instances)
+ * Cleanup TextBufferMarkup.py
+ * DTD for file format
+ * Add proper declarations to save files
+ * Add mime type handler
+
+V0.3 Goals
+----------
 
 Required Features:
     General
 ✓* Exporting of maps to png
-* Exporting of maps to ps (printing)
-* Select multiple thoughts
-* Hiding / Showing of thoughts
-* Extended info on all thoughts
+✗* Exporting of maps to ps (printing)
+✓* Select multiple thoughts
+✗* Hiding / Showing of thoughts
+✓* Extended info on all thoughts
 ✓    Text Thought
 ✓* Selection of chunks of text
-    Drawing Thought
-* Deletion of selected points
-    
+✓    Drawing Thought
+✓* Deletion of selected points
+
 Desired Features:
-* New Toolbar (at bottom of window?)
+✓* New Toolbar (at bottom of window?)
   - In drawing mode
     - Allows selection of pen width, pen colour
   - In text edit mode
@@ -165,14 +193,14 @@ In Addition:
 To infinity and beyond
 ----------------------
 
-Some ideas for later versions.  These are planned for some point, just not 
+Some ideas for later versions.  These are planned for some point, just not
 right now.
 
 * Export
   - Export maps as png / pdf / print / XML
   - Allow import as well (from XML)
 * Different thought types
-  - "Elegant" (only 2 sides have thin border), "Jazzy" (huge great spikes out 
+  - "Elegant" (only 2 sides have thin border), "Jazzy" (huge great spikes out
 of it), cloud (fluffy) etc.
     > I know what they look like in my head and thats enough for me
 * Grouping of thoughts
