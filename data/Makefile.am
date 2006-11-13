@@ -28,6 +28,19 @@ install-data-local: install-icons
 	        echo "***   $(gtk_update_icon_cache)"; \
 	        fi
 
+uninstall-local:
+	rm -f $(DESTDIR)/$(datadir)/icons/hicolor/16x16/apps/labyrinth.png
+	rm -f $(DESTDIR)/$(datadir)/icons/hicolor/22x22/apps/labyrinth.png
+	rm -f $(DESTDIR)/$(datadir)/icons/hicolor/24x24/apps/labyrinth.png
+	rm -f $(DESTDIR)/$(datadir)/icons/hicolor/scalable/apps/labyrinth.svg
+	if test -z "$(DESTDIR)"; then \
+	        echo "Updating Gtk icon cache."; \
+	        $(gtk_update_icon_cache); \
+	else \
+	        echo "*** Icon cache not updated.  After install, run this:"; \
+	        echo "***   $(gtk_update_icon_cache)"; \
+	        fi
+
 CLEANFILES = $(desktop_DATA)
 
 EXTRA_DIST = $(ui_DATA) labyrinth-16.png labyrinth-22.png labyrinth-24.png labyrinth.svg $(desktop_in_files)

@@ -1,5 +1,8 @@
 2006-11-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* data/Makefile.am:
+	Fix make distcheck (add uninstall rule)
+
 	* doc/TheFuture:
 	* README:
 	Update for 0.3 release
