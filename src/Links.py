@@ -115,7 +115,8 @@ class Link (gobject.GObject):
 	def set_parent_child (self, parent, child):
 		self.parent = parent
 		self.child = child
-		self.find_ends ()
+		if self.parent and self.child:
+			self.find_ends ()
 
 	def update_save (self):
 		self.element.setAttribute ("start", str(self.start))

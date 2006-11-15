@@ -1,8 +1,13 @@
 2006-11-15 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
+	* src/Links.py:
+	Only try and calculate ends on loading
+	if both parent and child exists (issue #34)
+
 	* src/MapList.py:
 	Don't calculate the number of nodes within a map
 	It's not used and seems to cause problems with some maps
+	( issue #36)
 
 =========== V0.3 ===========
 2006-11-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
