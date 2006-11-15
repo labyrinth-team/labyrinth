@@ -87,7 +87,7 @@ class MapList(object):
 			MapList._at_col_set_value(self.index, MapList.COL_TITLE, value)
 
 		def __str__(self):
-			return "<MapCore title='%s' window='%s' thoughts='%s'>" % (self.title, self.window and "yes" or "no", len(self.nodes))
+			return "<MapCore title='%s' window='%s'>" % (self.title, self.window and "yes" or "no")
 
 		def __repr__(self):
 			return self.__str__()
