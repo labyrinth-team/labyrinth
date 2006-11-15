@@ -65,8 +65,10 @@ Infrastructure Changes:
  * Add list of 1.0 targets to doc/TheFuture
  * Fantastic new website design by Florian Ludwig
 
+
 v0.2
 ----
+
 New Features:
  * Base thought class for future thought types to derive from
  * Add new document to docs describing (current) file format
@@ -92,8 +94,10 @@ Fixes:
  * Only redraw every 1/40th second when required to stop hammering X server
  * Draw links behind thoughts for added solidity
 
+
 v0.1
 ----
+
 New features:
  * Tomboy style loading and saving of maps
    * Saves all thoughts and links
@@ -127,4 +131,5 @@ New features:
 
 v0.0.2
 ------
+
 Initial release

@@ -15,13 +15,13 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Labyrinth; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, 
+# Foundation, Inc., 51 Franklin St, Fifth Floor,
 # Boston, MA  02110-1301  USA
 #
 
 
 import os
-import utils 
+import utils
 import pygtk
 pygtk.require('2.0')
 import gtk
@@ -33,7 +33,7 @@ class MapList(object):
 	COL_FNAME = 2
 	COL_OPEN = 3
 	"""Holds the list of maps. has a couple of convinience functions. Sings irish folk
-	
+
 	this is (regarding to MCV) a model class.  """
 	class MapCore(object):
 		__slots__ = "__dict__ filename title nodes window index".split(" ")
@@ -43,24 +43,23 @@ class MapList(object):
 			self.__dict__["nodes"] = []
 			self.__dict__["window"] = None
 			self.__dict__["index"] = index
- 
-		def _read_from_file(self, filename): 
+
+		def _read_from_file(self, filename):
 			doc = dom.parse (filename)
-			top_element = doc.documentElement		 
+			top_element = doc.documentElement
 			self.filename = filename
 			self.title = top_element.getAttribute ("title")
-			self.nodes = [ node.childNodes[0].nodeValue for node in  top_element.getElementsByTagName("thought") ]
 			self.window = None
-		   
+
 		def __getattr__(self, key):
-			dict = self.__dict__ 
+			dict = self.__dict__
 			if key in dict:
 				return dict[key]
 			else:
 				raise ValueError("Class MapCore does not have an attribute named %s" % key)
-		 
+
 		def __setattr__(self, key, value):
-			dict = self.__dict__ 
+			dict = self.__dict__
 			if key in dict:
 				old_value=dict[key]
 				dict[key]=value
@@ -71,28 +70,28 @@ class MapList(object):
 			class_dict = self.__class__.__dict__
 			if listener in class_dict and callable(class_dict[listener]):
 				class_dict[listener](self, value, old_value)
-			
-		# these listeners get called after the attribute has been changed already	
+
+		# these listeners get called after the attribute has been changed already
 
 		def _filename_changed(self, value, old_value):
 			if not old_value is None:
 				del MapList._maps_by_filename[old_value]
 			if not value is None:
 				MapList._maps_by_filename[value] = self.index
-		  
+
 		def _title_changed(self, value, old_value):
 			if not old_value is None:
 				del MapList._maps_by_title[old_value]
 			if not value is None:
 				MapList._maps_by_title[value] = self.index
 			MapList._at_col_set_value(self.index, MapList.COL_TITLE, value)
-	
+
 		def __str__(self):
 			return "<MapCore title='%s' window='%s' thoughts='%s'>" % (self.title, self.window and "yes" or "no", len(self.nodes))
 
 		def __repr__(self):
 			return self.__str__()
-	
+
 	_maps = []
 	_maps_by_title = {}
 	_maps_by_filename = {}
@@ -104,7 +103,7 @@ class MapList(object):
 	@classmethod
 	def load_all_from_dir(cls,dir):
 		for f in os.listdir(dir):
-			cls.new_from_file(dir+f) 
+			cls.new_from_file(dir+f)
 
 	@classmethod
 	def new_from_file(cls, filename):
@@ -132,7 +131,7 @@ class MapList(object):
 		index = map.index
 		del cls._maps[ index ]
 		if map.title: del cls._maps_by_title[map.title]
-		if map.filename: 
+		if map.filename:
 			del cls._maps_by_filename[map.filename]
 			os.unlink(map.filename)
 		iter = cls.tree_view_model.get_iter_from_string(str(map.index))
@@ -163,7 +162,7 @@ class MapList(object):
 	def get_by_window(cls, window):
 		for map in cls._maps:
 			if map.window == window:
-				return map 
+				return map
 		return None
 
 	#These functions return a (possibly empty) list of MapCores
@@ -175,7 +174,7 @@ class MapList(object):
 	@classmethod
 	def count(cls):
 		return len(cls._maps)
-   
+
 	# these functions wrap the gtk.ListStore that is used as View
 	@classmethod
 	def get_TreeViewModel(cls):

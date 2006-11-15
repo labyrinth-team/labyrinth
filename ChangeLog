@@ -1,3 +1,9 @@
+2006-11-15 Don Scorgie <DonScorgie@Blueyonder.co.uk>
+
+	* src/MapList.py:
+	Don't calculate the number of nodes within a map
+	It's not used and seems to cause problems with some maps
+
 =========== V0.3 ===========
 2006-11-13 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
