@@ -1,5 +1,3 @@
-#! /usr/bin env python
-
 # MainWindow.py
 # This file is part of Labyrinth
 #

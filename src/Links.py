@@ -1,5 +1,3 @@
-#! /usr/bin env python
-
 # Link.py
 # This file is part of Labyrinth
 #
