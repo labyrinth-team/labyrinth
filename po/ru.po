@@ -8,15 +8,14 @@ msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-07 12:46+0000\n"
-"PO-Revision-Date: 2006-10-08 17:07+0400\n"
+"PO-Revision-Date: 2006-11-27 06:31+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
-"Language-Team: Russian <ru@li.org>\n"
+"Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ../src/Browser.py:207
 msgid "The map cannot be deleted right now.  Is it open?"
@@ -24,7 +23,7 @@ msgstr "Эту карту сейчас невозможно удалить. Он
 
 #: ../src/Browser.py:209
 msgid "The map has no associated filename."
-msgstr ""
+msgstr "С этой картой не ассоциировано ни одно имя файла."
 
 #: ../src/Browser.py:212
 msgid "Cannot delete this map"
@@ -44,35 +43,32 @@ msgid "Untitled Map %d"
 msgstr "Безымянная карта %d"
 
 #: ../src/MainWindow.py:165
-#, fuzzy
 msgid "File"
-msgstr "_Файл"
+msgstr "Файл"
 
 #: ../src/MainWindow.py:166
 msgid "Export as Image"
-msgstr ""
+msgstr "Экспортировать как изображение"
 
 #: ../src/MainWindow.py:167
 msgid "Export your map as an image"
-msgstr ""
+msgstr "Экспортировать карту как изображение"
 
 #: ../src/MainWindow.py:169
 msgid "Close the current window"
 msgstr "Закрыть активное окно"
 
 #: ../src/MainWindow.py:170
-#, fuzzy
 msgid "_Edit"
 msgstr "_Правка"
 
 #: ../src/MainWindow.py:179
 msgid "(Un)Link Thoughts"
-msgstr ""
+msgstr "Связать или отсоединить мысли"
 
 #: ../src/MainWindow.py:180
-#, fuzzy
 msgid "(Un)Link the selected thoughts"
-msgstr "Добавить изображение к выбранной мысли"
+msgstr "Связать или отсоединить выбранные мысли"
 
 #: ../src/MainWindow.py:181
 msgid "_Mode"
@@ -112,21 +108,20 @@ msgstr "Добавить мысли"
 
 #: ../src/MainWindow.py:192
 msgid "_View Extended"
-msgstr ""
+msgstr "_Просмотр подробностей"
 
 #: ../src/MainWindow.py:193
 msgid "View extended info for thoughts"
-msgstr ""
+msgstr "Просмотреть подробности о мыслях"
 
 #: ../src/MainWindow.py:446
 msgid "Unknown file format"
-msgstr ""
+msgstr "Неизвестный формат файлов"
 
 #: ../src/MainWindow.py:447
 #, python-format
-msgid ""
-"The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
-msgstr ""
+msgid "The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
+msgstr "Формат файлов '%s' не поддерживается. Используйте суффикс '.png' или '.jpg'"
 
 #: ../src/DrawingThought.py:67
 #, python-format
@@ -148,20 +143,19 @@ msgstr "Не удалось найти %s.  Ассоциированная мы�
 
 #: ../data/labyrinth.glade.h:1
 msgid "<b>Export Map</b>"
-msgstr ""
+msgstr "<b>Экспорт карты</b>"
 
 #: ../data/labyrinth.glade.h:2
-#, fuzzy
 msgid "Complete Map"
-msgstr "Удалить карту"
+msgstr "Карта полностью"
 
 #: ../data/labyrinth.glade.h:3
 msgid "Export Map as Image"
-msgstr ""
+msgstr "Экспорт карты как изображения"
 
 #: ../data/labyrinth.glade.h:4
 msgid "Height"
-msgstr ""
+msgstr "Высота"
 
 #: ../data/labyrinth.glade.h:5
 msgid "Labyrinth Maps"
@@ -169,14 +163,13 @@ msgstr "Ассоциативные карты в Labyrinth"
 
 #: ../data/labyrinth.glade.h:6
 msgid "Visible Area"
-msgstr ""
+msgstr "Видимая область"
 
 #: ../data/labyrinth.glade.h:7
 msgid "Width"
-msgstr ""
+msgstr "Ширина"
 
 #: ../data/labyrinth.glade.h:8
-#, fuzzy
 msgid "_File"
 msgstr "_Файл"
 
@@ -196,47 +189,3 @@ msgstr "Упорядочьте свои знания"
 msgid "Mind-mapping"
 msgstr "Создание ассоциативных карт"
 
-#~ msgid "Learn about the application"
-#~ msgstr "Узнать больше о приложении"
-
-#~ msgid "Delete Map"
-#~ msgstr "Удалить карту"
-
-#~ msgid "New Map"
-#~ msgstr "Создать карту"
-
-#~ msgid "Open Map"
-#~ msgstr "Открыть карту"
-
-#~ msgid "Quit"
-#~ msgstr "Выйти"
-
-#~ msgid "_New"
-#~ msgstr "_Создать"
-
-#~ msgid "Create a new mind-map"
-#~ msgstr "Создать новую ассоциативную карту"
-
-#~ msgid "_Close"
-#~ msgstr "_Закрыть"
-
-#~ msgid "_Quit"
-#~ msgstr "Вы_йти"
-
-#~ msgid "Close all the windows and exit the application"
-#~ msgstr "Закрыть все окна и выйти из приложения"
-
-#~ msgid "_About"
-#~ msgstr "_О программе"
-
-#~ msgid "Somethings broken"
-#~ msgstr "Что-то сломалось"
-
-#~ msgid "_Move Mode"
-#~ msgstr "Пере_мещение"
-
-#~ msgid "Turn on move mode"
-#~ msgstr "Переключиться на режим перемещения"
-
-#~ msgid "%s could not be read.  Please ensure its a valid image."
-#~ msgstr "Не удалось открыть %s.  Убедитесь в том, что это изображение."
