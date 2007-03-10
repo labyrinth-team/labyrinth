@@ -127,8 +127,35 @@ class LabyrinthWindow (gtk.Window):
 		self.swin.set_policy (gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
 		self.swin.add (self.extended)
 
+		up_box = gtk.EventBox()
+		up_arrow = gtk.Arrow(gtk.ARROW_UP, gtk.SHADOW_IN)
+		up_box.add(up_arrow)
+		up_box.connect("button-press-event", self.translate, "Up")
+		up_box.connect("button-release-event", self.finish_translate)
+		down_arrow = gtk.Arrow(gtk.ARROW_DOWN, gtk.SHADOW_OUT)
+		down_box = gtk.EventBox()
+		down_box.add(down_arrow)
+		down_box.connect("button-press-event", self.translate, "Down")
+		down_box.connect("button-release-event", self.finish_translate)
+		right_box = gtk.EventBox()
+		right_arrow = gtk.Arrow(gtk.ARROW_RIGHT, gtk.SHADOW_OUT)
+		right_box.add(right_arrow)
+		right_box.connect("button-press-event", self.translate, "Right")
+		right_box.connect("button-release-event", self.finish_translate)
+		left_box = gtk.EventBox()
+		left_arrow = gtk.Arrow(gtk.ARROW_LEFT, gtk.SHADOW_IN)
+		left_box.add(left_arrow)
+		left_box.connect("button-press-event", self.translate, "Left")
+		left_box.connect("button-release-event", self.finish_translate)
+
 		nvbox = gtk.VBox ()
-		nvbox.pack_start (self.MainArea)
+		hbox = gtk.HBox ()
+		nvbox.pack_start (up_box, False)
+		hbox.pack_start (left_box, False)
+		hbox.pack_start (self.MainArea)
+		hbox.pack_start (right_box, False)
+		nvbox.pack_start (hbox)
+		nvbox.pack_start (down_box, False)
 		nvbox.pack_end (self.ui.get_widget('/AddedTools'), expand=False)
 
 		panes = gtk.VPaned ()
@@ -161,6 +188,15 @@ class LabyrinthWindow (gtk.Window):
 		self.ui.get_widget('/ToolBar').show_all ()
 		panes.show ()
 		nvbox.show ()
+		up_arrow.show()
+		up_box.show()
+		down_arrow.show()
+		down_box.show()
+		hbox.show()
+		left_arrow.show()
+		left_box.show()
+		right_arrow.show()
+		right_box.show()
 		self.MainArea.show ()
 		self.ui.get_widget('/AddedTools').show_all ()
 		self.extended.show ()
@@ -239,6 +275,34 @@ class LabyrinthWindow (gtk.Window):
 		else:
 			self.swin.hide ()
 			self.view_type = 0
+
+	def translate (self, box, arg1, direction):
+		if direction == "Up":
+			translation_x = 0
+			translation_y = 5
+		elif direction == "Down":
+			translation_x = 0
+			translation_y = -5
+		elif direction == "Right":
+			translation_x = -5
+			translation_y = 0
+		elif direction == "Left":
+			translation_x = 5
+			translation_y = 0
+		else:
+			print "Error"
+			return
+		gobject.timeout_add (20, self.translate_timeout, translation_x, translation_y)
+		self.tr_to = True
+		
+	def translate_timeout (self, addition_x, addition_y):
+		self.MainArea.translation[0] += addition_x / self.MainArea.scale_fac
+		self.MainArea.translation[1] += addition_y / self.MainArea.scale_fac
+		self.MainArea.invalidate()
+		return self.tr_to
+
+	def finish_translate (self, box, arg1):
+		self.tr_to = False
 
 	def pos_changed (self, panes, arg2):
 		self.pane_pos = panes.get_position ()

@@ -154,7 +154,7 @@ class MMapArea (gtk.DrawingArea):
 		coords = self.transform_coords (event.get_coords()[0], event.get_coords()[1])
 		ret = False
 		obj = self.find_object_at (coords)
-		if event.button == 1 and event.state & gtk.gdk.CONTROL_MASK:
+		if event.button == 2:
 			self.origin_x = event.x
 			self.origin_y = event.y
 			return
@@ -311,16 +311,15 @@ class MMapArea (gtk.DrawingArea):
 			self.move_origin_new = (coords[0], coords[1])
 			self.invalidate ()
 			return True
-		elif self.editing and event.state & gtk.gdk.BUTTON1_MASK and not obj \
-			and not event.state & gtk.gdk.CONTROL_MASK:
+		elif self.editing and event.state & gtk.gdk.BUTTON1_MASK and not obj:
 			# We were too quick with the movement.  We really actually want to
 			# create the unending link
 			self.create_link (self.editing)
 			self.finish_editing ()
-		elif event.state & gtk.gdk.BUTTON1_MASK and event.state & gtk.gdk.CONTROL_MASK:
+		elif event.state & gtk.gdk.BUTTON2_MASK:
 			self.translate = True
-			self.translation[0] -= self.origin_x - event.x
-			self.translation[1] -= self.origin_y - event.y
+			self.translation[0] -= (self.origin_x - event.x) / self.scale_fac
+			self.translation[1] -= (self.origin_y - event.y) / self.scale_fac
 			self.origin_x = event.x
 			self.origin_y = event.y
 			self.invalidate()

@@ -1,5 +1,12 @@
 2007-03-10 Don Scorgie <Don@Scorgie.org>
 
+	* src/Mainindow.py:
+	* src/MMapArea.py:
+	Add arrows around main area for translation
+	Fix scaling properly
+	Translate using button 2 (middle button) instead
+	of ctrl-button 1
+
 	* src/MainWindow.py:
 	* src/MMapArea.py:
 	* src/TextThought.py:
