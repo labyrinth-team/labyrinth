@@ -317,12 +317,10 @@ class LabyrinthWindow (gtk.Window):
 		print "Underline"
 
 	def zoomin_cb(self, arg):
-		#TODO: better zooming factors.  Linear == Bad
 		self.MainArea.scale_fac*=1.2
 		self.MainArea.invalidate()
 		
 	def zoomout_cb(self, arg):
-		#TODO: See above
 		self.MainArea.scale_fac/=1.2
 		self.MainArea.invalidate()
 
