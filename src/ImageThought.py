@@ -130,7 +130,7 @@ class ImageThought (BaseThought.ResizableThought):
 		self.emit ("update_view")
 		self.undo.unblock ()
 
-	def process_button_down (self, event, mode):
+	def process_button_down (self, event, mode, transformed):
 		modifiers = gtk.accelerator_get_default_mod_mask ()
 		self.button_down = True
 		if event.button == 1:
@@ -146,7 +146,7 @@ class ImageThought (BaseThought.ResizableThought):
 		self.emit ("update_view")
 
 
-	def process_button_release (self, event, unending_link, mode):
+	def process_button_release (self, event, unending_link, mode, transformed):
 		self.button_down = False
 		if unending_link:
 			unending_link.set_child (self)
@@ -159,7 +159,7 @@ class ImageThought (BaseThought.ResizableThought):
 														self.orig_size, (self.ul, self.width, self.height)))
 			self.want_move = False
 
-	def handle_motion (self, event, mode):
+	def handle_motion (self, event, mode, transformed):
 		if self.resizing == self.RESIZE_NONE or not self.want_move or not event.state & gtk.gdk.BUTTON1_MASK:
 			if not event.state & gtk.gdk.BUTTON1_MASK:
 				return False
@@ -167,10 +167,10 @@ class ImageThought (BaseThought.ResizableThought):
 				self.emit ("create_link", \
 				 (self.ul[0]-((self.ul[0]-self.lr[0]) / 2.), self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)))
 			return True
-		diffx = event.x - self.motion_coords[0]
-		diffy = event.y - self.motion_coords[1]
+		diffx = transformed[0] - self.motion_coords[0]
+		diffy = transformed[1] - self.motion_coords[1]
 		tmp = self.motion_coords
-		self.motion_coords = (event.x,event.y)
+		self.motion_coords = transformed
 		if self.resizing == self.RESIZE_LEFT:
 			if self.width - diffx < 10:
 				self.motion_coords = tmp

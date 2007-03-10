@@ -133,7 +133,7 @@ class DrawingThought (BaseThought.ResizableThought):
 		self.emit ("update_view")
 		self.undo.unblock ()
 
-	def process_button_down (self, event, mode):
+	def process_button_down (self, event, mode, transformed):
 		modifiers = gtk.accelerator_get_default_mod_mask ()
 		self.button_down = True
 		if event.button == 1:
@@ -160,7 +160,7 @@ class DrawingThought (BaseThought.ResizableThought):
 		self.emit ("update_view")
 
 
-	def process_button_release (self, event, unending_link, mode):
+	def process_button_release (self, event, unending_link, mode, transformed):
 		self.button_down = False
 		if unending_link:
 			unending_link.set_child (self)
@@ -200,7 +200,7 @@ class DrawingThought (BaseThought.ResizableThought):
 		self.emit ("update_view")
 
 
-	def handle_motion (self, event, mode):
+	def handle_motion (self, event, mode, transformed):
 		if (self.resizing == self.RESIZE_NONE or not self.want_move or not event.state & gtk.gdk.BUTTON1_MASK) \
 		   and mode != MODE_DRAW:
 			if not event.state & gtk.gdk.BUTTON1_MASK or mode != MODE_EDITING:
@@ -208,11 +208,11 @@ class DrawingThought (BaseThought.ResizableThought):
 			else:
 				self.emit ("create_link", \
 				 (self.ul[0]-((self.ul[0]-self.lr[0]) / 2.), self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)))
-		diffx = event.x - self.motion_coords[0]
-		diffy = event.y - self.motion_coords[1]
+		diffx = transformed[0] - self.motion_coords[0]
+		diffy = transformed[1] - self.motion_coords[1]
 		change = (len(self.points) == 0)
 		tmp = self.motion_coords
-		self.motion_coords = (event.x, event.y)
+		self.motion_coords = transformed
 		if self.resizing != self.RESIZE_NONE:
 			if self.resizing == self.RESIZE_LEFT:
 				if self.ul[0] + diffx > self.min_x:
@@ -286,29 +286,29 @@ class DrawingThought (BaseThought.ResizableThought):
 			return True
 
 		elif self.drawing == 1:
-			if event.x < self.ul[0]+5:
-				self.ul = (event.x-5, self.ul[1])
-			elif event.x > self.lr[0]-5:
-				self.lr = (event.x+5, self.lr[1])
-			if event.y < self.ul[1]+5:
-				self.ul = (self.ul[0], event.y-5)
-			elif event.y > self.lr[1]-5:
-				self.lr = (self.lr[0], event.y+5)
+			if transformed[0] < self.ul[0]+5:
+				self.ul = (transformed[0]-5, self.ul[1])
+			elif transformed[0] > self.lr[0]-5:
+				self.lr = (transformed[0]+5, self.lr[1])
+			if transformed[1] < self.ul[1]+5:
+				self.ul = (self.ul[0], transformed[1]-5)
+			elif transformed[1] > self.lr[1]-5:
+				self.lr = (self.lr[0], transformed[1]+5)
 
-			if event.x < self.min_x:
-				self.min_x = event.x-10
-			elif event.x > self.max_x:
-				self.max_x = event.x+5
-			if event.y < self.min_y:
-				self.min_y = event.y-10
-			elif event.y > self.max_y:
-				self.max_y = event.y+5
+			if transformed[0] < self.min_x:
+				self.min_x = transformed[0]-10
+			elif transformed[0] > self.max_x:
+				self.max_x = transformed[0]+5
+			if transformed[1] < self.min_y:
+				self.min_y = transformed[1]-10
+			elif transformed[1] > self.max_y:
+				self.max_y = transformed[1]+5
 			self.width = self.lr[0] - self.ul[0]
 			self.height = self.lr[1] - self.ul[1]
 			if len(self.points) == 0 or self.points[-1].style == STYLE_END:
-				p = self.DrawingPoint (event.get_coords(), STYLE_BEGIN)
+				p = self.DrawingPoint (transformed, STYLE_BEGIN)
 			else:
-				p = self.DrawingPoint (event.get_coords(), STYLE_CONTINUE)
+				p = self.DrawingPoint (transformed, STYLE_CONTINUE)
 			self.points.append (p)
 			self.ins_points.append (p)
 		elif self.drawing == 2 and len (self.points) > 0:
@@ -319,7 +319,7 @@ class DrawingThought (BaseThought.ResizableThought):
 
 			for x in self.points:
 				ins_point += 1
-				dist = (x.x - event.x)**2 + (x.y - event.y)**2
+				dist = (x.x - transformed[0])**2 + (x.y - transformed[1])**2
 
 				if dist < 16:
 					if x == self.points[0]:
@@ -333,7 +333,7 @@ class DrawingThought (BaseThought.ResizableThought):
 						x1 = x.x - out.x
 						y1 = x.y - out.y
 						d_rsqr = x1**2 + y1 **2
-						d = ((out.x-event.x)*(x.y-event.y) - (x.x-event.x)*(out.y-event.y))
+						d = ((out.x-transformed[0])*(x.y-transformed[1]) - (x.x-transformed[0])*(out.y-transformed[1]))
 						det = (d_rsqr*16) - d**2
 						if det > 0:
 							xt = -99999
@@ -344,10 +344,10 @@ class DrawingThought (BaseThought.ResizableThought):
 								sgn = -1
 							else:
 								sgn = 1
-							xt = (((d*y1) + sgn*x1 * math.sqrt (det)) / d_rsqr) +event.x
-							xalt = (((d*y1) - sgn*x1 * math.sqrt (det)) / d_rsqr) +event.x
-							yt = (((-d*x1) + abs(y1)*math.sqrt(det)) / d_rsqr) + event.y
-							yalt = (((-d*x1) - abs(y1)*math.sqrt(det)) / d_rsqr) +event.y
+							xt = (((d*y1) + sgn*x1 * math.sqrt (det)) / d_rsqr) +transformed[0]
+							xalt = (((d*y1) - sgn*x1 * math.sqrt (det)) / d_rsqr) +transformed[0]
+							yt = (((-d*x1) + abs(y1)*math.sqrt(det)) / d_rsqr) + transformed[1]
+							yalt = (((-d*x1) - abs(y1)*math.sqrt(det)) / d_rsqr) +transformed[1]
 							x1_inside = (xt > x.x and xt < out.x) or (xt > out.x and xt < x.x)
 							x2_inside = (xalt > x.x and xalt < out.x) or (xalt > out.x and xalt < x.x)
 							y1_inside = (yt > x.y and yt < out.y) or (yt > out.y and yt < x.y)

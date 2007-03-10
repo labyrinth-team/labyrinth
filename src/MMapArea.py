@@ -152,6 +152,7 @@ class MMapArea (gtk.DrawingArea):
 
 	def button_down (self, widget, event):
 		coords = self.transform_coords (event.get_coords()[0], event.get_coords()[1])
+
 		ret = False
 		obj = self.find_object_at (coords)
 		if event.button == 2:
@@ -160,7 +161,7 @@ class MMapArea (gtk.DrawingArea):
 			return
 		if obj and obj.want_motion ():
 			self.motion = obj
-			ret = obj.process_button_down (event, self.mode)
+			ret = obj.process_button_down (event, self.mode, coords)
 			if event.button == 1 and self.mode == MODE_EDITING:
 				self.moving = not (event.state & gtk.gdk.CONTROL_MASK)
 				self.move_origin = (coords[0],coords[1])
@@ -171,7 +172,7 @@ class MMapArea (gtk.DrawingArea):
 				self.moving = not (event.state & gtk.gdk.CONTROL_MASK)
 				self.move_origin = (coords[0],coords[1])
 				self.move_origin_new = self.move_origin
-			ret = obj.process_button_down (event, self.mode)
+			ret = obj.process_button_down (event, self.mode, coords)
 		elif event.button == 3:
 			ret = self.create_popup_menu (None, event.get_coords (), MENU_EMPTY_SPACE)
 		return ret
@@ -195,7 +196,7 @@ class MMapArea (gtk.DrawingArea):
 
 	def button_release (self, widget, event):
 		coords = self.transform_coords (event.get_coords()[0], event.get_coords()[1])
-		
+
 		ret = False
 		if self.translate:
 			self.translate = False
@@ -215,7 +216,7 @@ class MMapArea (gtk.DrawingArea):
 		obj = self.find_object_at (coords)
 
 		if obj:
-			ret = obj.process_button_release (event, self.unending_link, self.mode)
+			ret = obj.process_button_release (event, self.unending_link, self.mode, coords)
 		elif self.unending_link or event.button == 1:
 			sel = self.selected
 			thought = self.create_new_thought (coords)
@@ -293,8 +294,9 @@ class MMapArea (gtk.DrawingArea):
 
 	def motion (self, widget, event):
 		coords = self.transform_coords (event.get_coords()[0], event.get_coords()[1])
+
 		if self.motion:
-			if self.motion.handle_motion (event, self.mode):
+			if self.motion.handle_motion (event, self.mode, coords):
 				return True
 		obj = self.find_object_at (coords)
 		if self.unending_link:
@@ -326,7 +328,7 @@ class MMapArea (gtk.DrawingArea):
 			return True
 			
 		if obj:
-			obj.handle_motion (event, self.mode)
+			obj.handle_motion (event, self.mode, coords)
 		elif self.mode == MODE_IMAGE or self.mode == MODE_DRAW:
 			self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.CROSSHAIR))
 		else:

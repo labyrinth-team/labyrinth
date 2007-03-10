@@ -1,5 +1,13 @@
 2007-03-10 Don Scorgie <Don@Scorgie.org>
 
+	* src/BaseThought.py:
+	* src/ImageThought.py:
+	* src/DrawingThought.py:
+	* src/TextThought.py:
+	* src/MMapArea.py:
+	Various misc fixes to make all thoughts
+	work with transforms properly
+
 	* src/Mainindow.py:
 	* src/MMapArea.py:
 	Add arrows around main area for translation

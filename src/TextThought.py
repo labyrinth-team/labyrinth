@@ -194,6 +194,7 @@ class TextThought (BaseThought.BaseThought):
 				context.line_to (self.lr[0], self.ul[1])
 				context.line_to (self.lr[0]-5, self.ul[1])
 			context.stroke ()
+			
 		if self.index > self.end_index:
 			bgsel = pango.AttrBackground (61423, 10537, 10537, self.end_index, self.index)
 		else:
@@ -481,15 +482,15 @@ class TextThought (BaseThought.BaseThought):
 				return
 			line += 1
 
-	def process_button_down (self, event, mode):
+	def process_button_down (self, event, mode, transformed):
 		modifiers = gtk.accelerator_get_default_mod_mask ()
 
 		if event.button == 1:
 			if event.type == gtk.gdk.BUTTON_PRESS and not self.editing:
 				self.emit ("select_thought", event.state & modifiers)
 			elif event.type == gtk.gdk.BUTTON_PRESS and self.editing:
-				x = int ((event.x - self.ul[0])*pango.SCALE)
-				y = int ((event.y - self.ul[1])*pango.SCALE)
+				x = int ((transformed[0] - self.ul[0])*pango.SCALE)
+				y = int ((transformed[1] - self.ul[1])*pango.SCALE)
 				loc = self.layout.xy_to_index (x, y)
 				self.index = loc[0]
 				if loc[0] >= len(self.text) -1 or self.text[loc[0]+1] == '\n':
@@ -500,8 +501,8 @@ class TextThought (BaseThought.BaseThought):
 			elif mode == BaseThought.MODE_EDITING and event.type == gtk.gdk._2BUTTON_PRESS:
 				self.emit ("begin_editing")
 		elif event.button == 2 and self.editing:
-			x = int ((event.x - self.ul[0])*pango.SCALE)
-			y = int ((event.y - self.ul[1])*pango.SCALE)
+			x = int ((transformed[0] - self.ul[0])*pango.SCALE)
+			y = int ((transformed[1] - self.ul[1])*pango.SCALE)
 			loc = self.layout.xy_to_index (x, y)
 			self.index = loc[0]
 			if loc[0] >= len(self.text) -1 or self.text[loc[0]+1] == '\n':
@@ -512,9 +513,10 @@ class TextThought (BaseThought.BaseThought):
 			self.paste_text (clip)
 		elif event.button == 3:
 			self.emit ("popup_requested", (event.x, event.y), 1)
+		self.recalc_edges()
 		self.emit ("update_view")
 
-	def process_button_release (self, event, unending_link, mode):
+	def process_button_release (self, event, unending_link, mode, transformed):
 		if unending_link:
 			unending_link.set_child (self)
 			self.emit ("claim_unending_link")
@@ -525,12 +527,12 @@ class TextThought (BaseThought.BaseThought):
 		else:
 			self.emit ("text_selection_changed", self.index, self.end_index, self.text[self.index:self.end_index])
 
-	def handle_motion (self, event, mode):
+	def handle_motion (self, event, mode, transformed):
 		if event.state & gtk.gdk.BUTTON1_MASK and self.editing:
-			if event.x < self.lr[0] and event.x > self.ul[0] and \
-			   event.y < self.lr[1] and event.y > self.ul[1]:
-				x = int ((event.x - self.ul[0])*pango.SCALE)
-				y = int ((event.y - self.ul[1])*pango.SCALE)
+			if transformed[0] < self.lr[0] and transformed[1] > self.ul[0] and \
+			   transformed[1] < self.lr[1] and transformed[1] > self.ul[1]:
+				x = int ((transformed[0] - self.ul[0])*pango.SCALE)
+				y = int ((transformed[1] - self.ul[1])*pango.SCALE)
 				loc = self.layout.xy_to_index (x, y)
 				self.index = loc[0]
 				if loc[0] >= len(self.text) -1 or self.text[loc[0]+1] == '\n':

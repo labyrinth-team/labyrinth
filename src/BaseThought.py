@@ -159,16 +159,16 @@ class BaseThought (gobject.GObject):
 	# All the rest of these should be handled within you're thought
 	# type, supposing you actually want to handle them.
 	# You almost certianly do want to ;)
-	def process_button_down (self, event, mode):
+	def process_button_down (self, event, mode, transformed):
 		return False
 
-	def process_button_release (self, event, unending_link, mode):
+	def process_button_release (self, event, unending_link, mode, transformed):
 		return False
 
 	def process_key_press (self, event, mode):
 		return False
 
-	def handle_motion (self, event, mode):
+	def handle_motion (self, event, mode, transformed):
 		pass
 
 	def includes (self, coords, mode):
