@@ -21,12 +21,17 @@
       <menuitem action="Edit"/>
       <menuitem action="Drawing"/>
       <menuitem action="AddImage"/>
+      <separator/>
+	  <menuitem action="ZoomIn"/>
+	  <menuitem action="ZoomOut"/>
     </menu>
   </menubar>
   <toolbar name="ToolBar">
     <toolitem action="Edit"/>
     <toolitem action="Drawing"/>
     <toolitem action="AddImage"/>
+    <toolitem action="ZoomIn"/>
+    <toolitem action="ZoomOut"/>
   </toolbar>
   <toolbar name="AddedTools">
   	<toolitem action="Bold"/>

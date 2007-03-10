@@ -1,3 +1,12 @@
+2007-03-10 Don Scorgie <Don@Scorgie.org>
+
+	* src/MainWindow.py:
+	* src/MMapArea.py:
+	* src/TextThought.py:
+	* data/labyrinth-ui.xml:
+	Add initial support for scaling canvas and translating
+	on canvas (infinte-scroll canvas)
+
 2006-11-25 Don Scorgie <DonScorgie@Blueyonder.co.uk>
 
     * src/Links.py:

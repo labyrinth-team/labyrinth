@@ -186,7 +186,11 @@ class LabyrinthWindow (gtk.Window):
 			_("(Un)Link the selected thoughts"), self.link_thoughts_cb),
 			('ModeMenu', None, _('_Mode')),
 			('DeleteNodes', gtk.STOCK_DELETE, _('_Delete Selected Thoughts'), None,
-			 _('Delete the selected element(s)'), self.delete_cb)]
+			 _('Delete the selected element(s)'), self.delete_cb),
+			('ZoomIn', gtk.STOCK_ZOOM_IN, _('Zoom in'), None,
+			 _('Zoom in'), self.zoomin_cb),
+			('ZoomOut', gtk.STOCK_ZOOM_OUT, _('Zoom Out'), None,
+			 _('Zoom Out'), self.zoomout_cb)]
 		self.radio_actions = [
 			('Edit', gtk.STOCK_EDIT, _('_Edit Mode'), '<control>E',
 			 _('Turn on edit mode'), MMapArea.MODE_EDITING),
@@ -248,6 +252,15 @@ class LabyrinthWindow (gtk.Window):
 	def underline_toggled (self, arg):
 		print "Underline"
 
+	def zoomin_cb(self, arg):
+		#TODO: better zooming factors.  Linear == Bad
+		self.MainArea.scale_fac*=1.2
+		self.MainArea.invalidate()
+		
+	def zoomout_cb(self, arg):
+		#TODO: See above
+		self.MainArea.scale_fac/=1.2
+		self.MainArea.invalidate()
 
 	def new_window_cb (self, arg):
 		global_new_window ()
@@ -324,6 +337,8 @@ class LabyrinthWindow (gtk.Window):
 		top_element.setAttribute ("maximised", str(self.maximised))
 		top_element.setAttribute ("view_type", str(self.view_type))
 		top_element.setAttribute ("pane_position", str(self.pane_pos))
+		top_element.setAttribute ("scale_factor", str(self.MainArea.scale_fac))
+		top_element.setAttribute ("translation", str(self.MainArea.translation))
 		string = doc.toxml ()
 		save_string = string.encode ("utf-8" )
 		if not self.save_file:
@@ -381,6 +396,12 @@ class LabyrinthWindow (gtk.Window):
 		self.set_title (self.title_cp)
 		self.MainArea.set_mode (self.mode)
 		self.MainArea.load_thyself (top_element, doc)
+		if top_element.hasAttribute("scale_factor"):
+			self.MainArea.scale_fac = float (top_element.getAttribute ("scale_factor"))
+		if top_element.hasAttribute("translation"):
+			tmp = top_element.getAttribute("translation")
+			(x,y) = utils.parse_coords(tmp)
+			self.MainArea.translation = [x,y]
 
 	def configure_cb (self, window, event):
 		self.xpos = event.x

@@ -26,6 +26,7 @@ import pango
 import gobject
 import gettext
 import copy
+import cairo
 _ = gettext.gettext
 
 import xml.dom.minidom as dom
@@ -103,6 +104,10 @@ class MMapArea (gtk.DrawingArea):
 		self.editing = None
 		self.pango_context = self.create_pango_context()
 		self.undo = undo
+		self.scale_fac = 1.0
+		self.translate = False
+		self.translation = [0.0,0.0]
+		self.timeout = -1
 
 		self.unending_link = None
 		self.nthoughts = 0
@@ -121,6 +126,7 @@ class MMapArea (gtk.DrawingArea):
 		self.connect ("motion_notify_event", self.motion)
 		self.connect ("key_press_event", self.key_press)
 		self.connect ("key_release_event", self.key_release)
+		self.connect ("scroll_event", self.scroll)
 		self.commit_handler = None
 		self.title_change_handler = None
 		self.moving = False
@@ -129,33 +135,41 @@ class MMapArea (gtk.DrawingArea):
 		self.motion = None
 		self.move_action = None
 		self.current_root = []
+		self.rotation = 0
 
 		self.set_events (gtk.gdk.KEY_PRESS_MASK |
 						 gtk.gdk.KEY_RELEASE_MASK |
 						 gtk.gdk.BUTTON_PRESS_MASK |
 						 gtk.gdk.BUTTON_RELEASE_MASK |
-						 gtk.gdk.POINTER_MOTION_MASK
+						 gtk.gdk.POINTER_MOTION_MASK |
+						 gtk.gdk.SCROLL_MASK
 						)
 
 		self.set_flags (gtk.CAN_FOCUS)
 
+	def transform_coords(self, loc_x, loc_y):
+		return self.transform.transform_point(loc_x, loc_y)
 
 	def button_down (self, widget, event):
+		coords = self.transform_coords (event.get_coords()[0], event.get_coords()[1])
 		ret = False
-		obj = self.find_object_at (event.get_coords())
-
+		obj = self.find_object_at (coords)
+		if event.button == 1 and event.state & gtk.gdk.CONTROL_MASK:
+			self.origin_x = event.x
+			self.origin_y = event.y
+			return
 		if obj and obj.want_motion ():
 			self.motion = obj
 			ret = obj.process_button_down (event, self.mode)
 			if event.button == 1 and self.mode == MODE_EDITING:
 				self.moving = not (event.state & gtk.gdk.CONTROL_MASK)
-				self.move_origin = (event.x,event.y)
+				self.move_origin = (coords[0],coords[1])
 				self.move_origin_new = self.move_origin
 			return ret
 		if obj:
 			if event.button == 1 and self.mode == MODE_EDITING:
 				self.moving = not (event.state & gtk.gdk.CONTROL_MASK)
-				self.move_origin = (event.x,event.y)
+				self.move_origin = (coords[0],coords[1])
 				self.move_origin_new = self.move_origin
 			ret = obj.process_button_down (event, self.mode)
 		elif event.button == 3:
@@ -180,7 +194,12 @@ class MMapArea (gtk.DrawingArea):
 		self.invalidate ()
 
 	def button_release (self, widget, event):
+		coords = self.transform_coords (event.get_coords()[0], event.get_coords()[1])
+		
 		ret = False
+		if self.translate:
+			self.translate = False
+			return True
 		if self.moving and self.move_action:
 			self.move_action.add_arg (event.get_coords ())
 			self.undo.add_undo (self.move_action)
@@ -193,13 +212,13 @@ class MMapArea (gtk.DrawingArea):
 		else:
 			self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.CROSSHAIR))
 
-		obj = self.find_object_at (event.get_coords ())
+		obj = self.find_object_at (coords)
 
 		if obj:
 			ret = obj.process_button_release (event, self.unending_link, self.mode)
 		elif self.unending_link or event.button == 1:
 			sel = self.selected
-			thought = self.create_new_thought (event.get_coords ())
+			thought = self.create_new_thought (coords)
 			if not thought:
 				return True
 			if not self.primary:
@@ -239,6 +258,13 @@ class MMapArea (gtk.DrawingArea):
 		self.invalidate ()
 		return ret
 
+	def scroll (self, widget, event):
+		if event.direction == gtk.gdk.SCROLL_UP:
+			self.scale_fac*=1.2
+		elif event.direction == gtk.gdk.SCROLL_DOWN:
+			self.scale_fac/=1.2
+		self.invalidate()
+
 	def undo_joint_cb (self, action, mode):
 		delete = action.args[0]
 		create = action.args[1]
@@ -266,12 +292,13 @@ class MMapArea (gtk.DrawingArea):
 		return True
 
 	def motion (self, widget, event):
+		coords = self.transform_coords (event.get_coords()[0], event.get_coords()[1])
 		if self.motion:
 			if self.motion.handle_motion (event, self.mode):
 				return True
-		obj = self.find_object_at (event.get_coords())
+		obj = self.find_object_at (coords)
 		if self.unending_link:
-			self.unending_link.set_end (event.get_coords())
+			self.unending_link.set_end (coords)
 			self.invalidate ()
 			return True
 		elif self.moving and not self.editing and not self.unending_link:
@@ -280,16 +307,25 @@ class MMapArea (gtk.DrawingArea):
 				self.move_action = UndoManager.UndoAction (self, UNDO_MOVE, self.undo_move, self.move_origin,
 														   self.selected)
 			for t in self.selected:
-				t.move_by (event.x - self.move_origin_new[0], event.y - self.move_origin_new[1])
-			self.move_origin_new = (event.x, event.y)
+				t.move_by (coords[0] - self.move_origin_new[0], coords[1] - self.move_origin_new[1])
+			self.move_origin_new = (coords[0], coords[1])
 			self.invalidate ()
 			return True
-		elif self.editing and event.state & gtk.gdk.BUTTON1_MASK and not obj:
+		elif self.editing and event.state & gtk.gdk.BUTTON1_MASK and not obj \
+			and not event.state & gtk.gdk.CONTROL_MASK:
 			# We were too quick with the movement.  We really actually want to
 			# create the unending link
 			self.create_link (self.editing)
 			self.finish_editing ()
-
+		elif event.state & gtk.gdk.BUTTON1_MASK and event.state & gtk.gdk.CONTROL_MASK:
+			self.translate = True
+			self.translation[0] -= self.origin_x - event.x
+			self.translation[1] -= self.origin_y - event.y
+			self.origin_x = event.x
+			self.origin_y = event.y
+			self.invalidate()
+			return True
+			
 		if obj:
 			obj.handle_motion (event, self.mode)
 		elif self.mode == MODE_IMAGE or self.mode == MODE_DRAW:
@@ -514,15 +550,23 @@ class MMapArea (gtk.DrawingArea):
 						   event.area.width, event.area.height)
 		context.clip ()
 		context.set_source_rgb (1.0,1.0,1.0)
-		context.move_to (0,0)
+		context.move_to (event.area.x,event.area.y)
 		context.paint ()
 		context.set_source_rgb (0.0,0.0,0.0)
+		alloc = self.get_allocation ()
+		context.translate(alloc.width/2., alloc.height/2.)
+		context.scale(self.scale_fac, self.scale_fac)
+		context.translate(-alloc.width/2., -alloc.height/2.)		
+		context.translate(self.translation[0], self.translation[1])
 		for l in self.links:
 			l.draw (context)
 		if self.unending_link:
 			self.unending_link.draw (context)
 		for t in self.thoughts:
 			t.draw (context)
+		self.transform = context.get_matrix()
+		self.transform.invert()
+
 
 	def undo_create_cb (self, action, mode):
 		self.undo.block ()
