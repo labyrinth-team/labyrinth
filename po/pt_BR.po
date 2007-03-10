@@ -1,4 +1,4 @@
-# labrynth translation to Brazilian Portugese.
+# labrynth translation to Brazilian Portuguese.
 # Copyright (C) 2006 
 # Leonardo Gregianin <leogregianin@gmail.com>, 2006
 # 
@@ -17,21 +17,20 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ../src/Browser.py:207
-#, fuzzy
 msgid "The map cannot be deleted right now.  Is it open?"
-msgstr "O mapa nÃ£o pode ser apagado agora. Ele estÃ¡ aberto?"
+msgstr "O mapa não pode ser apagado agora. Ele está aberto?"
 
 #: ../src/Browser.py:209
 msgid "The map has no associated filename."
-msgstr ""
+msgstr "O mapa não tem nenhum nome de arquivo associado."
 
 #: ../src/Browser.py:212
 msgid "Cannot delete this map"
-msgstr "NÃ£o Ã© possÃ­vel apagar este mapa"
+msgstr "Não é possível apagar este mapa"
 
 #: ../src/Browser.py:219
 msgid "Do you really want to delete this Map?"
-msgstr "VocÃª quer realmente apagar este mapa?"
+msgstr "Vocé quer realmente apagar este mapa?"
 
 #: ../src/Browser.py:248
 msgid "Map Name"
@@ -40,38 +39,37 @@ msgstr "Nome do Mapa"
 #: ../src/MainWindow.py:111 ../src/MainWindow.py:283
 #, python-format
 msgid "Untitled Map %d"
-msgstr "Mapa sem tÃ­tulo %d"
+msgstr "Mapa sem título %d"
 
 #: ../src/MainWindow.py:165
-#, fuzzy
 msgid "File"
-msgstr "_Arquivo"
+msgstr "Arquivo"
 
 #: ../src/MainWindow.py:166
 msgid "Export as Image"
-msgstr ""
+msgstr "Exportar como Imagem"
 
 #: ../src/MainWindow.py:167
 msgid "Export your map as an image"
-msgstr ""
+msgstr "Exportar seu mapa como uma imagem"
 
 #: ../src/MainWindow.py:169
 msgid "Close the current window"
 msgstr "Fechar esta janela"
 
 #: ../src/MainWindow.py:170
-#, fuzzy
 msgid "_Edit"
-msgstr "_Modo Editar"
+msgstr "_Editar"
 
 #: ../src/MainWindow.py:179
+#, fuzzy
 msgid "(Un)Link Thoughts"
-msgstr ""
+msgstr "(Un)Link Thoughts"
 
 #: ../src/MainWindow.py:180
 #, fuzzy
 msgid "(Un)Link the selected thoughts"
-msgstr "Adicione uma imagem ao mapa selecionado"
+msgstr "(Un)Link the selected thoughts"
 
 #: ../src/MainWindow.py:181
 msgid "_Mode"
@@ -79,7 +77,7 @@ msgstr "_Modo"
 
 #: ../src/MainWindow.py:182
 msgid "_Delete Selected Thoughts"
-msgstr "_Verwijder geselecteerde gedachten"
+msgstr "_Apagando Pensamentos Selecionados"
 
 #: ../src/MainWindow.py:183
 msgid "Delete the selected element(s)"
@@ -91,7 +89,7 @@ msgstr "_Modo Editar"
 
 #: ../src/MainWindow.py:186
 msgid "Turn on edit mode"
-msgstr "Voltar ao modo de ediÃ§Ã£o"
+msgstr "Voltar ao modo de edição"
 
 #: ../src/MainWindow.py:187
 msgid "_Add Image"
@@ -111,21 +109,22 @@ msgstr "Fazer um desenho bonito"
 
 #: ../src/MainWindow.py:192
 msgid "_View Extended"
-msgstr ""
+msgstr "_Visão Extendida"
 
 #: ../src/MainWindow.py:193
 msgid "View extended info for thoughts"
-msgstr ""
+msgstr "Visão extendida das informações do pensamento"
 
 #: ../src/MainWindow.py:446
 msgid "Unknown file format"
-msgstr ""
+msgstr "Formato de imagem desconhecida"
 
 #: ../src/MainWindow.py:447
 #, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
 msgstr ""
+"O tipo de arquivo '%s' não é suportado.  Por favor use o sufixo '.png' ou '.jpg'"
 
 #: ../src/DrawingThought.py:67
 #, python-format
@@ -141,26 +140,25 @@ msgid "Error loading file"
 msgstr "Erro ao carregar arquivo"
 
 #: ../src/ImageThought.py:305
-#, fuzzy, python-format
+#,python-format
 msgid "%s could not be found.  Associated thought will be empty."
-msgstr "%s nÃ£o pode ser encontrado. Geassocieerde gedachte zal leeg zijn."
+msgstr "%s não pode ser encontrado. O pensamento associado estará vazio."
 
 #: ../data/labyrinth.glade.h:1
 msgid "<b>Export Map</b>"
-msgstr ""
+msgstr "<b>Exportar Mapa</b>"
 
 #: ../data/labyrinth.glade.h:2
-#, fuzzy
 msgid "Complete Map"
-msgstr "Apagar mapa"
+msgstr "Mapa Completo"
 
 #: ../data/labyrinth.glade.h:3
 msgid "Export Map as Image"
-msgstr ""
+msgstr "Exportar Mapa como Imagem"
 
 #: ../data/labyrinth.glade.h:4
 msgid "Height"
-msgstr ""
+msgstr "Altura"
 
 #: ../data/labyrinth.glade.h:5
 msgid "Labyrinth Maps"
@@ -168,14 +166,13 @@ msgstr "Mapas do Labyrinth"
 
 #: ../data/labyrinth.glade.h:6
 msgid "Visible Area"
-msgstr ""
+msgstr "Área Visível"
 
 #: ../data/labyrinth.glade.h:7
 msgid "Width"
-msgstr ""
+msgstr "Largura"
 
 #: ../data/labyrinth.glade.h:8
-#, fuzzy
 msgid "_File"
 msgstr "_Arquivo"
 
@@ -196,7 +193,7 @@ msgid "Mind-mapping"
 msgstr "Mind-mapping"
 
 #~ msgid "Learn about the application"
-#~ msgstr "Aprender sobre o programa "
+#~ msgstr "Aprender sobre o programa"
 
 #~ msgid "Delete Map"
 #~ msgstr "Apagar mapa"
@@ -238,4 +235,4 @@ msgstr "Mind-mapping"
 #~ msgstr "Voltar ao modo mover"
 
 #~ msgid "%s could not be read.  Please ensure its a valid image."
-#~ msgstr "%s nÃ£o pode ser lido. Verifique se esta imagem Ã© vÃ¡lida."
+#~ msgstr "%s não pode ser lido. Verifique se esta imagem é válida."
