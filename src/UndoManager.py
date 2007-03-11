@@ -33,6 +33,7 @@ INSERT_LETTER = 100
 INSERT_WORD = 101
 DELETE_LETTER = 102
 DELETE_WORD = 103
+TRANSFORM_CANVAS = 104
 
 class UndoAction:
 	def __init__(self, owner, undo_type, callback, *args):
@@ -191,6 +192,33 @@ class UndoManager:
 			combi = UndoAction (owner, DELETE_WORD, cb, start_iter, final_text, length)
 		self.undo_list.append (combi)
 
+	def combine_transforms (self, action):
+		if len (self.undo_list) > 0:
+			back = self.undo_list.pop ()
+		else:
+			self.undo_list.append (action)
+			return
+		add_back = True
+		final_zoom = action.args[1]
+		final_trans = action.args[3]
+		orig_zoom = action.args[0]
+		orig_trans = action.args[2]
+		owner = action.owner
+		cb = action.callback
+		while back and back.owner == owner and \
+			  back.undo_type == TRANSFORM_CANVAS:
+			orig_zoom = back.args[0]
+			orig_trans = back.args[2]			
+			if len (self.undo_list) == 0:
+				add_back = False
+				break
+			back = self.undo_list.pop ()
+		if add_back:
+			self.undo_list.append (back)
+		self.undo_list.append (UndoAction (owner, TRANSFORM_CANVAS, cb, orig_zoom,
+										   final_zoom, orig_trans, final_trans))
+
+
 	def peak (self):
 		if len (self.undo_list) > 0:
 			return self.undo_list[-1]
@@ -213,6 +241,8 @@ class UndoManager:
 			self.combine_insertions (action)
 		elif action.undo_type == DELETE_LETTER:
 			self.combine_deletions (action)
+		elif action.undo_type == TRANSFORM_CANVAS:
+			self.combine_transforms (action)
 		else:
 			self.undo_list.append (action)
 		self.update_sensitive ()

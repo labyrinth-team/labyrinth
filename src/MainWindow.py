@@ -277,6 +277,7 @@ class LabyrinthWindow (gtk.Window):
 			self.view_type = 0
 
 	def translate (self, box, arg1, direction):
+		self.orig_translate = [self.MainArea.translation[0], self.MainArea.translation[1]]
 		if direction == "Up":
 			translation_x = 0
 			translation_y = 5
@@ -302,6 +303,12 @@ class LabyrinthWindow (gtk.Window):
 		return self.tr_to
 
 	def finish_translate (self, box, arg1):
+		self.undo.add_undo (UndoManager.UndoAction (self.MainArea, UndoManager.TRANSFORM_CANVAS, \
+													self.MainArea.undo_transform_cb,
+													self.MainArea.scale_fac, 
+													self.MainArea.scale_fac, 
+													self.orig_translate,
+													self.MainArea.translation))
 		self.tr_to = False
 
 	def pos_changed (self, panes, arg2):

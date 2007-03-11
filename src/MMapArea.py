@@ -156,6 +156,7 @@ class MMapArea (gtk.DrawingArea):
 		ret = False
 		obj = self.find_object_at (coords)
 		if event.button == 2:
+			self.original_translation = self.translation
 			self.origin_x = event.x
 			self.origin_y = event.y
 			return
@@ -214,6 +215,12 @@ class MMapArea (gtk.DrawingArea):
 			self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.CROSSHAIR))
 
 		obj = self.find_object_at (coords)
+		if event.button == 2:
+			self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.TRANSFORM_CANVAS, \
+														self.undo_transform_cb,
+														self.scale_fac, self.scale_fac, 
+														self.original_translation,
+														self.translation))
 
 		if obj:
 			ret = obj.process_button_release (event, self.unending_link, self.mode, coords)
@@ -259,11 +266,25 @@ class MMapArea (gtk.DrawingArea):
 		self.invalidate ()
 		return ret
 
+	def undo_transform_cb (self, action, mode):
+		if mode == UndoManager.UNDO:
+			self.scale_fac = action.args[0]
+			self.translation = action.args[2]
+		else:
+			self.scale_fac = action.args[1]
+			self.translation = action.args[3]
+		self.invalidate ()
+
 	def scroll (self, widget, event):
+		scale = self.scale_fac
 		if event.direction == gtk.gdk.SCROLL_UP:
 			self.scale_fac*=1.2
 		elif event.direction == gtk.gdk.SCROLL_DOWN:
 			self.scale_fac/=1.2
+		self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.TRANSFORM_CANVAS, \
+													self.undo_transform_cb,
+													scale, self.scale_fac, self.translation,
+													self.translation))
 		self.invalidate()
 
 	def undo_joint_cb (self, action, mode):
