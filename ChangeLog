@@ -1,5 +1,19 @@
-2007-03-11 Don Scorgie <Don@Scorgie.org>
+2007-03-11  Don Scorgie  <Don@Scorgie.org>
 
+	* src/Browser.py: 
+	* src/DrawingThought.py:
+	* src/ImageThought.py: 
+	* src/TextThought.py: 
+	* src/MMapArea.py: 
+	* src/Links.py: 
+	* src/prefs.py: 
+	* src/MainWindow.py: 
+	* src/UndoManager.py: 
+	* src/labyrinth.py: 
+	* doc/FileFormat: 
+	* AUTHORS: 
+	Updated my email address to new address
+	
 	* src/MainWindow.py:
 	* src/MMapArea.py:
 	* src/UndoMAnager.py:

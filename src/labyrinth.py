@@ -2,7 +2,7 @@
 # labyrith.py
 # This file is part of Labyrith
 #
-# Copyright (C) 2006 - Don Scorgie <DonScorgie@Blueyonder.co.uk>
+# Copyright (C) 2006 - Don Scorgie <Don@Scorgie.org>
 #
 # Labyrith is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

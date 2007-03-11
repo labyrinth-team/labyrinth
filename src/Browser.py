@@ -1,8 +1,8 @@
 # Browser.py
 # This file is part of Labyrinth
 #
-# Copyright (C) 2006 - Don Scorgie <DonScorgie@Blueyonder.co.uk>
-#					 - Andreas Sliwka <andreas.sliwka@gmail.com>
+# Copyright (C) 2006 - Don Scorgie <Don@Scorgie.org>
+#		     - Andreas Sliwka <andreas.sliwka@gmail.com>
 #
 # Labyrinth is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -185,7 +185,7 @@ class Browser (gtk.Window):
 	"59 Temple Place, Suite 330, Boston, MA  02111-1307  USA")
 		about_dialog.set_wrap_license (True)
 		about_dialog.set_copyright ("2006 Don Scorgie")
-		about_dialog.set_authors (["Don Scorgie <DonScorgie@Blueyonder.co.uk>"])
+		about_dialog.set_authors (["Don Scorgie <Don@Scorgie.org>"])
 		about_dialog.set_website ("http://code.google.com/p/labyrinth")
 		about_dialog.run ()
 		about_dialog.hide ()

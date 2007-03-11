@@ -1,7 +1,7 @@
 # Link.py
 # This file is part of Labyrinth
 #
-# Copyright (C) 2006 - Don Scorgie <DonScorgie@Blueyonder.co.uk>
+# Copyright (C) 2006 - Don Scorgie <Don@Scorgie.org>
 #
 # Labyrinth is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
