@@ -41,7 +41,7 @@ def get_save_dir ():
 	base = os.environ ['HOME']
 	dirname = base+"/.gnome2/labyrinth/"
 	if not os.access (dirname, os.W_OK):
-		os.mkdir (dirname)
+		os.makedirs (dirname)
 	return dirname
 
 def parse_coords (string):

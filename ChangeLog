@@ -1,3 +1,8 @@
+2007-03-28 Don Scorgie <Don@Scorgie.org>
+
+	* src/utils.py:
+	Make intermediate dirs for savedir (should fix issue #50)
+
 2007-03-11  Don Scorgie  <Don@Scorgie.org>
 
 	* src/Browser.py: 
