@@ -111,6 +111,7 @@ class MMapArea (gtk.DrawingArea):
 		self.translate = False
 		self.translation = [0.0,0.0]
 		self.timeout = -1
+		self.current_cursor = None
 
 		self.unending_link = None
 		self.nthoughts = 0
@@ -213,10 +214,9 @@ class MMapArea (gtk.DrawingArea):
 		self.moving = False
 		self.move_origin = None
 		if self.mode == MODE_EDITING:
-			self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.LEFT_PTR))
+			self.set_cursor(gtk.gdk.LEFT_PTR)
 		else:
-			self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.CROSSHAIR))
-
+			self.set_cursor(gtk.gdk.CROSSHAIR)
 		obj = self.find_object_at (coords)
 		if event.button == 2:
 			self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.TRANSFORM_CANVAS, \
@@ -328,7 +328,7 @@ class MMapArea (gtk.DrawingArea):
 			self.invalidate ()
 			return True
 		elif self.moving and not self.editing and not self.unending_link:
-			self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.FLEUR))
+			self.set_cursor(gtk.gdk.FLEUR)
 			if not self.move_action:
 				self.move_action = UndoManager.UndoAction (self, UNDO_MOVE, self.undo_move, self.move_origin,
 														   self.selected)
@@ -354,9 +354,9 @@ class MMapArea (gtk.DrawingArea):
 		if obj:
 			obj.handle_motion (event, self.mode, coords)
 		elif self.mode == MODE_IMAGE or self.mode == MODE_DRAW:
-			self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.CROSSHAIR))
+			self.set_cursor(gtk.gdk.CROSSHAIR)
 		else:
-			self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.LEFT_PTR))
+			self.set_cursor(gtk.gdk.LEFT_PTR)
 
 	def find_object_at (self, coords):
 		for x in reversed(self.thoughts):
@@ -370,11 +370,16 @@ class MMapArea (gtk.DrawingArea):
 	def realize_cb (self, widget):
 		self.disconnect (self.realize_handle)
 		if self.mode == MODE_IMAGE or self.mode == MODE_DRAW:
-			self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.CROSSHAIR))
+			self.set_cursor (gtk.gdk.CROSSHAIR)
 		else:
-			self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.LEFT_PTR))
+			self.set_cursor (gtk.gdk.LEFT_PTR)
 		return False
 
+	def set_cursor(self, kind):
+		new_cursor = CursorFactory().get_cursor(kind)
+		if self.current_cursor != new_cursor:
+			self.current_cursor = new_cursor
+			self.window.set_cursor(self.current_cursor)
 
 	def set_mode (self, mode):
 		if mode == self.mode:
@@ -386,9 +391,9 @@ class MMapArea (gtk.DrawingArea):
 
 		if self.window:
 			if mode == MODE_IMAGE or mode == MODE_DRAW:
-				self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.CROSSHAIR))
+				self.set_cursor (gtk.gdk.CROSSHAIR)
 			else:
-				self.window.set_cursor (gtk.gdk.Cursor (gtk.gdk.LEFT_PTR))
+				self.set_cursor (gtk.gdk.LEFT_PTR)
 		else:
 			self.realize_handle = self.connect ("realize", self.realize_cb)
 		self.mode = mode
@@ -511,7 +516,7 @@ class MMapArea (gtk.DrawingArea):
 
 	def set_mouse_cursor_cb (self, thought, cursor_type):
 		if not self.moving:
-			self.window.set_cursor (gtk.gdk.Cursor (cursor_type))
+			self.set_cursor (cursor_type)
 
 	def update_links_cb (self, thought):
 		for x in self.links:
@@ -945,3 +950,15 @@ class MMapArea (gtk.DrawingArea):
 		self.selected[0].set_bold (active)
 		self.invalidate()
 	
+class CursorFactory:
+	__shared_state = {"cursors": {}}
+
+	def __init__(self):
+		self.__dict__ = self.__shared_state
+
+	def get_cursor(self, cur_type):
+		if not self.cursors.has_key(cur_type):
+			cur = gtk.gdk.Cursor(cur_type)
+			self.cursors[cur_type] = cur
+		return self.cursors[cur_type]
+

@@ -1,5 +1,11 @@
 2007-04-05 Don Scorgie <Don@Scorgie.org>
 
+	* src/MMapArea.py:
+	Only update cursor type when the type has changes
+	(Patch from Kamila Chyla)
+
+2007-04-05 Don Scorgie <Don@Scorgie.org>
+
 	* AUTHORS:
 	* doc/TheFuture:
 	Minor updates (correct email, add tick)
