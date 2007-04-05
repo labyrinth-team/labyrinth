@@ -1,5 +1,17 @@
 2007-04-05 Don Scorgie <Don@Scorgie.org>
 
+	* src/MainWindow.py:
+	* src/MMapArea.py:
+	* src/TextThought.py:
+	* src/TextBufferMarkup.py:
+	Add support for italics and underline
+	
+	* doc/TheFuture:
+	Rework goals for 0.4 release
+
+
+2007-04-05 Don Scorgie <Don@Scorgie.org>
+
 	* src/MMapArea.py:
 	Only update cursor type when the type has changes
 	(Patch from Kamila Chyla)

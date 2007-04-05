@@ -949,6 +949,18 @@ class MMapArea (gtk.DrawingArea):
 			return
 		self.selected[0].set_bold (active)
 		self.invalidate()
+		
+	def set_italics (self, active):
+		if len(self.selected) != 1:
+			return
+		self.selected[0].set_italics (active)
+		self.invalidate()
+		
+	def set_underline (self, active):
+		if len(self.selected) != 1:
+			return
+		self.selected[0].set_underline (active)
+		self.invalidate()
 	
 class CursorFactory:
 	__shared_state = {"cursors": {}}

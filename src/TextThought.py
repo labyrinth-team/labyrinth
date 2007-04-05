@@ -37,10 +37,6 @@ UNDO_ADD_ATTR_SELECTION=65
 UNDO_REMOVE_ATTR=66
 UNDO_REMOVE_ATTR_SELECTION=67
 
-ATTR_BOLD=0
-ATTR_ITALIC=1
-ATTR_UNDERLINE=2
-
 class TextThought (BaseThought.BaseThought):
 	def __init__ (self, coords, pango_context, thought_number, save, undo, loading):
 		super (TextThought, self).__init__(save, "thought", undo)
@@ -165,14 +161,30 @@ class TextThought (BaseThought.BaseThought):
 					if x.type == pango.ATTR_WEIGHT and \
 					   x.value == pango.WEIGHT_BOLD:
 						bold = True
+					elif x.type == pango.ATTR_STYLE and \
+						 x.value == pango.STYLE_ITALIC:
+						italics = True
+					elif x.type == pango.ATTR_UNDERLINE and \
+						 x.value == pango.UNDERLINE_SINGLE:
+						underline = True
 			if it.next() == False:
 				break
 		to_add = []
 		if bold:
 			to_add.append(pango.AttrWeight(pango.WEIGHT_BOLD, self.index, self.index))
+		if italics:
+			to_add.append(pango.AttrStyle(pango.STYLE_ITALIC, self.index, self.index))
+		if underline:
+			to_add.append(pango.AttrUnderline(pango.UNDERLINE_SINGLE, self.index, self.index))
 		for x in self.current_attrs:
 			if x.type == pango.ATTR_WEIGHT and x.value == pango.WEIGHT_BOLD:
 				bold = True
+				to_add.append(x)
+			if x.type == pango.ATTR_STYLE and x.value == pango.STYLE_ITALIC:
+				italics = True
+				to_add.append(x)
+			if x.type == pango.ATTR_UNDERLINE and x.value == pango.UNDERLINE_SINGLE:
+				underline = True
 				to_add.append(x)
 		del self.current_attrs
 		self.current_attrs = to_add
@@ -862,7 +874,19 @@ class TextThought (BaseThought.BaseThought):
 					self.element.appendChild (elem)
 					elem.setAttribute("start", str(r[0]))
 					elem.setAttribute("end", str(r[1]))
-					elem.setAttribute("type", "bold")
+					elem.setAttribute("type", "bold")				
+				elif x.type == pango.ATTR_STYLE and x.value == pango.STYLE_ITALIC:
+					elem = doc.createElement ("attribute")
+					self.element.appendChild (elem)
+					elem.setAttribute("start", str(r[0]))
+					elem.setAttribute("end", str(r[1]))
+					elem.setAttribute("type", "italics")
+				elif x.type == pango.ATTR_UNDERLINE and x.value == pango.UNDERLINE_SINGLE:
+					elem = doc.createElement ("attribute")
+					self.element.appendChild (elem)
+					elem.setAttribute("start", str(r[0]))
+					elem.setAttribute("end", str(r[1]))
+					elem.setAttribute("type", "underline")
 			if not it.next():
 				break
 
@@ -924,6 +948,10 @@ class TextThought (BaseThought.BaseThought):
 
 				if attrType == "bold":
 					attr = pango.AttrWeight(pango.WEIGHT_BOLD, start, end)
+				elif attrType == "italics":
+					attr = pango.AttrStyle(pango.STYLE_ITALIC, start, end)
+				elif attrType == "underline":
+					attr = pango.AttrUnderline(pango.UNDERLINE_SINGLE, start, end)
 				self.attributes.change(attr)
 			else:
 				print "Unknown: "+n.nodeName
@@ -1146,9 +1174,165 @@ class TextThought (BaseThought.BaseThought):
 														  self.attributes.copy()))
 		self.recalc_edges()
 			
-		
+	def set_italics (self, active):
+		if not self.editing:
+			return
+		if not active:
+			tmp = []
+			attr = None
+			if self.index == self.end_index:
+				for x in self.current_attrs:
+					if x.type == pango.ATTR_STYLE and x.value == pango.STYLE_ITALIC:
+						attr = x
+					else:
+						tmp.append(x)
+				self.current_attrs = tmp
+				self.recalc_edges()
+				self.undo.add_undo(UndoManager.UndoAction(self, UNDO_REMOVE_ATTR, \
+														  self.undo_attr_cb,\
+														  attr))
+				return
+			elif self.index < self.end_index:
+				init = self.index
+				end = self.end_index
+			else:
+				init = self.end_index
+				end = self.index
+			it = self.attributes.get_iterator()
+			old_attrs = self.attributes.copy()
 			
+			changed = []
+			while(1):
+				r = it.range()
+				if r[0] <= init and r[1] >= end:
+					for x in it.get_attrs():
+						if x.type == pango.ATTR_STYLE and x.value == pango.STYLE_ITALIC:
+							changed.append(pango.AttrStyle(pango.STYLE_ITALIC, r[0], init))
+							changed.append(pango.AttrStyle(pango.STYLE_ITALIC, end, r[1]))
+						else:
+							changed.append(x)
+				else:
+					for x in it.get_attrs():
+						changed.append(x)
+				if not it.next():
+					break
+			del self.attributes
+			self.attributes = pango.AttrList()
+			for x in changed:
+				self.attributes.change(x)
+			tmp = []
+			for x in self.current_attrs:
+				if not (x.type == pango.ATTR_STYLE and x.value == pango.STYLE_ITALIC):
+					tmp.append(x)
+			self.current_attrs = tmp
+			self.undo.add_undo(UndoManager.UndoAction(self, UNDO_REMOVE_ATTR_SELECTION, \
+													  self.undo_attr_cb,
+													  old_attrs,
+													  self.attributes.copy()))				
+		else:
+			if self.index == self.end_index:
+				attr = pango.AttrStyle(pango.STYLE_ITALIC, self.index, self.end_index)
+				self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR, \
+														  self.undo_attr_cb,\
+														  attr))
+				self.current_attrs.append(attr)
+			elif self.index < self.end_index:
+				attr = pango.AttrStyle(pango.STYLE_ITALIC, self.index, self.end_index)			
+				old_attrs = self.attributes.copy()
+				self.attributes.insert(attr)
+				self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR_SELECTION, \
+														  self.undo_attr_cb,\
+														  old_attrs,
+														  self.attributes.copy()))
+			else:
+				attr = pango.AttrStyle(pango.STYLE_ITALIC, self.end_index, self.index)
+				old_attrs = self.attributes.copy()
+				self.attributes.insert(attr)
+				self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR_SELECTION, \
+														  self.undo_attr_cb,\
+														  old_attrs,
+														  self.attributes.copy()))
+		self.recalc_edges()		
 			
+	def set_underline (self, active):
+		if not self.editing:
+			return
+		if not active:
+			tmp = []
+			attr = None
+			if self.index == self.end_index:
+				for x in self.current_attrs:
+					if x.type == pango.ATTR_UNDERLINE and x.value == pango.UNDERLINE_SINGLE:
+						attr = x
+					else:
+						tmp.append(x)
+				self.current_attrs = tmp
+				self.recalc_edges()
+				self.undo.add_undo(UndoManager.UndoAction(self, UNDO_REMOVE_ATTR, \
+														  self.undo_attr_cb,\
+														  attr))
+				return
+			elif self.index < self.end_index:
+				init = self.index
+				end = self.end_index
+			else:
+				init = self.end_index
+				end = self.index
+			it = self.attributes.get_iterator()
+			old_attrs = self.attributes.copy()
+			
+			changed = []
+			while(1):
+				r = it.range()
+				if r[0] <= init and r[1] >= end:
+					for x in it.get_attrs():
+						if x.type == pango.ATTR_UNDERLINE and x.value == pango.UNDERLINE_SINGLE:
+							changed.append(pango.AttrUnderline(pango.UNDERLINE_SINGLE, r[0], init))
+							changed.append(pango.AttrUnderline(pango.UNDERLINE_SINGLE, end, r[1]))
+						else:
+							changed.append(x)
+				else:
+					for x in it.get_attrs():
+						changed.append(x)
+				if not it.next():
+					break
+			del self.attributes
+			self.attributes = pango.AttrList()
+			for x in changed:
+				self.attributes.change(x)
+			tmp = []
+			for x in self.current_attrs:
+				if not (x.type == pango.ATTR_UNDERLINE and x.value == pango.UNDERLINE_SINGLE):
+					tmp.append(x)
+			self.current_attrs = tmp
+			self.undo.add_undo(UndoManager.UndoAction(self, UNDO_REMOVE_ATTR_SELECTION, \
+													  self.undo_attr_cb,
+													  old_attrs,
+													  self.attributes.copy()))				
+		else:
+			if self.index == self.end_index:
+				attr = pango.AttrUnderline(pango.UNDERLINE_SINGLE, self.index, self.end_index)
+				self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR, \
+														  self.undo_attr_cb,\
+														  attr))
+				self.current_attrs.append(attr)
+			elif self.index < self.end_index:
+				attr = pango.AttrUnderline(pango.UNDERLINE_SINGLE, self.index, self.end_index)			
+				old_attrs = self.attributes.copy()
+				self.attributes.insert(attr)
+				self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR_SELECTION, \
+														  self.undo_attr_cb,\
+														  old_attrs,
+														  self.attributes.copy()))
+			else:
+				attr = pango.AttrUnderline(pango.UNDERLINE_SINGLE, self.end_index, self.index)
+				old_attrs = self.attributes.copy()
+				self.attributes.insert(attr)
+				self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR_SELECTION, \
+														  self.undo_attr_cb,\
+														  old_attrs,
+														  self.attributes.copy()))
+		self.recalc_edges()					
 			
 			
 			

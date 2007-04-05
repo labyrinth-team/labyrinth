@@ -87,8 +87,12 @@ class LabyrinthWindow (gtk.Window):
 		self.bold_widget = self.ui.get_widget('/AddedTools/Bold')
 		self.bold_block = False
 		self.bold_state = False
-		self.italic_widget = self.ui.get_widget('/AddedTools/Italics').set_sensitive (False)
-		self.underline_widget = self.ui.get_widget('/AddedTools/Underline').set_sensitive (False)
+		self.italic_widget = self.ui.get_widget('/AddedTools/Italics')
+		self.italic_block = False
+		self.italic_state = False
+		self.underline_widget = self.ui.get_widget('/AddedTools/Underline')
+		self.underline_block = False
+		self.underline_state = False
 
 		self.cut = self.ui.get_widget ('/MenuBar/EditMenu/Cut')
 		self.copy = self.ui.get_widget ('/MenuBar/EditMenu/Copy')
@@ -287,6 +291,12 @@ class LabyrinthWindow (gtk.Window):
 		if bold != self.bold_state:
 			self.bold_block = True
 			self.bold_widget.set_active(bold)
+		if italics != self.italic_state:
+			self.italic_block = True
+			self.italic_widget.set_active(italics)
+		if underline != self.underline_state:
+			self.underline_block = True
+			self.underline_widget.set_active(underline)
 
 	def translate (self, box, arg1, direction):
 		self.orig_translate = [self.MainArea.translation[0], self.MainArea.translation[1]]
@@ -336,11 +346,25 @@ class LabyrinthWindow (gtk.Window):
 		else:
 			self.MainArea.set_bold (action.get_active())
 
-	def italic_toggled (self, arg):
-		print "Italic"
+	def italic_toggled (self, action):
+		self.italic_state = (not self.italic_state)
+		if self.italic_block:
+			self.italic_block = False
+			return
+		if self.extended.is_focus ():
+			self.extended.get_buffer().set_italics(action.get_active())
+		else:
+			self.MainArea.set_italics (action.get_active())
 
-	def underline_toggled (self, arg):
-		print "Underline"
+	def underline_toggled (self, action):
+		self.underline_state = (not self.underline_state)
+		if self.underline_block:
+			self.underline_block = False
+			return
+		if self.extended.is_focus ():
+			self.extended.get_buffer().set_underline(action.get_active())
+		else:
+			self.MainArea.set_underline (action.get_active())
 
 	def zoomin_cb(self, arg):
 		self.MainArea.scale_fac*=1.2

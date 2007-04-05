@@ -46,10 +46,13 @@ class ExtendedBuffer(gtk.TextBuffer):
 		self.element = save
 		self.element.appendChild(self.text_elem)
 		self.bold_tag = self.create_tag("bold", weight=pango.WEIGHT_BOLD)
+		self.italics_tag = self.create_tag("italics", style=pango.STYLE_ITALIC)
+		self.underline_tag = self.create_tag("underline", underline=pango.UNDERLINE_SINGLE)
 		self.current_tags = []
 		self.requested_tags = []
 		self.connect_after('mark-set',self.mark_set_cb)
 		self.bold_block = False
+		self.italic_block = False
 		
 	
 	def undo_action (self, action, mode):
@@ -69,6 +72,10 @@ class ExtendedBuffer(gtk.TextBuffer):
 		for x in self.current_tags:
 			if x == "bold":
 				bold = True
+			elif x == "italic":
+				italics = True
+			elif x == "underline":
+				underline = True
 		self.emit("set_attrs", bold, italics, underline)
 		
 	def delete_range_cb (self, buffer, iter, it1):
@@ -97,9 +104,21 @@ class ExtendedBuffer(gtk.TextBuffer):
 			bold = True
 		elif self.current_tags.count("bold") > 0:
 			self.current_tags.remove("bold")
+		if iter.has_tag(self.italics_tag):
+			italics = True
+		elif self.current_tags.count("italics") > 0:
+			self.current_tags.remove("italics")
+		if iter.has_tag(self.underline_tag):
+			underline = True
+		elif self.current_tags.count("underline") > 0:
+			self.current_tags.remove("underline")
 		for x in self.requested_tags:
 			if x == "bold":
 				bold = True
+			if x == "italics":
+				italics = True
+			if x == "underline":
+				underline = True
 			if self.current_tags.count(x) == 0:
 				self.current_tags.append(x)
 		
@@ -134,6 +153,24 @@ class ExtendedBuffer(gtk.TextBuffer):
 				elem.setAttribute("start", str(start))
 				elem.setAttribute("end", str(cur))
 				elem.setAttribute("type", "bold")
+			if iter.begins_tag(tag_table.lookup("italics")):
+				tags["italics"] = cur
+			if iter.ends_tag(tag_table.lookup("italics")):
+				elem = doc.createElement ("attribute")
+				self.element.appendChild (elem)
+				start = tags.pop("italics")
+				elem.setAttribute("start", str(start))
+				elem.setAttribute("end", str(cur))
+				elem.setAttribute("type", "italics")
+			if iter.begins_tag(tag_table.lookup("underline")):
+				tags["underline"] = cur
+			if iter.ends_tag(tag_table.lookup("underline")):
+				elem = doc.createElement ("attribute")
+				self.element.appendChild (elem)
+				start = tags.pop("underline")
+				elem.setAttribute("start", str(start))
+				elem.setAttribute("end", str(cur))
+				elem.setAttribute("type", "underline")
 			cur+=1
 			if not iter.forward_char():
 				break
@@ -206,6 +243,10 @@ class ExtendedBuffer(gtk.TextBuffer):
 		for x in self.current_tags:
 			if x == "bold":
 				bold = True
+			elif x == "italics":
+				italics = True
+			elif x == "underline":
+				underline = True
 		self.emit("set_attrs", bold, italics, underline)
 		
 	def	set_bold (self, bold):
@@ -227,8 +268,44 @@ class ExtendedBuffer(gtk.TextBuffer):
 			self.undo.add_undo(UndoManager.UndoAction(self, REMOVE_ATTR, self.undo_attr,
 													  "bold", selection))
 		
+	def	set_italics (self, italics):
+		selection = self.get_selection_bounds()
+		if italics:
+			if len(selection) > 0:
+				self.apply_tag_by_name("italics", selection[0], selection[1])
+			else:
+				self.current_tags.append("italics")
+				self.requested_tags.append("italics")
+			self.undo.add_undo(UndoManager.UndoAction(self, ADD_ATTR, self.undo_attr,
+													  "italics", selection))
+		else:
+			if len(selection) > 0:
+				self.remove_tag_by_name("italics", selection[0], selection[1])	
+			else:
+				self.current_tags.remove("italics")
+				self.requested_tags.remove("italics")
+			self.undo.add_undo(UndoManager.UndoAction(self, REMOVE_ATTR, self.undo_attr,
+													  "italics", selection))
 		
-		
+	def	set_underline (self, underline):
+		selection = self.get_selection_bounds()
+		if underline:
+			if len(selection) > 0:
+				self.apply_tag_by_name("underline", selection[0], selection[1])
+			else:
+				self.current_tags.append("underline")
+				self.requested_tags.append("underline")
+			self.undo.add_undo(UndoManager.UndoAction(self, ADD_ATTR, self.undo_attr,
+													  "underline", selection))
+		else:
+			if len(selection) > 0:
+				self.remove_tag_by_name("underline", selection[0], selection[1])	
+			else:
+				self.current_tags.remove("underline")
+				self.requested_tags.remove("underline")
+			self.undo.add_undo(UndoManager.UndoAction(self, REMOVE_ATTR, self.undo_attr,
+													  "underline", selection))
+				
 		
 		
 		

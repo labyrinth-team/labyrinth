@@ -40,7 +40,7 @@ General:
 ✓* Extended text for all thoughts
 * Set icons on thoughts
 ** Hide / show thoughts
-* Infinite canvas
+✓* Infinite canvas
 * Move and group multiple thoughts
   - Partly completed.  Moving multiple thoughts works.  Grouping is covered by
     "Background"ing option above
@@ -90,11 +90,25 @@ release.
 Current Goals (v0.4)
 -------------
 
+Revised:
+Required Features:
+ * Keyboard navigation of thoughts
+ ✓* Populate and enable bold / italics / underline
+ ✓* Infinite scroll canvas
+ ✓* Cleanup TextBufferMarkup
+ * Integrate Windows build
+ * Integrate html export
+ * Integrate ps export / printing support
+ 
+Possible:
+ * Beginnings of N800 support
+
+Old requirements (probably obsolete):
 Required Features:
  * Printing support (ps export)
  * Integration of changes required for Windows build
  * Theme support
- * Populate and enable bottom toolbar
+ ✓* Populate and enable bottom toolbar
  * Popup menus
  * a11y view
  ✓* Infinite scrollable canvas
@@ -105,7 +119,7 @@ Desired Features:
 
 Other (non-feature) Work:
  * Single instance support (find current running instances)
- * Cleanup TextBufferMarkup.py
+ ✓* Cleanup TextBufferMarkup.py
  * DTD for file format
  * Add proper declarations to save files
  * Add mime type handler
