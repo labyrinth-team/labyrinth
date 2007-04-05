@@ -242,9 +242,9 @@ class ImageThought (BaseThought.ResizableThought):
 	def update_save (self):
 		text = self.extended_buffer.get_text ()
 		if text:
-			self.extended_element.replaceWholeText (text)
+			self.extended_buffer.update_save()
 		else:
-			self.extended_element.replaceWholeText ("LABYRINTH_AUTOGEN_TEXT_REMOVE")
+			self.element.removeChild(self.extended_buffer.element)
 		self.element.setAttribute ("ul-coords", str(self.ul))
 		self.element.setAttribute ("lr-coords", str(self.lr))
 		self.element.setAttribute ("identity", str(self.identity))
@@ -287,11 +287,7 @@ class ImageThought (BaseThought.ResizableThought):
 
 		for n in node.childNodes:
 			if n.nodeName == "Extended":
-				for m in n.childNodes:
-					if m.nodeType == m.TEXT_NODE:
-						text = m.data
-						if text != "LABYRINTH_AUTOGEN_TEXT_REMOVE":
-							self.extended_buffer.set_text (text)
+				self.extended_buffer.load(n)
 			else:
 				print "Unknown: "+n.nodeName
 		margin = utils.margin_required (utils.STYLE_NORMAL)

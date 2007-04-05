@@ -97,7 +97,7 @@ Required Features:
  * Populate and enable bottom toolbar
  * Popup menus
  * a11y view
- * Infinite scrollable canvas
+ ✓* Infinite scrollable canvas
 
 Desired Features:
  * Hiding / Showing Thoughts

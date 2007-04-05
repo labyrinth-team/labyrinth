@@ -91,7 +91,10 @@ class MMapArea (gtk.DrawingArea):
 						 					   (gobject.TYPE_INT, gobject.TYPE_INT, gobject.TYPE_STRING)),
 						 set_focus				 = (gobject.SIGNAL_RUN_FIRST,
 						 							gobject.TYPE_NONE,
-						 							(gobject.TYPE_PYOBJECT, gobject.TYPE_BOOLEAN)))
+						 							(gobject.TYPE_PYOBJECT, gobject.TYPE_BOOLEAN)),
+						 set_attrs				 = (gobject.SIGNAL_RUN_LAST,
+						 							gobject.TYPE_NONE,
+						 							(gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN)))
 
 	def __init__(self, undo):
 		super (MMapArea, self).__init__()
@@ -655,11 +658,15 @@ class MMapArea (gtk.DrawingArea):
 		thought.connect ("change_mouse_cursor", self.set_mouse_cursor_cb)
 		thought.connect ("update_links", self.update_links_cb)
 		thought.connect ("grab_focus", self.regain_focus_cb)
+		thought.connect ("update-attrs", self.update_attr_cb)
 		self.thoughts.append (thought)
 		return thought
 
 	def regain_focus_cb (self, thought, ext):
 		self.emit ("set_focus", None, ext)
+
+	def update_attr_cb (self, widget, bold, italics, underline):
+		self.emit ("set_attrs", bold, italics, underline)
 
 	def delete_thought (self, thought):
 		action = UndoManager.UndoAction (self, UNDO_DELETE_SINGLE, self.undo_deletion, [thought])
@@ -931,3 +938,10 @@ class MMapArea (gtk.DrawingArea):
 			lnk = self.create_link (self.selected[0], None, self.selected[1])
 			self.undo.add_undo (UndoManager.UndoAction (self, UNDO_CREATE_LINK, self.undo_link_action, lnk))
 		self.invalidate ()
+
+	def set_bold (self, active):
+		if len(self.selected) != 1:
+			return
+		self.selected[0].set_bold (active)
+		self.invalidate()
+	

@@ -78,14 +78,17 @@ class LabyrinthWindow (gtk.Window):
 		self.MainArea.connect ("change_buffer", self.switch_buffer_cb)
 		self.MainArea.connect ("text_selection_changed", self.selection_changed_cb)
 		self.MainArea.connect ("set_focus", self.main_area_focus_cb)
+		self.MainArea.connect ("set_attrs", self.attrs_cb)
 
 		# Then, construct the menubar and toolbar and hook it all up
 		self.create_ui ()
 
 		# TODO: Bold, Italics etc.
-		self.ui.get_widget('/AddedTools/Bold').set_sensitive (False)
-		self.ui.get_widget('/AddedTools/Italics').set_sensitive (False)
-		self.ui.get_widget('/AddedTools/Underline').set_sensitive (False)
+		self.bold_widget = self.ui.get_widget('/AddedTools/Bold')
+		self.bold_block = False
+		self.bold_state = False
+		self.italic_widget = self.ui.get_widget('/AddedTools/Italics').set_sensitive (False)
+		self.underline_widget = self.ui.get_widget('/AddedTools/Underline').set_sensitive (False)
 
 		self.cut = self.ui.get_widget ('/MenuBar/EditMenu/Cut')
 		self.copy = self.ui.get_widget ('/MenuBar/EditMenu/Copy')
@@ -276,6 +279,15 @@ class LabyrinthWindow (gtk.Window):
 			self.swin.hide ()
 			self.view_type = 0
 
+	def attrs_cb (self, widget, bold, italics, underline):
+		# Yes, there is a block method for signals
+		# but I don't currently know how to
+		# implement it for action-based signals
+		# without messyness
+		if bold != self.bold_state:
+			self.bold_block = True
+			self.bold_widget.set_active(bold)
+
 	def translate (self, box, arg1, direction):
 		self.orig_translate = [self.MainArea.translation[0], self.MainArea.translation[1]]
 		if direction == "Up":
@@ -314,8 +326,15 @@ class LabyrinthWindow (gtk.Window):
 	def pos_changed (self, panes, arg2):
 		self.pane_pos = panes.get_position ()
 
-	def bold_toggled (self, arg):
-		print "Bold"
+	def bold_toggled (self, action):
+		self.bold_state = (not self.bold_state)
+		if self.bold_block:
+			self.bold_block = False
+			return
+		if self.extended.is_focus ():
+			self.extended.get_buffer().set_bold(action.get_active())
+		else:
+			self.MainArea.set_bold (action.get_active())
 
 	def italic_toggled (self, arg):
 		print "Italic"
@@ -450,6 +469,7 @@ class LabyrinthWindow (gtk.Window):
 			self.extended_visible = True
 		else:
 			self.extended_visible = False
+			
 		tmp = top_element.getAttribute ("size")
 		(width, height) = utils.parse_coords (tmp)
 		tmp = top_element.getAttribute ("position")

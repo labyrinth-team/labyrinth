@@ -1,7 +1,7 @@
 # DrawingThought.py
 # This file is part of Labyrinth
 #
-# Copyright (C) 2006 - Don Scorgie <Don@Scorgie.org>
+# Copyright (C) 2006 - Don Scorgie <Don@Scorgieorg>
 #
 # Labyrinth is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -441,12 +441,12 @@ class DrawingThought (BaseThought.ResizableThought):
 			if next.nodeName == "point":
 				self.element.removeChild (next)
 				next.unlink ()
-			next = m
+			next = m		
 		text = self.extended_buffer.get_text ()
 		if text:
-			self.extended_element.replaceWholeText (text)
+			self.extended_buffer.update_save()
 		else:
-			self.extended_element.replaceWholeText ("LABYRINTH_AUTOGEN_TEXT_REMOVE")
+			self.element.removeChild(self.extended_buffer.element)
 		self.element.setAttribute ("ul-coords", str(self.ul))
 		self.element.setAttribute ("lr-coords", str(self.lr))
 		self.element.setAttribute ("identity", str(self.identity))
@@ -502,11 +502,7 @@ class DrawingThought (BaseThought.ResizableThought):
 
 		for n in node.childNodes:
 			if n.nodeName == "Extended":
-				for m in n.childNodes:
-					if m.nodeType == m.TEXT_NODE:
-						text = m.data
-						if text != "LABYRINTH_AUTOGEN_TEXT_REMOVE":
-							self.extended_buffer.set_text (text)
+				self.extended_buffer.load(n)
 			elif n.nodeName == "point":
 				style = int (n.getAttribute ("type"))
 				tmp = n.getAttribute ("coords")

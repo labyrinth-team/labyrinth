@@ -1,3 +1,41 @@
+2007-04-05 Don Scorgie <Don@Scorgie.org>
+
+	* AUTHORS:
+	* doc/TheFuture:
+	Minor updates (correct email, add tick)
+	
+	* src/TextBufferMarkup.py:
+	Total rewrite from scratch.  The old one wasn't as shiny
+	and didn't really do what I wanted
+	New one is smaller and does what is needed
+	Add support for enboldening and framework for other
+	text attributes
+	
+	* src/DrawingThought.py:
+	* src/ImageThought.py:
+	* src/BaseThought.py:
+	Update to use new extended buffer properly
+
+	* src/UndoManager.py:
+	Handle text attributes properly
+	Combine translation / rotations
+
+	* src/MainWindow.py:
+	Un-disable Bold button
+	Add support for enabling and disabling Bold (along with other attributes)
+	Add undo support for translations and scaling
+	
+	* src/MMapArea.py:
+	New signal to tell the Bold widget to enable when we want it to
+	Add undo transform (translate / scale)
+	Allow bold to be set in thoughts
+	
+	* src/TextThought.py:
+	Update to use new extended buffer
+	Enable bold in text thoughts themselves
+	Shift some stuff around to work with the attributes
+	Add framework for further attribute work
+	
 2007-03-28 Don Scorgie <Don@Scorgie.org>
 
 	* src/utils.py:

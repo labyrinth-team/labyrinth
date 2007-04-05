@@ -124,6 +124,8 @@ class UndoManager:
 		length = action.args[2]
 		owner = action.owner
 		cb = action.callback
+		old_attrs = action.args[3]
+		new_attrs = action.args[4]
 		if len (self.undo_list) > 0:
 			back = self.undo_list.pop ()
 		else:
@@ -134,6 +136,7 @@ class UndoManager:
 		      and (back.undo_type == INSERT_LETTER or back.undo_type == INSERT_WORD):
 			if back.text.rfind(' ') != -1:
 				break
+			old_attrs = back.args[3]
 			if back.args[0] <= start_iter:
 				start_iter = back.args[0]
 				final_text = back.text+final_text
@@ -146,20 +149,19 @@ class UndoManager:
 			back = self.undo_list.pop ()
 		if add_back:
 			self.undo_list.append (back)
-		combi = UndoAction (owner, INSERT_WORD, cb, start_iter, final_text, length)
+		combi = UndoAction (owner, INSERT_WORD, cb, start_iter, final_text, length, old_attrs, new_attrs)
 		self.undo_list.append (combi)
 
 	def combine_deletions (self, action):
-		bytes = False
-		if len(action.args) == 4:
-			# The "byte table" is included
-			bytes = True
-			byte_collection = action.args[3]
+		bytes = True
+		byte_collection = action.args[3]
 		final_text = action.text
 		start_iter = action.args[0]
 		length = action.args[2]
 		owner = action.owner
 		cb = action.callback
+		old_attrs = action.args[4]
+		new_attrs = action.args[5]
 		if len (self.undo_list) > 0:
 			back = self.undo_list.pop ()
 		else:
@@ -170,6 +172,7 @@ class UndoManager:
 			  and (back.undo_type == DELETE_LETTER or back.undo_type == DELETE_WORD):
 			if back.text.rfind(' ') != -1:
 				break
+			old_attrs = back.args[4]
 			if back.args[0] <= start_iter:
 				start_iter = back.args[0]
 				final_text = back.text+final_text
@@ -187,9 +190,9 @@ class UndoManager:
 		if add_back:
 			self.undo_list.append (back)
 		if bytes:
-			combi = UndoAction (owner, DELETE_WORD, cb, start_iter, final_text, length, byte_collection)
+			combi = UndoAction (owner, DELETE_WORD, cb, start_iter, final_text, length, byte_collection, old_attrs, new_attrs)
 		else:
-			combi = UndoAction (owner, DELETE_WORD, cb, start_iter, final_text, length)
+			combi = UndoAction (owner, DELETE_WORD, cb, start_iter, final_text, length, -1, old_attrs, new_attrs)
 		self.undo_list.append (combi)
 
 	def combine_transforms (self, action):

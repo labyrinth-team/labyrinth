@@ -75,7 +75,10 @@ class BaseThought (gobject.GObject):
 						 						   ()),
 						 grab_focus				= (gobject.SIGNAL_RUN_FIRST,
 						 						   gobject.TYPE_NONE,
-						 						   (gobject.TYPE_BOOLEAN,)))
+						 						   (gobject.TYPE_BOOLEAN,)),
+						 update_attrs			= (gobject.SIGNAL_RUN_FIRST,
+						 						   gobject.TYPE_NONE,
+						 						   (gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN)))
 
 	# The first thing that should be called is this constructor
 	# It sets some basic properties of all thoughts and should be called
@@ -99,14 +102,13 @@ class BaseThought (gobject.GObject):
 		self.text = ""
 		self.want_move = False
 		self.undo = undo
-		self.extended_buffer = TextBufferMarkup.InteractivePangoBuffer (self.undo)
+		extended_elem = save.createElement ("Extended")
+		self.extended_buffer = TextBufferMarkup.ExtendedBuffer (self.undo, extended_elem, save)
 		self.extended_buffer.set_text("")
 		self.extended_buffer.connect ("set_focus", self.focus_buffer)
+		self.extended_buffer.connect ("set_attrs", self.set_extended_attrs)
 		self.element = save.createElement (elem_type)
-		extended_elem = save.createElement ("Extended")
-		self.extended_element = save.createTextNode ("Extended")
 		self.element.appendChild (extended_elem)
-		extended_elem.appendChild (self.extended_element)
 
 	# These are self-explanitory.  You probably don't want to
 	# overwrite these methods, unless you have a very good reason
@@ -140,6 +142,9 @@ class BaseThought (gobject.GObject):
 		self.emit ("select_thought", None)
 		self.emit ("grab_focus", True)
 
+	def set_extended_attrs(self, buf, bold, underline, italics):
+		self.emit("update_attrs", bold, underline, italics)
+		
 	# This, you may want to change.  Though, doing so will only affect
 	# thoughts that are "parents"
 	def find_connection (self, other):
@@ -224,6 +229,9 @@ class BaseThought (gobject.GObject):
 
  	def retrieve_surroundings (self, imcontext, mode):
  		pass
+	
+	def set_bold (self, active):
+		pass
 
 
 class ResizableThought (BaseThought):
