@@ -1,5 +1,11 @@
 2007-04-05 Don Scorgie <Don@Scorgie.org>
 
+	* src/TextThought.py:
+	Fix stupid bug to make text selection work
+
+
+2007-04-05 Don Scorgie <Don@Scorgie.org>
+
 	* src/MainWindow.py:
 	* src/MMapArea.py:
 	* src/TextThought.py:
