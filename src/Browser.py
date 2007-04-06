@@ -22,12 +22,10 @@
 
 import utils
 import pygtk
-pygtk.require('2.0')
 import gtk
 import optparse
 import sys
 from os.path import *
-import os
 import os
 import gtk.glade
 import MainWindow
@@ -45,7 +43,7 @@ class Browser (gtk.Window):
 
 	def __init__(self, start_hidden, tray_icon):
 		super(Browser, self).__init__()
-		self.glade=gtk.glade.XML(utils.get_data_file_name('/labyrinth.glade'))
+		self.glade=gtk.glade.XML(utils.get_data_file_name('labyrinth.glade'))
 		self.view = self.glade.get_widget ('MainView')
 		self.populate_view ()
 		self.view.connect ('row-activated', self.open_row_cb)
@@ -79,10 +77,13 @@ class Browser (gtk.Window):
 
 		self.main_window = self.glade.get_widget ('MapBrowser')
 		self.main_window.set_size_request (400, 300)
-		try:
-			self.main_window.set_icon_name ('labyrinth')
-		except:
-			self.main_window.set_icon_from_file(utils.get_data_file_name('labyrinth.svg'))
+		if os.name != 'nt':
+			try:
+				self.main_window.set_icon_name ('labyrinth')
+			except:
+				self.main_window.set_icon_from_file(utils.get_data_file_name('labyrinth.svg'))
+		else:
+			self.main_window.set_icon_from_file('images\\labyrinth-24.png')
 		if tray_icon:
 			self.main_window.connect ('delete_event', self.toggle_main_window, None)
 			traymenu = gtk.Menu()
@@ -165,10 +166,13 @@ class Browser (gtk.Window):
 		about_dialog = gtk.AboutDialog ()
 		about_dialog.set_name ("Labyrinth")
 		about_dialog.set_version (utils.get_version())
-		try:
-			about_dialog.set_logo_icon_name("labyrinth")
-		except:
-			pass
+		if os.name != 'nt':
+			try:
+				about_dialog.set_logo_icon_name("labyrinth")
+			except:
+				pass
+		else:
+			about_dialog.set_logo (gtk.gdk.pixbuf_new_from_file("images\\labyrinth-24.png"))
 		about_dialog.set_license (
 	"Labyrinth is free software; you can redistribute it and/or modify "
 	"it under the terms of the GNU General Public Licence as published by "

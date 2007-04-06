@@ -21,7 +21,7 @@
 #
 
 import pygtk
-pygtk.require('2.0')
+
 import gtk
 import gettext, locale
 import optparse
@@ -29,14 +29,16 @@ import sys
 from os.path import *
 import os
 
-def _check (path):
-	return exists(path) and isdir(path) and isfile(path+"/AUTHORS")
+if os.name != 'nt':
+	pygtk.require('2.0')
+	def _check (path):
+		return exists(path) and isdir(path) and isfile(path+"/AUTHORS")
 
-name = join(dirname(__file__), '..')
-if _check(name):
-		sys.path.insert(0, abspath(name))
-else:
-		sys.path.insert(0, abspath("@PYTHONDIR@"))
+	name = join(dirname(__file__), '..')
+	if _check(name):
+			sys.path.insert(0, abspath(name))
+	else:
+			sys.path.insert(0, abspath("@PYTHONDIR@"))
 
 
 # Hopefully this will work now ;)
@@ -54,10 +56,11 @@ gettext.bindtextdomain('labyrinth', localedir)
 if hasattr(gettext, 'bind_textdomain_codeset'):
 	gettext.bind_textdomain_codeset('labyrinth','UTF-8')
 gettext.textdomain('labyrinth')
-locale.bindtextdomain('labyrinth', localedir)
-if hasattr(locale, 'bind_textdomain_codeset'):
-	locale.bind_textdomain_codeset('labyrinth','UTF-8')
-locale.textdomain('labyrinth')
+if not os.name == 'nt':
+	locale.bindtextdomain('labyrinth', localedir)
+	if hasattr(locale, 'bind_textdomain_codeset'):
+		locale.bind_textdomain_codeset('labyrinth','UTF-8')
+	locale.textdomain('labyrinth')
 
 gtk.glade.bindtextdomain('labyrinth')
 gtk.glade.textdomain('labyrinth')

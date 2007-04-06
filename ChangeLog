@@ -1,3 +1,24 @@
+2007-04-06 Don Scorgie <Don@Scorgie.org>
+
+	Merge of Windows-support branch:
+	* Windows/COPYING.txt:
+	* Windows/defs.py:
+	* Windows/lab.iss:
+	* Windows/labyrinth.lnk:
+	* Windows/labyrinth.bat:
+	* Windows/labyrinth.ico:
+	* Windows/WinSetup.bat:
+	* Windows/winsetup.py:
+	Add files for Windows build
+
+	* src/Browser.py:
+	* src/labyrinth.py:
+	* src/MainWindow.py:
+	* src/TextThought.py:
+	* src/utils.py:
+	Various fixes required to build and run on Windows properly
+
+
 2007-04-05 Don Scorgie <Don@Scorgie.org>
 
 	* src/TextThought.py:

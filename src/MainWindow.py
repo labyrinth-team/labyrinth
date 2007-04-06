@@ -30,6 +30,7 @@ import UndoManager
 import utils
 from MapList import MapList
 import xml.dom.minidom as dom
+import os
 
 map_number = 1
 
@@ -53,10 +54,13 @@ class LabyrinthWindow (gtk.Window):
 
 	def __init__ (self, filename):
 		super(LabyrinthWindow, self).__init__()
-		try:
-			self.set_icon_name ('labyrinth')
-		except:
-			self.set_icon_from_file(utils.get_data_file_name('labyrinth.svg'))
+		if os.name != 'nt':
+			try:
+				self.set_icon_name ('labyrinth')
+			except:
+				self.set_icon_from_file(utils.get_data_file_name('labyrinth.svg'))
+		else:
+			self.set_icon_from_file('images\\labyrinth-24.png')
 
 		if gtk.gtk_version[1] > 8:
 		# FIXME:  This can go when we move entirely to gtk 2.10
@@ -76,7 +80,8 @@ class LabyrinthWindow (gtk.Window):
 		self.MainArea.connect ("change_mode", self.mode_request_cb)
 		self.MainArea.connect ("button-press-event", self.main_area_focus_cb)
 		self.MainArea.connect ("change_buffer", self.switch_buffer_cb)
-		self.MainArea.connect ("text_selection_changed", self.selection_changed_cb)
+		if os.name != 'nt':
+			self.MainArea.connect ("text_selection_changed", self.selection_changed_cb)
 		self.MainArea.connect ("set_focus", self.main_area_focus_cb)
 		self.MainArea.connect ("set_attrs", self.attrs_cb)
 

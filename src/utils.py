@@ -38,8 +38,14 @@ else:
 
 def get_save_dir ():
 	''' Returns the path to the directory to save the maps to '''
-	base = os.environ ['HOME']
-	dirname = base+"/.gnome2/labyrinth/"
+	try:
+		base = os.environ ['HOME']
+	except:
+		base = os.environ ['USERPROFILE']
+	if os.name != 'nt':
+		dirname = os.path.join (base, ".gnome2", "labyrinth"+os.sep)
+	else:
+		dirname = os.path.join (base, ".labyrinth"+os.sep)
 	if not os.access (dirname, os.W_OK):
 		os.makedirs (dirname)
 	return dirname
@@ -69,17 +75,22 @@ def get_version ():
 def get_data_dir():
 	'''returns the data dir. Tries to find it the first time its called'''
 	global __data_dir
-	if __data_dir is None:
-		#decide wether we run under development or if the program has been installed
-		path = join(dirname(__file__), '..')
-		if exists(path) and isdir(path) and isfile(path+"/AUTHORS"):
-			__data_dir = os.sep.join([dirname(__file__), '..' , 'data'])
-		else:
-			try:
-				import defs
-				__data_dir=defs.pkgdatadir
-			except:
-				__data_dir = "./data"
+	if os.name != 'nt':
+
+		if __data_dir is None:
+			#decide wether we run under development or if the program has been installed
+			path = join(dirname(__file__), '..')
+			if exists(path) and isdir(path) and isfile(path+"/AUTHORS"):
+				__data_dir = os.sep.join([dirname(__file__), '..' , 'data'])
+			else:
+				try:
+					import defs
+					__data_dir=defs.pkgdatadir
+				except:
+					__data_dir = "./data"
+	else:
+		if __data_dir is None:
+			__data_dir = join (".","data")
 	return __data_dir
 
 def get_data_file_name (file_name):

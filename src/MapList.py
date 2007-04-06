@@ -23,7 +23,6 @@
 import os
 import utils
 import pygtk
-pygtk.require('2.0')
 import gtk
 import xml.dom.minidom as dom
 

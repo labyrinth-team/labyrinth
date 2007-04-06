@@ -28,6 +28,7 @@ import utils
 import BaseThought
 import prefs
 import UndoManager
+import os
 
 import xml.dom.minidom as dom
 import xml.dom
@@ -772,8 +773,9 @@ class TextThought (BaseThought.BaseThought):
 				self.index += loc[1]
 			self.bindex = self.bindex_from_index (self.index)
 			self.end_index = self.index
-			clip = gtk.Clipboard (selection="PRIMARY")
-			self.paste_text (clip)
+			if os.name != 'nt':
+				clip = gtk.Clipboard (selection="PRIMARY")
+				self.paste_text (clip)
 		elif event.button == 3:
 			self.emit ("popup_requested", (event.x, event.y), 1)
 		self.recalc_edges()
