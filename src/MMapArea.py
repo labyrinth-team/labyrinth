@@ -112,6 +112,7 @@ class MMapArea (gtk.DrawingArea):
 		self.translation = [0.0,0.0]
 		self.timeout = -1
 		self.current_cursor = None
+		self.do_filter = True
 
 		self.unending_link = None
 		self.nthoughts = 0
@@ -303,7 +304,7 @@ class MMapArea (gtk.DrawingArea):
 		self.invalidate ()
 
 	def key_press (self, widget, event):
-		if not self.im_context.filter_keypress (event):
+		if not self.do_filter or not self.im_context.filter_keypress (event):
 			if self.editing:
 				if not self.editing.process_key_press (event, self.mode):
 					return self.global_key_handler (event)
@@ -430,6 +431,9 @@ class MMapArea (gtk.DrawingArea):
 			self.preedit_start_handler = self.im_context.connect ("preedit-start", thought.preedit_start, self.mode)
 			self.retrieve_handler = self.im_context.connect ("retrieve-surrounding", thought.retrieve_surroundings, \
 															 self.mode)
+			self.do_filter = True
+		else:
+			self.do_filter = False
 
 	def unselect_all (self):
 		self.hookup_im_context ()
@@ -443,6 +447,9 @@ class MMapArea (gtk.DrawingArea):
 			link.unselect ()
 			return
 
+		self.hookup_im_context()
+		if self.editing:
+			self.finish_editing ()
 		if modifiers and (modifiers & gtk.gdk.SHIFT_MASK or modifiers == -1):
 			if self.selected.count (link) == 0:
 				self.selected.append (link)

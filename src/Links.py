@@ -22,7 +22,7 @@
 import gobject
 import gtk
 
-import TextThought
+import BaseThought
 import utils
 import xml.dom.minidom as dom
 import math
@@ -222,7 +222,20 @@ class Link (gobject.GObject):
 		return False
 
 	def process_key_press (self, event, mode):
-		return False
+		handled = False
+		if mode != BaseThought.MODE_EDITING:
+			return handled
+		if event.keyval == gtk.keysyms.plus or \
+		   event.keyval == gtk.keysyms.KP_Add:
+			self.strength += 1
+			handled = True
+		elif (event.keyval == gtk.keysyms.minus or \
+			  event.keyval == gtk.keysyms.KP_Subtract) and \
+			 self.strength > 1:
+			self.strength -= 1
+			handled = True
+		self.emit("update_view")
+		return handled
 
 	def handle_motion (self, event, mode, transformed):
 		pass

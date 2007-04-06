@@ -2,6 +2,11 @@
 
 	* src/MMapArea.py:
 	* src/Links.py:
+	Add key filtering for +/- keys to increase / decrease
+	link strength (when selected)
+
+	* src/MMapArea.py:
+	* src/Links.py:
 	* src/BaseThought.py:
 	First pass at link selection
 	Able to select links (with think rectangle drawn around them)
