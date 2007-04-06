@@ -778,6 +778,8 @@ class TextThought (BaseThought.BaseThought):
 				self.paste_text (clip)
 		elif event.button == 3:
 			self.emit ("popup_requested", (event.x, event.y), 1)
+		del self.current_attrs
+		self.current_attrs = []
 		self.recalc_edges()
 		self.emit ("update_view")
 

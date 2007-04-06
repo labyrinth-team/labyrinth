@@ -1,5 +1,11 @@
 2007-04-06 Don Scorgie <Don@Scorgie.org>
 
+	* src/TextThought.py:
+	Update attributes properly when using the mouse
+	to move the cursor
+
+2007-04-06 Don Scorgie <Don@Scorgie.org>
+
 	Merge of Windows-support branch:
 	* Windows/COPYING.txt:
 	* Windows/defs.py:
