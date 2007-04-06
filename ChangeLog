@@ -1,5 +1,13 @@
 2007-04-06 Don Scorgie <Don@Scorgie.org>
 
+	* src/MMapArea.py:
+	* src/Links.py:
+	* src/BaseThought.py:
+	First pass at link selection
+	Able to select links (with think rectangle drawn around them)
+	BaseThought and MMapArea have minor modifications to support
+	Link selection
+
 	* src/TextThought.py:
 	Update attributes properly when using the mouse
 	to move the cursor

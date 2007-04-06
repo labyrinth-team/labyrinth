@@ -20,13 +20,27 @@
 #
 
 import gobject
+import gtk
 
 import TextThought
 import utils
 import xml.dom.minidom as dom
+import math
+
+def norm(x, y):
+	mod = math.sqrt((x[0]**2 - y[0]**2) + (x[1]**2 - y[1]**2))
+	return [(x[0]-y[0]) / (mod), (x[1] - y[1]) / (mod)]
 
 class Link (gobject.GObject):
-
+	__gsignals__ = dict (select_link         = (gobject.SIGNAL_RUN_FIRST,
+											    gobject.TYPE_NONE,
+											    (gobject.TYPE_PYOBJECT,)),						 
+						 update_view		 = (gobject.SIGNAL_RUN_LAST,
+						 						gobject.TYPE_NONE,
+						 						()),
+						 popup_requested     = (gobject.SIGNAL_RUN_FIRST,
+						 					    gobject.TYPE_NONE,
+						 					    (gobject.TYPE_PYOBJECT, gobject.TYPE_INT)))
 	def __init__ (self, save, parent = None, child = None, start_coords = None, end_coords = None, strength = 2):
 		super (Link, self).__init__()
 		self.parent = parent
@@ -35,6 +49,7 @@ class Link (gobject.GObject):
 		self.start = start_coords
 		self.strength = strength
 		self.element = save.createElement ("link")
+		self.selected = False
 
 		if not self.start and parent and parent.lr:
 			self.start = (parent.ul[0]-((parent.ul[0]-parent.lr[0]) / 2.), \
@@ -49,6 +64,21 @@ class Link (gobject.GObject):
 	def includes (self, coords, mode):
 		# TODO: Change this to make link selection work.  Also needs
 		# some fairly large changes in MMapArea
+		if not self.start or not self.end:
+			return False
+		mag = (math.sqrt(((self.end[0] - self.start[0]) ** 2) + \
+    		             ((self.end[1] - self.start[1]) ** 2)))
+    	
+		U = (((coords[0] - self.start[0]) * (self.end[0] - self.start[0])) + \
+    		((coords[1] - self.start[1]) * (self.end[1] - self.start[1]))) / \
+    		(mag**2)
+			 
+		inter = [self.start[0] + U*(self.end[0] - self.start[0]),
+				 self.start[1] + U*(self.end[1] - self.start[1])]
+		dist = math.sqrt(((coords[0] - inter[0]) ** 2) + \
+    		             ((coords[1] - inter[1]) ** 2))
+		if dist < 3. and dist > -3.:
+			return True
 		return False
 
 	def connects (self, thought, thought2):
@@ -91,6 +121,27 @@ class Link (gobject.GObject):
 		context.line_to (self.end[0], self.end[1])
 		context.stroke ()
 		context.set_line_width (cwidth)
+		if self.selected:
+			st_norm = norm(self.start, self.end)
+			start_x1 = self.start[0] + st_norm[1]*(5+self.strength)
+			start_x2 = self.start[0] - st_norm[1]*(5+self.strength)
+			start_y1 = self.start[1] - st_norm[0]*(5+self.strength)
+			start_y2 = self.start[1] + st_norm[0]*(5+self.strength)
+			end_x1 = self.end[0] + st_norm[1]*(5+self.strength)
+			end_x2 = self.end[0] - st_norm[1]*(5+self.strength)
+			end_y1 = self.end[1] - st_norm[0]*(5+self.strength)
+			end_y2 = self.end[1] + st_norm[0]*(5+self.strength)
+		
+			context.set_line_width(0.3)
+
+			context.move_to (start_x1, start_y1)
+			context.line_to (start_x2, start_y2)
+			context.line_to (end_x2, end_y2)
+			context.line_to (end_x1, end_y1)
+			context.line_to (start_x1, start_y1)
+			
+			context.stroke()
+			context.set_line_width(cwidth)
 
 	def export (self, context, move_x, move_y):
 		rem = False
@@ -154,3 +205,39 @@ class Link (gobject.GObject):
 				self.child_number = -1
 			else:
 				self.child_number = int (tmp)
+				
+	def process_button_down (self, event, mode, transformed):
+		modifiers = gtk.accelerator_get_default_mod_mask ()
+		self.button_down = True
+		if event.button == 1:
+			if event.type == gtk.gdk.BUTTON_PRESS:
+				self.emit ("select_link", event.state & modifiers)
+				self.emit ("update_view")
+		elif event.button == 3:
+			self.emit ("popup_requested", (event.x, event.y), 2)
+		self.emit ("update_view")
+		return False
+
+	def process_button_release (self, event, unending_link, mode, transformed):
+		return False
+
+	def process_key_press (self, event, mode):
+		return False
+
+	def handle_motion (self, event, mode, transformed):
+		pass
+				
+	def want_motion (self):
+		return False
+		
+	def select(self):
+		self.selected = True
+
+	def unselect(self):
+		self.selected = False
+		
+	def move_by (self, x,y):
+		pass
+	
+	def can_be_parent (self):
+		return False

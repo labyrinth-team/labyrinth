@@ -437,6 +437,23 @@ class MMapArea (gtk.DrawingArea):
 			t.unselect ()
 		self.selected = []
 
+	def select_link (self, link, modifiers):
+		if modifiers and modifiers & gtk.gdk.SHIFT_MASK and len (self.selected) > 1 and self.selected.count (link) > 0:
+			self.selected.remove (link)
+			link.unselect ()
+			return
+
+		if modifiers and (modifiers & gtk.gdk.SHIFT_MASK or modifiers == -1):
+			if self.selected.count (link) == 0:
+				self.selected.append (link)
+		else:
+			for x in self.selected:
+				x.unselect ()
+			self.selected = [link]
+		link.select()
+		self.emit("change_buffer", None)
+		
+		
 	def select_thought (self, thought, modifiers):
 		if modifiers and modifiers & gtk.gdk.SHIFT_MASK and len (self.selected) > 1 and self.selected.count (thought) > 0:
 			self.selected.remove (thought)
@@ -455,7 +472,10 @@ class MMapArea (gtk.DrawingArea):
 			for x in self.selected:
 				x.unselect ()
 			self.selected = [thought]
-		self.current_root = self.selected
+		self.current_root = []
+		for x in self.selected:
+			if x.can_be_parent():
+				self.current_root.append(x)
 		thought.select ()
 		if len(self.selected) == 1:
 			self.emit ("change_buffer", thought.extended_buffer)
@@ -496,6 +516,11 @@ class MMapArea (gtk.DrawingArea):
 		self.undo.unblock ()
 		self.invalidate ()
 
+	def connect_link (self, link):
+		link.connect ("select_link", self.select_link)
+		link.connect ("update_view", self.update_view)
+		link.connect ("popup_requested", self.create_popup_menu)
+
 	def create_link (self, thought, thought_coords = None, child = None, child_coords = None, strength = 2):
 		if child:
 			for x in self.links:
@@ -504,6 +529,7 @@ class MMapArea (gtk.DrawingArea):
 						self.delete_link (x)
 					return
 			link = Links.Link (self.save, parent = thought, child = child, strength = strength)
+			self.connect_link (link)
 			element = link.get_save_element ()
 			self.element.appendChild (element)
 			self.links.append (link)
@@ -514,6 +540,7 @@ class MMapArea (gtk.DrawingArea):
 			self.unending_link = Links.Link (self.save, parent = thought, start_coords = thought_coords,
 											 end_coords = child_coords, strength = strength)
 
+			
 	def set_mouse_cursor_cb (self, thought, cursor_type):
 		if not self.moving:
 			self.set_cursor (cursor_type)
@@ -780,6 +807,7 @@ class MMapArea (gtk.DrawingArea):
 
 	def load_link (self, node):
 		link = Links.Link (self.save)
+		self.connect_link (link)
 		link.load (node)
 		self.links.append (link)
 		element = link.get_save_element ()

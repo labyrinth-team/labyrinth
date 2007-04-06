@@ -145,6 +145,9 @@ class BaseThought (gobject.GObject):
 	def set_extended_attrs(self, buf, bold, underline, italics):
 		self.emit("update_attrs", bold, underline, italics)
 		
+	def can_be_parent (self):
+		return True
+		
 	# This, you may want to change.  Though, doing so will only affect
 	# thoughts that are "parents"
 	def find_connection (self, other):
