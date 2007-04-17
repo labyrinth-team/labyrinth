@@ -3,7 +3,10 @@
 	* src/TextThought.py:
 	Fix thought boundaries when using attributes
 	Don't process (control) key presses when not editing
-
+	-Later- Fix byte table rebuilding in the presence of "undecipherable" 
+	characters as Python puts it.  Basically, add a try-except block to
+	ensure the character is correctly tested
+	
 
 2007-04-06 Don Scorgie <Don@Scorgie.org>
 

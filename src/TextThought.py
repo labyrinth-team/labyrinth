@@ -907,11 +907,15 @@ class TextThought (BaseThought.BaseThought):
 			else:
 				blen = 2
 				while 1:
-					if str(tmp[current:current+blen].encode()) == str(self.text[z]):
-						self.bytes += str(blen)
-						current+=(blen-1)
-						break
-					blen += 1
+					try:
+						x = str(tmp[current:current+blen])
+						if str(tmp[current:current+blen].encode()) == str(self.text[z]):
+							self.bytes += str(blen)
+							current+=(blen-1)
+							break
+						blen += 1
+					except:
+						blen += 1
 			current+=1
 		self.bindex = self.b_f_i (self.index)
 		self.text = tmp
