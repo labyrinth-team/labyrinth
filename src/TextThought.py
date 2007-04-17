@@ -197,9 +197,17 @@ class TextThought (BaseThought.BaseThought):
 		font = self.pango_context.load_font (desc)
 		del self.layout
 		show_text = self.attrs_changed ()
+		
+		if self.index > self.end_index:
+			bgsel = pango.AttrBackground (61423, 10537, 10537, self.end_index, self.index)
+		else:
+			bgsel = pango.AttrBackground (61423, 10537, 10537, self.index, self.end_index)
+		self.attrlist.insert (bgsel)
 
 		self.layout = pango.Layout (self.pango_context)
 		self.layout.set_text (show_text)
+		self.layout.set_attributes(self.attrlist)
+
 		(x,y) = self.layout.get_pixel_size ()
 		margin = utils.margin_required (utils.STYLE_NORMAL)
 		if prefs.get_direction () == gtk.TEXT_DIR_LTR:
@@ -315,14 +323,6 @@ class TextThought (BaseThought.BaseThought):
 				context.line_to (self.lr[0], self.ul[1])
 				context.line_to (self.lr[0]-5, self.ul[1])
 			context.stroke ()
-			
-		if self.index > self.end_index:
-			bgsel = pango.AttrBackground (61423, 10537, 10537, self.end_index, self.index)
-		else:
-			bgsel = pango.AttrBackground (61423, 10537, 10537, self.index, self.end_index)
-		self.attrlist.insert (bgsel)
-
-		self.layout.set_attributes(self.attrlist)
 
 		context.move_to (self.text_location[0], self.text_location[1])
 		context.show_layout (self.layout)
@@ -376,10 +376,11 @@ class TextThought (BaseThought.BaseThought):
 		shift = event.state & modifiers == gtk.gdk.SHIFT_MASK
 		handled = True
 		clear_attrs = True
+		if not self.editing:
+			return False
+			
 		if (event.state & modifiers) & gtk.gdk.CONTROL_MASK:
-			if not self.editing:
-				handled = False
-			elif event.keyval == gtk.keysyms.a:
+			if event.keyval == gtk.keysyms.a:
 				self.index = self.bindex = 0
 				self.end_index = len (self.text)
 		elif event.keyval == gtk.keysyms.Escape:
