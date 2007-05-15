@@ -31,6 +31,7 @@ import gtk.glade
 import MainWindow
 from MapList import MapList
 import TrayIcon
+import pango
 
 import gettext
 _ = gettext.gettext
@@ -253,7 +254,10 @@ class Browser (gtk.Window):
 		gtk.main_quit ()
 
 	def populate_view (self):
-		column = gtk.TreeViewColumn(_("Map Name"), gtk.CellRendererText(), text=self.COL_TITLE)
+		cellrenderer = gtk.CellRendererText()
+		cellrenderer.set_property("ellipsize", pango.ELLIPSIZE_END)
+		column = gtk.TreeViewColumn(_("Map Name"), cellrenderer, 
+									text=self.COL_TITLE)
 		self.view.append_column(column)
 
 		self.view.set_model (MapList.get_TreeViewModel())

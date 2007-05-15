@@ -28,8 +28,8 @@ import xml.dom.minidom as dom
 import math
 
 def norm(x, y):
-	mod = math.sqrt((x[0]**2 - y[0]**2) + (x[1]**2 - y[1]**2))
-	return [(x[0]-y[0]) / (mod), (x[1] - y[1]) / (mod)]
+	mod = math.sqrt(abs((x[0]**2 - y[0]**2) + (x[1]**2 - y[1]**2)))
+	return [abs(x[0]-y[0]) / (mod), abs(x[1] - y[1]) / (mod)]
 
 class Link (gobject.GObject):
 	__gsignals__ = dict (select_link         = (gobject.SIGNAL_RUN_FIRST,
@@ -77,7 +77,7 @@ class Link (gobject.GObject):
 				 self.start[1] + U*(self.end[1] - self.start[1])]
 		dist = math.sqrt(((coords[0] - inter[0]) ** 2) + \
     		             ((coords[1] - inter[1]) ** 2))
-		if dist < 3. and dist > -3.:
+		if dist < (3+self.strength) and dist > -(3+self.strength):
 			return True
 		return False
 

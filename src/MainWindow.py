@@ -189,7 +189,7 @@ class LabyrinthWindow (gtk.Window):
 		self.save_file = filename
 		self.maximised = False
 		self.view_type = 0
-		self.set_title (self.title_cp)
+		#self.set_title (self.title_cp)
 		if self.set_val:
 			self.act.set_current_value (self.mode)
 		self.ext_act.set_active (self.extended_visible)
@@ -324,6 +324,8 @@ class LabyrinthWindow (gtk.Window):
 		self.tr_to = True
 		
 	def translate_timeout (self, addition_x, addition_y):
+		if not self.tr_to:
+			return False
 		self.MainArea.translation[0] += addition_x / self.MainArea.scale_fac
 		self.MainArea.translation[1] += addition_y / self.MainArea.scale_fac
 		self.MainArea.invalidate()
@@ -428,10 +430,11 @@ class LabyrinthWindow (gtk.Window):
 					self.title_cp += s
 					self.title_cp += ' '
 				self.title_cp += final
-				if len(self.title_cp) > 27:
-					self.title_cp = self.title_cp[0:27]
-					self.title_cp += '...'
-		self.set_title (self.title_cp)
+		if len(self.title_cp) > 27:
+			x = self.title_cp[0:27]+"..."
+			self.set_title (x)
+		else:
+			self.set_title (self.title_cp)
 		self.emit ("title-changed", self.title_cp, self)
 
 	def delete_cb (self, event):
@@ -511,7 +514,8 @@ class LabyrinthWindow (gtk.Window):
 		y -= 24
 		self.move (int (x), int (y))
 
-		self.set_title (self.title_cp)
+		#print "Setting title"
+		#self.set_title (self.title_cp)
 		self.MainArea.set_mode (self.mode)
 		self.MainArea.load_thyself (top_element, doc)
 		if top_element.hasAttribute("scale_factor"):

@@ -1,3 +1,21 @@
+2007-05-15 Don Scorgie <Don@Scorgie.org>
+
+	* src/MainWindow.py:
+	* src/Browser.py:
+	Don't ellipsize text in Browser while still space available (issue #61)
+	
+	* src/MainWindow.py:
+	Attempt to reduce "over" movement when scrolling (slightly but not a huge 
+	amount better)
+	
+	* src/Links.py:
+	Fix disappearing thoughts when links selection code fails
+	(It still fails, but less so now) Partial fix for issue #62
+	
+	* src/MMapArea.py:
+	Add initial thought navigation using arrow keys
+
+
 2007-04-17 Don Scorgie <Don@Scorgie.org>
 
 	* src/TextThought.py:

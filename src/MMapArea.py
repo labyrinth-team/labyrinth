@@ -20,6 +20,8 @@
 # Boston, MA  02110-1301  USA
 #
 
+import math
+
 import time
 import gtk
 import pango
@@ -36,6 +38,11 @@ import TextThought
 import ImageThought
 import DrawingThought
 import UndoManager
+
+RAD_UP = (- math.pi / 2.)
+RAD_DOWN = (math.pi / 2.)
+RAD_LEFT = (math.pi)
+RAD_RIGHT = (0)
 
 MODE_EDITING = 0
 MODE_IMAGE = 1
@@ -791,8 +798,78 @@ class MMapArea (gtk.DrawingArea):
 	def popup_menu_key (self, event):
 		print "Popup Menu Key"
 
+	def find_related_thought (self, radians):
+		# Find thought within angle
+		best = None
+		bestangle = 1000.
+		bestdist = 10000.
+		def do_find (one, two, currentangle, curdist, sensitivity):
+			init_x = (one.ul[0] + one.lr[0]) / 2.
+			init_y = (one.ul[1] + one.lr[1]) / 2.
+			other_x = (two.ul[0] + two.lr[0]) / 2.
+			other_y = (two.ul[1] + two.lr[1]) / 2.
+			angle = math.atan2 ((other_y - init_y), (other_x - init_x))
+			while angle > math.pi:
+				angle -= math.pi
+			while angle < -math.pi:
+				angle += math.pi
+			# We have to special-case left due to stupidity of tan's
+			# We shift it by pi radians
+			if radians == RAD_LEFT:
+				relangle = abs((angle+math.pi) - (radians+math.pi))
+				if relangle > math.pi*2.:
+					relangle -= math.pi*2.
+			else:
+				relangle = abs(angle - radians)
+			newdist = math.sqrt ((init_x - other_x)**2 + (init_y - other_y)**2)
+			magicnum = newdist + (50. * relangle)
+# Used for debugging.  Spits out lots of useful info
+# to determine interesting things about the thought relations
+#print "angle: "+str(angle)+" rel: "+str(magicnum)+" rads: "+str(radians),
+#print " , "+str(math.pi / 3.0)+" , "+str(currentangle)+"\n: "+str(relangle)
+			if (relangle < sensitivity) and \
+			   (magicnum < currentangle):
+				return (magicnum, newdist)
+			return (currentangle, curdist)
+
+		if len(self.selected) != 1:
+			return None
+		initial = self.selected[0]
+		for x in self.links:
+			if x.parent == initial:
+				other = x.child
+			elif x.child == initial:
+				other = x.parent
+			else:
+				continue
+			(curr, dist) = do_find (initial, other, bestangle, bestdist, math.pi/3.)
+			if curr < bestangle:
+				bestangle = curr
+				best = other
+				bestdist = dist
+		if not best:
+			for x in self.thoughts:
+				if x == self.selected[0]:
+					continue
+				(curr, dist) = do_find (initial, x, bestangle, bestdist, math.pi/4.)
+				if curr < bestangle:
+					best = x
+					bestangle = curr
+					bestdist = dist
+		return best
+				
+
 	def global_key_handler (self, event):
-		if event.keyval == gtk.keysyms.Delete:
+		thought = None
+		if event.keyval == gtk.keysyms.Up:
+			thought = self.find_related_thought (RAD_UP)
+		elif event.keyval == gtk.keysyms.Down:
+			thought = self.find_related_thought (RAD_DOWN)
+		elif event.keyval == gtk.keysyms.Left:
+			thought = self.find_related_thought (RAD_LEFT)
+		elif event.keyval == gtk.keysyms.Right:
+			thought = self.find_related_thought (RAD_RIGHT)			
+		elif event.keyval == gtk.keysyms.Delete:
 			self.delete_selected_thoughts ()
 		elif event.keyval == gtk.keysyms.BackSpace:
 			self.delete_selected_thoughts ()
@@ -805,6 +882,9 @@ class MMapArea (gtk.DrawingArea):
 				self.selected.append (t)
 		else:
 			return False
+
+		if thought:
+			self.select_thought (thought, None)
 		self.invalidate ()
 		return True
 
