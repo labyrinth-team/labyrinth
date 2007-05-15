@@ -235,10 +235,10 @@ class LabyrinthWindow (gtk.Window):
 			('ModeMenu', None, _('_Mode')),
 			('DeleteNodes', gtk.STOCK_DELETE, _('_Delete Selected Thoughts'), None,
 			 _('Delete the selected element(s)'), self.delete_cb),
-			('ZoomIn', gtk.STOCK_ZOOM_IN, _('Zoom in'), None,
-			 _('Zoom in'), self.zoomin_cb),
-			('ZoomOut', gtk.STOCK_ZOOM_OUT, _('Zoom Out'), None,
-			 _('Zoom Out'), self.zoomout_cb)]
+			('ZoomIn', gtk.STOCK_ZOOM_IN, None, None,
+			 None, self.zoomin_cb),
+			('ZoomOut', gtk.STOCK_ZOOM_OUT, None, None,
+			 None, self.zoomout_cb)]
 		self.radio_actions = [
 			('Edit', gtk.STOCK_EDIT, _('_Edit Mode'), '<control>E',
 			 _('Turn on edit mode'), MMapArea.MODE_EDITING),

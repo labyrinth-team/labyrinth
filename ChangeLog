@@ -1,6 +1,9 @@
 2007-05-15 Don Scorgie <Don@Scorgie.org>
 
 	* src/MainWindow.py:
+	Use gtk+ built-in zooming actions (issue #63)
+	
+	* src/MainWindow.py:
 	* src/Browser.py:
 	Don't ellipsize text in Browser while still space available (issue #61)
 	
