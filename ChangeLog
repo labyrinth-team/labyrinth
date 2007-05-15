@@ -1,5 +1,10 @@
 2007-05-15 Don Scorgie <Don@Scorgie.org>
 
+	* src/MapList.py:
+	* src/Browser.py:
+	Add searching in Browser window (issue #58)
+	Add "Last Modified" column and allow sorting by it and name (issue #59)
+	
 	* src/MainWindow.py:
 	* data/labyrinth-ui.xml:
 	Add undo / redo to toolbar as an experiment (issue #60)

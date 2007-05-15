@@ -40,6 +40,7 @@ _ = gettext.gettext
 class Browser (gtk.Window):
 	COL_ID = 0
 	COL_TITLE = 1
+	COL_MODTIME = 2
 
 
 	def __init__(self, start_hidden, tray_icon):
@@ -258,6 +259,16 @@ class Browser (gtk.Window):
 		cellrenderer.set_property("ellipsize", pango.ELLIPSIZE_END)
 		column = gtk.TreeViewColumn(_("Map Name"), cellrenderer, 
 									text=self.COL_TITLE)
+		column.set_resizable(True)
+		column.set_expand (True)
+		column.set_sort_column_id (1)
 		self.view.append_column(column)
+		col1 = gtk.TreeViewColumn (_("Last Modified"), gtk.CellRendererText(),
+								   text=self.COL_MODTIME)
+		col1.set_resizable(True)
+		col1.set_sort_column_id (2)
+		self.view.append_column(col1)
 
 		self.view.set_model (MapList.get_TreeViewModel())
+		self.view.set_search_column(self.COL_TITLE)
+		self.view.set_enable_search (True)

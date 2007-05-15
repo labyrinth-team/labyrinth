@@ -25,6 +25,7 @@ import utils
 import pygtk
 import gtk
 import xml.dom.minidom as dom
+import datetime
 
 class MapList(object):
 	COL_ID = 0
@@ -39,6 +40,7 @@ class MapList(object):
 		def __init__(self, index):
 			self.__dict__["filename"] = None
 			self.__dict__["title"] = None
+			self.__dict__["modtime"] = None
 			self.__dict__["nodes"] = []
 			self.__dict__["window"] = None
 			self.__dict__["index"] = index
@@ -94,7 +96,7 @@ class MapList(object):
 	_maps = []
 	_maps_by_title = {}
 	_maps_by_filename = {}
-	tree_view_model = gtk.ListStore(int, str, str, 'gboolean')
+	tree_view_model = gtk.ListStore(int, str, str, str, 'gboolean')
 
 	def __init__(self):
 		raise Exception("This class is a singleton full of classmethods, dont instantiate it.")
@@ -109,7 +111,8 @@ class MapList(object):
 		index = len(cls._maps)
 		map = cls.MapCore(index = index)
 		cls._maps.append(map)
-		cls.tree_view_model.append([map.index, map.title, map.filename, False])
+		map.modtime = datetime.datetime.fromtimestamp(os.stat(filename)[8]).strftime("%x %X")
+		cls.tree_view_model.append([map.index, map.title, map.modtime, map.filename, False])
 		map._read_from_file(filename)
 		return map
 
@@ -117,8 +120,9 @@ class MapList(object):
 	def create_empty_map(cls):
 		index = len(cls._maps)
 		map = cls.MapCore(index = index)
+		map.modtime = datetime.datetime.fromtimestamp(os.stat(filename)[8]).strftime("%x %X")
 		cls._maps.append(map)
-		cls.tree_view_model.append([map.index, map.title, map.filename, False])
+		cls.tree_view_model.append([map.index, map.title, map.modtime, map.filename, False])
 		return map
 
 	@classmethod
