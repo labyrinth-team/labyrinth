@@ -121,7 +121,7 @@ class LabyrinthWindow (gtk.Window):
 
 		# Deal with loading the map
 		if not filename:
-			self.MainArea.set_size_request (500, 500)
+			self.MainArea.set_size_request (600, 500)
 			self.map_number = MapList.count() +1
 			# TODO: This shouldn't be set to a hard-coded number.  Fix.
 			self.pane_pos = 500

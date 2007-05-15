@@ -1,6 +1,11 @@
 2007-05-15 Don Scorgie <Don@Scorgie.org>
 
 	* src/MainWindow.py:
+	* data/labyrinth-ui.xml:
+	Add undo / redo to toolbar as an experiment (issue #60)
+	Increase size of initial window slightly to fit better
+
+	* src/MainWindow.py:
 	Use gtk+ built-in zooming actions (issue #63)
 	
 	* src/MainWindow.py:
