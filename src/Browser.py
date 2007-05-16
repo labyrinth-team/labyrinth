@@ -66,7 +66,6 @@ class Browser (gtk.Window):
 		self.open_button.connect ('clicked', self.open_clicked)
 		self.glade.get_widget('NewButton').connect ('clicked', self.new_clicked)
 		self.delete_button.connect ('clicked', self.delete_clicked)
-		self.glade.get_widget('QuitButton').connect ('clicked', self.quit_clicked)
 
 		self.open_menu.connect ('activate', self.open_clicked)
 		self.glade.get_widget('new1').connect ('activate', self.new_clicked)

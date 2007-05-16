@@ -1,3 +1,11 @@
+2007-05-16 Don Scorgie <Don@Scorgie.org>
+
+	* data/labyrinth.glade:
+	* src/Browser.py:
+	Remove Quit button from toolbar (as per HIG)
+	Fixes issue #44	(patch from Jean-François Fortin Tam)
+
+
 2007-05-15 Don Scorgie <Don@Scorgie.org>
 
 	* src/MapList.py:
