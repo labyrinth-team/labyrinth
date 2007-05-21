@@ -120,7 +120,7 @@ class MapList(object):
 	def create_empty_map(cls):
 		index = len(cls._maps)
 		map = cls.MapCore(index = index)
-		map.modtime = datetime.datetime.fromtimestamp(os.stat(filename)[8]).strftime("%x %X")
+		map.modtime = datetime.datetime.now().strftime("%x %X")
 		cls._maps.append(map)
 		cls.tree_view_model.append([map.index, map.title, map.modtime, map.filename, False])
 		return map

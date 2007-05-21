@@ -1,3 +1,8 @@
+2007-05-21 Don Scorgie <Don@Scorgie.org>
+
+	* src/MapList.py:
+	Oops.  Broke creating new maps.  Fixed.
+	
 2007-05-16 Don Scorgie <Don@Scorgie.org>
 
 	* data/labyrinth.glade:
