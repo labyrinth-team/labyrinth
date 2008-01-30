@@ -147,7 +147,10 @@ class MapList(object):
 	# these functions return None or a single MapCore
 	@classmethod
 	def get_by_index(cls, index):
-		return cls._maps[index]
+		for map in cls._maps:
+			if map.index == index:
+				return map
+		return None
 
 	@classmethod
 	def __getitem__(cls, index):
