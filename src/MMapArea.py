@@ -792,7 +792,7 @@ class MMapArea (gtk.DrawingArea):
 		self.invalidate ()
 
 	def delete_link (self, link):
-		if link in self.element:
+		if link.element in self.element.childNodes:
 			self.element.removeChild (link.element)
 		#link.element.unlink ()
 		self.links.remove (link)
