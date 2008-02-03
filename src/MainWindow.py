@@ -31,7 +31,6 @@ import utils
 from MapList import MapList
 import xml.dom.minidom as dom
 import os
-import BaseThought
 
 map_number = 1
 
@@ -104,6 +103,7 @@ class LabyrinthWindow (gtk.Window):
 		self.copy = self.ui.get_widget ('/MenuBar/EditMenu/Copy')
 		self.paste = self.ui.get_widget ('/MenuBar/EditMenu/Paste')
 		self.link = self.ui.get_widget ('/MenuBar/EditMenu/LinkThoughts')
+		self.delete = self.ui.get_widget ('/MenuBar/EditMenu/DeleteNodes')
 
 		self.ui.get_widget('/MenuBar/EditMenu').connect ('activate', self.edit_activated_cb)
 		self.cut.set_sensitive (False)
@@ -622,39 +622,34 @@ class LabyrinthWindow (gtk.Window):
 			clip.clear ()
 
 	def edit_activated_cb (self, menu):
-		start = None
-		if isinstance (self, BaseThought.ResizableThought):
+			# FIXME: Keybindings should also be deactivated.
+			self.cut.set_sensitive (False)
+			self.copy.set_sensitive (False)
+			self.paste.set_sensitive (False)
+			self.link.set_sensitive (False)
+			self.delete.set_sensitive (False)
 			if self.extended.is_focus ():
+				self.paste.set_sensitive (True)
 				stend = self.extended.get_buffer().get_selection_bounds()
 				if len (stend) > 1:
 					start,end = stend
 				else:
 					start = end = stend
-				self.paste.set_sensitive (True)
-				self.link.set_sensitive (False)
 			else:
 				start, end = self.MainArea.get_selection_bounds ()
-				if self.mode == MMapArea.MODE_EDITING and len(self.MainArea.selected) and \
-				   self.MainArea.selected[0].editing:
-					self.paste.set_sensitive (True)
-				else:
-					self.paste.set_sensitive (False)
+				try:
+					if self.mode == MMapArea.MODE_EDITING and len(self.MainArea.selected) and \
+					   self.MainArea.selected[0].editing:
+						self.paste.set_sensitive (True)
+					self.delete.set_sensitive (True)
+				except AttributeError:
+					pass
 				if len (self.MainArea.selected) == 2:
 					self.link.set_sensitive (True)
-				else:
-					self.link.set_sensitive (False)
 
 			if start and start != end:
 				self.cut.set_sensitive (True)
 				self.copy.set_sensitive (True)
-			else:
-				self.cut.set_sensitive (False)
-				self.copy.set_sensitive (False)
-		else:
-			self.cut.set_sensitive (False)
-			self.copy.set_sensitive (False)
-			self.paste.set_sensitive (False)
-			self.link.set_sensitive (False)
 
 	def cut_text_cb (self, event):
 		clip = gtk.Clipboard ()

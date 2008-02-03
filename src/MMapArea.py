@@ -778,10 +778,11 @@ class MMapArea (gtk.DrawingArea):
 		tmp = self.selected
 		t = tmp.pop()
 		while t:
-			for l in self.links:
-				if l.uses (t):
-					action.add_arg (l)
-			self.delete_thought (t)
+			if t in self.thoughts:
+				for l in self.links:
+					if l.uses (t):
+						action.add_arg (l)
+				self.delete_thought (t)
 			if len (tmp) == 0:
 				t = None
 			else:
@@ -791,7 +792,8 @@ class MMapArea (gtk.DrawingArea):
 		self.invalidate ()
 
 	def delete_link (self, link):
-		self.element.removeChild (link.element)
+		if link in self.element:
+			self.element.removeChild (link.element)
 		#link.element.unlink ()
 		self.links.remove (link)
 
@@ -1031,7 +1033,10 @@ class MMapArea (gtk.DrawingArea):
 
 	def get_selection_bounds (self):
 		if len (self.selected) == 1:
-			return self.selected[0].index, self.selected[0].end_index
+			try:
+				return self.selected[0].index, self.selected[0].end_index
+			except AttributeError:
+				return None, None
 		else:
 			return None, None
 
