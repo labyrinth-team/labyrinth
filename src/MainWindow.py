@@ -31,6 +31,7 @@ import utils
 from MapList import MapList
 import xml.dom.minidom as dom
 import os
+import BaseThought
 
 map_number = 1
 
@@ -621,33 +622,39 @@ class LabyrinthWindow (gtk.Window):
 			clip.clear ()
 
 	def edit_activated_cb (self, menu):
-		if self.extended.is_focus ():
-			stend = self.extended.get_buffer().get_selection_bounds()
-			if len (stend) > 1:
-				start,end = stend
-			else:
-				start = end = stend
-			self.paste.set_sensitive (True)
-			self.link.set_sensitive (False)
-		else:
-			start, end = self.MainArea.get_selection_bounds ()
-			if self.mode == MMapArea.MODE_EDITING and len(self.MainArea.selected) and \
-			   self.MainArea.selected[0].editing:
+		start = None
+		if isinstance (self, BaseThought.ResizableThought):
+			if self.extended.is_focus ():
+				stend = self.extended.get_buffer().get_selection_bounds()
+				if len (stend) > 1:
+					start,end = stend
+				else:
+					start = end = stend
 				self.paste.set_sensitive (True)
-			else:
-				self.paste.set_sensitive (False)
-			if len (self.MainArea.selected) == 2:
-				self.link.set_sensitive (True)
-			else:
 				self.link.set_sensitive (False)
+			else:
+				start, end = self.MainArea.get_selection_bounds ()
+				if self.mode == MMapArea.MODE_EDITING and len(self.MainArea.selected) and \
+				   self.MainArea.selected[0].editing:
+					self.paste.set_sensitive (True)
+				else:
+					self.paste.set_sensitive (False)
+				if len (self.MainArea.selected) == 2:
+					self.link.set_sensitive (True)
+				else:
+					self.link.set_sensitive (False)
 
-
-		if start and start != end:
-			self.cut.set_sensitive (True)
-			self.copy.set_sensitive (True)
+			if start and start != end:
+				self.cut.set_sensitive (True)
+				self.copy.set_sensitive (True)
+			else:
+				self.cut.set_sensitive (False)
+				self.copy.set_sensitive (False)
 		else:
 			self.cut.set_sensitive (False)
 			self.copy.set_sensitive (False)
+			self.paste.set_sensitive (False)
+			self.link.set_sensitive (False)
 
 	def cut_text_cb (self, event):
 		clip = gtk.Clipboard ()
