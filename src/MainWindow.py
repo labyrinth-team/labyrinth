@@ -234,7 +234,7 @@ class LabyrinthWindow (gtk.Window):
 			('LinkThoughts', None, _("(Un)Link Thoughts"), '<control>L',
 			_("(Un)Link the selected thoughts"), self.link_thoughts_cb),
 			('ModeMenu', None, _('_Mode')),
-			('DeleteNodes', gtk.STOCK_DELETE, _('_Delete Selected Thoughts'), None,
+			('DeleteNodes', gtk.STOCK_DELETE, _('_Delete Selected Elements'), None,
 			 _('Delete the selected element(s)'), self.delete_cb),
 			('ZoomIn', gtk.STOCK_ZOOM_IN, None, None,
 			 None, self.zoomin_cb),
@@ -439,7 +439,7 @@ class LabyrinthWindow (gtk.Window):
 		self.emit ("title-changed", self.title_cp, self)
 
 	def delete_cb (self, event):
-		self.MainArea.delete_selected_thoughts ()
+		self.MainArea.delete_selected_elements ()
 
 	def close_window_cb (self, event):
 		self.hide ()
@@ -627,7 +627,6 @@ class LabyrinthWindow (gtk.Window):
 			self.copy.set_sensitive (False)
 			self.paste.set_sensitive (False)
 			self.link.set_sensitive (False)
-			self.delete.set_sensitive (False)
 			if self.extended.is_focus ():
 				self.paste.set_sensitive (True)
 				stend = self.extended.get_buffer().get_selection_bounds()
@@ -641,7 +640,6 @@ class LabyrinthWindow (gtk.Window):
 					if self.mode == MMapArea.MODE_EDITING and len(self.MainArea.selected) and \
 					   self.MainArea.selected[0].editing:
 						self.paste.set_sensitive (True)
-					self.delete.set_sensitive (True)
 				except AttributeError:
 					pass
 				if len (self.MainArea.selected) == 2:

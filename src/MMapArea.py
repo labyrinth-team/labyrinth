@@ -431,14 +431,17 @@ class MMapArea (gtk.DrawingArea):
 			self.im_context.disconnect (self.retrieve_handler)
 			self.commit_handler = None
 		if thought:
-			self.commit_handler = self.im_context.connect ("commit", thought.commit_text, self.mode)
-			self.delete_handler = self.im_context.connect ("delete-surrounding", thought.delete_surroundings, self.mode)
-			self.preedit_changed_handler = self.im_context.connect ("preedit-changed", thought.preedit_changed, self.mode)
-			self.preedit_end_handler = self.im_context.connect ("preedit-end", thought.preedit_end, self.mode)
-			self.preedit_start_handler = self.im_context.connect ("preedit-start", thought.preedit_start, self.mode)
-			self.retrieve_handler = self.im_context.connect ("retrieve-surrounding", thought.retrieve_surroundings, \
-															 self.mode)
-			self.do_filter = True
+			try:
+				self.commit_handler = self.im_context.connect ("commit", thought.commit_text, self.mode)
+				self.delete_handler = self.im_context.connect ("delete-surrounding", thought.delete_surroundings, self.mode)
+				self.preedit_changed_handler = self.im_context.connect ("preedit-changed", thought.preedit_changed, self.mode)
+				self.preedit_end_handler = self.im_context.connect ("preedit-end", thought.preedit_end, self.mode)
+				self.preedit_start_handler = self.im_context.connect ("preedit-start", thought.preedit_start, self.mode)
+				self.retrieve_handler = self.im_context.connect ("retrieve-surrounding", thought.retrieve_surroundings, \
+																 self.mode)
+				self.do_filter = True
+			except AttributeError:
+				self.do_filter = False
 		else:
 			self.do_filter = False
 
@@ -476,7 +479,8 @@ class MMapArea (gtk.DrawingArea):
 		self.hookup_im_context ()
 		if self.editing:
 			self.finish_editing ()
-		self.thoughts.remove (thought)
+		if thought in self.thoughts:
+			self.thoughts.remove (thought)
 		self.thoughts.append(thought)
 
 		if modifiers and (modifiers & gtk.gdk.SHIFT_MASK or modifiers == -1):
@@ -492,7 +496,10 @@ class MMapArea (gtk.DrawingArea):
 				self.current_root.append(x)
 		thought.select ()
 		if len(self.selected) == 1:
-			self.emit ("change_buffer", thought.extended_buffer)
+			try:
+				self.emit ("change_buffer", thought.extended_buffer)
+			except AttributeError:
+				self.emit ("change_buffer", None)
 			self.hookup_im_context (thought)
 		else:
 			self.emit ("change_buffer", None)
@@ -716,7 +723,8 @@ class MMapArea (gtk.DrawingArea):
 
 	def delete_thought (self, thought):
 		action = UndoManager.UndoAction (self, UNDO_DELETE_SINGLE, self.undo_deletion, [thought])
-		self.element.removeChild (thought.element)
+		if thought.element in self.element.childNodes:
+			self.element.removeChild (thought.element)
 		self.thoughts.remove (thought)
 		try:
 			self.selected.remove (thought)
@@ -769,7 +777,7 @@ class MMapArea (gtk.DrawingArea):
 		self.invalidate ()
 
 
-	def delete_selected_thoughts (self):
+	def delete_selected_elements (self):
 		if len(self.selected) == 0:
 			return
 		action = UndoManager.UndoAction (self, UNDO_DELETE, self.undo_deletion, copy.copy(self.selected))
@@ -783,6 +791,8 @@ class MMapArea (gtk.DrawingArea):
 					if l.uses (t):
 						action.add_arg (l)
 				self.delete_thought (t)
+			if t in self.links:
+				self.delete_link (t)
 			if len (tmp) == 0:
 				t = None
 			else:
