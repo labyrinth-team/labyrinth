@@ -57,9 +57,9 @@ class DrawingThought (BaseThought.ResizableThought):
 			self.x += x
 			self.y += y
 
-	def __init__ (self, coords, pango_context, thought_number, save, undo, loading):
+	def __init__ (self, coords, pango_context, thought_number, save, undo, loading, background_color, foreground_color):
 		global ndraw
-		super (DrawingThought, self).__init__(save, "drawing_thought", undo)
+		super (DrawingThought, self).__init__(save, "drawing_thought", undo, background_color, foreground_color)
 		ndraw+=1
 		self.identity = thought_number
 		self.want_move = False
@@ -80,7 +80,7 @@ class DrawingThought (BaseThought.ResizableThought):
 		self.all_okay = True
 
 	def draw (self, context):
-		utils.draw_thought_outline (context, self.ul, self.lr, self.am_selected, self.am_primary, utils.STYLE_NORMAL)
+		utils.draw_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_NORMAL)
 		cwidth = context.get_line_width ()
 		context.set_line_width (2)
 		if len (self.points) > 0:
@@ -91,7 +91,7 @@ class DrawingThought (BaseThought.ResizableThought):
 					context.line_to (p.x,p.y)
 
 		context.set_line_width (cwidth)
-		#context.set_source_rgb (0, 0, 0)
+		context.set_source_color (self.foreground_color)
 		context.stroke ()
 		return
 
@@ -450,6 +450,8 @@ class DrawingThought (BaseThought.ResizableThought):
 		self.element.setAttribute ("ul-coords", str(self.ul))
 		self.element.setAttribute ("lr-coords", str(self.lr))
 		self.element.setAttribute ("identity", str(self.identity))
+		self.element.setAttribute ("background-color", self.background_color.to_string())
+		self.element.setAttribute ("foreground-color", self.foreground_color.to_string())
 		self.element.setAttribute ("min_x", str(self.min_x))
 		self.element.setAttribute ("min_y", str(self.min_y))
 		self.element.setAttribute ("max_x", str(self.max_x))
@@ -483,6 +485,13 @@ class DrawingThought (BaseThought.ResizableThought):
 		tmp = node.getAttribute ("lr-coords")
 		self.lr = utils.parse_coords (tmp)
 		self.identity = int (node.getAttribute ("identity"))
+		try:
+			tmp = node.getAttribute ("background-color")
+			self.background_color = gtk.gdk.color_parse(tmp)
+			tmp = node.getAttribute ("foreground-color")
+			self.foreground_color = gtk.gdk.color_parse(tmp)
+		except ValueError:
+			pass
 		self.min_x = float(node.getAttribute ("min_x"))
 		self.min_y = float(node.getAttribute ("min_y"))
 		self.max_x = float(node.getAttribute ("max_x"))
@@ -512,7 +521,7 @@ class DrawingThought (BaseThought.ResizableThought):
 				print "Unknown node type: "+str(n.nodeName)
 
 	def export (self, context, move_x, move_y):
-		utils.export_thought_outline (context, self.ul, self.lr, self.am_selected, self.am_primary, utils.STYLE_NORMAL,
+		utils.export_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_NORMAL,
 									  (move_x, move_y))
 		cwidth = context.get_line_width ()
 		context.set_line_width (1)
@@ -524,6 +533,7 @@ class DrawingThought (BaseThought.ResizableThought):
 					context.line_to (p.x+move_x,p.y+move_y)
 
 		context.set_line_width (cwidth)
+		context.set_source_color (self.foreground_color)
 		context.stroke ()
 		return
 

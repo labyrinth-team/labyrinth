@@ -36,8 +36,8 @@ MODE_DRAW = 2
 UNDO_RESIZE = 0
 
 class ImageThought (BaseThought.ResizableThought):
-	def __init__ (self, coords, pango_context, thought_number, save, undo, loading):
-		super (ImageThought, self).__init__(save, "image_thought", undo)
+	def __init__ (self, coords, pango_context, thought_number, save, undo, loading, background_color):
+		super (ImageThought, self).__init__(save, "image_thought", undo, background_color, None)
 
 		self.identity = thought_number
 		margin = utils.margin_required (utils.STYLE_NORMAL)
@@ -88,7 +88,7 @@ class ImageThought (BaseThought.ResizableThought):
 		return True
 
 	def draw (self, context):
-		utils.draw_thought_outline (context, self.ul, self.lr, self.am_selected, self.am_primary, utils.STYLE_NORMAL)
+		utils.draw_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_NORMAL)
 
 		if self.pic:
 			context.set_source_pixbuf (self.pic, self.pic_location[0], self.pic_location[1])
@@ -97,7 +97,7 @@ class ImageThought (BaseThought.ResizableThought):
 		context.set_source_rgb (0,0,0)
 
 	def export (self, context, move_x, move_y):
-		utils.export_thought_outline (context, self.ul, self.lr, self.am_selected, self.am_primary, utils.STYLE_NORMAL,
+		utils.export_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_NORMAL,
 									  (move_x, move_y))
 
 		if self.pic:
@@ -248,6 +248,7 @@ class ImageThought (BaseThought.ResizableThought):
 		self.element.setAttribute ("ul-coords", str(self.ul))
 		self.element.setAttribute ("lr-coords", str(self.lr))
 		self.element.setAttribute ("identity", str(self.identity))
+		self.element.setAttribute ("background-color", self.background_color.to_string())
 		self.element.setAttribute ("file", str(self.filename))
 		self.element.setAttribute ("image_width", str(self.width))
 		self.element.setAttribute ("image_height", str(self.height))
@@ -274,6 +275,11 @@ class ImageThought (BaseThought.ResizableThought):
 		self.lr = utils.parse_coords (tmp)
 		self.filename = node.getAttribute ("file")
 		self.identity = int (node.getAttribute ("identity"))
+		try:
+			tmp = node.getAttribute ("background-color")
+			self.background_color = gtk.gdk.color_parse(tmp)
+		except ValueError:
+			pass
 		self.width = float(node.getAttribute ("image_width"))
 		self.height = float(node.getAttribute ("image_height"))
 		if node.hasAttribute ("current_root"):

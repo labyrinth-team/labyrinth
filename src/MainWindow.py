@@ -30,7 +30,6 @@ import UndoManager
 import utils
 from MapList import MapList
 import xml.dom.minidom as dom
-import os
 
 map_number = 1
 
@@ -98,6 +97,26 @@ class LabyrinthWindow (gtk.Window):
 		self.underline_widget = self.ui.get_widget('/AddedTools/Underline')
 		self.underline_block = False
 		self.underline_state = False
+
+		toolbar = self.ui.get_widget('/AddedTools')
+		self.font_widget = gtk.FontButton()
+		toolitem = gtk.ToolItem()
+		toolitem.add(self.font_widget)
+		toolbar.insert(toolitem, -1)
+
+		self.background_widget = gtk.ColorButton(gtk.gdk.color_parse("white"))
+		self.background_widget.set_title(_("Choose background color"))
+		toolitem = gtk.ToolItem()
+		toolitem.add(self.background_widget)
+		toolbar.insert(toolitem, -1)
+		self.background_widget.connect ("color-set", self.background_change_cb)
+
+		self.foreground_widget = gtk.ColorButton(gtk.gdk.color_parse("black"))
+		self.foreground_widget.set_title(_("Choose foreground color"))
+		toolitem = gtk.ToolItem()
+		toolitem.add(self.foreground_widget)
+		toolbar.insert(toolitem, -1)
+		self.foreground_widget.connect ("color-set", self.foreground_change_cb)
 
 		self.cut = self.ui.get_widget ('/MenuBar/EditMenu/Cut')
 		self.copy = self.ui.get_widget ('/MenuBar/EditMenu/Copy')
@@ -373,6 +392,17 @@ class LabyrinthWindow (gtk.Window):
 			self.extended.get_buffer().set_underline(action.get_active())
 		else:
 			self.MainArea.set_underline (action.get_active())
+
+	def foreground_change_cb (self, button):
+			if not self.extended.is_focus ():
+				self.MainArea.set_foreground_color (button.get_color())
+
+	def background_change_cb (self, button):
+		if not self.extended.is_focus ():
+			self.MainArea.set_background_color (button.get_color())
+
+	def font_change_cb (self, action):
+		return
 
 	def zoomin_cb(self, arg):
 		self.MainArea.scale_fac*=1.2

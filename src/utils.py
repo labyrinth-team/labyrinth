@@ -108,9 +108,9 @@ def get_data_file (file_name):
 # - The normal thought type
 STYLE_NORMAL = 0
 
-def draw_thought_outline (context, ul, lr, am_root = False, am_primary = False, style=STYLE_NORMAL):
+def draw_thought_outline (context, ul, lr, background_color, am_root = False, am_primary = False, style=STYLE_NORMAL):
 	if style == STYLE_NORMAL:
-		draw_thought_classic (context, ul, lr, am_root, am_primary)
+		draw_thought_classic (context, ul, lr, am_root, am_primary, background_color)
 	else:
 		print "Error: Unknown thought style: "+str(style)
 
@@ -126,7 +126,7 @@ def margin_required (style = STYLE_NORMAL):
 def margin_thought_classic ():
 	return (5, 5, 5, 5)
 
-def draw_thought_classic (context, ul, lr, am_root, am_primary):
+def draw_thought_classic (context, ul, lr, am_root, am_primary, background_color):
 	context.move_to (ul[0], ul[1]+5)
 	context.line_to (ul[0], lr[1]-5)
 	context.curve_to (ul[0], lr[1], ul[0], lr[1], ul[0]+5, lr[1])
@@ -141,16 +141,16 @@ def draw_thought_classic (context, ul, lr, am_root, am_primary):
 	elif am_primary:
 		context.set_source_rgb (0.937, 0.831, 0.000)
 	else:
-		context.set_source_rgb (1.0,1.0,1.0)
+		context.set_source_color (background_color)
 	context.fill_preserve ()
 	context.set_source_rgb (0,0,0)
 	context.stroke ()
 
 # Export outline stuff
-def export_thought_outline (context, ul, lr, am_root = False, am_primary = False, style=STYLE_NORMAL, move=(0,0)):
+def export_thought_outline (context, ul, lr, background_color, am_root = False, am_primary = False, style=STYLE_NORMAL, move=(0,0)):
 	real_ul = (ul[0]+move[0], ul[1]+move[1])
 	real_lr = (lr[0]+move[0], lr[1]+move[1])
 	if style == STYLE_NORMAL:
-		draw_thought_classic (context, real_ul, real_lr, False, am_primary)
+		draw_thought_classic (context, real_ul, real_lr, False, am_primary, background_color)
 	else:
 		print "Error: Unknown thought style: "+str(style)

@@ -85,7 +85,7 @@ class BaseThought (gobject.GObject):
 	# before you start doing you're own thing with thoughts
 	# save: the save document passed into the derived constructor
 	# elem_type: a string representing the thought type (e.g. "image_thought")
-	def __init__ (self, save, elem_type, undo):
+	def __init__ (self, save, elem_type, undo, background_color, foreground_color):
 		# Note: Once the thought has been successfully initialised (i.e. at the end
 		# of the constructor) you MUST set all_okay to True
 		# Otherwise, bad things will happen.
@@ -102,6 +102,8 @@ class BaseThought (gobject.GObject):
 		self.text = ""
 		self.want_move = False
 		self.undo = undo
+		self.background_color = background_color
+		self.foreground_color = foreground_color
 		extended_elem = save.createElement ("Extended")
 		self.extended_buffer = TextBufferMarkup.ExtendedBuffer (self.undo, extended_elem, save)
 		self.extended_buffer.set_text("")
@@ -218,20 +220,20 @@ class BaseThought (gobject.GObject):
 	def recalc_edges (self):
 		pass
 
- 	def delete_surroundings(self, imcontext, offset, n_chars, mode):
- 		pass
+	def delete_surroundings(self, imcontext, offset, n_chars, mode):
+		pass
 
- 	def preedit_changed (self, imcontext, mode):
- 		pass
+	def preedit_changed (self, imcontext, mode):
+		pass
 
- 	def preedit_end (self, imcontext, mode):
- 		pass
+	def preedit_end (self, imcontext, mode):
+		pass
 
- 	def preedit_start (self, imcontext, mode):
- 		pass
+	def preedit_start (self, imcontext, mode):
+		pass
 
- 	def retrieve_surroundings (self, imcontext, mode):
- 		pass
+	def retrieve_surroundings (self, imcontext, mode):
+		pass
 	
 	def set_bold (self, active):
 		pass
@@ -253,8 +255,8 @@ class ResizableThought (BaseThought):
 	RESIZE_LL = 7
 	RESIZE_LR = 8
 
-	def __init__ (self, save, elem_type, undo):
-		super (ResizableThought, self).__init__(save, elem_type, undo)
+	def __init__ (self, save, elem_type, undo, background_color, foreground_color):
+		super (ResizableThought, self).__init__(save, elem_type, undo, background_color, foreground_color)
 		self.resizing = False
 		self.button_down = False
 

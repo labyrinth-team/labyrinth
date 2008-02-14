@@ -24,7 +24,6 @@ import gtk
 
 import BaseThought
 import utils
-import xml.dom.minidom as dom
 import math
 
 def norm(x, y):
@@ -118,9 +117,18 @@ class Link (gobject.GObject):
 		cwidth = context.get_line_width ()
 		context.set_line_width (self.strength)
 		context.move_to (self.start[0], self.start[1])
+
+		#dx = self.start[0] - self.end[0]
+		#dy = self.start[1] - self.end[1]
+		#x2 = self.end[0] + (dx * 2 / 3)
+		#y2 = self.end[1] + (dy / 3)
+		#x3 = self.end[0] + (dx / 3)
+		#y3 = self.end[1] + (dy * 2 / 3)
+		#context.curve_to(x2,y2, x3, y3, self.end[0], self.end[1])
 		context.line_to (self.end[0], self.end[1])
+
 		context.stroke ()
-		context.set_line_width (cwidth)
+
 		if self.selected:
 			st_norm = norm(self.start, self.end)
 			start_x1 = self.start[0] + st_norm[1]*(5+self.strength)

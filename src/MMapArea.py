@@ -158,6 +158,9 @@ class MMapArea (gtk.DrawingArea):
 						)
 
 		self.set_flags (gtk.CAN_FOCUS)
+		
+		self.background_color = gtk.gdk.color_parse("white")
+		self.foreground_color = gtk.gdk.color_parse("black")
 
 	def transform_coords(self, loc_x, loc_y):
 		return self.transform.transform_point(loc_x, loc_y)
@@ -684,12 +687,12 @@ class MMapArea (gtk.DrawingArea):
 			type = self.mode
 
 		if type == TYPE_TEXT:
-			thought = TextThought.TextThought (coords, self.pango_context, self.nthoughts, self.save, self.undo, loading)
+			thought = TextThought.TextThought (coords, self.pango_context, self.nthoughts, self.save, self.undo, loading, self.background_color, self.foreground_color)
 		elif type == TYPE_IMAGE:
-			thought = ImageThought.ImageThought (coords, self.pango_context, self.nthoughts, self.save, self.undo, loading)
+			thought = ImageThought.ImageThought (coords, self.pango_context, self.nthoughts, self.save, self.undo, loading, self.background_color)
 		elif type == TYPE_DRAWING:
 			thought = DrawingThought.DrawingThought (coords, self.pango_context, self.nthoughts, self.save, self.undo,	\
-													 loading)
+													 loading,self.background_color, self.foreground_color)
 		if not thought.okay ():
 			return None
 
@@ -1091,6 +1094,20 @@ class MMapArea (gtk.DrawingArea):
 			return
 		self.selected[0].set_underline (active)
 		self.invalidate()
+	
+	def set_background_color(self, color):
+		for s in self.selected:
+			s.background_color = color
+			self.background_color = color
+		if len(self.selected) > 1:
+			self.invalidate()
+
+	def set_foreground_color(self, color):
+		for s in self.selected:
+			s.foreground_color = color
+			self.foreground_color = color
+		if len(self.selected) > 1:
+			self.invalidate()
 	
 class CursorFactory:
 	__shared_state = {"cursors": {}}
