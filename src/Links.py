@@ -128,6 +128,7 @@ class Link (gobject.GObject):
 		context.line_to (self.end[0], self.end[1])
 
 		context.stroke ()
+		context.set_line_width (cwidth)
 
 		if self.selected:
 			st_norm = norm(self.start, self.end)
