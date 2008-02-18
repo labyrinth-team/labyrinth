@@ -1,3 +1,9 @@
+2008-02-18  Don Scorgie  <Don@Scorgie.org>
+
+	* src/MMapArea.py: 
+	Fix backspace and delete when not
+	editing
+
 2007-05-21 Don Scorgie <Don@Scorgie.org>
 
 	* src/MapList.py:

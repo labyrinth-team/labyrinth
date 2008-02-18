@@ -885,9 +885,9 @@ class MMapArea (gtk.DrawingArea):
 		elif event.keyval == gtk.keysyms.Right:
 			thought = self.find_related_thought (RAD_RIGHT)			
 		elif event.keyval == gtk.keysyms.Delete:
-			self.delete_selected_thoughts ()
+			self.delete_selected_elements ()
 		elif event.keyval == gtk.keysyms.BackSpace:
-			self.delete_selected_thoughts ()
+			self.delete_selected_elements ()
 		elif event.keyval == gtk.keysyms.Menu:
 			self.popup_menu_key (event)
 		elif event.keyval == gtk.keysyms.a and event.state & gtk.gdk.CONTROL_MASK:
