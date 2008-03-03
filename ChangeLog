@@ -1,8 +1,65 @@
+2008-03-03 Martin Schaaf <mascha@ma-scha.de>
+
+	* ChangeLog
+	o add missing entries
+
 2008-02-18  Don Scorgie  <Don@Scorgie.org>
 
 	* src/MMapArea.py: 
 	Fix backspace and delete when not
 	editing
+
+2008-02-14 Martin Schaaf <mascha@ma-scha.de>
+
+	* /svn_ignore
+	add eclipse files to svn ignore 	
+
+2008-02-14 Martin Schaaf <mascha@ma-scha.de>
+
+	* src/Links.py
+	set line witdth after link drawing back to original size 	
+
+2008-02-14 Martin Schaaf <mascha@ma-scha.de>
+
+	* src/MainWindow.py
+	* src/MMapArea.py
+	* src/*Thought.py
+	* src/utils.py
+	* src/Links.py
+	add foreground and background color selection/setting support  	
+
+2008-02-04 Martin Schaaf <mascha@ma-scha.de>
+
+	* src/MainWindow.py
+	* src/MMapArea.py
+	o allow deletion of links
+	o add some checks before deletion
+	o catch attribute error exceptions in some cases where not only thoughts are expected  	
+
+2008-02-04 Martin Schaaf <mascha@ma-scha.de>
+
+	* src/MMapArea.py
+	o test for link element in child nodes, fixes bug introduced with
+	  last commit for element checking in dom tree 	
+
+2008-02-04 Martin Schaaf <mascha@ma-scha.de>
+
+	* src/MainWindow.py
+	* src/MMapArea.py
+	o catch AttributeError in get_selection_bounds when it is called with link object
+	o fix todo to check if a link exists before its deletion
+	o only delete thoughts by selcting Edit/DeleteThoughts (fixes issue 66)
+	o revert the last fix for link edit and add a better one 	
+
+2008-02-03 Martin Schaaf <mascha@ma-scha.de>
+
+	* src/MainWindow.py
+	o set edit menu entries insensitive, when they cannot be used with the selected object 	
+
+2008-01-31 Martin Schaaf <mascha@ma-scha.de>
+
+	* src/MapList.py:
+	o fix for Issue 68 - delete map corrupts open list 	
 
 2007-05-21 Don Scorgie <Don@Scorgie.org>
 
