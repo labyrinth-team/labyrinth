@@ -79,6 +79,7 @@ class LabyrinthWindow (gtk.Window):
 		self.MainArea.connect ("change_mode", self.mode_request_cb)
 		self.MainArea.connect ("button-press-event", self.main_area_focus_cb)
 		self.MainArea.connect ("change_buffer", self.switch_buffer_cb)
+		self.MainArea.connect ("thought_selection_changed", self.thought_selected_cb)
 		if os.name != 'nt':
 			self.MainArea.connect ("text_selection_changed", self.selection_changed_cb)
 		self.MainArea.connect ("set_focus", self.main_area_focus_cb)
@@ -423,7 +424,11 @@ class LabyrinthWindow (gtk.Window):
 		else:
 			self.extended.set_buffer (self.invisible_buffer)
 			self.extended.set_editable (False)
-
+			
+	def thought_selected_cb (self, arg, background_color, foreground_color):
+		self.background_widget.set_color(background_color)
+		self.foreground_widget.set_color(foreground_color)
+		
 	def main_area_focus_cb (self, arg, event, extended = False):
 		if not extended:
 			self.MainArea.grab_focus ()

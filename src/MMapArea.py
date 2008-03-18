@@ -96,6 +96,9 @@ class MMapArea (gtk.DrawingArea):
 						 text_selection_changed  = (gobject.SIGNAL_RUN_FIRST,
 						 					   gobject.TYPE_NONE,
 						 					   (gobject.TYPE_INT, gobject.TYPE_INT, gobject.TYPE_STRING)),
+						 thought_selection_changed = (gobject.SIGNAL_RUN_FIRST,
+						 						gobject.TYPE_NONE,
+						 						(gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT)),
 						 set_focus				 = (gobject.SIGNAL_RUN_FIRST,
 						 							gobject.TYPE_NONE,
 						 							(gobject.TYPE_PYOBJECT, gobject.TYPE_BOOLEAN)),
@@ -499,6 +502,7 @@ class MMapArea (gtk.DrawingArea):
 				self.current_root.append(x)
 		thought.select ()
 		if len(self.selected) == 1:
+			self.emit ("thought_selection_changed", thought.background_color, thought.foreground_color)
 			try:
 				self.emit ("change_buffer", thought.extended_buffer)
 			except AttributeError:
