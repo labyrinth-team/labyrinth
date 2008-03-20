@@ -166,7 +166,8 @@ class MMapArea (gtk.DrawingArea):
 		self.foreground_color = gtk.gdk.color_parse("black")
 
 	def transform_coords(self, loc_x, loc_y):
-		return self.transform.transform_point(loc_x, loc_y)
+		if hasattr(self, "transform"):
+			return self.transform.transform_point(loc_x, loc_y)
 
 	def button_down (self, widget, event):
 		coords = self.transform_coords (event.get_coords()[0], event.get_coords()[1])
