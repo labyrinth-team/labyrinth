@@ -827,8 +827,9 @@ class TextThought (BaseThought.BaseThought):
 				self.element.removeChild (next)
 				next.unlink ()
 			next = m
-	
-		self.text_element.replaceWholeText (self.text)
+
+		if self.text_element.parentNode is not None:
+			self.text_element.replaceWholeText (self.text)
 		text = self.extended_buffer.get_text ()
 		if text:
 			self.extended_buffer.update_save()

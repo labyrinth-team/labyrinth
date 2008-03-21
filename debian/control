@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Martin Schaaf <mascha@ma-scha.de>
 Build-Depends: cdbs (>= 0.4.43), debhelper (>= 5.0.37.2), python-central (>= 0.5)
 Build-Depends-Indep: python-dev (>= 2.4), pkg-config, libxml-parser-perl, libgtk2.0-dev (>= 2.8), python-gtk2-dev (>= 2.8), python-gobject-dev (>= 2.10), python-gnome2-dev (>= 2.12), libgnome-desktop-dev (>= 2.14), python-cairo-dev (>= 1.0)
-Standards-Version: 3.7.2
+Standards-Version: 3.7.3
 XS-Python-Version: all
 
 Package: labyrinth

@@ -1,5 +1,12 @@
 2008-03-21 Martin Schaaf <mascha@ma-scha.de>
 
+	* debian/control
+	o add newer standard version
+	* src/ImageThought.py
+	o fix exception by only replace whole text if a parent node exist
+
+2008-03-21 Martin Schaaf <mascha@ma-scha.de>
+
 	* debian/*
 	o add debian package management support
 	* configure.ac
