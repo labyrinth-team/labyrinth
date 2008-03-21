@@ -626,7 +626,8 @@ class LabyrinthWindow (gtk.Window):
 		filter_mapping = [  (_('All Files'), ['*']),
 							(_('PNG Image (*.png)'), ['*.png']),
 							(_('JPEG Image (*.jpg, *.jpeg)'), ['*.jpeg', '*.jpg']),
-							(_('SVG Vector Image (*.svg)'), ['*.svg']) ]
+							(_('SVG Vector Image (*.svg)'), ['*.svg']),
+							(_('PDF Portable Document (*.pdf)'), ['*.pdf']) ]
 
 		for (filter_name, filter_patterns) in filter_mapping:
 			fil = gtk.FileFilter ()
@@ -652,19 +653,15 @@ class LabyrinthWindow (gtk.Window):
 		# Cheesy loop.  Break out as needed.
 			response = dialog.run()
 			if response == gtk.RESPONSE_OK:
+				ext_mime_mapping = { 'png':'png', 'jpg':'jpeg', 'jpeg':'jpeg', \
+									 'svg':'svg', 'pdf':'pdf' }
 				filename = fc.get_filename()
 				ext = filename[filename.rfind('.')+1:]
 
-				if ext == 'png':
-					mime = 'png'
+				try:
+					mime = ext_mime_mapping[ext]
 					break
-				elif ext == 'jpg' or ext == 'jpeg':
-					mime = 'jpeg'
-					break
-				elif ext == 'svg':
-					mime = 'svg'
-					break
-				else:
+				except KeyError:
 					msg = gtk.MessageDialog(self, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, \
 											_("Unknown file format"))
 					msg.format_secondary_text (_("The file type '%s' is unsupported.  Please use the suffix '.png',"\
@@ -674,6 +671,7 @@ class LabyrinthWindow (gtk.Window):
 			else:
 				dialog.destroy ()
 				return
+				
 		true_width = int (self.spin_width.get_value ())
 		true_height = int (self.spin_height.get_value ())
 		native = not rad.get_active ()
@@ -682,7 +680,12 @@ class LabyrinthWindow (gtk.Window):
 		if mime in ['png', 'jpg']:
 			self.save_as_pixmap(filename, mime, true_width, true_height, bitdepth, native)
 		else:
-			self.save_as_svg(filename, true_width, true_height, native)
+			surface = None
+			if mime == 'svg': 
+				surface = cairo.SVGSurface(filename, true_width, true_height)
+			elif mime == 'pdf':
+				surface = cairo.PDFSurface(filename, true_width, true_height)
+			self.save_surface(surface, true_width, true_height, native)
 
 	def save_as_pixmap(self, filename, mime, width, height, bitdepth, native):
 		pixmap = gtk.gdk.Pixmap (None, width, height, bitdepth)
@@ -694,8 +697,7 @@ class LabyrinthWindow (gtk.Window):
 											  0, 0, 0, 0, width, height)
 		pb.save(filename, mime)
 		
-	def save_as_svg(self, filename, width, height, native):
-		surface = cairo.SVGSurface(filename, width, height)
+	def save_surface(self, surface, width, height, native):
 		cairo_context = cairo.Context(surface)
 		context = pangocairo.CairoContext(cairo_context)
 		self.MainArea.export(context, width, height, native)
