@@ -24,6 +24,7 @@ import xml.dom.minidom as dom
 import xml.dom
 import gettext
 _ = gettext.gettext
+import cairo
 
 import BaseThought
 import utils
@@ -99,15 +100,15 @@ class ImageThought (BaseThought.ResizableThought):
 	def export (self, context, move_x, move_y):
 		utils.export_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_NORMAL,
 									  (move_x, move_y))
-		try:
-			if self.pic:
+		if self.pic:
+			if hasattr(context, "set_source_pixbuf"):
 				context.set_source_pixbuf (self.pic, self.pic_location[0]+move_x, self.pic_location[1]+move_y)
-				context.rectangle (self.pic_location[0]+move_x, self.pic_location[1]+move_y,
-							   self.width, self.height)
-				context.fill ()
-			context.set_source_rgb (0,0,0)
-		except:
-			pass	# we cannot export bitmaps to SVGs
+			elif hasattr(context, "set_source_surface"):
+				image_surface = cairo.ImageSurface.create_for_data(self.pic.get_pixels_array(), cairo.FORMAT_ARGB32, self.width, self.height, -1)
+				context.set_source_surface (image_surface, self.pic_location[0]+move_x, self.pic_location[1]+move_y)
+			context.rectangle (self.pic_location[0]+move_x, self.pic_location[1]+move_y, self.width, self.height)
+			context.fill ()
+		context.set_source_rgb (0,0,0)
 
 	def want_motion (self):
 		return self.want_move

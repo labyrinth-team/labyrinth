@@ -1,5 +1,10 @@
 2008-03-21 Martin Schaaf <mascha@ma-scha.de>
 
+	* src/ImageThought.py
+	o export also bitmaps to cairo surface (pdf, svg), but there is a small color problem
+
+2008-03-21 Martin Schaaf <mascha@ma-scha.de>
+
 	* debian/control
 	o add newer standard version
 	* src/ImageThought.py
