@@ -1,0 +1,11 @@
+#!/usr/bin/make -f
+DEB_AUTO_CLEANUP_RCS            := yes
+DEB_PYTHON_SYSTEM               := pycentral
+
+include /usr/share/cdbs/1/class/gnome.mk
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/rules/simple-patchsys.mk
+
+binary-post-install/labyrinth::
+	dh_pycentral
+	dh_python

@@ -1,0 +1,17 @@
+labyrinth (0.4.0-0rc2) gutsy; urgency=low
+
+  * Save and load browser size, fixing issue 18
+  * add export as pdf
+  * add svg export support
+  * Fix potential exception on map opening
+  * Give all points their own unique colour
+  * Update the colour selectors when loading a map
+
+ -- Martin Schaaf (Privat) <mascha@ma-scha.de>  Fri, 21 Mar 2008 15:00:00 +0100
+
+labyrinth (0.4.0-0rc1) gutsy; urgency=low
+
+  * fix issues 37, 38, 66, 68, 13, 11, 64, 45, 69, 73 and other bugs
+
+ -- Martin Schaaf (Privat) <mascha@ma-scha.de>  Fri, 21 Mar 2008 15:00:00 +0100
+

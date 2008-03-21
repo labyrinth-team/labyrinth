@@ -1,7 +1,7 @@
 dnl configure.ac based on the same from
 dnl the "deskbar-applet" module
 
-AC_INIT(labyrinth, 0.3, labyrinth-devel@googlecode.com)
+AC_INIT(labyrinth, 0.4.0rc2, labyrinth-devel@googlecode.com)
 AC_CONFIG_SRCDIR(src/__init__.py)
 AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_MACRO_DIR([m4])
