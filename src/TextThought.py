@@ -317,7 +317,8 @@ class TextThought (BaseThought.BaseThought):
 				context.line_to (self.lr[0]-5, self.ul[1])
 			context.stroke ()
 
-		context.set_source_color (self.foreground_color)
+		r,g,b = utils.gtk_to_cairo_color(self.foreground_color)
+		context.set_source_rgb (r, g, b)
 		context.move_to (self.text_location[0], self.text_location[1])
 		context.show_layout (self.layout)
 		if self.editing:
@@ -811,7 +812,8 @@ class TextThought (BaseThought.BaseThought):
 		utils.export_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_NORMAL,
 									  (move_x, move_y))
 
-		context.set_source_color (self.foreground_color)
+		r,g,b = utils.gtk_to_cairo_color (self.foreground_color)
+		context.set_source_rgb (r, g, b)
 		context.move_to (self.text_location[0]+move_x, self.text_location[1]+move_y)
 		context.show_layout (self.layout)
 		context.set_source_rgb (0,0,0)

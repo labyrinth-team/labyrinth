@@ -126,6 +126,9 @@ def margin_required (style = STYLE_NORMAL):
 def margin_thought_classic ():
 	return (5, 5, 5, 5)
 
+def gtk_to_cairo_color(color):
+	return (color.red / 65535.0, color.green / 65535.0, color.blue / 65535.0)
+
 def draw_thought_classic (context, ul, lr, am_root, am_primary, background_color):
 	context.move_to (ul[0], ul[1]+5)
 	context.line_to (ul[0], lr[1]-5)
@@ -141,7 +144,8 @@ def draw_thought_classic (context, ul, lr, am_root, am_primary, background_color
 	elif am_primary:
 		context.set_source_rgb (0.937, 0.831, 0.000)
 	else:
-		context.set_source_color (background_color)
+		r,g,b = gtk_to_cairo_color(background_color)
+		context.set_source_rgb (r, g, b)
 	context.fill_preserve ()
 	context.set_source_rgb (0,0,0)
 	context.stroke ()

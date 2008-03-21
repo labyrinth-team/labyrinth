@@ -20,6 +20,7 @@
 #
 
 import gtk
+import cairo, pangocairo
 import sha
 import os
 import gobject
@@ -622,10 +623,18 @@ class LabyrinthWindow (gtk.Window):
 		fc = gtk.FileChooserWidget(gtk.FILE_CHOOSER_ACTION_SAVE)
 		box.pack_end (fc)
 
-		fil = gtk.FileFilter ()
-		fil.set_name("Images")
-		fil.add_pixbuf_formats ()
-		fc.add_filter(fil)
+		filter_mapping = [  (_('All Files'), ['*']),
+							(_('PNG Image (*.png)'), ['*.png']),
+							(_('JPEG Image (*.jpg, *.jpeg)'), ['*.jpeg', '*.jpg']),
+							(_('SVG Vector Image (*.svg)'), ['*.svg']) ]
+
+		for (filter_name, filter_patterns) in filter_mapping:
+			fil = gtk.FileFilter ()
+			fil.set_name(filter_name)
+			for pattern in filter_patterns:
+				fil.add_pattern(pattern)
+			fc.add_filter(fil)
+
 		fc.set_current_name ("%s.png" % self.title)
 		rad = glade.get_widget ('radiobutton1')
 		rad2 = glade.get_widget ('radiobutton2')
@@ -652,11 +661,14 @@ class LabyrinthWindow (gtk.Window):
 				elif ext == 'jpg' or ext == 'jpeg':
 					mime = 'jpeg'
 					break
+				elif ext == 'svg':
+					mime = 'svg'
+					break
 				else:
 					msg = gtk.MessageDialog(self, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, \
 											_("Unknown file format"))
-					msg.format_secondary_text (_('The file type \'%s\' is unsupported.  Please use the suffix \'.png\''\
-											   ' or \'.jpg\'' % ext))
+					msg.format_secondary_text (_("The file type '%s' is unsupported.  Please use the suffix '.png',"\
+											   " '.jpg' or '.svg'." % ext))
 					msg.run ()
 					msg.destroy ()
 			else:
@@ -667,14 +679,27 @@ class LabyrinthWindow (gtk.Window):
 		native = not rad.get_active ()
 		dialog.destroy ()
 
-		pixmap = gtk.gdk.Pixmap (None, true_width, true_height, bitdepth)
-		self.MainArea.export (pixmap.cairo_create (), true_width, true_height, native)
+		if mime in ['png', 'jpg']:
+			self.save_as_pixmap(filename, mime, true_width, true_height, bitdepth, native)
+		else:
+			self.save_as_svg(filename, true_width, true_height, native)
 
-		pb = gtk.gdk.Pixbuf.get_from_drawable(gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, true_width, true_height), \
+	def save_as_pixmap(self, filename, mime, width, height, bitdepth, native):
+		pixmap = gtk.gdk.Pixmap (None, width, height, bitdepth)
+		self.MainArea.export (pixmap.cairo_create (), width, height, native)
+
+		pb = gtk.gdk.Pixbuf.get_from_drawable(gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, width, height), \
 											  pixmap, \
 											  gtk.gdk.colormap_get_system(), \
-											  0, 0, 0, 0, true_width, true_height)
+											  0, 0, 0, 0, width, height)
 		pb.save(filename, mime)
+		
+	def save_as_svg(self, filename, width, height, native):
+		surface = cairo.SVGSurface(filename, width, height)
+		cairo_context = cairo.Context(surface)
+		context = pangocairo.CairoContext(cairo_context)
+		self.MainArea.export(context, width, height, native)
+		surface.finish()
 
 	def selection_changed_cb (self, area, start, end, text):
 		clip = gtk.Clipboard (selection="PRIMARY")

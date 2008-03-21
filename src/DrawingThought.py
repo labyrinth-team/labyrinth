@@ -87,7 +87,8 @@ class DrawingThought (BaseThought.ResizableThought):
 			for p in self.points:
 				if p.style == STYLE_BEGIN:
 					context.move_to (p.x, p.y)
-					context.set_source_color (p.color)
+					r,g,b = utils.gtk_to_cairo_color(self.foreground_color)
+					context.set_source_rgb (r, g, b)
 				elif p.style == STYLE_END:
 					context.line_to (p.x, p.y)
 					context.stroke()
@@ -547,7 +548,8 @@ class DrawingThought (BaseThought.ResizableThought):
 					context.line_to (p.x+move_x,p.y+move_y)
 
 		context.set_line_width (cwidth)
-		context.set_source_color (self.foreground_color)
+		r,g,b = utils.gtk_to_cairo_color(self.foreground_color)
+		context.set_source_rgb (r, g, b)
 		context.stroke ()
 		return
 

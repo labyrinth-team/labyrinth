@@ -99,13 +99,15 @@ class ImageThought (BaseThought.ResizableThought):
 	def export (self, context, move_x, move_y):
 		utils.export_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_NORMAL,
 									  (move_x, move_y))
-
-		if self.pic:
-			context.set_source_pixbuf (self.pic, self.pic_location[0]+move_x, self.pic_location[1]+move_y)
-			context.rectangle (self.pic_location[0]+move_x, self.pic_location[1]+move_y,
+		try:
+			if self.pic:
+				context.set_source_pixbuf (self.pic, self.pic_location[0]+move_x, self.pic_location[1]+move_y)
+				context.rectangle (self.pic_location[0]+move_x, self.pic_location[1]+move_y,
 							   self.width, self.height)
-			context.fill ()
-		context.set_source_rgb (0,0,0)
+				context.fill ()
+			context.set_source_rgb (0,0,0)
+		except:
+			pass	# we cannot export bitmaps to SVGs
 
 	def want_motion (self):
 		return self.want_move
