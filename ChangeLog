@@ -1,3 +1,9 @@
+2008-03-21 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/MapList.py
+	* src/Browser.py
+	Save and load browser size, fixing issue 18
+
 2008-03-21 Martin Schaaf <mascha@ma-scha.de>
 
 	* src/DrawingThought.py

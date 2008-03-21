@@ -27,6 +27,8 @@ import gtk
 import xml.dom.minidom as dom
 import datetime
 
+CONFIG_FILE_NAME = 'labyrinth.cfg'
+
 class MapList(object):
 	COL_ID = 0
 	COL_TITLE = 1
@@ -104,7 +106,8 @@ class MapList(object):
 	@classmethod
 	def load_all_from_dir(cls,dir):
 		for f in os.listdir(dir):
-			cls.new_from_file(dir+f)
+			if f != CONFIG_FILE_NAME:
+				cls.new_from_file(dir+f)
 
 	@classmethod
 	def new_from_file(cls, filename):

@@ -24,6 +24,7 @@ import utils
 import pygtk
 import gtk
 import optparse
+import ConfigParser
 import sys
 from os.path import *
 import os
@@ -36,12 +37,12 @@ import pango
 import gettext
 _ = gettext.gettext
 
+CONFIG_FILE_NAME = 'labyrinth.cfg'
 
 class Browser (gtk.Window):
 	COL_ID = 0
 	COL_TITLE = 1
 	COL_MODTIME = 2
-
 
 	def __init__(self, start_hidden, tray_icon):
 		super(Browser, self).__init__()
@@ -78,7 +79,20 @@ class Browser (gtk.Window):
 			x.set_sensitive (False)
 
 		self.main_window = self.glade.get_widget ('MapBrowser')
-		self.main_window.set_size_request (400, 300)
+		
+		# set remembered size and position
+		self.config = ConfigParser.ConfigParser()
+		self.config.read(utils.get_save_dir() + CONFIG_FILE_NAME)
+		width  = 400
+		height = 300
+		try:
+			width = self.config.getint('app', 'width')
+			height = self.config.getint('app', 'height')
+		except:
+			pass
+		
+		self.main_window.set_size_request (width, height)
+
 		if os.name != 'nt':
 			try:
 				self.main_window.set_icon_name ('labyrinth')
@@ -264,6 +278,20 @@ class Browser (gtk.Window):
 	def quit_clicked (self, button, other=None, *data):
 		for map in MapList.get_open_windows():
 			map.window.close_window_cb (None)
+		
+		try:
+			self.config.add_section('app')
+		except:
+			pass
+			
+		width, height = self.main_window.get_size()
+
+		self.config.set('app', 'width', str(width))
+		self.config.set('app', 'height', str(height))
+		fp = open(utils.get_save_dir() + CONFIG_FILE_NAME, 'w')
+		self.config.write(fp)
+		fp.close()
+		
 		gtk.main_quit ()
 
 	def populate_view (self):
