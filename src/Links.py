@@ -63,7 +63,7 @@ class Link (gobject.GObject):
 	def includes (self, coords, mode):
 		# TODO: Change this to make link selection work.  Also needs
 		# some fairly large changes in MMapArea
-		if not self.start or not self.end:
+		if not self.start or not self.end or not coords:
 			return False
 		mag = (math.sqrt(((self.end[0] - self.start[0]) ** 2) + \
     		             ((self.end[1] - self.start[1]) ** 2)))

@@ -1,3 +1,18 @@
+2008-03-21  Don Scorgie  <Don@Scorgie.org>
+
+	* src/TextThought.py: 
+	* src/BaseThought.py:
+	* src/Links.py:
+	* src/DrawingThought.py:
+	Fix potential exception on map opening
+
+	* src/DrawingThought.py:
+	Give all points their own unique colour
+
+	* src/MMapArea.py:
+	Update the colour selectors when loading
+	a map
+
 2008-03-21 Martin Schaaf <mascha@ma-scha.de>
 
 	* src/DrawingThought.py

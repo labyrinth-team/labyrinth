@@ -352,7 +352,7 @@ class TextThought (BaseThought.BaseThought):
 			self.emit ("delete_thought")
 
 	def includes (self, coords, mode):
-		if not self.ul or not self.lr:
+		if not self.ul or not self.lr or not coords:
 			return False
 
 		inside = (coords[0] < self.lr[0] + self.sensitive) and \

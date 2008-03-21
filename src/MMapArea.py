@@ -956,6 +956,8 @@ class MMapArea (gtk.DrawingArea):
 		if len(self.selected) == 1:
 			self.emit ("change_buffer", self.selected[0].extended_buffer)
 			self.hookup_im_context (self.selected[0])
+			self.emit ("thought_selection_changed", self.selected[0].background_color, \
+				   self.selected[0].foreground_color)
 		else:
 			self.emit ("change_buffer", None)
 		del_links = []

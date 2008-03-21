@@ -45,13 +45,13 @@ UNDO_ERASE = 2
 
 class DrawingThought (BaseThought.ResizableThought):
 	class DrawingPoint (object):
-		def __init__ (self, coords, style=STYLE_CONTINUE, color = (0,0,0), width = 2):
+		def __init__ (self, coords, style=STYLE_CONTINUE, color = gtk.gdk.Color(0,0,0), width = 2):
 			self.x = coords[0]
 			self.y = coords[1]
 			self.style = style
-			self.r = color[0]
-			self.g = color[1]
-			self.b = color[2]
+			if color == None:
+				color = gtk.gdk.Color(0,0,0)
+			self.color = color
 			self.width = 1
 		def move_by (self, x, y):
 			self.x += x
@@ -87,11 +87,15 @@ class DrawingThought (BaseThought.ResizableThought):
 			for p in self.points:
 				if p.style == STYLE_BEGIN:
 					context.move_to (p.x, p.y)
+					context.set_source_color (p.color)
+				elif p.style == STYLE_END:
+					context.line_to (p.x, p.y)
+					context.stroke()
 				else:
 					context.line_to (p.x,p.y)
+					
 
 		context.set_line_width (cwidth)
-		context.set_source_color (self.foreground_color)
 		context.stroke ()
 		return
 
@@ -306,7 +310,7 @@ class DrawingThought (BaseThought.ResizableThought):
 			self.width = self.lr[0] - self.ul[0]
 			self.height = self.lr[1] - self.ul[1]
 			if len(self.points) == 0 or self.points[-1].style == STYLE_END:
-				p = self.DrawingPoint (transformed, STYLE_BEGIN)
+				p = self.DrawingPoint (transformed, STYLE_BEGIN, self.foreground_color)
 			else:
 				p = self.DrawingPoint (transformed, STYLE_CONTINUE)
 			self.points.append (p)
@@ -480,6 +484,7 @@ class DrawingThought (BaseThought.ResizableThought):
 			self.element.appendChild (elem)
 			elem.setAttribute ("coords", str((p.x,p.y)))
 			elem.setAttribute ("type", str(p.style))
+			elem.setAttribute ("color", p.color.to_string())
 		return
 
 	def load (self, node):
@@ -519,7 +524,13 @@ class DrawingThought (BaseThought.ResizableThought):
 				style = int (n.getAttribute ("type"))
 				tmp = n.getAttribute ("coords")
 				c = utils.parse_coords (tmp)
-				self.points.append (self.DrawingPoint (c, style))
+				col = None
+				try:
+					tmp = n.getAttribute ("color")
+					col = gtk.gdk.color_parse (tmp)
+				except ValueError:
+					pass
+				self.points.append (self.DrawingPoint (c, style, col))
 			else:
 				print "Unknown node type: "+str(n.nodeName)
 
@@ -541,7 +552,7 @@ class DrawingThought (BaseThought.ResizableThought):
 		return
 
 	def includes (self, coords, mode):
-		if not self.ul or not self.lr:
+		if not self.ul or not self.lr or not coords:
 			return False
 
 		if self.want_move and mode == MODE_DRAW:
