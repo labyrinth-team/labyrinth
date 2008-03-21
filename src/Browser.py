@@ -70,6 +70,7 @@ class Browser (gtk.Window):
 		self.open_menu.connect ('activate', self.open_clicked)
 		self.glade.get_widget('new1').connect ('activate', self.new_clicked)
 		self.delete_menu.connect ('activate', self.delete_clicked)
+		self.glade.get_widget('import1').connect ('activate', self.import_clicked)
 		self.glade.get_widget('quit1').connect ('activate', self.quit_clicked)
 		self.glade.get_widget('about1').connect ('activate', self.about_clicked)
 
@@ -144,8 +145,8 @@ class Browser (gtk.Window):
 		win = MainWindow.LabyrinthWindow (fname)
 		win.show ()
 
-	def open_map (self, map):
-		win = MainWindow.LabyrinthWindow (map.filename)
+	def open_map (self, map, imported=False):
+		win = MainWindow.LabyrinthWindow (map.filename, imported)
 		win.connect ("title-changed", self.map_title_cb)
 		win.connect ("window_closed", self.remove_map_cb)
 		win.connect ("file_saved", self.file_save_cb)
@@ -247,6 +248,18 @@ class Browser (gtk.Window):
 		map.window = None
 		map.filename = new_fname
 		return
+		
+	def import_clicked(self, button, other=None, *data):
+		chooser = gtk.FileChooserDialog(title=_("Open File"), action=gtk.FILE_CHOOSER_ACTION_OPEN, \
+										buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK))
+		response = chooser.run()
+		if response == gtk.RESPONSE_OK:
+			filename = chooser.get_filename()
+			map = MapList.new_from_file(filename)
+			map.filename = filename
+			self.open_map(map, True)
+			
+		chooser.destroy()
 
 	def quit_clicked (self, button, other=None, *data):
 		for map in MapList.get_open_windows():

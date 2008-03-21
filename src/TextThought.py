@@ -831,7 +831,10 @@ class TextThought (BaseThought.BaseThought):
 		if text:
 			self.extended_buffer.update_save()
 		else:
-			self.element.removeChild(self.extended_buffer.element)
+			try:
+				self.element.removeChild(self.extended_buffer.element)
+			except xml.dom.NotFoundErr:
+				pass
 		self.element.setAttribute ("cursor", str(self.index))
 		self.element.setAttribute ("selection_end", str(self.end_index))
 		self.element.setAttribute ("ul-coords", str(self.ul))

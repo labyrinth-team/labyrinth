@@ -446,7 +446,10 @@ class DrawingThought (BaseThought.ResizableThought):
 		if text:
 			self.extended_buffer.update_save()
 		else:
-			self.element.removeChild(self.extended_buffer.element)
+			try:
+				self.element.removeChild(self.extended_buffer.element)
+			except xml.dom.NotFoundErr:
+				pass
 		self.element.setAttribute ("ul-coords", str(self.ul))
 		self.element.setAttribute ("lr-coords", str(self.lr))
 		self.element.setAttribute ("identity", str(self.identity))

@@ -62,6 +62,14 @@
 		      <property name="use_stock">True</property>
 		    </widget>
 		  </child>
+		  
+		  <child>
+		    <widget class="GtkImageMenuItem" id="import1">
+		      <property name="visible">True</property>
+		      <property name="label">Import</property>
+		      <property name="use_stock">False</property>
+		    </widget>
+		  </child>
 
 		  <child>
 		    <widget class="GtkSeparatorMenuItem" id="separatormenuitem1">

@@ -1,3 +1,17 @@
+2008-03-21 Martin Schaaf <mascha@ma-scha.de>
+
+	* src/DrawingThought.py
+	* src/MainWindow.py
+	* src/MMapArea.py
+	* src/Browser.py
+	* src/ImageThought.py
+	* src/TextThought.py
+	* data/labyrinth-ui.xml
+	* data/labyrinth.glade
+	o add import/export of maps (patch by Matthias Vogelgesang)
+	* Authors
+	o added Matthias Vogelgesang and me
+
 2008-03-20 Martin Schaaf <mascha@ma-scha.de>
 
 	* src/MMapArea.py

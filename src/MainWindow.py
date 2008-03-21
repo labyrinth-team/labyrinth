@@ -51,7 +51,7 @@ class LabyrinthWindow (gtk.Window):
 						 					   gobject.TYPE_NONE,
 						 					   (gobject.TYPE_OBJECT, )))
 
-	def __init__ (self, filename):
+	def __init__ (self, filename, imported=False):
 		super(LabyrinthWindow, self).__init__()
 		if os.name != 'nt':
 			try:
@@ -207,7 +207,13 @@ class LabyrinthWindow (gtk.Window):
 
 		# Other stuff
 		self.width, self.height = self.get_size ()
-		self.save_file = filename
+		
+		# if we import, we dump the old filename to create a new hashed one
+		if imported:
+			self.save_file = None
+		else:
+			self.save_file = filename
+			
 		self.maximised = False
 		self.view_type = 0
 		#self.set_title (self.title_cp)
@@ -240,6 +246,8 @@ class LabyrinthWindow (gtk.Window):
 			('FileMenu', None, _('File')),
 			('Export', None, _('Export as Image'), None,
 			 _("Export your map as an image"), self.export_cb),
+			('ExportMap', gtk.STOCK_SAVE_AS, _('Export Map...'), '<control>S',
+			 _("Export your map as XML"), self.export_map_cb),
 			('Close', gtk.STOCK_CLOSE, None, '<control>W',
 			 _('Close the current window'), self.close_window_cb),
 			('EditMenu', None, _('_Edit')),
@@ -486,7 +494,7 @@ class LabyrinthWindow (gtk.Window):
 	def doc_del_cb (self, widget):
 		self.emit ('window_closed', None)
 
-	def doc_save_cb (self, widget, doc, top_element):
+	def serialize_to_xml(self, doc, top_element):
 		top_element.setAttribute ("title", self.title_cp)
 		top_element.setAttribute ("number", str(self.map_number))
 		top_element.setAttribute ("mode", str(self.mode))
@@ -498,7 +506,15 @@ class LabyrinthWindow (gtk.Window):
 		top_element.setAttribute ("scale_factor", str(self.MainArea.scale_fac))
 		top_element.setAttribute ("translation", str(self.MainArea.translation))
 		string = doc.toxml ()
-		save_string = string.encode ("utf-8" )
+		return string.encode ("utf-8" )
+
+	def save_map(self, filename, string):
+		f = file (filename, 'w')
+		f.write (string)
+		f.close ()
+
+	def doc_save_cb (self, widget, doc, top_element):
+		save_string = self.serialize_to_xml(doc, top_element)
 		if not self.save_file:
 			sham = sha.new (save_string)
 			save_loc = utils.get_save_dir ()
@@ -507,12 +523,21 @@ class LabyrinthWindow (gtk.Window):
 			while os.path.exists(self.save_file):
 				print "Warning: Duplicate File.  Saving to alternative"
 				self.save_file = save_loc + "Dup"+str(counter)+sham.hexdigest()+".map"
-				counter+=1
+				counter += 1
 
-		f = file (self.save_file, 'w')
-		f.write (save_string)
-		f.close ()
+		self.save_map(self.save_file, save_string)
 		self.emit ('file_saved', self.save_file, self)
+
+	def export_map_cb(self, event):
+		chooser = gtk.FileChooserDialog(title=_("Save File As"), action=gtk.FILE_CHOOSER_ACTION_SAVE, \
+										buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK))
+		response = chooser.run()
+		if response == gtk.RESPONSE_OK:
+			filename = chooser.get_filename()
+			self.MainArea.prepare_save()
+			self.save_map(filename, self.serialize_to_xml(self.MainArea.save, self.MainArea.element))
+			
+		chooser.destroy()
 
 	def parse_file (self, filename):
 		f = file (filename, 'r')

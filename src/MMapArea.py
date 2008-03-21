@@ -978,11 +978,14 @@ class MMapArea (gtk.DrawingArea):
 		for l in del_links:
 			self.delete_link (l)
 
-	def save_thyself (self):
+	def prepare_save(self):
 		for t in self.thoughts:
 			t.update_save ()
 		for l in self.links:
 			l.update_save ()
+
+	def save_thyself (self):
+		self.prepare_save()
 		if len(self.thoughts) > 0:
 			self.emit ("doc_save", self.save, self.element)
 		else:
