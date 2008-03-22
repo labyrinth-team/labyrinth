@@ -104,8 +104,12 @@ class ImageThought (BaseThought.ResizableThought):
 			if hasattr(context, "set_source_pixbuf"):
 				context.set_source_pixbuf (self.pic, self.pic_location[0]+move_x, self.pic_location[1]+move_y)
 			elif hasattr(context, "set_source_surface"):
-				image_surface = cairo.ImageSurface.create_for_data(self.pic.get_pixels_array(), cairo.FORMAT_ARGB32, self.width, self.height, -1)
-				context.set_source_surface (image_surface, self.pic_location[0]+move_x, self.pic_location[1]+move_y)
+				try:
+					image_surface = cairo.ImageSurface.create_for_data(self.pic.get_pixels_array(), cairo.FORMAT_ARGB32, self.width, self.height, -1)
+					context.set_source_surface (image_surface, self.pic_location[0]+move_x, self.pic_location[1]+move_y)
+				except TypeError:
+					# image format not supported
+					pass
 			context.rectangle (self.pic_location[0]+move_x, self.pic_location[1]+move_y, self.width, self.height)
 			context.fill ()
 		context.set_source_rgb (0,0,0)

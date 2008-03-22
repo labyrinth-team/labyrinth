@@ -1,3 +1,10 @@
+labyrinth (0.4.0rc3) gutsy; urgency=low
+
+  * also export graphics to pdf and svg
+  * handle exception after save as
+
+ -- Martin Schaaf (Privat) <mascha@ma-scha.de>  Fri, 22 Mar 2008 00:27:00 +0100
+
 labyrinth (0.4.0-0rc2) gutsy; urgency=low
 
   * Save and load browser size, fixing issue 18
