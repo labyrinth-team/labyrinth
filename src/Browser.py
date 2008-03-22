@@ -23,8 +23,8 @@
 import utils
 import pygtk
 import gtk
+import gconf
 import optparse
-import ConfigParser
 import sys
 from os.path import *
 import os
@@ -37,7 +37,9 @@ import pango
 import gettext
 _ = gettext.gettext
 
-CONFIG_FILE_NAME = 'labyrinth.cfg'
+AUTHORS = ['Don Scorgie <Don@Scorgie.org>', 
+		   'Martin Schaaf <mascha@ma-scha.de>',
+		   'Matthias Vogelgesang <matthias.vogelgesang@gmail.com>']
 
 class Browser (gtk.Window):
 	COL_ID = 0
@@ -80,17 +82,16 @@ class Browser (gtk.Window):
 
 		self.main_window = self.glade.get_widget ('MapBrowser')
 		
-		# set remembered size and position
-		self.config = ConfigParser.ConfigParser()
-		self.config.read(utils.get_save_dir() + CONFIG_FILE_NAME)
-		width  = 400
-		height = 300
-		try:
-			width = self.config.getint('app', 'width')
-			height = self.config.getint('app', 'height')
-		except:
-			pass
-		
+		# set remembered size
+		self.config_client = gconf.client_get_default()
+		self.config_client.add_dir ("/apps/labyrinth", gconf.CLIENT_PRELOAD_NONE)
+
+		width = self.config_client.get_int ('/apps/labyrinth/width')
+		height = self.config_client.get_int ('/apps/labyrinth/height')
+		if width == 0 or height == 0:
+			width = 400
+			height = 300
+
 		self.main_window.set_size_request (width, height)
 
 		if os.name != 'nt':
@@ -205,7 +206,7 @@ class Browser (gtk.Window):
 	"59 Temple Place, Suite 330, Boston, MA  02111-1307  USA")
 		about_dialog.set_wrap_license (True)
 		about_dialog.set_copyright ("2006 Don Scorgie")
-		about_dialog.set_authors (["Don Scorgie <Don@Scorgie.org>"])
+		about_dialog.set_authors (AUTHORS)
 		about_dialog.set_website ("http://code.google.com/p/labyrinth")
 		about_dialog.run ()
 		about_dialog.hide ()
@@ -279,18 +280,10 @@ class Browser (gtk.Window):
 		for map in MapList.get_open_windows():
 			map.window.close_window_cb (None)
 		
-		try:
-			self.config.add_section('app')
-		except:
-			pass
-			
 		width, height = self.main_window.get_size()
 
-		self.config.set('app', 'width', str(width))
-		self.config.set('app', 'height', str(height))
-		fp = open(utils.get_save_dir() + CONFIG_FILE_NAME, 'w')
-		self.config.write(fp)
-		fp.close()
+		self.config_client.set_int('/apps/labyrinth/width',width)
+		self.config_client.set_int('/apps/labyrinth/height', height)
 		
 		gtk.main_quit ()
 
