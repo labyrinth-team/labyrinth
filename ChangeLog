@@ -1,5 +1,10 @@
 2008-03-22 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* debian/control
+	Add python-gconf dependency.
+
+2008-03-22 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* src/MapList.py
 	* src/Browser.py
 	Save configuration via gconf.

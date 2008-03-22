@@ -3,13 +3,13 @@ Section: gnome
 Priority: optional
 Maintainer: Martin Schaaf <mascha@ma-scha.de>
 Build-Depends: cdbs (>= 0.4.43), debhelper (>= 5.0.37.2), python-central (>= 0.5)
-Build-Depends-Indep: python-dev (>= 2.4), pkg-config, libxml-parser-perl, libgtk2.0-dev (>= 2.8), python-gtk2-dev (>= 2.8), python-gobject-dev (>= 2.10), python-gnome2-dev (>= 2.12), libgnome-desktop-dev (>= 2.14), python-cairo-dev (>= 1.0)
+Build-Depends-Indep: python-dev (>= 2.4), pkg-config, libxml-parser-perl, libgtk2.0-dev (>= 2.8), python-gtk2-dev (>= 2.8), python-gobject-dev (>= 2.10), python-gnome2-dev (>= 2.12), libgnome-desktop-dev (>= 2.14), python-cairo-dev (>= 1.0), python-gconf
 Standards-Version: 3.7.3
 XS-Python-Version: all
 
 Package: labyrinth
 Architecture: all
-Depends: ${python:Depends}, ${misc:Depends}, python-glade2, python-gtk2 (>= 2.8), python-gobject (>= 2.10), python-gnome2 (>= 2.12), python-gnome2-desktop (>= 2.14), python-cairo (>= 1.0)
+Depends: ${python:Depends}, ${misc:Depends}, python-glade2, python-gtk2 (>= 2.8), python-gobject (>= 2.10), python-gnome2 (>= 2.12), python-gnome2-desktop (>= 2.14), python-cairo (>= 1.0), python-gconf
 XB-Python-Version: ${python:Versions}
 Description: lightweight mind-mapping tool
  Labyrinth is a lightweight mind-mapping tool, written in Python using Gtk 
