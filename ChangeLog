@@ -1,3 +1,9 @@
+2008-03-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/MMapArea.py
+	Don't draw off-screen thoughts. It is still a bit whacky and not working for
+	scales other than 1.0.
+
 2008-03-23 Martin Schaaf <mascha@ma-scha.de>
 
 	* src/Browser.py

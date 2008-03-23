@@ -632,11 +632,11 @@ class MMapArea (gtk.DrawingArea):
 
 	def draw (self, event, context):
 		'''Draw the map and all the associated thoughts'''
-		context.rectangle (event.area.x, event.area.y,
-						   event.area.width, event.area.height)
+		area = event.area
+		context.rectangle (area.x, area.y, area.width, area.height)
 		context.clip ()
 		context.set_source_rgb (1.0,1.0,1.0)
-		context.move_to (event.area.x,event.area.y)
+		context.move_to (area.x, area.y)
 		context.paint ()
 		context.set_source_rgb (0.0,0.0,0.0)
 		alloc = self.get_allocation ()
@@ -644,15 +644,24 @@ class MMapArea (gtk.DrawingArea):
 		context.scale(self.scale_fac, self.scale_fac)
 		context.translate(-alloc.width/2., -alloc.height/2.)		
 		context.translate(self.translation[0], self.translation[1])
+		
 		for l in self.links:
 			l.draw (context)
+			
 		if self.unending_link:
 			self.unending_link.draw (context)
+		
+		ax = area.x - self.translation[0]
+		ay = area.y - self.translation[1]
 		for t in self.thoughts:
-			t.draw (context)
+			if self.scale_fac != 1.0:
+				t.draw (context)
+			if t.lr[0] > ax and t.ul[0] < ax + area.width and \
+				 t.lr[1] < ay + area.height and t.ul[1] > ay:
+				t.draw (context)
+
 		self.transform = context.get_matrix()
 		self.transform.invert()
-
 
 	def undo_create_cb (self, action, mode):
 		self.undo.block ()
