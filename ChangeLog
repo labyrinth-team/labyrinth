@@ -1,5 +1,10 @@
 2008-03-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* src/Links.py
+	Fixes issue 62. Links are not selected if not clicked. 
+
+2008-03-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* src/MMapArea.py
 	Off-screen clipping works for other scale factors too, but only in
 	horizontal direction.

@@ -65,6 +65,7 @@ class Link (gobject.GObject):
 		# some fairly large changes in MMapArea
 		if not self.start or not self.end or not coords:
 			return False
+			
 		mag = (math.sqrt(((self.end[0] - self.start[0]) ** 2) + \
     		             ((self.end[1] - self.start[1]) ** 2)))
     	
@@ -77,7 +78,11 @@ class Link (gobject.GObject):
 		dist = math.sqrt(((coords[0] - inter[0]) ** 2) + \
     		             ((coords[1] - inter[1]) ** 2))
 		if dist < (3+self.strength) and dist > -(3+self.strength):
-			return True
+			if self.start[0] < self.end[0] and coords[0] > self.start[0] and coords[0] < self.end[0]:
+				return True
+			elif coords[0] < self.start[0] and coords[0] > self.end[0]:
+				return True
+	
 		return False
 
 	def connects (self, thought, thought2):
