@@ -1,3 +1,9 @@
+labyrinth (0.4.0rc4) gutsy; urgency=low
+
+  * convert pixel array from pixbuf rgb order to cairo rgb order on exporting
+
+ -- Martin Schaaf (Privat) <mascha@ma-scha.de>  Fri, 23 Mar 2008 12:31:00 +0100
+
 labyrinth (0.4.0rc3) gutsy; urgency=low
 
   * also export graphics to pdf and svg
