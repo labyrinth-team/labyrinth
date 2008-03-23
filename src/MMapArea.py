@@ -656,9 +656,11 @@ class MMapArea (gtk.DrawingArea):
 		for t in self.thoughts:
 			if self.scale_fac != 1.0:
 				t.draw (context)
-			if t.lr[0] > ax and t.ul[0] < ax + area.width and \
-				 t.lr[1] < ay + area.height and t.ul[1] > ay:
-				t.draw (context)
+			try:
+				if t.lr[0] > ax and t.ul[0] < ax + area.width and t.lr[1] < ay + area.height and t.ul[1] > ay:
+					t.draw (context)
+			except:
+				t.draw(context)
 
 		self.transform = context.get_matrix()
 		self.transform.invert()
