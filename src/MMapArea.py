@@ -651,13 +651,11 @@ class MMapArea (gtk.DrawingArea):
 		if self.unending_link:
 			self.unending_link.draw (context)
 		
-		ax = area.x - self.translation[0]
-		ay = area.y - self.translation[1]
+		ax = (area.x - alloc.width/2.) / self.scale_fac + alloc.width/2. - self.translation[0]
+		#ay = (area.y - alloc.height/2.)/self.scale_fac + alloc.height/2. - self.translation[1]
 		for t in self.thoughts:
-			if self.scale_fac != 1.0:
-				t.draw (context)
 			try:
-				if t.lr[0] > ax and t.ul[0] < ax + area.width and t.lr[1] < ay + area.height and t.ul[1] > ay:
+				if t.lr[0] > ax and t.ul[0] < ax + area.width:
 					t.draw (context)
 			except:
 				t.draw(context)
