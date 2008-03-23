@@ -1,5 +1,11 @@
 2008-03-23 Martin Schaaf <mascha@ma-scha.de>
 
+	* src/Browser.py
+	o remember map sort order, fixes issue 75
+	o catch exception if map is empty on file_save_cb
+
+2008-03-23 Martin Schaaf <mascha@ma-scha.de>
+
 	* src/PeriodicSaveThread.py
 	* src/MainwindowThread.py
 	o save open maps every 60 seconds, fixing issue 64

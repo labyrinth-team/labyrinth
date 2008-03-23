@@ -92,6 +92,12 @@ class Browser (gtk.Window):
 			width = 400
 			height = 300
 
+		view_sortable = self.view.get_model ()
+		view_sortable.connect ('sort-column-changed', self.sort_column_changed_cb)
+		sort_order = self.config_client.get_int('/apps/labyrinth/map_sort_order')
+		column_id = self.config_client.get_int('/apps/labyrinth/map_sort_order_column')
+		view_sortable.set_sort_column_id (column_id, sort_order)
+
 		self.main_window.set_size_request (width, height)
 
 		if os.name != 'nt':
@@ -260,8 +266,9 @@ class Browser (gtk.Window):
 
 	def file_save_cb (self, mobj, new_fname, mobj1):
 		map = MapList.get_by_window(mobj)
-		map.window = None
-		map.filename = new_fname
+		if map:
+			map.window = None
+			map.filename = new_fname
 		return
 		
 	def import_clicked(self, button, other=None, *data):
@@ -296,6 +303,7 @@ class Browser (gtk.Window):
 		column.set_expand (True)
 		column.set_sort_column_id (1)
 		self.view.append_column(column)
+ 
 		col1 = gtk.TreeViewColumn (_("Last Modified"), gtk.CellRendererText(),
 								   text=self.COL_MODTIME)
 		col1.set_resizable(True)
@@ -305,3 +313,9 @@ class Browser (gtk.Window):
 		self.view.set_model (MapList.get_TreeViewModel())
 		self.view.set_search_column(self.COL_TITLE)
 		self.view.set_enable_search (True)
+
+	def sort_column_changed_cb (self, data):
+		column_id, sort_order = data.get_sort_column_id ()
+		self.config_client.set_int('/apps/labyrinth/map_sort_order', sort_order)
+		self.config_client.set_int('/apps/labyrinth/map_sort_order_column', column_id)
+
