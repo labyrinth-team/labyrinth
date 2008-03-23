@@ -31,6 +31,7 @@ import UndoManager
 import utils
 from MapList import MapList
 import xml.dom.minidom as dom
+import PeriodicSaveThread
 
 map_number = 1
 
@@ -241,6 +242,8 @@ class LabyrinthWindow (gtk.Window):
 		self.ui.get_widget('/AddedTools').show_all ()
 		self.extended.show ()
 		self.undo.unblock ()
+
+		self.start_timer ()
 
 	def create_ui (self):
 		actions = [
@@ -488,6 +491,7 @@ class LabyrinthWindow (gtk.Window):
 		self.MainArea.delete_selected_elements ()
 
 	def close_window_cb (self, event):
+		self.SaveTimer.cancel = True
 		self.hide ()
 		self.MainArea.save_thyself ()
 		del (self)
@@ -758,3 +762,9 @@ class LabyrinthWindow (gtk.Window):
 			self.extended.get_buffer().paste_clipboard (clip)
 		else:
 			self.MainArea.paste_clipboard (clip)
+
+	def start_timer (self):
+		self.SaveTimer = PeriodicSaveThread.PeriodicSaveThread(self.MainArea)
+		self.SaveTimer.setDaemon( True)
+		self.SaveTimer.start()
+

@@ -1,5 +1,11 @@
 2008-03-23 Martin Schaaf <mascha@ma-scha.de>
 
+	* src/PeriodicSaveThread.py
+	* src/MainwindowThread.py
+	o save open maps every 60 seconds, fixing issue 64
+
+2008-03-23 Martin Schaaf <mascha@ma-scha.de>
+
 	* debian/changelog
 	* configure.ac
 	o pump to version 0.4.0rc4
