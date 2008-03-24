@@ -123,6 +123,7 @@ class MMapArea (gtk.DrawingArea):
 		self.timeout = -1
 		self.current_cursor = None
 		self.do_filter = True
+		self.is_bbox_selecting = False
 
 		self.unending_link = None
 		self.nthoughts = 0
@@ -197,6 +198,9 @@ class MMapArea (gtk.DrawingArea):
 				self.move_origin = (coords[0],coords[1])
 				self.move_origin_new = self.move_origin
 			ret = obj.process_button_down (event, self.mode, coords)
+		elif event.button == 1 and self.mode == MODE_EDITING:
+			self.bbox_origin = coords
+			self.is_bbox_selecting = True
 		elif event.button == 3:
 			ret = self.create_popup_menu (None, event.get_coords (), MENU_EMPTY_SPACE)
 		return ret
@@ -222,6 +226,14 @@ class MMapArea (gtk.DrawingArea):
 		coords = self.transform_coords (event.get_coords()[0], event.get_coords()[1])
 
 		ret = False
+		if self.is_bbox_selecting:
+			self.is_bbox_selecting = False
+			self.invalidate ()
+			try:
+				if abs(self.bbox_origin[0] - self.bbox_current[0]) > 2.0:
+					return True
+			except AttributeError:	# no bbox_current
+				pass
 		if self.translate:
 			self.translate = False
 			return True
@@ -288,7 +300,7 @@ class MMapArea (gtk.DrawingArea):
 			else:
 				self.undo.add_undo (act)
 			self.begin_editing (thought)
-		
+
 		self.invalidate ()
 		return ret
 
@@ -350,7 +362,39 @@ class MMapArea (gtk.DrawingArea):
 			self.unending_link.set_end (coords)
 			self.invalidate ()
 			return True
-		elif self.moving and not self.editing and not self.unending_link:
+		elif not obj and not self.unending_link and event.state & gtk.gdk.BUTTON1_MASK and self.is_bbox_selecting:
+			self.bbox_current = coords
+			self.invalidate()
+			
+			ul = [ self.bbox_origin[0], self.bbox_origin[1] ]
+			lr = [ coords[0], coords[1] ]
+			if self.bbox_origin[0] > coords[0]:
+				if self.bbox_origin[1] < coords[1]:
+					ul[0] = coords[0]
+					ul[1] = self.bbox_origin[1]
+					lr[0] = self.bbox_origin[0]
+					lr[1] = coords[1]
+				else:
+					ul = coords
+					lr = self.bbox_origin
+			elif self.bbox_origin[1] > coords[1]:
+				ul[0] = self.bbox_origin[0]
+				ul[1] = coords[1]
+				lr[0] = coords[0]
+				lr[1] = self.bbox_origin[1]
+				
+			# FIXME: O(n) runtime is bad
+			for t in self.thoughts:
+				if t.ul[0] > ul[0] and t.lr[0] < lr[0] and t.ul[1] > ul[1] and t.lr[1] < lr[1]:
+					if t not in self.selected:
+						self.select_thought(t, gtk.gdk.SHIFT_MASK)
+				else:
+					if t in self.selected:
+						t.unselect()
+						self.selected.remove(t)
+			
+			return True
+		elif self.moving and not self.editing and not self.unending_link:		
 			self.set_cursor(gtk.gdk.FLEUR)
 			if not self.move_action:
 				self.move_action = UndoManager.UndoAction (self, UNDO_MOVE, self.undo_move, self.move_origin,
@@ -659,11 +703,20 @@ class MMapArea (gtk.DrawingArea):
 		context.move_to (area.x, area.y)
 		context.paint ()
 		context.set_source_rgb (0.0,0.0,0.0)
+		
 		alloc = self.get_allocation ()
 		context.translate(alloc.width/2., alloc.height/2.)
 		context.scale(self.scale_fac, self.scale_fac)
 		context.translate(-alloc.width/2., -alloc.height/2.)		
 		context.translate(self.translation[0], self.translation[1])
+
+		if self.is_bbox_selecting:
+			xs = self.bbox_origin[0]
+			ys = self.bbox_origin[1]
+			context.set_line_width(0.2)
+			context.rectangle(xs, ys, self.bbox_current[0] - xs, self.bbox_current[1] - ys)
+			context.stroke()
+			context.set_line_width(1.5)
 		
 		for l in self.links:
 			l.draw (context)
