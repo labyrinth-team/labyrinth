@@ -1,3 +1,9 @@
+2008-03-24 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/MMapArea.py
+	More optimizations for issue 55. Partial redraw is done on editing and
+	selecting and off-screen clipping has been simplified.
+
 2008-03-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/Links.py

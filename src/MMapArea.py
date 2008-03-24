@@ -168,6 +168,10 @@ class MMapArea (gtk.DrawingArea):
 	def transform_coords(self, loc_x, loc_y):
 		if hasattr(self, "transform"):
 			return self.transform.transform_point(loc_x, loc_y)
+			
+	def untransform_coords(self, loc_x, loc_y):
+		if hasattr(self, "untransform"):
+			return self.untransform.transform_point(loc_x, loc_y)
 
 	def button_down (self, widget, event):
 		coords = self.transform_coords (event.get_coords()[0], event.get_coords()[1])
@@ -212,7 +216,7 @@ class MMapArea (gtk.DrawingArea):
 			self.select_thought (t, -1)
 			t.move_by (move_x, move_y)
 		self.undo.unblock ()
-		self.invalidate ()
+		self.invalidate ((old_coords[0], old_coords[1], new_coords[0], new_coords[1]))
 
 	def button_release (self, widget, event):
 		coords = self.transform_coords (event.get_coords()[0], event.get_coords()[1])
@@ -242,6 +246,10 @@ class MMapArea (gtk.DrawingArea):
 
 		if obj:
 			ret = obj.process_button_release (event, self.unending_link, self.mode, coords)
+			if len(self.selected) == 1:
+				self.invalidate()
+			else:
+				self.invalidate (obj.get_max_area())
 		elif self.unending_link or event.button == 1:
 			sel = self.selected
 			thought = self.create_new_thought (coords)
@@ -281,6 +289,7 @@ class MMapArea (gtk.DrawingArea):
 			else:
 				self.undo.add_undo (act)
 			self.begin_editing (thought)
+		
 		self.invalidate ()
 		return ret
 
@@ -616,12 +625,24 @@ class MMapArea (gtk.DrawingArea):
 		self.editing = None
 
 	def update_view (self, thought):
-		self.invalidate ()
+		if not self.editing:
+			self.invalidate ()
+		else:
+			x,y,w,h = thought.get_max_area()
+			w += 10
+			h += 10
+			self.invalidate ((x,y,w,h))
 
-	def invalidate (self):
+	def invalidate (self, transformed_area = None):
 		'''Helper function to invalidate the entire screen, forcing a redraw'''
-		alloc = self.get_allocation ()
-		rect = gtk.gdk.Rectangle (0, 0, alloc.width, alloc.height)
+		rect = None
+		if not transformed_area:
+			alloc = self.get_allocation ()
+			rect = gtk.gdk.Rectangle (0, 0, alloc.width, alloc.height)
+		else:
+			ul = self.untransform_coords(transformed_area[0], transformed_area[1])
+			lr = self.untransform_coords(transformed_area[2], transformed_area[3])
+			rect = gtk.gdk.Rectangle (int(ul[0]), int(ul[1]), int(lr[0]-ul[0]), int(lr[1]-ul[1]))
 		self.window.invalidate_rect (rect, True)
 
 	def expose (self, widget, event):
@@ -651,17 +672,20 @@ class MMapArea (gtk.DrawingArea):
 		if self.unending_link:
 			self.unending_link.draw (context)
 		
-		ax = (area.x - alloc.width/2.) / self.scale_fac + alloc.width/2. - self.translation[0]
-		#ay = (area.y - alloc.height/2.)/self.scale_fac + alloc.height/2. - self.translation[1]
+		self.untransform = context.get_matrix()
+		self.transform = context.get_matrix()
+		self.transform.invert()
+
+		ax, ay = self.transform_coords(area.x, area.y)
+		width  = area.width / self.scale_fac
+		height = area.height / self.scale_fac
 		for t in self.thoughts:
 			try:
-				if t.lr[0] > ax and t.ul[0] < ax + area.width:
+				if t.lr[0] >= ax and t.ul[0] <= ax + width and t.lr[1] <= ay + height and t.ul[1] >= ay:
 					t.draw (context)
 			except:
 				t.draw(context)
 
-		self.transform = context.get_matrix()
-		self.transform.invert()
 
 	def undo_create_cb (self, action, mode):
 		self.undo.block ()
