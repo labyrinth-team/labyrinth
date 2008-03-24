@@ -1,142 +1,195 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# de_DE translation of labyrinth.
+# Copyright (C) 2008 THE labyrinth'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the labyrinth package.
+# Raphael J. Schmid <rjs@schattenschreiber.org>, 2008.
+# , fuzzy
+# Raphael J. Schmid <rjs@schattenschreiber.org>, 2008.
+# 
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: labyrinth\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-07 12:46+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Raphael J. Schmid <rjs@schattenschreiber.org>\n"
+"POT-Creation-Date: 2008-03-24 19:40+0100\n"
+"PO-Revision-Date: 2008-03-24 19:44+0100\n"
+"Last-Translator: Raphael J. Schmid <rjs@schattenschreiber.org>, Matthias Vogelgesang <matthias.vogelgesang@gmail.com> \n"
 "Language-Team: de_DE <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
-#: ../src/Browser.py:207
+#: ../src/Browser.py:238
 msgid "The map cannot be deleted right now.  Is it open?"
 msgstr "Mindmap kann nicht gelöscht werden - ist sie geöffnet?"
 
-#: ../src/Browser.py:209
+#: ../src/Browser.py:240
 msgid "The map has no associated filename."
 msgstr "Der Mindmap ist kein Dateiname zugewiesen"
 
-#: ../src/Browser.py:212
+#: ../src/Browser.py:243
 msgid "Cannot delete this map"
 msgstr "Mindmap kann nicht gelöscht werden"
 
-#: ../src/Browser.py:219
+#: ../src/Browser.py:250
 msgid "Do you really want to delete this Map?"
 msgstr "Möchten Sie die Mindmap wirklich löschen?"
 
-#: ../src/Browser.py:248
+#: ../src/Browser.py:275
+msgid "Open File"
+msgstr "Öffne Datei"
+
+#: ../src/Browser.py:300
 msgid "Map Name"
 msgstr "Mindmap-Name"
 
-#: ../src/MainWindow.py:111 ../src/MainWindow.py:283
+#: ../src/Browser.py:307
+msgid "Last Modified"
+msgstr "Zuletzt modifiziert"
+
+#: ../src/MainWindow.py:111
+msgid "Choose background color"
+msgstr "Wähle Hintergrundfarbe"
+
+#: ../src/MainWindow.py:118
+msgid "Choose foreground color"
+msgstr "Wähle Textfarbe"
+
+#: ../src/MainWindow.py:151 ../src/MainWindow.py:474
 #, python-format
 msgid "Untitled Map %d"
-msgstr "Unbenannte Mindmap #%d"
+msgstr "Unbenannte Mindmap %d"
 
-#: ../src/MainWindow.py:165
+#: ../src/MainWindow.py:250
 msgid "File"
 msgstr "Datei"
 
-#: ../src/MainWindow.py:166
+#: ../src/MainWindow.py:251
 msgid "Export as Image"
 msgstr "Als Bild exportieren"
 
-#: ../src/MainWindow.py:167
+#: ../src/MainWindow.py:252
 msgid "Export your map as an image"
 msgstr "Exportieren Sie ihre Mindmap als Bild"
 
-#: ../src/MainWindow.py:169
+#: ../src/MainWindow.py:253
+msgid "Export Map..."
+msgstr "Exportiere Mindmap..."
+
+#: ../src/MainWindow.py:254
+msgid "Export your map as XML"
+msgstr "Exportieren Sie ihre Mindmap als XML"
+
+#: ../src/MainWindow.py:256
 msgid "Close the current window"
 msgstr "Aktuelles Fenster schließen"
 
-#: ../src/MainWindow.py:170
+#: ../src/MainWindow.py:257
 msgid "_Edit"
 msgstr "B_earbeiten"
 
-#: ../src/MainWindow.py:179
+#: ../src/MainWindow.py:266
 msgid "(Un)Link Thoughts"
 msgstr "Gedanken ver-/entknüpfen"
 
-#: ../src/MainWindow.py:180
+#: ../src/MainWindow.py:267
 msgid "(Un)Link the selected thoughts"
 msgstr "Gewählte Gedanken ver-/entknüpfen"
 
-#: ../src/MainWindow.py:181
+#: ../src/MainWindow.py:268
 msgid "_Mode"
 msgstr "_Modus"
 
-#: ../src/MainWindow.py:182
-msgid "_Delete Selected Thoughts"
-msgstr "Gewählte Ge_danken löschen"
+#: ../src/MainWindow.py:269
+msgid "_Delete Selected Elements"
+msgstr "Gewählte(s) Element(e) _löschen"
 
-#: ../src/MainWindow.py:183
+#: ../src/MainWindow.py:270
 msgid "Delete the selected element(s)"
 msgstr "Gewählte(s) Element(e) löschen"
 
-#: ../src/MainWindow.py:185
+#: ../src/MainWindow.py:276
 msgid "_Edit Mode"
 msgstr "Bearbeitungs_modus"
 
-#: ../src/MainWindow.py:186
+#: ../src/MainWindow.py:277
 msgid "Turn on edit mode"
 msgstr "Bearbeitungsmodus aktivieren"
 
-#: ../src/MainWindow.py:187
+#: ../src/MainWindow.py:278
 msgid "_Add Image"
 msgstr "_Bild hinzufügen"
 
-#: ../src/MainWindow.py:188
+#: ../src/MainWindow.py:279
 msgid "Add an image to selected thought"
 msgstr "Dem gewählten Gedanken ein Bild hinzufügen"
 
-#: ../src/MainWindow.py:189
+#: ../src/MainWindow.py:280
 msgid "_Drawing Mode"
 msgstr "Zeichenmo_dus"
 
-#: ../src/MainWindow.py:190
+#: ../src/MainWindow.py:281
 msgid "Make a pretty drawing"
 msgstr "Hübsche Zeichnung erstellen"
 
-#: ../src/MainWindow.py:192
+#: ../src/MainWindow.py:283
 msgid "_View Extended"
 msgstr "_Erweiterte Ansicht"
 
-#: ../src/MainWindow.py:193
+#: ../src/MainWindow.py:284
 msgid "View extended info for thoughts"
 msgstr "Erweiterte Informationen für Gedanken anzeigen"
 
-#: ../src/MainWindow.py:446
+#: ../src/MainWindow.py:537
+msgid "Save File As"
+msgstr "Speichern unter"
+
+#: ../src/MainWindow.py:630
+msgid "All Files"
+msgstr "Alle Dateien"
+
+#: ../src/MainWindow.py:631
+msgid "PNG Image (*.png)"
+msgstr "PNG Bild (*.png)"
+
+#: ../src/MainWindow.py:632
+msgid "JPEG Image (*.jpg, *.jpeg)"
+msgstr "JPEG Bild (*.jpg, *.jpeg)"
+
+#: ../src/MainWindow.py:633
+msgid "SVG Vector Image (*.svg)"
+msgstr "SVG Vektorbild (*.svg)"
+
+#: ../src/MainWindow.py:634
+msgid "PDF Portable Document (*.pdf)"
+msgstr "PDF Portable Document (*.pdf)"
+
+#: ../src/MainWindow.py:670
 msgid "Unknown file format"
 msgstr "Unbekanntes Dateiformat"
 
-#: ../src/MainWindow.py:447
+#: ../src/MainWindow.py:671
 #, python-format
 msgid ""
-"The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
-msgstr "Der Dateityp '%s' wird nicht unterstützt. Bitte verwenden Sie das Suffix '.png' oder '.jpg'"
+"The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
+"'.svg'."
+msgstr ""
+"Der Dateityp '%s' wird nicht unterstützt. Bitte verwenden Sie das Suffix '."
+"png', '.jpg' oder '.svg'."
 
 #: ../src/DrawingThought.py:67
 #, python-format
 msgid "Drawing #%d"
 msgstr "Zeichnung #%d"
 
-#: ../src/ImageThought.py:64
+#: ../src/ImageThought.py:65
 msgid "Choose image to insert"
 msgstr "Bild zum Einfügen auswählen"
 
-#: ../src/ImageThought.py:304
+#: ../src/ImageThought.py:313
 msgid "Error loading file"
 msgstr "Fehler beim Laden der Datei"
 
-#: ../src/ImageThought.py:305
+#: ../src/ImageThought.py:314
 #, python-format
 msgid "%s could not be found.  Associated thought will be empty."
 msgstr "Konnte %s nicht finden. Verknüpfter Gedanke wird leer sein."
@@ -188,3 +241,6 @@ msgstr "Map your mind"
 #: ../data/labyrinth.desktop.in.h:3
 msgid "Mind-mapping"
 msgstr "Mind-mapping"
+
+#~ msgid "_Delete Selected Thoughts"
+#~ msgstr "Gewählte Ge_danken löschen"

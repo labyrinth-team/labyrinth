@@ -1,5 +1,10 @@
 2008-03-24 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* src/Browser.py
+	Allow resizing.
+
+2008-03-24 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* src/MMapArea.py
 	Add bounding box selection.
 

@@ -98,7 +98,7 @@ class Browser (gtk.Window):
 		column_id = self.config_client.get_int('/apps/labyrinth/map_sort_order_column')
 		view_sortable.set_sort_column_id (column_id, sort_order)
 
-		self.main_window.set_size_request (width, height)
+		self.main_window.resize (width, height)
 
 		if os.name != 'nt':
 			try:
