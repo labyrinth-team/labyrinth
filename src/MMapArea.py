@@ -246,10 +246,9 @@ class MMapArea (gtk.DrawingArea):
 
 		if obj:
 			ret = obj.process_button_release (event, self.unending_link, self.mode, coords)
-			if len(self.selected) == 1:
-				self.invalidate()
-			else:
-				self.invalidate (obj.get_max_area())
+			if len(self.selected) != 1:
+				self.invalidate(obj.get_max_area())
+				return ret
 		elif self.unending_link or event.button == 1:
 			sel = self.selected
 			thought = self.create_new_thought (coords)
