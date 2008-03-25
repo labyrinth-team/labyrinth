@@ -80,7 +80,10 @@ class DrawingThought (BaseThought.ResizableThought):
 		self.all_okay = True
 
 	def draw (self, context):
-		utils.draw_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_NORMAL)
+		if len (self.extended_buffer.get_text()) == 0:
+			utils.draw_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_NORMAL)
+		else:
+			utils.draw_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_EXTENDED_CONTENT)
 		cwidth = context.get_line_width ()
 		context.set_line_width (2)
 		if len (self.points) > 0:

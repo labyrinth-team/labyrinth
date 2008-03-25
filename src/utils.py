@@ -27,6 +27,7 @@ import sys
 from os.path import *
 import os
 from Numeric import *
+import gtk
 
 __BE_VERBOSE=os.environ.get('DEBUG_LABYRINTH',0)
 if __BE_VERBOSE:
@@ -108,10 +109,13 @@ def get_data_file (file_name):
 # Currently, there is only 1 - STYLE_NORMAL, which is the slightly rounded corners
 # - The normal thought type
 STYLE_NORMAL = 0
+STYLE_EXTENDED_CONTENT = 1
 
 def draw_thought_outline (context, ul, lr, background_color, am_root = False, am_primary = False, style=STYLE_NORMAL):
 	if style == STYLE_NORMAL:
 		draw_thought_classic (context, ul, lr, am_root, am_primary, background_color)
+	elif style == STYLE_EXTENDED_CONTENT:
+		draw_thought_extended (context, ul, lr, am_root, am_primary, background_color)
 	else:
 		print "Error: Unknown thought style: "+str(style)
 
@@ -150,6 +154,30 @@ def draw_thought_classic (context, ul, lr, am_root, am_primary, background_color
 	context.fill_preserve ()
 	context.set_source_rgb (0,0,0)
 	context.stroke ()
+
+def draw_thought_extended (context, ul, lr, am_root, am_primary, background_color):
+	context.move_to (ul[0], ul[1]+5)
+	context.line_to (ul[0], lr[1]-5)
+	context.curve_to (ul[0], lr[1], ul[0], lr[1], ul[0]+5, lr[1])
+	context.line_to (lr[0]-5, lr[1])
+	context.curve_to (lr[0], lr[1], lr[0], lr[1], lr[0], lr[1]-5)
+	context.line_to (lr[0], ul[1]+5)
+	context.curve_to (lr[0], ul[1], lr[0], ul[1], lr[0]-5, ul[1])
+	context.line_to (ul[0]+5, ul[1])
+	context.curve_to (ul[0], ul[1], ul[0], ul[1], ul[0], ul[1]+5)
+	if am_root:
+		context.set_source_rgb (0.447, 0.624, 0.812)
+	elif am_primary:
+		context.set_source_rgb (0.937, 0.831, 0.000)
+	else:
+		r,g,b = gtk_to_cairo_color(background_color)
+		context.set_source_rgb (r, g, b)
+	context.fill_preserve ()
+	context.set_source_rgb (0,0,0)
+	orig_line_width = context.get_line_width ()
+	context.set_line_width (5.0)
+	context.stroke ()
+	context.set_line_width (orig_line_width)
 
 # Export outline stuff
 def export_thought_outline (context, ul, lr, background_color, am_root = False, am_primary = False, style=STYLE_NORMAL, move=(0,0)):

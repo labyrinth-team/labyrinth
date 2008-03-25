@@ -304,7 +304,10 @@ class TextThought (BaseThought.BaseThought):
 			if not self.ul or not self.lr:
 				print "Warning: Trying to draw unfinished box "+str(self.identity)+".  Aborting."
 				return
-			utils.draw_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_NORMAL)
+			if len (self.extended_buffer.get_text()) == 0:
+				utils.draw_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_NORMAL)
+			else:
+				utils.draw_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_EXTENDED_CONTENT)
 
 		else:
 			if prefs.get_direction() == gtk.TEXT_DIR_LTR:
@@ -876,7 +879,7 @@ class TextThought (BaseThought.BaseThought):
 					self.element.appendChild (elem)
 					elem.setAttribute("start", str(r[0]))
 					elem.setAttribute("end", str(r[1]))
-					elem.setAttribute("type", "bold")				
+					elem.setAttribute("type", "bold")
 				elif x.type == pango.ATTR_STYLE and x.value == pango.STYLE_ITALIC:
 					elem = doc.createElement ("attribute")
 					self.element.appendChild (elem)
@@ -1265,7 +1268,7 @@ class TextThought (BaseThought.BaseThought):
 														  old_attrs,
 														  self.attributes.copy()))
 		self.recalc_edges()		
-			
+
 	def set_underline (self, active):
 		if not self.editing:
 			return
@@ -1344,4 +1347,5 @@ class TextThought (BaseThought.BaseThought):
 														  self.undo_attr_cb,
 														  old_attrs,
 														  self.attributes.copy()))
-		self.recalc_edges()					
+		self.recalc_edges()
+

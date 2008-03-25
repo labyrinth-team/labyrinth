@@ -89,7 +89,10 @@ class ImageThought (BaseThought.ResizableThought):
 		return True
 
 	def draw (self, context):
-		utils.draw_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_NORMAL)
+		if len (self.extended_buffer.get_text()) == 0:
+			utils.draw_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_NORMAL)
+		else:
+			utils.draw_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_EXTENDED_CONTENT)
 
 		if self.pic:
 			context.set_source_pixbuf (self.pic, self.pic_location[0], self.pic_location[1])

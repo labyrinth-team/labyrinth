@@ -1,3 +1,11 @@
+2008-03-25 Martin Schaaf <mascha@ma-scha.de>
+
+        * src/ImageThought.py
+	* src/TextThought.py
+	* src/DrawingThought.py
+	* src/utils.py
+	o show a bigger border if a thought has extended info, fixes issue 33
+
 2008-03-24 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/Browser.py
