@@ -73,11 +73,19 @@ class ImageThought (BaseThought.ResizableThought):
 				fname = dialog.get_filename()
 		else:
 			fname = filename
-		self.filename = fname
+
 		try:
 			self.orig_pic = gtk.gdk.pixbuf_new_from_file (fname)
 		except:
-			return False
+			try:
+				# lets see if file was imported and is already extracted
+				fname = utils.get_save_dir() + 'images/' + utils.strip_path_from_file_name(filename)
+				self.orig_pic = gtk.gdk.pixbuf_new_from_file (fname)
+			except:
+				return False
+
+		self.filename = fname
+				
 		if not filename:
 			self.width = self.orig_pic.get_width ()
 			self.height = self.orig_pic.get_height ()

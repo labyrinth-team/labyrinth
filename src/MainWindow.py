@@ -23,6 +23,7 @@ import gtk
 import cairo, pangocairo
 import sha
 import os
+import tarfile
 import gobject
 import gettext
 _ = gettext.gettext
@@ -32,6 +33,7 @@ import utils
 from MapList import MapList
 import xml.dom.minidom as dom
 import PeriodicSaveThread
+import ImageThought
 
 map_number = 1
 
@@ -526,6 +528,7 @@ class LabyrinthWindow (gtk.Window):
 			self.save_file = save_loc+sham.hexdigest()+".map"
 			counter = 1
 			while os.path.exists(self.save_file):
+			
 				print "Warning: Duplicate File.  Saving to alternative"
 				self.save_file = save_loc + "Dup"+str(counter)+sham.hexdigest()+".map"
 				counter += 1
@@ -536,12 +539,19 @@ class LabyrinthWindow (gtk.Window):
 	def export_map_cb(self, event):
 		chooser = gtk.FileChooserDialog(title=_("Save File As"), action=gtk.FILE_CHOOSER_ACTION_SAVE, \
 										buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK))
+		chooser.set_current_name ("%s.mapz" % self.title)
 		response = chooser.run()
 		if response == gtk.RESPONSE_OK:
-			filename = chooser.get_filename()
-			self.MainArea.prepare_save()
-			self.save_map(filename, self.serialize_to_xml(self.MainArea.save, self.MainArea.element))
-			
+			filename = chooser.get_filename ()
+			self.MainArea.save_thyself ()
+			tf = tarfile.open (filename, "w")
+			tf.add (self.save_file, utils.strip_path_from_file_name(self.save_file))
+			for t in self.MainArea.thoughts:
+				if isinstance(t, ImageThought.ImageThought):
+					tf.add (t.filename, 'images/' + utils.strip_path_from_file_name(t.filename))
+					
+			tf.close()
+
 		chooser.destroy()
 
 	def parse_file (self, filename):

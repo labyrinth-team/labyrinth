@@ -103,6 +103,9 @@ def get_data_file (file_name):
 	''' takes a string and either returns a data file of that name or raises an exception if it cant find it '''
 	return open(get_data_file_name(file_name))
 
+def strip_path_from_file_name(f):
+	return f.split('/')[-1]
+
 # Drawing functions
 
 # These are thought outline styles.

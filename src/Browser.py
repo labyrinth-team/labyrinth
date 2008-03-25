@@ -26,6 +26,7 @@ import gtk
 import gconf
 import optparse
 import sys
+import tarfile
 from os.path import *
 import os
 import gtk.glade
@@ -274,12 +275,21 @@ class Browser (gtk.Window):
 	def import_clicked(self, button, other=None, *data):
 		chooser = gtk.FileChooserDialog(title=_("Open File"), action=gtk.FILE_CHOOSER_ACTION_OPEN, \
 										buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK))
+										
+		filtr = gtk.FileFilter ()
+		filtr.set_name(_('MAPZ Compressed Map (*.mapz)'))
+		filtr.add_pattern('*.mapz')
+		chooser.add_filter(filtr)
+			
 		response = chooser.run()
 		if response == gtk.RESPONSE_OK:
 			filename = chooser.get_filename()
-			map = MapList.new_from_file(filename)
-			map.filename = filename
-			self.open_map(map, True)
+			tf = tarfile.open(filename)
+			mapname = utils.get_save_dir() + tf.getnames()[0]
+			tf.extractall(utils.get_save_dir())
+			tf.close()
+			map = MapList.new_from_file(mapname)
+			map.filename = mapname
 			
 		chooser.destroy()
 
