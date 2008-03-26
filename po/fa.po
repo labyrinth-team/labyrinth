@@ -1,0 +1,191 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Labyrinth\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-03-23 12:00+0300\n"
+"PO-Revision-Date: 2008-03-23 16:30+0300\n"
+"Last-Translator: Pedram Azimaie <carp3co@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Persian\n"
+"X-Poedit-Country: Iran\n"
+
+
+#: ../src/Browser.py:207
+msgid "The map cannot be deleted right now.  Is it open?"
+msgstr "امکان حذف نقشه فراهم نیست,آیا نقشه باز است؟"
+
+#: ../src/Browser.py:209
+msgid "The map has no associated filename."
+msgstr "نقشه هیچ نامی ندارد"
+
+#: ../src/Browser.py:212
+msgid "Cannot delete this map"
+msgstr "امکان حذف نقشه وجود ندارد"
+
+#: ../src/Browser.py:219
+msgid "Do you really want to delete this Map?"
+msgstr "واقعا میخواهید نقشه را حذف کنید؟"
+
+#: ../src/Browser.py:248
+msgid "Map Name"
+msgstr "نام نقشه"
+
+#: ../src/MainWindow.py:111 ../src/MainWindow.py:283
+#, python-format
+msgid "Untitled Map %d"
+msgstr "نقشه بدون نام #%d"
+
+#: ../src/MainWindow.py:165
+msgid "File"
+msgstr "پرونده"
+
+#: ../src/MainWindow.py:166
+msgid "Export as Image"
+msgstr "صدور به صورت عکس"
+
+#: ../src/MainWindow.py:167
+msgid "Export your map as an image"
+msgstr "صدور نقشه شما به صورت عکس"
+
+#: ../src/MainWindow.py:169
+msgid "Close the current window"
+msgstr "بستن پنجره فعلی"
+
+#: ../src/MainWindow.py:170
+msgid "_Edit"
+msgstr "_ویرایش"
+
+#: ../src/MainWindow.py:179
+msgid "(Un)Link Thoughts"
+msgstr "(خذف)پیوند تفکرات"
+
+#: ../src/MainWindow.py:180
+msgid "(Un)Link the selected thoughts"
+msgstr "(خذف)پیوند تفکرات انتخاب شده"
+
+#: ../src/MainWindow.py:181
+msgid "_Mode"
+msgstr "_نوع"
+
+#: ../src/MainWindow.py:182
+msgid "_Delete Selected Thoughts"
+msgstr "حذف تفکراـت انتخاب شده"
+
+#: ../src/MainWindow.py:183
+msgid "Delete the selected element(s)"
+msgstr "حذف عامل/عوامل انتخاب شده"
+
+#: ../src/MainWindow.py:185
+msgid "_Edit Mode"
+msgstr "_حالت ویرایش"
+
+#: ../src/MainWindow.py:186
+msgid "Turn on edit mode"
+msgstr "روشن کردن حالت ویرایش"
+
+#: ../src/MainWindow.py:187
+msgid "_Add Image"
+msgstr "_افزودن عکس"
+
+#: ../src/MainWindow.py:188
+msgid "Add an image to selected thought"
+msgstr "افزودن عکس به تفکر انتخاب شده"
+
+#: ../src/MainWindow.py:189
+msgid "_Drawing Mode"
+msgstr "حالت ـنقاشی"
+
+#: ../src/MainWindow.py:190
+msgid "Make a pretty drawing"
+msgstr "ساخت نقاشی قشنگ"
+
+#: ../src/MainWindow.py:192
+msgid "_View Extended"
+msgstr "نمای_ش حالت گسترده"
+
+#: ../src/MainWindow.py:193
+msgid "View extended info for thoughts"
+msgstr "نمایش اطلاعات گسترده برای تفکرات"
+
+#: ../src/MainWindow.py:446
+msgid "Unknown file format"
+msgstr "پرونده نامشخص"
+
+#: ../src/MainWindow.py:447
+#, python-format
+msgid ""
+"The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
+msgstr "نوع فایل '%s' پشتیبانی نمی شود. لطفا از پسوند های  '.png' یا '.jpg' استفاده کنید"
+
+#: ../src/DrawingThought.py:67
+#, python-format
+msgid "Drawing #%d"
+msgstr "کشیدن #%d"
+
+#: ../src/ImageThought.py:64
+msgid "Choose image to insert"
+msgstr "عکس را برای ورود انتخاب کنید"
+
+#: ../src/ImageThought.py:304
+msgid "Error loading file"
+msgstr "خطا در هنگام بار گزاری "
+
+#: ../src/ImageThought.py:305
+#, python-format
+msgid "%s could not be found.  Associated thought will be empty."
+msgstr "%s پیدا نشد.تکفر مورد نظر خالی خواهد ماند"
+
+#: ../data/labyrinth.glade.h:1
+msgid "<b>Export Map</b>"
+msgstr "<b>صدور نقشه</b>"
+
+#: ../data/labyrinth.glade.h:2
+msgid "Complete Map"
+msgstr "اتمام نقشه"
+
+#: ../data/labyrinth.glade.h:3
+msgid "Export Map as Image"
+msgstr "صدور نقشه به صورت عکس"
+
+#: ../data/labyrinth.glade.h:4
+msgid "Height"
+msgstr "ارتفاع"
+
+#: ../data/labyrinth.glade.h:5
+msgid "Labyrinth Maps"
+msgstr "Labyrinth Maps"
+
+#: ../data/labyrinth.glade.h:6
+msgid "Visible Area"
+msgstr "منطقه قابل دید"
+
+#: ../data/labyrinth.glade.h:7
+msgid "Width"
+msgstr "طول"
+
+#: ../data/labyrinth.glade.h:8
+msgid "_File"
+msgstr "_پرونده"
+
+#: ../data/labyrinth.glade.h:9
+msgid "_Help"
+msgstr "_کمک"
+
+#: ../data/labyrinth.desktop.in.h:1
+msgid "Labyrinth Mind-mapping"
+msgstr "Labyrinth Mind-mapping"
+
+#: ../data/labyrinth.desktop.in.h:2
+msgid "Map your mind"
+msgstr "نقشه تفکرات خود را بکشید"
+
+#: ../data/labyrinth.desktop.in.h:3
+msgid "Mind-mapping"
+msgstr "Mind-mapping"
