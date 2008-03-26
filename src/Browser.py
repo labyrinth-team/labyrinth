@@ -23,12 +23,13 @@
 import utils
 import pygtk
 import gtk
-import gconf
 import optparse
 import sys
 import tarfile
 from os.path import *
 import os
+if os.name != 'nt':
+	import gconf
 import gtk.glade
 import MainWindow
 from MapList import MapList
@@ -84,20 +85,26 @@ class Browser (gtk.Window):
 		self.main_window = self.glade.get_widget ('MapBrowser')
 		
 		# set remembered size
-		self.config_client = gconf.client_get_default()
-		self.config_client.add_dir ("/apps/labyrinth", gconf.CLIENT_PRELOAD_NONE)
 
-		width = self.config_client.get_int ('/apps/labyrinth/width')
-		height = self.config_client.get_int ('/apps/labyrinth/height')
-		if width == 0 or height == 0:
+		if os.name != 'nt':
+			self.config_client = gconf.client_get_default()
+			self.config_client.add_dir ("/apps/labyrinth", gconf.CLIENT_PRELOAD_NONE)
+
+			width = self.config_client.get_int ('/apps/labyrinth/width')
+			height = self.config_client.get_int ('/apps/labyrinth/height')
+			if width == 0 or height == 0:
+				width = 400
+				height = 300
+		else:
 			width = 400
 			height = 300
 
 		view_sortable = self.view.get_model ()
 		view_sortable.connect ('sort-column-changed', self.sort_column_changed_cb)
-		sort_order = self.config_client.get_int('/apps/labyrinth/map_sort_order')
-		column_id = self.config_client.get_int('/apps/labyrinth/map_sort_order_column')
-		view_sortable.set_sort_column_id (column_id, sort_order)
+		if os.name != 'nt':
+			sort_order = self.config_client.get_int('/apps/labyrinth/map_sort_order')
+			column_id = self.config_client.get_int('/apps/labyrinth/map_sort_order_column')
+			view_sortable.set_sort_column_id (column_id, sort_order)
 
 		self.main_window.resize (width, height)
 
@@ -299,8 +306,9 @@ class Browser (gtk.Window):
 		
 		width, height = self.main_window.get_size()
 
-		self.config_client.set_int('/apps/labyrinth/width',width)
-		self.config_client.set_int('/apps/labyrinth/height', height)
+		if os.name != 'nt':
+			self.config_client.set_int('/apps/labyrinth/width',width)
+			self.config_client.set_int('/apps/labyrinth/height', height)
 		
 		gtk.main_quit ()
 
@@ -326,6 +334,7 @@ class Browser (gtk.Window):
 
 	def sort_column_changed_cb (self, data):
 		column_id, sort_order = data.get_sort_column_id ()
-		self.config_client.set_int('/apps/labyrinth/map_sort_order', sort_order)
-		self.config_client.set_int('/apps/labyrinth/map_sort_order_column', column_id)
+		if os.name != 'nt':
+			self.config_client.set_int('/apps/labyrinth/map_sort_order', sort_order)
+			self.config_client.set_int('/apps/labyrinth/map_sort_order_column', column_id)
 
