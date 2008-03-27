@@ -1,9 +1,19 @@
+2008-03-25 Martin Schaaf <mascha@ma-scha.de>
+
+	* src/TextThought.py
+	* src/MMapArea.py
+	* src/BaseThought.py
+	* src/MainWindow.py
+	* src/TextBufferMarkup.py
+	o add font selection support for thoughts, fixes issue 79
+	o change attributes instead of inserting, fixes hopefully issue 53
+
 2008-03-26  Don Scorgie  <Don@Scorgie.org>
 
 	* src/Browser.py: 
 	Only remember browser window size
 	using gconf when not running
-	under Windows (gconf isn't available
+	under Windows (gconf isn't svavailable
 	there.  We need another solution)
 	
 

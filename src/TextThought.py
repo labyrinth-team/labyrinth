@@ -95,6 +95,7 @@ class TextThought (BaseThought.BaseThought):
 		bold = False
 		italics = False
 		underline = False
+		pango_font = None
 		del self.attrlist
 		self.attrlist = pango.AttrList ()
 		# TODO: splice instead of own method
@@ -165,6 +166,8 @@ class TextThought (BaseThought.BaseThought):
 					elif x.type == pango.ATTR_UNDERLINE and \
 						 x.value == pango.UNDERLINE_SINGLE:
 						underline = True
+					elif x.type == pango.ATTR_FONT_DESC:
+						pango_font = x.desc
 			if it.next() == False:
 				break
 		to_add = []
@@ -174,6 +177,8 @@ class TextThought (BaseThought.BaseThought):
 			to_add.append(pango.AttrStyle(pango.STYLE_ITALIC, self.index, self.index))
 		if underline:
 			to_add.append(pango.AttrUnderline(pango.UNDERLINE_SINGLE, self.index, self.index))
+		if pango_font:
+			to_add.append(pango.AttrFontDesc(pango_font, self.index, self.index))
 		for x in self.current_attrs:
 			if x.type == pango.ATTR_WEIGHT and x.value == pango.WEIGHT_BOLD:
 				bold = True
@@ -184,9 +189,12 @@ class TextThought (BaseThought.BaseThought):
 			if x.type == pango.ATTR_UNDERLINE and x.value == pango.UNDERLINE_SINGLE:
 				underline = True
 				to_add.append(x)
+			if x.type == pango.ATTR_FONT_DESC:
+				pango_font = x.desc
+				to_add.append(x)
 		del self.current_attrs
 		self.current_attrs = to_add
-		self.emit("update-attrs", bold, italics, underline)
+		self.emit("update-attrs", bold, italics, underline, pango_font)
 		return show_text
 
 	def recalc_edges (self):
@@ -892,6 +900,13 @@ class TextThought (BaseThought.BaseThought):
 					elem.setAttribute("start", str(r[0]))
 					elem.setAttribute("end", str(r[1]))
 					elem.setAttribute("type", "underline")
+				elif x.type == pango.ATTR_FONT_DESC:
+					elem = doc.createElement ("attribute")
+					self.element.appendChild (elem)
+					elem.setAttribute("start", str(r[0]))
+					elem.setAttribute("end", str(r[1]))
+					elem.setAttribute("type", "font")
+					elem.setAttribute("value", x.desc.to_string ())
 			if not it.next():
 				break
 
@@ -968,6 +983,10 @@ class TextThought (BaseThought.BaseThought):
 					attr = pango.AttrStyle(pango.STYLE_ITALIC, start, end)
 				elif attrType == "underline":
 					attr = pango.AttrUnderline(pango.UNDERLINE_SINGLE, start, end)
+				elif attrType == "font":
+					font_name = str(n.getAttribute("value"))
+					pango_font = pango.FontDescription (font_name)
+					attr = pango.AttrFontDesc (pango_font, start, end)
 				self.attributes.change(attr)
 			else:
 				print "Unknown: "+n.nodeName
@@ -1174,7 +1193,7 @@ class TextThought (BaseThought.BaseThought):
 			elif self.index < self.end_index:
 				attr = pango.AttrWeight(pango.WEIGHT_BOLD, self.index, self.end_index)
 				old_attrs = self.attributes.copy()
-				self.attributes.insert(attr)
+				self.attributes.change(attr)
 				self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR_SELECTION,
 														  self.undo_attr_cb,
 														  old_attrs,
@@ -1182,7 +1201,7 @@ class TextThought (BaseThought.BaseThought):
 			else:
 				attr = pango.AttrWeight(pango.WEIGHT_BOLD, self.end_index, self.index)
 				old_attrs = self.attributes.copy()
-				self.attributes.insert(attr)
+				self.attributes.change(attr)
 				self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR_SELECTION,
 														  self.undo_attr_cb,
 														  old_attrs,
@@ -1254,7 +1273,7 @@ class TextThought (BaseThought.BaseThought):
 			elif self.index < self.end_index:
 				attr = pango.AttrStyle(pango.STYLE_ITALIC, self.index, self.end_index)			
 				old_attrs = self.attributes.copy()
-				self.attributes.insert(attr)
+				self.attributes.change(attr)
 				self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR_SELECTION, \
 														  self.undo_attr_cb,\
 														  old_attrs,
@@ -1262,7 +1281,7 @@ class TextThought (BaseThought.BaseThought):
 			else:
 				attr = pango.AttrStyle(pango.STYLE_ITALIC, self.end_index, self.index)
 				old_attrs = self.attributes.copy()
-				self.attributes.insert(attr)
+				self.attributes.change(attr)
 				self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR_SELECTION, \
 														  self.undo_attr_cb,\
 														  old_attrs,
@@ -1334,7 +1353,7 @@ class TextThought (BaseThought.BaseThought):
 			elif self.index < self.end_index:
 				attr = pango.AttrUnderline(pango.UNDERLINE_SINGLE, self.index, self.end_index)
 				old_attrs = self.attributes.copy()
-				self.attributes.insert(attr)
+				self.attributes.change(attr)
 				self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR_SELECTION,
 														  self.undo_attr_cb,
 														  old_attrs,
@@ -1342,10 +1361,36 @@ class TextThought (BaseThought.BaseThought):
 			else:
 				attr = pango.AttrUnderline(pango.UNDERLINE_SINGLE, self.end_index, self.index)
 				old_attrs = self.attributes.copy()
-				self.attributes.insert(attr)
+				self.attributes.change(attr)
 				self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR_SELECTION,
 														  self.undo_attr_cb,
 														  old_attrs,
 														  self.attributes.copy()))
+		self.recalc_edges()
+
+	def set_font (self, font_name):
+		if not self.editing:
+			return
+		start = self.index
+		end = self.end_index
+		if self.index > self.end_index:
+			start = self.end_index
+			end = self.index
+
+		pango_font = pango.FontDescription (font_name)
+		attr = pango.AttrFontDesc (pango_font, start, end)
+
+		if start == end:
+			self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR,
+													  self.undo_attr_cb,
+													  attr))
+			self.current_attrs.append(attr)
+		else:
+			old_attrs = self.attributes.copy()
+			self.attributes.change(attr)
+			self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR_SELECTION,
+													  self.undo_attr_cb,
+													  old_attrs,
+													  self.attributes.copy()))
 		self.recalc_edges()
 

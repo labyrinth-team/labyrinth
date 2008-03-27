@@ -33,7 +33,7 @@ class ExtendedBuffer(gtk.TextBuffer):
 										   ()),
 						 set_attrs      = (gobject.SIGNAL_RUN_LAST,
 						 				   gobject.TYPE_NONE,
-						 				   (gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN)))
+						 				   (gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN, pango.FontDescription)))
 
 	def __init__(self, undo_manager, save, save_doc):
 		super (gtk.TextBuffer, self).__init__()
@@ -76,7 +76,7 @@ class ExtendedBuffer(gtk.TextBuffer):
 				italics = True
 			elif x == "underline":
 				underline = True
-		self.emit("set_attrs", bold, italics, underline)
+		self.emit("set_attrs_bla", bold, italics, underline, None)
 		
 	def delete_range_cb (self, buffer, iter, it1):
 		text = self.get_text (iter, it1)
@@ -122,7 +122,7 @@ class ExtendedBuffer(gtk.TextBuffer):
 			if self.current_tags.count(x) == 0:
 				self.current_tags.append(x)
 		
-		self.emit("set_attrs", bold, italics, underline)
+		self.emit("set_attrs", bold, italics, underline, None)
 		return False
 		
 	def update_save (self):

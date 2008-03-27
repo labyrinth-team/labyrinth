@@ -105,9 +105,11 @@ class LabyrinthWindow (gtk.Window):
 
 		toolbar = self.ui.get_widget('/AddedTools')
 		self.font_widget = gtk.FontButton()
+		self.font_widget.set_use_font (True)
 		toolitem = gtk.ToolItem()
 		toolitem.add(self.font_widget)
 		toolbar.insert(toolitem, -1)
+		self.font_widget.connect ("font-set", self.font_change_cb)
 
 		self.background_widget = gtk.ColorButton(gtk.gdk.color_parse("white"))
 		self.background_widget.set_title(_("Choose background color"))
@@ -323,7 +325,7 @@ class LabyrinthWindow (gtk.Window):
 			self.swin.hide ()
 			self.view_type = 0
 
-	def attrs_cb (self, widget, bold, italics, underline):
+	def attrs_cb (self, widget, bold, italics, underline, pango_font):
 		# Yes, there is a block method for signals
 		# but I don't currently know how to
 		# implement it for action-based signals
@@ -337,6 +339,10 @@ class LabyrinthWindow (gtk.Window):
 		if underline != self.underline_state:
 			self.underline_block = True
 			self.underline_widget.set_active(underline)
+		if pango_font:
+			self.font_widget.set_font_name (pango_font.to_string ())
+		else:
+			self.font_widget.set_font_name ("Sans 12")
 
 	def translate (self, box, arg1, direction):
 		self.orig_translate = [self.MainArea.translation[0], self.MainArea.translation[1]]
@@ -409,15 +415,16 @@ class LabyrinthWindow (gtk.Window):
 			self.MainArea.set_underline (action.get_active())
 
 	def foreground_change_cb (self, button):
-			if not self.extended.is_focus ():
-				self.MainArea.set_foreground_color (button.get_color())
+		if not self.extended.is_focus ():
+			self.MainArea.set_foreground_color (button.get_color())
 
 	def background_change_cb (self, button):
 		if not self.extended.is_focus ():
 			self.MainArea.set_background_color (button.get_color())
 
-	def font_change_cb (self, action):
-		return
+	def font_change_cb (self, button):
+		if not self.extended.is_focus ():
+			self.MainArea.set_font (button.get_font_name ())
 
 	def zoomin_cb(self, arg):
 		self.MainArea.scale_fac*=1.2

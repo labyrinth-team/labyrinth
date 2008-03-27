@@ -104,7 +104,7 @@ class MMapArea (gtk.DrawingArea):
 						 							(gobject.TYPE_PYOBJECT, gobject.TYPE_BOOLEAN)),
 						 set_attrs				 = (gobject.SIGNAL_RUN_LAST,
 						 							gobject.TYPE_NONE,
-						 							(gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN)))
+						 							(gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN, pango.FontDescription)))
 
 	def __init__(self, undo):
 		super (MMapArea, self).__init__()
@@ -811,8 +811,8 @@ class MMapArea (gtk.DrawingArea):
 	def regain_focus_cb (self, thought, ext):
 		self.emit ("set_focus", None, ext)
 
-	def update_attr_cb (self, widget, bold, italics, underline):
-		self.emit ("set_attrs", bold, italics, underline)
+	def update_attr_cb (self, widget, bold, italics, underline, pango_font):
+		self.emit ("set_attrs", bold, italics, underline, pango_font)
 
 	def delete_thought (self, thought):
 		action = UndoManager.UndoAction (self, UNDO_DELETE_SINGLE, self.undo_deletion, [thought])
@@ -1203,7 +1203,12 @@ class MMapArea (gtk.DrawingArea):
 			self.foreground_color = color
 		if len(self.selected) > 1:
 			self.invalidate()
-	
+
+	def set_font(self, font_name):
+		if len (self.selected) == 1 and hasattr(self.selected[0], "set_font"):
+			self.selected[0].set_font (font_name)
+			self.invalidate()
+
 class CursorFactory:
 	__shared_state = {"cursors": {}}
 

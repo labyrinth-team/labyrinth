@@ -23,6 +23,7 @@ import gobject
 import gtk
 import utils
 import TextBufferMarkup
+import pango
 
 
 MODE_EDITING = 0
@@ -78,7 +79,7 @@ class BaseThought (gobject.GObject):
 						 						   (gobject.TYPE_BOOLEAN,)),
 						 update_attrs			= (gobject.SIGNAL_RUN_FIRST,
 						 						   gobject.TYPE_NONE,
-						 						   (gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN)))
+						 						   (gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN, pango.FontDescription)))
 
 	# The first thing that should be called is this constructor
 	# It sets some basic properties of all thoughts and should be called
@@ -144,8 +145,8 @@ class BaseThought (gobject.GObject):
 		self.emit ("select_thought", None)
 		self.emit ("grab_focus", True)
 
-	def set_extended_attrs(self, buf, bold, underline, italics):
-		self.emit("update_attrs", bold, underline, italics)
+	def set_extended_attrs(self, buf, bold, underline, italics, pango_font):
+		self.emit("update_attrs", bold, underline, italics, pango_font)
 		
 	def can_be_parent (self):
 		return True
