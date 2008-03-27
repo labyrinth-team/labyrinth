@@ -13,7 +13,7 @@
 	* src/Browser.py: 
 	Only remember browser window size
 	using gconf when not running
-	under Windows (gconf isn't svavailable
+	under Windows (gconf isn't available
 	there.  We need another solution)
 	
 
