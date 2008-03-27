@@ -358,11 +358,11 @@ class MMapArea (gtk.DrawingArea):
 			if self.motion.handle_motion (event, self.mode, coords):
 				return True
 		obj = self.find_object_at (coords)
-		if self.unending_link:
+		if self.unending_link and not self.is_bbox_selecting:
 			self.unending_link.set_end (coords)
 			self.invalidate ()
 			return True
-		elif not obj and not self.unending_link and event.state & gtk.gdk.BUTTON1_MASK and self.is_bbox_selecting:
+		elif event.state & gtk.gdk.BUTTON1_MASK and self.is_bbox_selecting:
 			self.bbox_current = coords
 			self.invalidate()
 			
@@ -404,7 +404,7 @@ class MMapArea (gtk.DrawingArea):
 			self.move_origin_new = (coords[0], coords[1])
 			self.invalidate ()
 			return True
-		elif self.editing and event.state & gtk.gdk.BUTTON1_MASK and not obj:
+		elif self.editing and event.state & gtk.gdk.BUTTON1_MASK and not obj and not self.is_bbox_selecting:
 			# We were too quick with the movement.  We really actually want to
 			# create the unending link
 			self.create_link (self.editing)

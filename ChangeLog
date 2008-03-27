@@ -1,4 +1,11 @@
-2008-03-25 Martin Schaaf <mascha@ma-scha.de>
+2008-03-27 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/MMapArea.py
+	Fix problem when selecting through an object thus creating a link.
+	* ChangeLog
+	Correct changelog date of Martin's last entry.
+
+2008-03-27 Martin Schaaf <mascha@ma-scha.de>
 
 	* src/TextThought.py
 	* src/MMapArea.py
