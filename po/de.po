@@ -10,164 +10,168 @@ msgid ""
 msgstr ""
 "Project-Id-Version: labyrinth\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-24 19:40+0100\n"
-"PO-Revision-Date: 2008-03-24 19:44+0100\n"
-"Last-Translator: Raphael J. Schmid <rjs@schattenschreiber.org>, Matthias Vogelgesang <matthias.vogelgesang@gmail.com> \n"
+"POT-Creation-Date: 2008-03-28 17:27+0100\n"
+"PO-Revision-Date: 2008-03-28 17:28+0100\n"
+"Last-Translator: Raphael J. Schmid <rjs@schattenschreiber.org>, Matthias>\n"
 "Language-Team: de_DE <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit"
 
-#: ../src/Browser.py:238
+#: ../src/Browser.py:243
 msgid "The map cannot be deleted right now.  Is it open?"
 msgstr "Mindmap kann nicht gelöscht werden - ist sie geöffnet?"
 
-#: ../src/Browser.py:240
+#: ../src/Browser.py:245
 msgid "The map has no associated filename."
 msgstr "Der Mindmap ist kein Dateiname zugewiesen"
 
-#: ../src/Browser.py:243
+#: ../src/Browser.py:248
 msgid "Cannot delete this map"
 msgstr "Mindmap kann nicht gelöscht werden"
 
-#: ../src/Browser.py:250
+#: ../src/Browser.py:255
 msgid "Do you really want to delete this Map?"
 msgstr "Möchten Sie die Mindmap wirklich löschen?"
 
-#: ../src/Browser.py:275
+#: ../src/Browser.py:280
 msgid "Open File"
 msgstr "Öffne Datei"
 
-#: ../src/Browser.py:300
+#: ../src/Browser.py:284
+msgid "MAPZ Compressed Map (*.mapz)"
+msgstr "MAPZ komprimierte Mind Map (*.mapz)"
+
+#: ../src/Browser.py:315
 msgid "Map Name"
 msgstr "Mindmap-Name"
 
-#: ../src/Browser.py:307
+#: ../src/Browser.py:322
 msgid "Last Modified"
 msgstr "Zuletzt modifiziert"
 
-#: ../src/MainWindow.py:111
+#: ../src/MainWindow.py:115
 msgid "Choose background color"
 msgstr "Wähle Hintergrundfarbe"
 
-#: ../src/MainWindow.py:118
+#: ../src/MainWindow.py:122
 msgid "Choose foreground color"
 msgstr "Wähle Textfarbe"
 
-#: ../src/MainWindow.py:151 ../src/MainWindow.py:474
+#: ../src/MainWindow.py:155 ../src/MainWindow.py:483
 #, python-format
 msgid "Untitled Map %d"
 msgstr "Unbenannte Mindmap %d"
 
-#: ../src/MainWindow.py:250
+#: ../src/MainWindow.py:254
 msgid "File"
 msgstr "Datei"
 
-#: ../src/MainWindow.py:251
+#: ../src/MainWindow.py:255
 msgid "Export as Image"
 msgstr "Als Bild exportieren"
 
-#: ../src/MainWindow.py:252
+#: ../src/MainWindow.py:256
 msgid "Export your map as an image"
 msgstr "Exportieren Sie ihre Mindmap als Bild"
 
-#: ../src/MainWindow.py:253
+#: ../src/MainWindow.py:257
 msgid "Export Map..."
 msgstr "Exportiere Mindmap..."
 
-#: ../src/MainWindow.py:254
+#: ../src/MainWindow.py:258
 msgid "Export your map as XML"
 msgstr "Exportieren Sie ihre Mindmap als XML"
 
-#: ../src/MainWindow.py:256
+#: ../src/MainWindow.py:260
 msgid "Close the current window"
 msgstr "Aktuelles Fenster schließen"
 
-#: ../src/MainWindow.py:257
+#: ../src/MainWindow.py:261
 msgid "_Edit"
 msgstr "B_earbeiten"
 
-#: ../src/MainWindow.py:266
+#: ../src/MainWindow.py:270
 msgid "(Un)Link Thoughts"
 msgstr "Gedanken ver-/entknüpfen"
 
-#: ../src/MainWindow.py:267
+#: ../src/MainWindow.py:271
 msgid "(Un)Link the selected thoughts"
 msgstr "Gewählte Gedanken ver-/entknüpfen"
 
-#: ../src/MainWindow.py:268
+#: ../src/MainWindow.py:272
 msgid "_Mode"
 msgstr "_Modus"
 
-#: ../src/MainWindow.py:269
+#: ../src/MainWindow.py:273
 msgid "_Delete Selected Elements"
 msgstr "Gewählte(s) Element(e) _löschen"
 
-#: ../src/MainWindow.py:270
+#: ../src/MainWindow.py:274
 msgid "Delete the selected element(s)"
 msgstr "Gewählte(s) Element(e) löschen"
 
-#: ../src/MainWindow.py:276
+#: ../src/MainWindow.py:280
 msgid "_Edit Mode"
 msgstr "Bearbeitungs_modus"
 
-#: ../src/MainWindow.py:277
+#: ../src/MainWindow.py:281
 msgid "Turn on edit mode"
 msgstr "Bearbeitungsmodus aktivieren"
 
-#: ../src/MainWindow.py:278
+#: ../src/MainWindow.py:282
 msgid "_Add Image"
 msgstr "_Bild hinzufügen"
 
-#: ../src/MainWindow.py:279
+#: ../src/MainWindow.py:283
 msgid "Add an image to selected thought"
 msgstr "Dem gewählten Gedanken ein Bild hinzufügen"
 
-#: ../src/MainWindow.py:280
+#: ../src/MainWindow.py:284
 msgid "_Drawing Mode"
 msgstr "Zeichenmo_dus"
 
-#: ../src/MainWindow.py:281
+#: ../src/MainWindow.py:285
 msgid "Make a pretty drawing"
 msgstr "Hübsche Zeichnung erstellen"
 
-#: ../src/MainWindow.py:283
+#: ../src/MainWindow.py:287
 msgid "_View Extended"
 msgstr "_Erweiterte Ansicht"
 
-#: ../src/MainWindow.py:284
+#: ../src/MainWindow.py:288
 msgid "View extended info for thoughts"
 msgstr "Erweiterte Informationen für Gedanken anzeigen"
 
-#: ../src/MainWindow.py:537
+#: ../src/MainWindow.py:547
 msgid "Save File As"
 msgstr "Speichern unter"
 
-#: ../src/MainWindow.py:630
+#: ../src/MainWindow.py:647
 msgid "All Files"
 msgstr "Alle Dateien"
 
-#: ../src/MainWindow.py:631
+#: ../src/MainWindow.py:648
 msgid "PNG Image (*.png)"
 msgstr "PNG Bild (*.png)"
 
-#: ../src/MainWindow.py:632
+#: ../src/MainWindow.py:649
 msgid "JPEG Image (*.jpg, *.jpeg)"
 msgstr "JPEG Bild (*.jpg, *.jpeg)"
 
-#: ../src/MainWindow.py:633
+#: ../src/MainWindow.py:650
 msgid "SVG Vector Image (*.svg)"
 msgstr "SVG Vektorbild (*.svg)"
 
-#: ../src/MainWindow.py:634
+#: ../src/MainWindow.py:651
 msgid "PDF Portable Document (*.pdf)"
 msgstr "PDF Portable Document (*.pdf)"
 
-#: ../src/MainWindow.py:670
+#: ../src/MainWindow.py:687
 msgid "Unknown file format"
 msgstr "Unbekanntes Dateiformat"
 
-#: ../src/MainWindow.py:671
+#: ../src/MainWindow.py:688
 #, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
@@ -185,11 +189,11 @@ msgstr "Zeichnung #%d"
 msgid "Choose image to insert"
 msgstr "Bild zum Einfügen auswählen"
 
-#: ../src/ImageThought.py:313
+#: ../src/ImageThought.py:324
 msgid "Error loading file"
 msgstr "Fehler beim Laden der Datei"
 
-#: ../src/ImageThought.py:314
+#: ../src/ImageThought.py:325
 #, python-format
 msgid "%s could not be found.  Associated thought will be empty."
 msgstr "Konnte %s nicht finden. Verknüpfter Gedanke wird leer sein."

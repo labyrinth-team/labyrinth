@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-24 19:44+0100\n"
+"POT-Creation-Date: 2008-03-28 17:27+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,156 +16,160 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/Browser.py:238
+#: ../src/Browser.py:243
 msgid "The map cannot be deleted right now.  Is it open?"
 msgstr ""
 
-#: ../src/Browser.py:240
+#: ../src/Browser.py:245
 msgid "The map has no associated filename."
 msgstr ""
 
-#: ../src/Browser.py:243
+#: ../src/Browser.py:248
 msgid "Cannot delete this map"
 msgstr ""
 
-#: ../src/Browser.py:250
+#: ../src/Browser.py:255
 msgid "Do you really want to delete this Map?"
 msgstr ""
 
-#: ../src/Browser.py:275
+#: ../src/Browser.py:280
 msgid "Open File"
 msgstr ""
 
-#: ../src/Browser.py:300
+#: ../src/Browser.py:284
+msgid "MAPZ Compressed Map (*.mapz)"
+msgstr ""
+
+#: ../src/Browser.py:315
 msgid "Map Name"
 msgstr ""
 
-#: ../src/Browser.py:307
+#: ../src/Browser.py:322
 msgid "Last Modified"
 msgstr ""
 
-#: ../src/MainWindow.py:111
+#: ../src/MainWindow.py:115
 msgid "Choose background color"
 msgstr ""
 
-#: ../src/MainWindow.py:118
+#: ../src/MainWindow.py:122
 msgid "Choose foreground color"
 msgstr ""
 
-#: ../src/MainWindow.py:151 ../src/MainWindow.py:474
+#: ../src/MainWindow.py:155 ../src/MainWindow.py:483
 #, python-format
 msgid "Untitled Map %d"
 msgstr ""
 
-#: ../src/MainWindow.py:250
+#: ../src/MainWindow.py:254
 msgid "File"
 msgstr ""
 
-#: ../src/MainWindow.py:251
+#: ../src/MainWindow.py:255
 msgid "Export as Image"
 msgstr ""
 
-#: ../src/MainWindow.py:252
+#: ../src/MainWindow.py:256
 msgid "Export your map as an image"
 msgstr ""
 
-#: ../src/MainWindow.py:253
+#: ../src/MainWindow.py:257
 msgid "Export Map..."
 msgstr ""
 
-#: ../src/MainWindow.py:254
+#: ../src/MainWindow.py:258
 msgid "Export your map as XML"
 msgstr ""
 
-#: ../src/MainWindow.py:256
+#: ../src/MainWindow.py:260
 msgid "Close the current window"
 msgstr ""
 
-#: ../src/MainWindow.py:257
+#: ../src/MainWindow.py:261
 msgid "_Edit"
 msgstr ""
 
-#: ../src/MainWindow.py:266
+#: ../src/MainWindow.py:270
 msgid "(Un)Link Thoughts"
 msgstr ""
 
-#: ../src/MainWindow.py:267
+#: ../src/MainWindow.py:271
 msgid "(Un)Link the selected thoughts"
 msgstr ""
 
-#: ../src/MainWindow.py:268
+#: ../src/MainWindow.py:272
 msgid "_Mode"
 msgstr ""
 
-#: ../src/MainWindow.py:269
+#: ../src/MainWindow.py:273
 msgid "_Delete Selected Elements"
 msgstr ""
 
-#: ../src/MainWindow.py:270
+#: ../src/MainWindow.py:274
 msgid "Delete the selected element(s)"
 msgstr ""
 
-#: ../src/MainWindow.py:276
+#: ../src/MainWindow.py:280
 msgid "_Edit Mode"
 msgstr ""
 
-#: ../src/MainWindow.py:277
+#: ../src/MainWindow.py:281
 msgid "Turn on edit mode"
 msgstr ""
 
-#: ../src/MainWindow.py:278
+#: ../src/MainWindow.py:282
 msgid "_Add Image"
 msgstr ""
 
-#: ../src/MainWindow.py:279
+#: ../src/MainWindow.py:283
 msgid "Add an image to selected thought"
 msgstr ""
 
-#: ../src/MainWindow.py:280
+#: ../src/MainWindow.py:284
 msgid "_Drawing Mode"
 msgstr ""
 
-#: ../src/MainWindow.py:281
+#: ../src/MainWindow.py:285
 msgid "Make a pretty drawing"
 msgstr ""
 
-#: ../src/MainWindow.py:283
+#: ../src/MainWindow.py:287
 msgid "_View Extended"
 msgstr ""
 
-#: ../src/MainWindow.py:284
+#: ../src/MainWindow.py:288
 msgid "View extended info for thoughts"
 msgstr ""
 
-#: ../src/MainWindow.py:537
+#: ../src/MainWindow.py:547
 msgid "Save File As"
 msgstr ""
 
-#: ../src/MainWindow.py:630
+#: ../src/MainWindow.py:647
 msgid "All Files"
 msgstr ""
 
-#: ../src/MainWindow.py:631
+#: ../src/MainWindow.py:648
 msgid "PNG Image (*.png)"
 msgstr ""
 
-#: ../src/MainWindow.py:632
+#: ../src/MainWindow.py:649
 msgid "JPEG Image (*.jpg, *.jpeg)"
 msgstr ""
 
-#: ../src/MainWindow.py:633
+#: ../src/MainWindow.py:650
 msgid "SVG Vector Image (*.svg)"
 msgstr ""
 
-#: ../src/MainWindow.py:634
+#: ../src/MainWindow.py:651
 msgid "PDF Portable Document (*.pdf)"
 msgstr ""
 
-#: ../src/MainWindow.py:670
+#: ../src/MainWindow.py:687
 msgid "Unknown file format"
 msgstr ""
 
-#: ../src/MainWindow.py:671
+#: ../src/MainWindow.py:688
 #, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
@@ -181,11 +185,11 @@ msgstr ""
 msgid "Choose image to insert"
 msgstr ""
 
-#: ../src/ImageThought.py:313
+#: ../src/ImageThought.py:324
 msgid "Error loading file"
 msgstr ""
 
-#: ../src/ImageThought.py:314
+#: ../src/ImageThought.py:325
 #, python-format
 msgid "%s could not be found.  Associated thought will be empty."
 msgstr ""

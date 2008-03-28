@@ -238,7 +238,7 @@ class MMapArea (gtk.DrawingArea):
 			self.translate = False
 			return True
 		if self.moving and self.move_action:
-			self.move_action.add_arg (event.get_coords ())
+			self.move_action.add_arg (coords)
 			self.undo.add_undo (self.move_action)
 			self.move_action = None
 		self.motion = None

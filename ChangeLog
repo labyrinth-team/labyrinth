@@ -1,3 +1,11 @@
+2008-03-28 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/MMapArea.py
+	Fix Issue 80 doing correct undo move.
+	* po/de.po
+	* po/labyrinth.pot
+	Update german translation.
+
 2008-03-28 Martin Schaaf <mascha@ma-scha.de>
 
 	* src/labyrinth.py
