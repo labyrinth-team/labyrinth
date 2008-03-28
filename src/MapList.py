@@ -188,8 +188,13 @@ class MapList(object):
 		return cls.tree_view_model
 
 	@classmethod
-	def _at_col_set_value(cls, row, col, value):
-		iter = cls.tree_view_model.get_iter_from_string(str(row))
-		cls.tree_view_model.set_value(iter, col, value)
+	def _at_col_set_value(cls, col_id, col, value):
+		iter = cls.tree_view_model.get_iter_first ()
+		while iter:
+			(num,) = cls.tree_view_model.get (iter, MapList.COL_ID)
+			if num == col_id:
+				cls.tree_view_model.set_value(iter, col, value)
+				break
+			iter = cls.tree_view_model.iter_next (iter)
 
 MapList.load_all_from_dir(utils.get_save_dir ())

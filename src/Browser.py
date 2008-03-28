@@ -145,11 +145,8 @@ class Browser (gtk.Window):
 	def map_title_cb (self, mobj, new_title, mobj1):
 		map = MapList.get_by_window(mobj)
 		if not map:
-			raise "What a mess, can't find the map"
+			raise AttributeError ("What a mess, can't find the map")
 		map.title=new_title
-
-	def get_selected (self):
-		raise "this function is deprecated"
 
 	def get_selected_map(self):
 		sel = self.view.get_selection ()
