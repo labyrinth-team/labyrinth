@@ -1,5 +1,11 @@
 2008-03-28 Martin Schaaf <mascha@ma-scha.de>
 
+	* src/labyrinth.py
+	o check for pygtk version before gtk is imported like it is said in
+	the pygtk FAQ, fixes Issue 82
+
+2008-03-28 Martin Schaaf <mascha@ma-scha.de>
+
 	* src/Makefile.am
 	o add missing file for distribution creation
 

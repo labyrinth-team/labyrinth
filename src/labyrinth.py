@@ -22,7 +22,6 @@
 
 import pygtk
 
-import gtk
 import gettext, locale
 import optparse
 import sys
@@ -40,6 +39,7 @@ if os.name != 'nt':
 	else:
 			sys.path.insert(0, abspath("@PYTHONDIR@"))
 
+import gtk
 
 # Hopefully this will work now ;)
 import utils
