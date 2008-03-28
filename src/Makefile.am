@@ -22,7 +22,8 @@ labyrinth_PYTHON = 	\
 	MapList.py \
 	TrayIcon.py	\
 	prefs.py \
-	UndoManager.py
+	UndoManager.py \
+	PeriodicSaveThread.py
 
 nodist_labyrinth_PYTHON = defs.py
 
