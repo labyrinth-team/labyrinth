@@ -1,3 +1,8 @@
+2008-03-29 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/MMapArea.py
+	Inherit color from parent node.
+
 2008-03-29 Martin Schaaf <mascha@ma-scha.de>
 
 	* src/TextThought.py

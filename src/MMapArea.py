@@ -287,6 +287,8 @@ class MMapArea (gtk.DrawingArea):
 				self.element.appendChild (element)
 				self.unending_link = None
 			self.undo.unblock ()
+			thought.foreground_color = self.foreground_color
+			thought.background_color = self.background_color
 			act = UndoManager.UndoAction (self, UNDO_CREATE, self.undo_create_cb, thought, sel, \
 										  self.mode, self.old_mode, event.get_coords())
 			for l in self.links:
@@ -546,8 +548,7 @@ class MMapArea (gtk.DrawingArea):
 			if self.selected.count (thought) == 0:
 				self.selected.append (thought)
 		else:
-			for x in self.selected:
-				x.unselect ()
+			map(lambda x : x.unselect(), self.selected)
 			self.selected = [thought]
 		self.current_root = []
 		for x in self.selected:
@@ -556,6 +557,8 @@ class MMapArea (gtk.DrawingArea):
 		thought.select ()
 		if len(self.selected) == 1:
 			self.emit ("thought_selection_changed", thought.background_color, thought.foreground_color)
+			self.background_color = thought.background_color
+			self.foreground_color = thought.foreground_color
 			try:
 				self.emit ("change_buffer", thought.extended_buffer)
 			except AttributeError:
@@ -621,7 +624,6 @@ class MMapArea (gtk.DrawingArea):
 			self.unending_link = Links.Link (self.save, parent = thought, start_coords = thought_coords,
 											 end_coords = child_coords, strength = strength)
 
-			
 	def set_mouse_cursor_cb (self, thought, cursor_type):
 		if not self.moving:
 			self.set_cursor (cursor_type)
@@ -786,7 +788,6 @@ class MMapArea (gtk.DrawingArea):
 		if not thought.okay ():
 			return None
 
-
 		if type == TYPE_IMAGE:
 			self.emit ("change_mode", self.old_mode)
 		self.nthoughts += 1
@@ -868,7 +869,6 @@ class MMapArea (gtk.DrawingArea):
 		self.emit ("set_focus", None, False)
 		self.undo.unblock ()
 		self.invalidate ()
-
 
 	def delete_selected_elements (self):
 		if len(self.selected) == 0:
@@ -1086,12 +1086,10 @@ class MMapArea (gtk.DrawingArea):
 			return
 		self.selected[0].copy_text (clip)
 
-
 	def cut_clipboard (self, clip):
 		if len (self.selected) != 1:
 			return
 		self.selected[0].cut_text (clip)
-
 
 	def paste_clipboard (self, clip):
 		if len (self.selected) != 1:
