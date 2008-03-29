@@ -1,3 +1,9 @@
+2008-03-29 Martin Schaaf <mascha@ma-scha.de>
+
+	* src/TextThought.py
+	o set attribute to none or normal on unsetting (there is more work
+	todo)
+
 2008-03-28 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/MMapArea.py

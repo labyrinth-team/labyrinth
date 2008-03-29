@@ -1132,6 +1132,17 @@ class TextThought (BaseThought.BaseThought):
 		if not self.editing:
 			return
 		if not active:
+			if self.index == self.end_index:
+				attr = pango.AttrStyle(pango.WEIGHT_NORMAL, self.index, self.end_index)
+				self.current_attrs.change(attr)
+			elif self.index < self.end_index:
+				attr = pango.AttrStyle(pango.WEIGHT_NORMAL, self.index, self.end_index)			
+				self.attributes.change(attr)
+			else:
+				attr = pango.AttrStyle(pango.WEIGHT_NORMAL, self.end_index, self.index)
+				self.attributes.change(attr)
+
+			# FIXME: The following code should be cleaned up
 			tmp = []
 			attr = None
 			if self.index == self.end_index:
@@ -1212,6 +1223,17 @@ class TextThought (BaseThought.BaseThought):
 		if not self.editing:
 			return
 		if not active:
+			if self.index == self.end_index:
+				attr = pango.AttrStyle(pango.STYLE_NORMAL, self.index, self.end_index)
+				self.current_attrs.change(attr)
+			elif self.index < self.end_index:
+				attr = pango.AttrStyle(pango.STYLE_NORMAL, self.index, self.end_index)			
+				self.attributes.change(attr)
+			else:
+				attr = pango.AttrStyle(pango.STYLE_NORMAL, self.end_index, self.index)
+				self.attributes.change(attr)
+
+			# FIXME: The following code should be cleaned up
 			tmp = []
 			attr = None
 			if self.index == self.end_index:
@@ -1269,9 +1291,9 @@ class TextThought (BaseThought.BaseThought):
 				self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR,
 														  self.undo_attr_cb,
 														  attr))
-				self.current_attrs.append(attr)
+				self.current_attrs.change(attr)
 			elif self.index < self.end_index:
-				attr = pango.AttrStyle(pango.STYLE_ITALIC, self.index, self.end_index)			
+				attr = pango.AttrStyle(pango.STYLE_ITALIC, self.index, self.end_index)
 				old_attrs = self.attributes.copy()
 				self.attributes.change(attr)
 				self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR_SELECTION, \
@@ -1292,6 +1314,17 @@ class TextThought (BaseThought.BaseThought):
 		if not self.editing:
 			return
 		if not active:
+			if self.index == self.end_index:
+				attr = pango.AttrStyle(pango.UNDERLINE_NONE, self.index, self.end_index)
+				self.current_attrs.change(attr)
+			elif self.index < self.end_index:
+				attr = pango.AttrStyle(pango.UNDERLINE_NONE, self.index, self.end_index)
+				self.attributes.change(attr)
+			else:
+				attr = pango.AttrStyle(pango.UNDERLINE_NONE, self.end_index, self.index)
+				self.attributes.change(attr)
+
+			# FIXME: The following code should be cleaned up
 			tmp = []
 			attr = None
 			if self.index == self.end_index:
@@ -1349,7 +1382,7 @@ class TextThought (BaseThought.BaseThought):
 				self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR,
 														  self.undo_attr_cb,
 														  attr))
-				self.current_attrs.append(attr)
+				self.current_attrs.change(attr)
 			elif self.index < self.end_index:
 				attr = pango.AttrUnderline(pango.UNDERLINE_SINGLE, self.index, self.end_index)
 				old_attrs = self.attributes.copy()
@@ -1384,7 +1417,7 @@ class TextThought (BaseThought.BaseThought):
 			self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR,
 													  self.undo_attr_cb,
 													  attr))
-			self.current_attrs.append(attr)
+			self.current_attrs.change(attr)
 		else:
 			old_attrs = self.attributes.copy()
 			self.attributes.change(attr)
