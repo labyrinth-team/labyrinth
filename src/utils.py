@@ -196,17 +196,11 @@ def pixbuf_to_cairo (pixel_array):
 	for y in pixel_array:
 		row = []
 		for x in y:
-			color = []
-			if len (x) == 4:
-				color.append(x[2][0])
-				color.append(x[1][0])
-				color.append(x[0][0])
-				color.append(x[3][0])
-			elif len (x) == 3:
-				color.append(x[2][0])
-				color.append(x[1][0])
-				color.append(x[0][0])
+			color = [int(x[2][0]), int(x[1][0]), int(x[0][0])]
+			if len(x) == 3:
 				color.append(255)
+			elif len(x) == 4:
+				color.append(int(x[3][0]))
 			row.append(color)
 		result.append(row)
 	return array(result, 'b')

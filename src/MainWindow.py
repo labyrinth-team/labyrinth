@@ -640,7 +640,7 @@ class LabyrinthWindow (gtk.Window):
 		x, y, width, height, bitdepth = self.MainArea.window.get_geometry ()
 		glade = gtk.glade.XML (utils.get_data_file_name('labyrinth.glade'))
 		dialog = glade.get_widget ('ExportImageDialog')
-		box = glade.get_widget ('vbox2')
+		box = glade.get_widget ('dialog_insertion')
 		fc = gtk.FileChooserWidget(gtk.FILE_CHOOSER_ACTION_SAVE)
 		box.pack_end (fc)
 
@@ -658,8 +658,8 @@ class LabyrinthWindow (gtk.Window):
 			fc.add_filter(fil)
 
 		fc.set_current_name ("%s.png" % self.title)
-		rad = glade.get_widget ('radiobutton1')
-		rad2 = glade.get_widget ('radiobutton2')
+		rad = glade.get_widget ('rb_complete_map')
+		rad2 = glade.get_widget ('rb_visible_area')
 		self.spin_width = glade.get_widget ('width_spin')
 		self.spin_height = glade.get_widget ('height_spin')
 		self.spin_width.set_value (maxx)
