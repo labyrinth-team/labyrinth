@@ -230,10 +230,11 @@ class MMapArea (gtk.DrawingArea):
 			self.is_bbox_selecting = False
 			self.invalidate ()
 			try:
-				if abs(self.bbox_origin[0] - self.bbox_current[0]) > 2.0:
+				if abs(self.bbox_origin[0] - coords[0]) > 2.0:
 					return True
 			except AttributeError:	# no bbox_current
 				pass
+				
 		if self.translate:
 			self.translate = False
 			return True
