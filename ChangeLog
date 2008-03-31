@@ -1,3 +1,10 @@
+2008-03-31 Martin Schaaf <mascha@ma-scha.de>
+
+	* debian/chnagelog
+	Add all entries from the rc versions.
+	* configure.ac
+	Bump to 0.5.0dev version.
+
 2008-03-31 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* data/labyrinth.glade

@@ -1,3 +1,34 @@
+labyrinth (0.4.0) gutsy; urgency=low
+
+  * check for pygtk version before gtk is imported like it is said in the pygtk FAQ, fixes Issue 82
+  * update de translation
+  * fix export dialog
+
+labyrinth (0.4.0rc7) gutsy; urgency=low
+  
+  * add missing file to distribution
+  * fix renaming of thoughts
+ 
+ -- Martin Schaaf (Privat) <mascha@ma-scha.de>  Fri, 28 Mar 2008 09:39:00 +0100
+
+labyrinth (0.4.0rc6) gutsy; urgency=low
+
+  * add font selection support for thoughts, fixes issue 79
+  * change attributes instead of inserting, fixes hopefully issue 53
+
+ -- Martin Schaaf (Privat) <mascha@ma-scha.de>  Fri, 27 Mar 2008 19:39:00 +0100
+
+labyrinth (0.4.0rc5) gutsy; urgency=low
+
+  * Export maps with images as tarball. Sync with trunk.
+  * show a bigger border if a thought has extended info, fixes issue 33
+  * Fixes issue 62. Links are not selected if not clicked.
+  * Don't draw off-screen thoughts.
+  * remember map sort order, fixes issue 75
+  * save open maps every 60 seconds, fixing issue 64
+
+ -- Martin Schaaf (Privat) <mascha@ma-scha.de>  Fri, 26 Mar 2008 10:39:00 +0100
+
 labyrinth (0.4.0rc4) gutsy; urgency=low
 
   * convert pixel array from pixbuf rgb order to cairo rgb order on exporting
