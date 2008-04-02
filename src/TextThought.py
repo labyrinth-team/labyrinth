@@ -749,9 +749,11 @@ class TextThought (BaseThought.BaseThought):
 				if not (event.state & modifiers) & gtk.gdk.SHIFT_MASK:
 					self.end_index = self.index
 			elif mode == BaseThought.MODE_EDITING and event.type == gtk.gdk._2BUTTON_PRESS:
-				self.move_index_horizontal(False)	# go to the end
-				self.index = 0						# and mark all
-				self.emit ("begin_editing")
+				if self.editing:
+					self.move_index_horizontal(False)	# go to the end
+					self.index = 0						# and mark all
+				else:
+					self.emit ("begin_editing")
 		elif event.button == 2 and self.editing:
 			x = int ((transformed[0] - self.ul[0])*pango.SCALE)
 			y = int ((transformed[1] - self.ul[1])*pango.SCALE)
