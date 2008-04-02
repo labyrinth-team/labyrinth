@@ -35,8 +35,6 @@ import xml.dom.minidom as dom
 import PeriodicSaveThread
 import ImageThought
 
-map_number = 1
-
 # UNDO varieties for us
 UNDO_MODE = 0
 UNDO_SHOW_EXTENDED = 1
@@ -149,11 +147,9 @@ class LabyrinthWindow (gtk.Window):
 		# Deal with loading the map
 		if not filename:
 			self.MainArea.set_size_request (600, 500)
-			self.map_number = MapList.count() +1
 			# TODO: This shouldn't be set to a hard-coded number.  Fix.
 			self.pane_pos = 500
-			self.title_cp = _("Untitled Map %d" % self.map_number)
-			self.map_number += 1
+			self.title_cp = _("Untitled Map")
 			self.mode = MMapArea.MODE_EDITING
 			self.extended_visible = False
 		else:
@@ -480,7 +476,7 @@ class LabyrinthWindow (gtk.Window):
 	def title_changed_cb (self, widget, new_title):
 		self.title_cp = ''
 		if new_title == '':
-			self.title_cp = _('Untitled Map %d' % self.map_number)
+			self.title_cp = _('Untitled Map')
 		else:
 			split = new_title.splitlines ()
 			if split:
@@ -510,7 +506,6 @@ class LabyrinthWindow (gtk.Window):
 
 	def serialize_to_xml(self, doc, top_element):
 		top_element.setAttribute ("title", self.title_cp)
-		top_element.setAttribute ("number", str(self.map_number))
 		top_element.setAttribute ("mode", str(self.mode))
 		top_element.setAttribute ("size", str((self.width,self.height)))
 		top_element.setAttribute ("position", str((self.xpos,self.ypos)))
@@ -566,7 +561,6 @@ class LabyrinthWindow (gtk.Window):
 		doc = dom.parse (f)
 		top_element = doc.documentElement
 		self.title_cp = top_element.getAttribute ("title")
-		self.map_number = int (top_element.getAttribute ("number"))
 		self.mode = int (top_element.getAttribute ("mode"))
 		if top_element.hasAttribute ("maximised"):
 			maxi = top_element.getAttribute ("maximised")

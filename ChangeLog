@@ -1,3 +1,14 @@
+2008-04-02 Martin Schaaf <mascha@ma-scha.de>
+
+	* src/MapList.py
+	* src/MainWindow.py
+	Differentiate between index in MapList and index in browser (column
+	id). Column id is used as map index. Do not give an untitled map a
+	number. Calculate new column id from biggest existing column id.
+	Remove map title to map relation because it isn't used.
+	* src/Browser.py
+	Remove space in string.
+
 2008-04-01 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/MMapArea.py

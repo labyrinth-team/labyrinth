@@ -240,7 +240,7 @@ class Browser (gtk.Window):
 			raise "You clicked on delete but had no map selected"
 		error_message = ""
 		if map.window:
-			error_message =  _("The map cannot be deleted right now.  Is it open?")
+			error_message =  _("The map cannot be deleted right now. Is it open?")
 		elif not map.filename:
 			error_message = _("The map has no associated filename.")
 		if error_message:

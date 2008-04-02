@@ -81,10 +81,6 @@ class MapList(object):
 				MapList._maps_by_filename[value] = self.index
 
 		def _title_changed(self, value, old_value):
-			if not old_value is None:
-				del MapList._maps_by_title[old_value]
-			if not value is None:
-				MapList._maps_by_title[value] = self.index
 			MapList._at_col_set_value(self.index, MapList.COL_TITLE, value)
 
 		def __str__(self):
@@ -94,7 +90,6 @@ class MapList(object):
 			return self.__str__()
 
 	_maps = []
-	_maps_by_title = {}
 	_maps_by_filename = {}
 	tree_view_model = gtk.ListStore(int, str, str, str, 'gboolean')
 
@@ -119,7 +114,7 @@ class MapList(object):
 
 	@classmethod
 	def create_empty_map(cls):
-		index = len(cls._maps)
+		index = cls.next_col_id ()
 		map = cls.MapCore(index = index)
 		map.modtime = datetime.datetime.now().strftime("%x %X")
 		cls._maps.append(map)
@@ -132,13 +127,12 @@ class MapList(object):
 
 	@classmethod
 	def delete(cls, map):
-		index = map.index
+		index = cls._maps.index(map)
 		del cls._maps[ index ]
-		if map.title: del cls._maps_by_title[map.title]
 		if map.filename:
 			del cls._maps_by_filename[map.filename]
 			os.unlink(map.filename)
-		iter = cls.tree_view_model.get_iter_from_string(str(map.index))
+		iter = cls.get_iter_by_col_id(map.index)
 		cls.tree_view_model.remove(iter)
 
 	@classmethod
@@ -156,10 +150,6 @@ class MapList(object):
 	@classmethod
 	def __getitem__(cls, index):
 		return cls._maps[index]
-
-	@classmethod
-	def get_by_title(cls, name):
-		return cls._maps[cls._maps_by_title[name]]
 
 	@classmethod
 	def get_by_filename(cls, name):
@@ -196,5 +186,33 @@ class MapList(object):
 				cls.tree_view_model.set_value(iter, col, value)
 				break
 			iter = cls.tree_view_model.iter_next (iter)
+
+	@classmethod
+	def get_iter_by_col_id(cls, col_id):
+		found = False
+		iter = cls.tree_view_model.get_iter_first ()
+		while iter:
+			(num,) = cls.tree_view_model.get (iter, MapList.COL_ID)
+			if col_id == num:
+				found = True
+				break
+			iter = cls.tree_view_model.iter_next (iter)
+
+		if not found:
+			iter = None
+
+		return iter
+
+	@classmethod
+	def next_col_id(cls):
+		next_col_id = -1
+		iter = cls.tree_view_model.get_iter_first ()
+		while iter:
+			(num,) = cls.tree_view_model.get (iter, MapList.COL_ID)
+			if next_col_id < num:
+				next_col_id = num
+			iter = cls.tree_view_model.iter_next (iter)
+
+		return next_col_id + 1
 
 MapList.load_all_from_dir(utils.get_save_dir ())
