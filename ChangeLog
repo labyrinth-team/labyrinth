@@ -1,6 +1,13 @@
 2008-04-02 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/TextThought.py
+	Fix issue 92.
+	* po/de.po
+	Updated german translation.
+
+2008-04-02 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/TextThought.py
 	Refactoring leads to -200 loc.
 	
 2008-04-02 Martin Schaaf <mascha@ma-scha.de>
