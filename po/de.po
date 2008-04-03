@@ -10,43 +10,47 @@ msgid ""
 msgstr ""
 "Project-Id-Version: labyrinth\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-02 19:15+0200\n"
-"PO-Revision-Date: 2008-04-02 19:16+0200\n"
+"POT-Creation-Date: 2008-04-03 11:02+0200\n"
+"PO-Revision-Date: 2008-04-03 11:02+0200\n"
 "Last-Translator: Raphael J. Schmid <rjs@schattenschreiber.org>, Matthias>\n"
 "Language-Team: de_DE <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit"
 
-#: ../src/Browser.py:243
+#: ../src/Browser.py:216
+msgid "Translation by Don Scorgie"
+msgstr "Übersetzung von Matthias Vogelgesang"
+
+#: ../src/Browser.py:238
 msgid "The map cannot be deleted right now. Is it open?"
 msgstr "Mindmap kann nicht gelöscht werden. Ist sie geöffnet?"
 
-#: ../src/Browser.py:245
+#: ../src/Browser.py:240
 msgid "The map has no associated filename."
 msgstr "Der Mindmap ist kein Dateiname zugewiesen."
 
-#: ../src/Browser.py:248
+#: ../src/Browser.py:243
 msgid "Cannot delete this map"
 msgstr "Mindmap kann nicht gelöscht werden"
 
-#: ../src/Browser.py:255
+#: ../src/Browser.py:250
 msgid "Do you really want to delete this Map?"
 msgstr "Möchten Sie die Mindmap wirklich löschen?"
 
-#: ../src/Browser.py:280
+#: ../src/Browser.py:275
 msgid "Open File"
 msgstr "Öffne Datei"
 
-#: ../src/Browser.py:284
+#: ../src/Browser.py:279
 msgid "MAPZ Compressed Map (*.mapz)"
 msgstr "MAPZ komprimierte Mind Map (*.mapz)"
 
-#: ../src/Browser.py:315
+#: ../src/Browser.py:310
 msgid "Map Name"
 msgstr "Mindmap-Name"
 
-#: ../src/Browser.py:322
+#: ../src/Browser.py:317
 msgid "Last Modified"
 msgstr "Zuletzt modifiziert"
 

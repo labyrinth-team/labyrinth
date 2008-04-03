@@ -1,5 +1,16 @@
 2008-04-03 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* po/labyrinth.po
+	* po/de.po
+	* src/Browser.py
+	Translator credits.
+	* src/utils.py
+	* src/ImageThough.py
+	* src/DrawingThought.py
+	Simplifications.
+
+2008-04-03 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* po/es.po
 	* po/LINGUAS
 	Added spanish translation by Peter Gordon.

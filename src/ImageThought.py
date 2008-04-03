@@ -55,7 +55,6 @@ class ImageThought (BaseThought.ResizableThought):
 		else:
 			self.all_okay = True
 
-
 	def open_image (self, filename = None):
 		# Present a dialog for the user to choose an image here
 		if not filename:
@@ -159,7 +158,6 @@ class ImageThought (BaseThought.ResizableThought):
 		elif event.button == 3:
 			self.emit ("popup_requested", (event.x, event.y), 1)
 		self.emit ("update_view")
-
 
 	def process_button_release (self, event, unending_link, mode, transformed):
 		self.button_down = False
@@ -300,14 +298,8 @@ class ImageThought (BaseThought.ResizableThought):
 			pass
 		self.width = float(node.getAttribute ("image_width"))
 		self.height = float(node.getAttribute ("image_height"))
-		if node.hasAttribute ("current_root"):
-			self.am_selected = True
-		else:
-			self.am_selected = False
-		if node.hasAttribute ("primary_root"):
-			self.am_primary = True
-		else:
-			self.am_primary = False
+		self.am_selected = node.hasAttribute ("current_root")
+		self.am_primary = node.hasAttribute ("primary_root")
 
 		for n in node.childNodes:
 			if n.nodeName == "Extended":

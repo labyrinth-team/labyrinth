@@ -21,9 +21,7 @@
 #
 
 import utils
-import pygtk
 import gtk
-import optparse
 import sys
 import tarfile
 from os.path import *
@@ -41,7 +39,8 @@ _ = gettext.gettext
 
 AUTHORS = ['Don Scorgie <Don@Scorgie.org>', 
 		   'Martin Schaaf <mascha@ma-scha.de>',
-		   'Matthias Vogelgesang <matthias.vogelgesang@gmail.com>']
+		   'Matthias Vogelgesang <matthias.vogelgesang@gmail.com>',
+		   'Andreas Sliwka <andreas.sliwka@gmail.com>']
 
 class Browser (gtk.Window):
 	COL_ID = 0
@@ -79,13 +78,11 @@ class Browser (gtk.Window):
 		self.glade.get_widget('quit1').connect ('activate', self.quit_clicked)
 		self.glade.get_widget('about1').connect ('activate', self.about_clicked)
 
-		for x in self.view_dependants:
-			x.set_sensitive (False)
+		map(lambda x : x.set_sensitive(False), self.view_dependants)
 
 		self.main_window = self.glade.get_widget ('MapBrowser')
 		
 		# set remembered size
-
 		if os.name != 'nt':
 			self.config_client = gconf.client_get_default()
 			self.config_client.add_dir ("/apps/labyrinth", gconf.CLIENT_PRELOAD_NONE)
@@ -135,8 +132,7 @@ class Browser (gtk.Window):
 			self.main_window.show_all ()
 
 	def toggle_main_window(self,*args):
-		visible = self.main_window.get_property("visible")
-		if visible:
+		if self.main_window.get_property("visible"):
 			self.main_window.hide()
 		else:
 			self.main_window.show()
@@ -146,26 +142,20 @@ class Browser (gtk.Window):
 		map = MapList.get_by_window(mobj)
 		if not map:
 			raise AttributeError ("What a mess, can't find the map")
-		map.title=new_title
+		map.title = new_title
 
 	def get_selected_map(self):
 		sel = self.view.get_selection ()
 		(model, it) = sel.get_selected ()
 		if it:
 		    (num,) = MapList.tree_view_model.get (it, self.COL_ID)
-		    map = MapList.get_by_index(num)
-		    return  map
-		else:
-		    return None
+		    return MapList.get_by_index(num)
+		return None
 
 	def cursor_change_cb (self, treeview):
 		selected_map = self.get_selected_map ()
-		if not selected_map:
-			sensitive = False
-		else:
-			sensitive = True
-		for x in self.view_dependants:
-			x.set_sensitive (sensitive)
+		sensitive = not not self.get_selected_map ()
+		map(lambda x : x.set_sensitive(sensitive), self.view_dependants)
 
 	def open_map_filename (self, fname):
 		win = MainWindow.LabyrinthWindow (fname)
@@ -216,9 +206,10 @@ class Browser (gtk.Window):
 	"along with Labyrinth; if not, write to the Free Software Foundation, Inc., "
 	"59 Temple Place, Suite 330, Boston, MA  02111-1307  USA")
 		about_dialog.set_wrap_license (True)
-		about_dialog.set_copyright ("2006 Don Scorgie")
+		about_dialog.set_copyright ("2006-2008 Don Scorgie et. al")
 		about_dialog.set_authors (AUTHORS)
 		about_dialog.set_website ("http://code.google.com/p/labyrinth")
+		about_dialog.set_translator_credits (_("Translation by Don Scorgie"))
 		about_dialog.run ()
 		about_dialog.hide ()
 		del (about_dialog)

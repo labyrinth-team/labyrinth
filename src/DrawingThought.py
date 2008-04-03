@@ -97,7 +97,6 @@ class DrawingThought (BaseThought.ResizableThought):
 					context.stroke()
 				else:
 					context.line_to (p.x,p.y)
-					
 
 		context.set_line_width (cwidth)
 		context.stroke ()
@@ -111,10 +110,9 @@ class DrawingThought (BaseThought.ResizableThought):
 
 	def undo_resize (self, action, mode):
 		self.undo.block ()
+		choose = 1
 		if mode == UndoManager.UNDO:
 			choose = 0
-		else:
-			choose = 1
 		self.ul = action.args[choose][0]
 		self.width = action.args[choose][1]
 		self.height = action.args[choose][2]
@@ -133,6 +131,7 @@ class DrawingThought (BaseThought.ResizableThought):
 			choose = 2
 			for p in action.args[0]:
 				self.points.append (p)
+
 		self.ul = action.args[choose][0]
 		self.width = action.args[choose][1]
 		self.height = action.args[choose][2]
@@ -166,7 +165,6 @@ class DrawingThought (BaseThought.ResizableThought):
 		elif event.button == 3:
 			self.emit ("popup_requested", (event.x, event.y), 1)
 		self.emit ("update_view")
-
 
 	def process_button_release (self, event, unending_link, mode, transformed):
 		self.button_down = False
@@ -206,7 +204,6 @@ class DrawingThought (BaseThought.ResizableThought):
 					self.points.remove (x[2])
 		self.undo.unblock ()
 		self.emit ("update_view")
-
 
 	def handle_motion (self, event, mode, transformed):
 		if (self.resizing == self.RESIZE_NONE or not self.want_move or not event.state & gtk.gdk.BUTTON1_MASK) \
@@ -437,8 +434,7 @@ class DrawingThought (BaseThought.ResizableThought):
 		self.min_y += y
 		self.max_x += x
 		self.max_y += y
-		for p in self.points:
-			p.move_by (x,y)
+		map(lambda p : p.move_by(x,y), self.points)
 		self.recalc_edges ()
 		self.emit ("update_links")
 
@@ -512,14 +508,8 @@ class DrawingThought (BaseThought.ResizableThought):
 		self.width = self.lr[0] - self.ul[0]
 		self.height = self.lr[1] - self.ul[1]
 
-		if node.hasAttribute ("current_root"):
-			self.am_selected = True
-		else:
-			self.am_selected = False
-		if node.hasAttribute ("primary_root"):
-			self.am_primary = True
-		else:
-			self.am_primary = False
+		self.am_selected = node.hasAttribute ("current_root")
+		self.am_primary = node.hasAttribute ("primary_root")
 
 		for n in node.childNodes:
 			if n.nodeName == "Extended":
@@ -571,7 +561,6 @@ class DrawingThought (BaseThought.ResizableThought):
 
 		self.resizing = self.RESIZE_NONE
 		self.motion_coords = coords
-
 
 		if inside and (mode != MODE_EDITING or self.button_down):
 			if mode == MODE_DRAW:

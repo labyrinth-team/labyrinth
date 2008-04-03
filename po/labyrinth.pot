@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-02 19:15+0200\n"
+"POT-Creation-Date: 2008-04-03 11:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,35 +16,39 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/Browser.py:243
+#: ../src/Browser.py:216
+msgid "Translation by Don Scorgie"
+msgstr ""
+
+#: ../src/Browser.py:238
 msgid "The map cannot be deleted right now. Is it open?"
 msgstr ""
 
-#: ../src/Browser.py:245
+#: ../src/Browser.py:240
 msgid "The map has no associated filename."
 msgstr ""
 
-#: ../src/Browser.py:248
+#: ../src/Browser.py:243
 msgid "Cannot delete this map"
 msgstr ""
 
-#: ../src/Browser.py:255
+#: ../src/Browser.py:250
 msgid "Do you really want to delete this Map?"
 msgstr ""
 
-#: ../src/Browser.py:280
+#: ../src/Browser.py:275
 msgid "Open File"
 msgstr ""
 
-#: ../src/Browser.py:284
+#: ../src/Browser.py:279
 msgid "MAPZ Compressed Map (*.mapz)"
 msgstr ""
 
-#: ../src/Browser.py:315
+#: ../src/Browser.py:310
 msgid "Map Name"
 msgstr ""
 
-#: ../src/Browser.py:322
+#: ../src/Browser.py:317
 msgid "Last Modified"
 msgstr ""
 
