@@ -133,7 +133,8 @@ class MapList(object):
 			del cls._maps_by_filename[map.filename]
 			os.unlink(map.filename)
 		iter = cls.get_iter_by_col_id(map.index)
-		cls.tree_view_model.remove(iter)
+		if iter:
+			cls.tree_view_model.remove(iter)
 
 	@classmethod
 	def index(cls, map):
@@ -179,13 +180,9 @@ class MapList(object):
 
 	@classmethod
 	def _at_col_set_value(cls, col_id, col, value):
-		iter = cls.tree_view_model.get_iter_first ()
-		while iter:
-			(num,) = cls.tree_view_model.get (iter, MapList.COL_ID)
-			if num == col_id:
-				cls.tree_view_model.set_value(iter, col, value)
-				break
-			iter = cls.tree_view_model.iter_next (iter)
+		iter = cls.get_iter_by_col_id (col_id)
+		if iter:
+			cls.tree_view_model.set_value(iter, col, value)
 
 	@classmethod
 	def get_iter_by_col_id(cls, col_id):

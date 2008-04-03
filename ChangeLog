@@ -1,3 +1,8 @@
+2008-04-03 Martin Schaaf <mascha@ma-scha.de>
+
+	* src/MapList.py
+	Refactoring of method _at_col_set_value.
+
 2008-04-03 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* po/labyrinth.po
