@@ -1,3 +1,9 @@
+2008-04-03 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* po/es.po
+	* po/LINGUAS
+	Added spanish translation by Peter Gordon.
+
 2008-04-02 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/TextThought.py

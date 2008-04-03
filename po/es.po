@@ -1,0 +1,241 @@
+# Labyrinth Spanish Translation
+# Copyright (C) 2008 Peter Gordon
+# This file is distributed under the same license as the Labyrinth package.
+# Peter Gordon <peter@thecodergeek.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Labyrinth 0.4\n"
+"Report-Msgid-Bugs-To: Peter Gordon <peter@thecodergeek.com>\n"
+"POT-Creation-Date: 2008-04-02 19:45-0700\n"
+"PO-Revision-Date: 2008-04-02 22:26-0800\n"
+"Last-Translator: Peter Gordon <peter@thecodergeek.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../src/Browser.py:236
+msgid "The map cannot be deleted right now.  Is it open?"
+msgstr "No se puede borrar este mapa. ¿Está abierta?"
+
+#: ../src/Browser.py:238
+msgid "The map has no associated filename."
+msgstr "El mapa no tiene nombre de archivo asociado."
+
+#: ../src/Browser.py:241
+msgid "Cannot delete this map"
+msgstr "No se puede borrar este mapa"
+
+#: ../src/Browser.py:248
+msgid "Do you really want to delete this Map?"
+msgstr "¿Está seguro de que quiere borrar este Mapa?"
+
+#: ../src/Browser.py:273
+msgid "Open File"
+msgstr "Abrir desde archivo"
+
+#: ../src/Browser.py:277
+msgid "MAPZ Compressed Map (*.mapz)"
+msgstr "Mapa con compresión (*.mapz)"
+
+#: ../src/Browser.py:307
+msgid "Map Name"
+msgstr "Nombre del Mapa"
+
+#: ../src/Browser.py:314
+msgid "Last Modified"
+msgstr "Última modificación"
+
+#: ../src/MainWindow.py:115
+msgid "Choose background color"
+msgstr "Elija el color del fondo"
+
+#: ../src/MainWindow.py:122
+msgid "Choose foreground color"
+msgstr "Elija el color del primer plano"
+
+#: ../src/MainWindow.py:155
+#: ../src/MainWindow.py:483
+#, python-format
+msgid "Untitled Map %d"
+msgstr "Mapa sin nombre %d"
+
+#: ../src/MainWindow.py:254
+msgid "File"
+msgstr "Archivo"
+
+#: ../src/MainWindow.py:255
+msgid "Export as Image"
+msgstr "Guardar como imagen"
+
+#: ../src/MainWindow.py:256
+msgid "Export your map as an image"
+msgstr "Guardar su mapa como un imagen"
+
+#: ../src/MainWindow.py:257
+msgid "Export Map..."
+msgstr "Guardar Mapa…"
+
+#: ../src/MainWindow.py:258
+msgid "Export your map as XML"
+msgstr "Guardar su mapa como XML"
+
+#: ../src/MainWindow.py:260
+msgid "Close the current window"
+msgstr "Cierra la ventana actual"
+
+#: ../src/MainWindow.py:261
+msgid "_Edit"
+msgstr "_Editar"
+
+#: ../src/MainWindow.py:270
+msgid "(Un)Link Thoughts"
+msgstr "(Des)Conectar Piensamientos"
+
+#: ../src/MainWindow.py:271
+msgid "(Un)Link the selected thoughts"
+msgstr "(Des)Conectar los pensamientos eligidos"
+
+#: ../src/MainWindow.py:272
+msgid "_Mode"
+msgstr "_Modo"
+
+#: ../src/MainWindow.py:273
+msgid "_Delete Selected Elements"
+msgstr "_Borrar los elementos elegidos"
+
+#: ../src/MainWindow.py:274
+msgid "Delete the selected element(s)"
+msgstr "Borrar los elementos elegidos"
+
+#: ../src/MainWindow.py:280
+msgid "_Edit Mode"
+msgstr "Modo _Edición"
+
+#: ../src/MainWindow.py:281
+msgid "Turn on edit mode"
+msgstr "Activar modo edición"
+
+#: ../src/MainWindow.py:282
+msgid "_Add Image"
+msgstr "_Añadir un imagen"
+
+#: ../src/MainWindow.py:283
+msgid "Add an image to selected thought"
+msgstr "Añadir un imagen al pensamiento elegido"
+
+#: ../src/MainWindow.py:284
+msgid "_Drawing Mode"
+msgstr "Modo de _Dibujar"
+
+#: ../src/MainWindow.py:285
+msgid "Make a pretty drawing"
+msgstr "Hacer un dibujo bonito"
+
+#: ../src/MainWindow.py:287
+msgid "_View Extended"
+msgstr "_Ver Extendido"
+
+#: ../src/MainWindow.py:288
+msgid "View extended info for thoughts"
+msgstr "Ver información extendido de los pensamientos"
+
+#: ../src/MainWindow.py:547
+msgid "Save File As"
+msgstr "Guardar Archivo Como"
+
+#: ../src/MainWindow.py:647
+msgid "All Files"
+msgstr "Todos los Archivos"
+
+#: ../src/MainWindow.py:648
+msgid "PNG Image (*.png)"
+msgstr "Imagen PNG (*.png)"
+
+#: ../src/MainWindow.py:649
+msgid "JPEG Image (*.jpg, *.jpeg)"
+msgstr "Imagen JPEG (*.jpg, *.jpeg)"
+
+#: ../src/MainWindow.py:650
+msgid "SVG Vector Image (*.svg)"
+msgstr "Imagen escalable SVG (*.svg)"
+
+#: ../src/MainWindow.py:651
+msgid "PDF Portable Document (*.pdf)"
+msgstr "Documento de Formato Portátil PDF (*.pdf)"
+
+#: ../src/MainWindow.py:687
+msgid "Unknown file format"
+msgstr "Formato de archivo desconocido"
+
+#: ../src/MainWindow.py:688
+#, python-format
+msgid "The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or '.svg'."
+msgstr "No se soporta el tipo de archivo '%s'. Favor de usar el sufijo de '.png', '.jpg', o '.svg'."
+
+#: ../src/DrawingThought.py:67
+#, python-format
+msgid "Drawing #%d"
+msgstr "Dibujando #%d"
+
+#: ../src/ImageThought.py:65
+msgid "Choose image to insert"
+msgstr "Elija imagen para insertar"
+
+#: ../src/ImageThought.py:324
+msgid "Error loading file"
+msgstr "Error en cargando el archivo"
+
+#: ../src/ImageThought.py:325
+#, python-format
+msgid "%s could not be found.  Associated thought will be empty."
+msgstr "No se pudo encontrar %s. El pensamiento asociado será vacío."
+
+#: ../data/labyrinth.glade.h:1
+msgid "<b>Export Map</b>"
+msgstr "<b>Guardar Mapa</b>"
+
+#: ../data/labyrinth.glade.h:2
+msgid "Complete Map"
+msgstr "Mapa Cumplido"
+
+#: ../data/labyrinth.glade.h:3
+msgid "Export Map as Image"
+msgstr "Guardar Mapa como Imagen"
+
+#: ../data/labyrinth.glade.h:4
+msgid "Height"
+msgstr "Altura"
+
+#: ../data/labyrinth.glade.h:5
+msgid "Labyrinth Maps"
+msgstr "Labyrinth Mapas"
+
+#: ../data/labyrinth.glade.h:6
+msgid "Visible Area"
+msgstr "Área Visible"
+
+#: ../data/labyrinth.glade.h:7
+msgid "Width"
+msgstr "Anchura"
+
+#: ../data/labyrinth.glade.h:8
+msgid "_File"
+msgstr "_Archivo"
+
+#: ../data/labyrinth.glade.h:9
+msgid "_Help"
+msgstr "_Ayuda"
+
+#: ../data/labyrinth.desktop.in.h:1
+msgid "Labyrinth Mind-mapping"
+msgstr "Labyrinth Mapa de Mente"
+
+#: ../data/labyrinth.desktop.in.h:2
+msgid "Map your mind"
+msgstr "Hacer un mapa de su mente"
+
+#: ../data/labyrinth.desktop.in.h:3
+msgid "Mind-mapping"
+msgstr "Mapa de Mente"
