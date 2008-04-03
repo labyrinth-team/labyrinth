@@ -160,11 +160,19 @@ class BaseThought (gobject.GObject):
 		or not other.lr:
 			return None, None
 
-		xfrom = self.ul[0]-((self.ul[0]-self.lr[0]) / 2.)
+		if utils.use_bezier_curves:
+			if other.ul[0] > self.lr[0]:
+				xfrom = self.lr[0]
+				xto = other.ul[0]
+			else:
+				xfrom = self.ul[0]
+				xto = other.lr[0]
+		else:
+			xfrom = self.ul[0]-((self.ul[0]-self.lr[0]) / 2.)
+			xto = other.ul[0]-((other.ul[0]-other.lr[0]) / 2.)
+			
 		yfrom = self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)
-		xto = other.ul[0]-((other.ul[0]-other.lr[0]) / 2.)
 		yto = other.ul[1]-((other.ul[1]-other.lr[1]) / 2.)
-
 		return (xfrom, yfrom), (xto, yto)
 
 	# All the rest of these should be handled within you're thought

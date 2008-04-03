@@ -37,6 +37,9 @@ else:
 	def print_debug(*data):
 		pass
 
+# FIXME: this is a no-go, but fast and efficient
+# global variables
+use_bezier_curves = False
 
 def get_save_dir ():
 	''' Returns the path to the directory to save the maps to '''

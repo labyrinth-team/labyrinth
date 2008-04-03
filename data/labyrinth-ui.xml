@@ -17,6 +17,7 @@
 	  <menuitem action="LinkThoughts"/>
       <menuitem action="DeleteNodes"/>
       <menuitem action="ViewExtend"/>
+      <menuitem action="UseBezier"/>
     </menu>
     <menu action="ModeMenu">
       <menuitem action="Edit"/>

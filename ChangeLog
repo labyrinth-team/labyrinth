@@ -1,5 +1,16 @@
 2008-04-03 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* src/utils.py
+	* src/MainWindow.py
+	* src/BaseThought.py
+	* src/Links.py
+	* src/MMapArea.py
+	* data/labyrinth-ui.xml
+	Add bezier curves as stated in the ideas. It can be activated in the
+	edit menu.
+
+2008-04-03 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* src/MMapArea.py
 	Add alignment of thoughts, thus implementing Issue 87.
 

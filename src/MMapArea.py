@@ -125,6 +125,7 @@ class MMapArea (gtk.DrawingArea):
 		self.current_cursor = None
 		self.do_filter = True
 		self.is_bbox_selecting = False
+		self.use_bezier = False
 
 		self.unending_link = None
 		self.nthoughts = 0

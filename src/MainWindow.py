@@ -282,6 +282,8 @@ class LabyrinthWindow (gtk.Window):
 		self.toggle_actions = [
 			('ViewExtend', None, _('_View Extended'), None,
 			 _('View extended info for thoughts'), self.view_extend_cb),
+			('UseBezier', None, _('_Use Bezier Curves'), None,
+			 _('Use bezier curves as links'), self.use_bezier_cb),
 			('Bold', gtk.STOCK_BOLD, None, None,
 			None, self.bold_toggled),
 			('Italics', gtk.STOCK_ITALIC, None, None,
@@ -320,6 +322,10 @@ class LabyrinthWindow (gtk.Window):
 		else:
 			self.swin.hide ()
 			self.view_type = 0
+			
+	def use_bezier_cb(self, arg):
+		utils.use_bezier_curves = arg.get_active()
+		self.MainArea.invalidate()
 
 	def attrs_cb (self, widget, bold, italics, underline, pango_font):
 		# Yes, there is a block method for signals
