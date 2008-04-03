@@ -66,6 +66,7 @@ UNDO_COMBINE_DELETE_NEW = 4
 UNDO_DELETE_LINK = 5
 UNDO_STRENGTHEN_LINK = 6
 UNDO_CREATE_LINK = 7
+UNDO_ALIGN = 8
 
 # Note: This is (atm) very broken.  It will allow you to create new canvases, but not
 # create new thoughts or load existing maps.
@@ -963,7 +964,31 @@ class MMapArea (gtk.DrawingArea):
 					bestangle = curr
 					bestdist = dist
 		return best
-				
+	
+	def undo_align(self, action, mode):
+		self.undo.block ()
+		dic = action.args[0]
+		if mode == UndoManager.UNDO:
+			for t in dic:
+				t.move_by(-dic[t][0], -dic[t][1])
+		else:
+			for t in dic:
+				t.move_by(dic[t][0], dic[t][1])
+		self.undo.unblock ()
+
+	def align_selected_thoughts(self, horizontal=True):
+		dic = {}
+		if len(self.selected) != 0:
+			x = self.selected[0].ul[0]
+			y = self.selected[0].ul[1]
+			for t in self.selected:
+				if horizontal:
+					vec = (-(t.ul[0]-x), 0)
+				else:
+					vec = (0, -(t.ul[1]-y))
+				t.move_by(vec[0], vec[1])
+				dic[t] = vec
+		self.undo.add_undo (UndoManager.UndoAction (self, UNDO_ALIGN, self.undo_align, dic))
 
 	def global_key_handler (self, event):
 		thought = None
@@ -986,6 +1011,10 @@ class MMapArea (gtk.DrawingArea):
 			for t in self.thoughts:
 				t.select ()
 				self.selected.append (t)
+		elif event.keyval == gtk.keysyms.f and event.state & gtk.gdk.CONTROL_MASK:
+			self.align_selected_thoughts(horizontal=True)
+		elif event.keyval == gtk.keysyms.g and event.state & gtk.gdk.CONTROL_MASK:
+			self.align_selected_thoughts(horizontal=False)
 		else:
 			return False
 

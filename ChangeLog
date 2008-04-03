@@ -1,3 +1,8 @@
+2008-04-03 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/MMapArea.py
+	Add alignment of thoughts, thus implementing Issue 87.
+
 2008-04-03 Martin Schaaf <mascha@ma-scha.de>
 
 	* src/MapList.py
