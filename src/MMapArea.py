@@ -631,6 +631,9 @@ class MMapArea (gtk.DrawingArea):
 		if not self.moving:
 			self.set_cursor (cursor_type)
 
+	def update_all_links(self):
+		map(lambda l : l.find_ends(), self.links)
+
 	def update_links_cb (self, thought):
 		for x in self.links:
 			if x.uses (thought):

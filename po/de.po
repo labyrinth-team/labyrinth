@@ -10,47 +10,47 @@ msgid ""
 msgstr ""
 "Project-Id-Version: labyrinth\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-03 11:02+0200\n"
-"PO-Revision-Date: 2008-04-03 11:02+0200\n"
+"POT-Creation-Date: 2008-04-03 21:51+0200\n"
+"PO-Revision-Date: 2008-04-03 21:51+0200\n"
 "Last-Translator: Raphael J. Schmid <rjs@schattenschreiber.org>, Matthias>\n"
 "Language-Team: de_DE <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit"
 
-#: ../src/Browser.py:216
+#: ../src/Browser.py:212
 msgid "Translation by Don Scorgie"
 msgstr "Übersetzung von Matthias Vogelgesang"
 
-#: ../src/Browser.py:238
+#: ../src/Browser.py:234
 msgid "The map cannot be deleted right now. Is it open?"
 msgstr "Mindmap kann nicht gelöscht werden. Ist sie geöffnet?"
 
-#: ../src/Browser.py:240
+#: ../src/Browser.py:236
 msgid "The map has no associated filename."
 msgstr "Der Mindmap ist kein Dateiname zugewiesen."
 
-#: ../src/Browser.py:243
+#: ../src/Browser.py:239
 msgid "Cannot delete this map"
 msgstr "Mindmap kann nicht gelöscht werden"
 
-#: ../src/Browser.py:250
+#: ../src/Browser.py:246
 msgid "Do you really want to delete this Map?"
 msgstr "Möchten Sie die Mindmap wirklich löschen?"
 
-#: ../src/Browser.py:275
+#: ../src/Browser.py:271
 msgid "Open File"
 msgstr "Öffne Datei"
 
-#: ../src/Browser.py:279
+#: ../src/Browser.py:275
 msgid "MAPZ Compressed Map (*.mapz)"
 msgstr "MAPZ komprimierte Mind Map (*.mapz)"
 
-#: ../src/Browser.py:310
+#: ../src/Browser.py:306
 msgid "Map Name"
 msgstr "Mindmap-Name"
 
-#: ../src/Browser.py:317
+#: ../src/Browser.py:313
 msgid "Last Modified"
 msgstr "Zuletzt modifiziert"
 
@@ -62,7 +62,7 @@ msgstr "Wähle Hintergrundfarbe"
 msgid "Choose foreground color"
 msgstr "Wähle Textfarbe"
 
-#: ../src/MainWindow.py:152 ../src/MainWindow.py:479
+#: ../src/MainWindow.py:152 ../src/MainWindow.py:485
 msgid "Untitled Map"
 msgstr "Unbenannte Mindmap"
 
@@ -146,35 +146,43 @@ msgstr "_Erweiterte Ansicht"
 msgid "View extended info for thoughts"
 msgstr "Erweiterte Informationen für Gedanken anzeigen"
 
-#: ../src/MainWindow.py:542
+#: ../src/MainWindow.py:285
+msgid "_Use Bezier Curves"
+msgstr "_Benutze Bezierkurven"
+
+#: ../src/MainWindow.py:286
+msgid "Use bezier curves as links"
+msgstr "Benutze Bezierkurve als Link"
+
+#: ../src/MainWindow.py:548
 msgid "Save File As"
 msgstr "Speichern unter"
 
-#: ../src/MainWindow.py:641
+#: ../src/MainWindow.py:647
 msgid "All Files"
 msgstr "Alle Dateien"
 
-#: ../src/MainWindow.py:642
+#: ../src/MainWindow.py:648
 msgid "PNG Image (*.png)"
 msgstr "PNG Bild (*.png)"
 
-#: ../src/MainWindow.py:643
+#: ../src/MainWindow.py:649
 msgid "JPEG Image (*.jpg, *.jpeg)"
 msgstr "JPEG Bild (*.jpg, *.jpeg)"
 
-#: ../src/MainWindow.py:644
+#: ../src/MainWindow.py:650
 msgid "SVG Vector Image (*.svg)"
 msgstr "SVG Vektorbild (*.svg)"
 
-#: ../src/MainWindow.py:645
+#: ../src/MainWindow.py:651
 msgid "PDF Portable Document (*.pdf)"
 msgstr "PDF Portable Document (*.pdf)"
 
-#: ../src/MainWindow.py:681
+#: ../src/MainWindow.py:687
 msgid "Unknown file format"
 msgstr "Unbekanntes Dateiformat"
 
-#: ../src/MainWindow.py:682
+#: ../src/MainWindow.py:688
 #, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
@@ -188,15 +196,15 @@ msgstr ""
 msgid "Drawing #%d"
 msgstr "Zeichnung #%d"
 
-#: ../src/ImageThought.py:65
+#: ../src/ImageThought.py:64
 msgid "Choose image to insert"
 msgstr "Bild zum Einfügen auswählen"
 
-#: ../src/ImageThought.py:324
+#: ../src/ImageThought.py:316
 msgid "Error loading file"
 msgstr "Fehler beim Laden der Datei"
 
-#: ../src/ImageThought.py:325
+#: ../src/ImageThought.py:317
 #, python-format
 msgid "%s could not be found.  Associated thought will be empty."
 msgstr "Konnte %s nicht finden. Verknüpfter Gedanke wird leer sein."

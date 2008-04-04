@@ -325,6 +325,7 @@ class LabyrinthWindow (gtk.Window):
 			
 	def use_bezier_cb(self, arg):
 		utils.use_bezier_curves = arg.get_active()
+		self.MainArea.update_all_links()
 		self.MainArea.invalidate()
 
 	def attrs_cb (self, widget, bold, italics, underline, pango_font):

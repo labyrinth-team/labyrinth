@@ -1,3 +1,12 @@
+2008-04-04 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/MainWindow.py
+	* src/MMapArea.py
+	Update link positions on bezier/line switch.
+	* po/labyrinth.pot
+	* po/de.po
+	Updated german translation.
+
 2008-04-03 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/utils.py

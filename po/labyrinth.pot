@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-03 11:02+0200\n"
+"POT-Creation-Date: 2008-04-03 21:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,39 +16,39 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/Browser.py:216
+#: ../src/Browser.py:212
 msgid "Translation by Don Scorgie"
 msgstr ""
 
-#: ../src/Browser.py:238
+#: ../src/Browser.py:234
 msgid "The map cannot be deleted right now. Is it open?"
 msgstr ""
 
-#: ../src/Browser.py:240
+#: ../src/Browser.py:236
 msgid "The map has no associated filename."
 msgstr ""
 
-#: ../src/Browser.py:243
+#: ../src/Browser.py:239
 msgid "Cannot delete this map"
 msgstr ""
 
-#: ../src/Browser.py:250
+#: ../src/Browser.py:246
 msgid "Do you really want to delete this Map?"
 msgstr ""
 
-#: ../src/Browser.py:275
+#: ../src/Browser.py:271
 msgid "Open File"
 msgstr ""
 
-#: ../src/Browser.py:279
+#: ../src/Browser.py:275
 msgid "MAPZ Compressed Map (*.mapz)"
 msgstr ""
 
-#: ../src/Browser.py:310
+#: ../src/Browser.py:306
 msgid "Map Name"
 msgstr ""
 
-#: ../src/Browser.py:317
+#: ../src/Browser.py:313
 msgid "Last Modified"
 msgstr ""
 
@@ -60,7 +60,7 @@ msgstr ""
 msgid "Choose foreground color"
 msgstr ""
 
-#: ../src/MainWindow.py:152 ../src/MainWindow.py:479
+#: ../src/MainWindow.py:152 ../src/MainWindow.py:485
 msgid "Untitled Map"
 msgstr ""
 
@@ -144,35 +144,43 @@ msgstr ""
 msgid "View extended info for thoughts"
 msgstr ""
 
-#: ../src/MainWindow.py:542
+#: ../src/MainWindow.py:285
+msgid "_Use Bezier Curves"
+msgstr ""
+
+#: ../src/MainWindow.py:286
+msgid "Use bezier curves as links"
+msgstr ""
+
+#: ../src/MainWindow.py:548
 msgid "Save File As"
 msgstr ""
 
-#: ../src/MainWindow.py:641
+#: ../src/MainWindow.py:647
 msgid "All Files"
 msgstr ""
 
-#: ../src/MainWindow.py:642
+#: ../src/MainWindow.py:648
 msgid "PNG Image (*.png)"
 msgstr ""
 
-#: ../src/MainWindow.py:643
+#: ../src/MainWindow.py:649
 msgid "JPEG Image (*.jpg, *.jpeg)"
 msgstr ""
 
-#: ../src/MainWindow.py:644
+#: ../src/MainWindow.py:650
 msgid "SVG Vector Image (*.svg)"
 msgstr ""
 
-#: ../src/MainWindow.py:645
+#: ../src/MainWindow.py:651
 msgid "PDF Portable Document (*.pdf)"
 msgstr ""
 
-#: ../src/MainWindow.py:681
+#: ../src/MainWindow.py:687
 msgid "Unknown file format"
 msgstr ""
 
-#: ../src/MainWindow.py:682
+#: ../src/MainWindow.py:688
 #, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
@@ -184,15 +192,15 @@ msgstr ""
 msgid "Drawing #%d"
 msgstr ""
 
-#: ../src/ImageThought.py:65
+#: ../src/ImageThought.py:64
 msgid "Choose image to insert"
 msgstr ""
 
-#: ../src/ImageThought.py:324
+#: ../src/ImageThought.py:316
 msgid "Error loading file"
 msgstr ""
 
-#: ../src/ImageThought.py:325
+#: ../src/ImageThought.py:317
 #, python-format
 msgid "%s could not be found.  Associated thought will be empty."
 msgstr ""
