@@ -40,6 +40,19 @@ else:
 # FIXME: this is a no-go, but fast and efficient
 # global variables
 use_bezier_curves = False
+default_colors = {
+	"text" : (0.0, 0.0, 0.0),
+	"fg" : (0.0, 0.0, 0.0),
+	"bg" : (0.0, 0.0, 0.0) 
+	}
+	
+selected_colors = {
+	"text" : (0.0, 0.0, 0.0),
+	"fg" : (0.0, 0.0, 0.0),
+	"bg" : (0.0, 0.0, 0.0),
+	"border" : (0.0, 0.0, 0.0),		# bounding box
+	"fill" : (0.0, 0.0, 0.0)		# bounding box
+	}
 
 def get_save_dir ():
 	''' Returns the path to the directory to save the maps to '''
@@ -147,9 +160,10 @@ def draw_thought_extended (context, ul, lr, am_root, am_primary, background_colo
 	context.line_to (ul[0]+5, ul[1])
 	context.curve_to (ul[0], ul[1], ul[0], ul[1], ul[0], ul[1]+5)
 	if am_root:
-		context.set_source_rgb (0.447, 0.624, 0.812)
+		bg = selected_colors["bg"]
+		context.set_source_rgb (bg[0], bg[1], bg[2])
 	elif am_primary:
-		context.set_source_rgb (0.937, 0.831, 0.000)
+		context.set_source_rgb (0.937, 0.831, 0.000)		
 	else:
 		r,g,b = gtk_to_cairo_color(background_color)
 		context.set_source_rgb (r, g, b)

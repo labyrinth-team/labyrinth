@@ -327,8 +327,8 @@ class TextThought (BaseThought.BaseThought):
 			context.stroke ()
 
 		(textx, texty) = (self.text_location[0], self.text_location[1])
-		r,g,b = utils.gtk_to_cairo_color(self.foreground_color)
-		context.set_source_rgb (r, g, b)
+		fg = utils.default_colors["text"]
+		context.set_source_rgb (fg[0], fg[1], fg[2])
 		context.move_to (textx, texty)
 		context.show_layout (self.layout)
 		if self.editing:

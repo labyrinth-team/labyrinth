@@ -38,6 +38,7 @@ import TextThought
 import ImageThought
 import DrawingThought
 import UndoManager
+import utils
 
 RAD_UP = (- math.pi / 2.)
 RAD_DOWN = (math.pi / 2.)
@@ -165,8 +166,16 @@ class MMapArea (gtk.DrawingArea):
 
 		self.set_flags (gtk.CAN_FOCUS)
 		
-		self.background_color = gtk.gdk.color_parse("white")
-		self.foreground_color = gtk.gdk.color_parse("black")
+		# set theme colors
+		style = self.get_style()
+		utils.default_colors["text"] = utils.gtk_to_cairo_color(style.text[gtk.STATE_NORMAL])
+		self.background_color = utils.default_colors["bg"] = utils.gtk_to_cairo_color(style.bg[gtk.STATE_NORMAL])
+		self.foreground_color = utils.default_colors["fg"] = utils.gtk_to_cairo_color(style.fg[gtk.STATE_NORMAL])
+		
+		utils.selected_colors["text"] = utils.gtk_to_cairo_color(style.text[gtk.STATE_SELECTED])
+		utils.selected_colors["bg"] = utils.gtk_to_cairo_color(style.bg[gtk.STATE_SELECTED])
+		utils.selected_colors["fg"] = utils.gtk_to_cairo_color(style.fg[gtk.STATE_SELECTED])
+		utils.selected_colors["fill"] = utils.gtk_to_cairo_color(style.base[gtk.STATE_SELECTED])
 
 	def transform_coords(self, loc_x, loc_y):
 		if hasattr(self, "transform"):
@@ -390,7 +399,7 @@ class MMapArea (gtk.DrawingArea):
 				
 			# FIXME: O(n) runtime is bad
 			for t in self.thoughts:
-				if t.ul[0] > ul[0] and t.lr[0] < lr[0] and t.ul[1] > ul[1] and t.lr[1] < lr[1]:
+				if t.lr[0] > ul[0] and t.ul[1] < lr[1] and t.ul[0] < lr[0] and t.lr[1] > ul[1] :
 					if t not in self.selected:
 						self.select_thought(t, gtk.gdk.SHIFT_MASK)
 				else:
@@ -718,14 +727,6 @@ class MMapArea (gtk.DrawingArea):
 		context.translate(-alloc.width/2., -alloc.height/2.)		
 		context.translate(self.translation[0], self.translation[1])
 
-		if self.is_bbox_selecting:
-			xs = self.bbox_origin[0]
-			ys = self.bbox_origin[1]
-			context.set_line_width(0.2)
-			context.rectangle(xs, ys, self.bbox_current[0] - xs, self.bbox_current[1] - ys)
-			context.stroke()
-			context.set_line_width(1.5)
-		
 		for l in self.links:
 			l.draw (context)
 			
@@ -746,6 +747,23 @@ class MMapArea (gtk.DrawingArea):
 			except:
 				t.draw(context)
 
+		if self.is_bbox_selecting:
+			xs = self.bbox_origin[0]
+			ys = self.bbox_origin[1]
+			xe = self.bbox_current[0] - xs
+			ye = self.bbox_current[1] - ys
+
+			color = utils.selected_colors["border"]
+			context.set_line_width(0.2)
+			context.set_source_rgb(color[0], color[1], color[2])
+			context.rectangle(xs, ys, xe, ye)
+			context.stroke()
+			color = utils.selected_colors["fill"]
+			context.set_source_rgba(color[0], color[1], color[2], 0.3)
+			context.rectangle(xs, ys, xe, ye)
+			context.fill()
+			context.set_line_width(1.5)
+			context.set_source_rgba(0.0, 0.0, 0.0, 1.0)
 
 	def undo_create_cb (self, action, mode):
 		self.undo.block ()
