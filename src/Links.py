@@ -131,30 +131,13 @@ class Link (gobject.GObject):
 		else:
 			context.line_to (self.end[0], self.end[1])
 
+		if self.selected:
+			color = utils.selected_colors["bg"]
+			context.set_source_rgb (color[0], color[1], color[2])
 		context.stroke ()
 		context.set_line_width (cwidth)
 
-		if self.selected:
-			st_norm = norm(self.start, self.end)
-			start_x1 = self.start[0] + st_norm[1]*(5+self.strength)
-			start_x2 = self.start[0] - st_norm[1]*(5+self.strength)
-			start_y1 = self.start[1] - st_norm[0]*(5+self.strength)
-			start_y2 = self.start[1] + st_norm[0]*(5+self.strength)
-			end_x1 = self.end[0] + st_norm[1]*(5+self.strength)
-			end_x2 = self.end[0] - st_norm[1]*(5+self.strength)
-			end_y1 = self.end[1] - st_norm[0]*(5+self.strength)
-			end_y2 = self.end[1] + st_norm[0]*(5+self.strength)
-		
-			context.set_line_width(0.3)
-
-			context.move_to (start_x1, start_y1)
-			context.line_to (start_x2, start_y2)
-			context.line_to (end_x2, end_y2)
-			context.line_to (end_x1, end_y1)
-			context.line_to (start_x1, start_y1)
-			
-			context.stroke()
-			context.set_line_width(cwidth)
+		context.set_source_rgb (0.0, 0.0, 0.0)
 
 	def export (self, context, move_x, move_y):
 		rem = False

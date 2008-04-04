@@ -1,5 +1,10 @@
 2008-04-04 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* src/Links.py
+	Use theme colors for links too.
+
+2008-04-04 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* src/utils.py
 	* src/MMapArea.py
 	* src/TextThought.py
