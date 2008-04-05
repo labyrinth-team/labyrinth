@@ -200,10 +200,14 @@ class TextThought (BaseThought.BaseThought):
 		del self.layout
 		show_text = self.attrs_changed ()
 		
+		r,g,b = utils.selected_colors["fill"]
+		r *= 65536
+		g *= 65536
+		b *= 65536
 		if self.index > self.end_index:
-			bgsel = pango.AttrBackground (61423, 10537, 10537, self.end_index, self.index)
+			bgsel = pango.AttrBackground (int(r), int(g), int(b), self.end_index, self.index)
 		else:
-			bgsel = pango.AttrBackground (61423, 10537, 10537, self.index, self.end_index)
+			bgsel = pango.AttrBackground (int(r), int(g), int(b), self.index, self.end_index)
 		self.attrlist.insert (bgsel)
 
 		self.layout = pango.Layout (self.pango_context)
@@ -316,19 +320,21 @@ class TextThought (BaseThought.BaseThought):
 				style = utils.STYLE_NORMAL
 			utils.draw_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, style)
 		else:
+			ux, uy = self.ul
 			if prefs.get_direction() == gtk.TEXT_DIR_LTR:
-				context.move_to (self.ul[0], self.ul[1]+5)
-				context.line_to (self.ul[0], self.ul[1])
-				context.line_to (self.ul[0]+5, self.ul[1])
+				context.move_to (ux, uy+5)
+				context.line_to (ux, uy)
+				context.line_to (ux+5, uy)
 			else:
-				context.move_to (self.lr[0], self.ul[1]+5)
-				context.line_to (self.lr[0], self.ul[1])
-				context.line_to (self.lr[0]-5, self.ul[1])
+				lx = self.lr[0]
+				context.move_to (lx, uy+5)
+				context.line_to (lx, uy)
+				context.line_to (lx-5, uy)
 			context.stroke ()
 
 		(textx, texty) = (self.text_location[0], self.text_location[1])
-		fg = utils.default_colors["text"]
-		context.set_source_rgb (fg[0], fg[1], fg[2])
+		r, g, b = utils.gtk_to_cairo_color(self.foreground_color)
+		context.set_source_rgb (r, g, b)
 		context.move_to (textx, texty)
 		context.show_layout (self.layout)
 		if self.editing:
@@ -454,8 +460,7 @@ class TextThought (BaseThought.BaseThought):
 		
 		del self.attributes
 		self.attributes = pango.AttrList()
-		for x in attrs:		
-			self.attributes.change (x)
+		map(lambda a : self.attributes.change(a), attrs)
 		self.recalc_edges ()
 		self.emit ("begin_editing")
 		self.emit ("title_changed", self.text)
@@ -467,16 +472,8 @@ class TextThought (BaseThought.BaseThought):
 		if self.index == self.end_index == len (self.text):
 			return
 		if self.index > self.end_index:
-			left = self.text[:self.end_index]
-			right = self.text[self.index:]
-			bleft = self.bytes[:self.b_f_i (self.end_index)]
-			bright = self.bytes[self.b_f_i (self.index):]
-			local_text = self.text[self.end_index:self.index]
-			local_bytes = self.bytes[self.b_f_i (self.end_index):self.b_f_i (self.index)]
-			change = -len(local_text)
-			self.index = self.end_index
-			self.end_index = self.index
-		elif self.index < self.end_index:
+			self.index, self.end_index = self.end_index, self.index
+		if self.index != self.end_index:
 			left = self.text[:self.index]
 			right = self.text[self.end_index:]
 			local_text = self.text[self.index:self.end_index]
@@ -538,8 +535,7 @@ class TextThought (BaseThought.BaseThought):
 		
 		del self.attributes
 		self.attributes = pango.AttrList()
-		for x in changes:
-			self.attributes.change (x)
+		map(lambda a : self.attributes.change(a), changes)
 			
 		self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.DELETE_LETTER, self.undo_text_action,
 							self.b_f_i (self.index), local_text, len(local_text), local_bytes, old_attrs,
@@ -552,17 +548,8 @@ class TextThought (BaseThought.BaseThought):
 		if self.index == self.end_index == 0:
 			return
 		if self.index > self.end_index:
-			left = self.text[:self.end_index]
-			right = self.text[self.index:]
-			bleft = self.bytes[:self.b_f_i (self.end_index)]
-			bright = self.bytes[self.b_f_i (self.index):]
-			local_text = self.text[self.end_index:self.index]
-			local_bytes = self.bytes[self.b_f_i (self.end_index):self.b_f_i (self.index)]
-			change = -len(local_text)
-			tmp = self.index
-			self.index = self.end_index
-			self.end_index = tmp
-		elif self.index < self.end_index:
+			self.index, self.end_index = self.end_index, self.index
+		if self.index != self.end_index:
 			left = self.text[:self.index]
 			right = self.text[self.end_index:]
 			bleft = self.bytes[:self.b_f_i (self.index)]
@@ -627,8 +614,7 @@ class TextThought (BaseThought.BaseThought):
 		
 		del self.attributes
 		self.attributes = pango.AttrList()
-		for x in changes:
-			self.attributes.change (x)
+		map(lambda a : self.attributes.change(a), changes)
 			
 		self.text = left+right
 		self.bytes = bleft+bright

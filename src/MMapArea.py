@@ -167,7 +167,9 @@ class MMapArea (gtk.DrawingArea):
 		self.set_flags (gtk.CAN_FOCUS)
 		
 		# set theme colors
-		style = self.get_style()
+		w = gtk.Window()
+		w.realize()
+		style = w.get_style()
 		utils.default_colors["text"] = utils.gtk_to_cairo_color(style.text[gtk.STATE_NORMAL])
 		self.background_color = utils.default_colors["bg"] = utils.gtk_to_cairo_color(style.bg[gtk.STATE_NORMAL])
 		self.foreground_color = utils.default_colors["fg"] = utils.gtk_to_cairo_color(style.fg[gtk.STATE_NORMAL])
