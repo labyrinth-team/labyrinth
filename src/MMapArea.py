@@ -172,9 +172,13 @@ class MMapArea (gtk.DrawingArea):
 		w = gtk.Window()
 		w.realize()
 		style = w.get_style()
+		self.pango_context.set_font_description(style.font_desc)
+		
 		utils.default_colors["text"] = utils.gtk_to_cairo_color(style.text[gtk.STATE_NORMAL])
-		self.background_color = utils.default_colors["bg"] = utils.gtk_to_cairo_color(style.bg[gtk.STATE_NORMAL])
-		self.foreground_color = utils.default_colors["fg"] = utils.gtk_to_cairo_color(style.fg[gtk.STATE_NORMAL])
+		self.background_color = style.bg[gtk.STATE_NORMAL]
+		self.foreground_color = gtk.gdk.color_parse('black') #style.fg[gtk.STATE_NORMAL]
+		utils.default_colors["bg"] = utils.gtk_to_cairo_color(self.background_color)
+		utils.default_colors["fg"] = utils.gtk_to_cairo_color(self.foreground_color)
 		
 		utils.selected_colors["text"] = utils.gtk_to_cairo_color(style.text[gtk.STATE_SELECTED])
 		utils.selected_colors["bg"] = utils.gtk_to_cairo_color(style.bg[gtk.STATE_SELECTED])
