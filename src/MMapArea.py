@@ -51,6 +51,9 @@ MODE_DRAW = 2
 # Until all references of MODE_MOVING are removed...
 MODE_MOVING = 999
 
+VIEW_LINES = 0
+VIEW_BEZIER = 1
+
 TYPE_TEXT = 0
 TYPE_IMAGE = 1
 TYPE_DRAWING = 2
@@ -91,7 +94,7 @@ class MMapArea (gtk.DrawingArea):
 						 					   ()),
 						 change_mode        = (gobject.SIGNAL_RUN_LAST,
 						 					   gobject.TYPE_NONE,
-						 					   (gobject.TYPE_INT, )),
+						 					   (gobject.TYPE_INT, )),					 					   
 						 change_buffer      = (gobject.SIGNAL_RUN_LAST,
 						 					   gobject.TYPE_NONE,
 						 					   (gobject.TYPE_OBJECT, )),
@@ -126,7 +129,6 @@ class MMapArea (gtk.DrawingArea):
 		self.current_cursor = None
 		self.do_filter = True
 		self.is_bbox_selecting = False
-		self.use_bezier = False
 
 		self.unending_link = None
 		self.nthoughts = 0

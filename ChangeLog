@@ -1,5 +1,13 @@
 2008-04-05 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* src/MainWindow.py
+	* src/MMapArea.py
+	* data/labyrinth-ui.xml
+	* data/labyrinth.glade
+	Restructured menu bar according to the GNOME HIG.
+
+2008-04-05 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* src/MMapArea.py
 	* src/TextThought.py
 	Fix theme colors. Use theme colors for text selection. Reduce

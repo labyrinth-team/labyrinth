@@ -16,16 +16,24 @@
 	  <separator/>
 	  <menuitem action="LinkThoughts"/>
       <menuitem action="DeleteNodes"/>
+    </menu>
+    <menu action="ViewMenu">
+      <menu action="ShowToolbars">
+        <menuitem action="ShowMainToolbar"/>
+        <menuitem action="ShowFormatToolbar"/>
+      </menu>
       <menuitem action="ViewExtend"/>
+      <separator/>
+      <menuitem action="UseLines"/>
       <menuitem action="UseBezier"/>
+      <separator/>
+	  <menuitem action="ZoomIn"/>
+	  <menuitem action="ZoomOut"/>
     </menu>
     <menu action="ModeMenu">
       <menuitem action="Edit"/>
       <menuitem action="Drawing"/>
       <menuitem action="AddImage"/>
-      <separator/>
-	  <menuitem action="ZoomIn"/>
-	  <menuitem action="ZoomOut"/>
     </menu>
   </menubar>
   <toolbar name="ToolBar">

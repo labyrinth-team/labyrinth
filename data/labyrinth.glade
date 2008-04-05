@@ -64,9 +64,9 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkImageMenuItem" id="import1">
+		    <widget class="GtkMenuItem" id="import1">
 		      <property name="visible">True</property>
-		      <property name="label">Import</property>
+		      <property name="label" translatable="yes">Import...</property>
 		      <property name="use_underline">True</property>
 		    </widget>
 		  </child>

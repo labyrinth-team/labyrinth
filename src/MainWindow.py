@@ -128,11 +128,16 @@ class LabyrinthWindow (gtk.Window):
 		self.paste = self.ui.get_widget ('/MenuBar/EditMenu/Paste')
 		self.link = self.ui.get_widget ('/MenuBar/EditMenu/LinkThoughts')
 		self.delete = self.ui.get_widget ('/MenuBar/EditMenu/DeleteNodes')
+		
+		# get toolbars and activate corresponding menu entries
+		self.main_toolbar = self.ui.get_widget ('/ToolBar')
+		self.format_toolbar = self.ui.get_widget ('/AddedTools')
+		self.ui.get_widget('/MenuBar/ViewMenu/ShowToolbars/ShowMainToolbar').set_active(True)
+		self.ui.get_widget('/MenuBar/ViewMenu/ShowToolbars/ShowFormatToolbar').set_active(True)		
 
 		self.ui.get_widget('/MenuBar/EditMenu').connect ('activate', self.edit_activated_cb)
 		self.cut.set_sensitive (False)
 		self.copy.set_sensitive (False)
-
 
 		# Add in the extended info view
 		self.extended = gtk.TextView ()
@@ -155,9 +160,7 @@ class LabyrinthWindow (gtk.Window):
 		else:
 			self.parse_file (filename)
 
-
 		# Add all the extra widgets and pack everything in
-
 		self.swin = gtk.ScrolledWindow ()
 		self.swin.set_policy (gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
 		self.swin.add (self.extended)
@@ -201,11 +204,10 @@ class LabyrinthWindow (gtk.Window):
 
 		vbox = gtk.VBox ()
 		vbox.pack_start(self.ui.get_widget('/MenuBar'), expand=False)
-		vbox.pack_start(self.ui.get_widget('/ToolBar'), expand=False)
+		vbox.pack_start(self.main_toolbar, expand=False)
 		vbox.pack_end (panes)
 
 		self.add (vbox)
-
 
 		# Other stuff
 		self.width, self.height = self.get_size ()
@@ -226,7 +228,8 @@ class LabyrinthWindow (gtk.Window):
 		# Show everything required
 		vbox.show ()
 		self.ui.get_widget('/MenuBar').show_all ()
-		self.ui.get_widget('/ToolBar').show_all ()
+		self.main_toolbar.show_all ()
+		self.format_toolbar.show_all ()
 		panes.show ()
 		nvbox.show ()
 		up_arrow.show()
@@ -239,7 +242,6 @@ class LabyrinthWindow (gtk.Window):
 		right_arrow.show()
 		right_box.show()
 		self.MainArea.show ()
-		self.ui.get_widget('/AddedTools').show_all ()
 		self.extended.show ()
 		self.undo.unblock ()
 
@@ -255,6 +257,8 @@ class LabyrinthWindow (gtk.Window):
 			('Close', gtk.STOCK_CLOSE, None, '<control>W',
 			 _('Close the current window'), self.close_window_cb),
 			('EditMenu', None, _('_Edit')),
+			('ViewMenu', None, _('_View')),
+			('ShowToolbars', None, _('_Toolbar')),
 			('Undo', gtk.STOCK_UNDO, None, '<control>Z', None),
 			('Redo', gtk.STOCK_REDO, None, '<control><shift>Z', None),
 			('Cut', gtk.STOCK_CUT, None, '<control>X',
@@ -263,10 +267,10 @@ class LabyrinthWindow (gtk.Window):
 			 None, self.copy_text_cb),
 			('Paste', gtk.STOCK_PASTE, None, '<control>V',
 			 None, self.paste_text_cb),
-			('LinkThoughts', None, _("(Un)Link Thoughts"), '<control>L',
-			_("(Un)Link the selected thoughts"), self.link_thoughts_cb),
+			('LinkThoughts', None, _("Link Thoughts"), '<control>L',
+			_("Link the selected thoughts"), self.link_thoughts_cb),
 			('ModeMenu', None, _('_Mode')),
-			('DeleteNodes', gtk.STOCK_DELETE, _('_Delete Selected Elements'), None,
+			('DeleteNodes', gtk.STOCK_DELETE, _('_Delete'), 'Delete',
 			 _('Delete the selected element(s)'), self.delete_cb),
 			('ZoomIn', gtk.STOCK_ZOOM_IN, None, None,
 			 None, self.zoomin_cb),
@@ -278,12 +282,20 @@ class LabyrinthWindow (gtk.Window):
 			 ('AddImage', gtk.STOCK_ADD, _('_Add Image'), None,
 			 _('Add an image to selected thought'), MMapArea.MODE_IMAGE),
 			 ('Drawing', gtk.STOCK_COLOR_PICKER, _('_Drawing Mode'), None,
-			 _('Make a pretty drawing'), MMapArea.MODE_DRAW)]
+			 _('Make a pretty drawing'), MMapArea.MODE_DRAW)
+			]
+		self.view_radio_actions = [
+			('UseBezier', None, _('Use _Curves'), None,
+			 _('Use curves as links'), MMapArea.VIEW_BEZIER),
+			 ('UseLines', None, _('Use _Lines'), None,
+			 _('Use straight lines as links'), MMapArea.VIEW_LINES)]
 		self.toggle_actions = [
-			('ViewExtend', None, _('_View Extended'), None,
-			 _('View extended info for thoughts'), self.view_extend_cb),
-			('UseBezier', None, _('_Use Bezier Curves'), None,
-			 _('Use bezier curves as links'), self.use_bezier_cb),
+			('ViewExtend', None, _('_Extended Information'), None,
+			 _('Show extended information for thoughts'), self.view_extend_cb),
+			('ShowMainToolbar', None, _('_Main'), None,
+			 _('Show main toolbar'), self.show_main_toolbar_cb),
+			('ShowFormatToolbar', None, _('_Format'), None,
+			 _('Show format toolbar'), self.show_format_toolbar_cb),
 			('Bold', gtk.STOCK_BOLD, None, None,
 			None, self.bold_toggled),
 			('Italics', gtk.STOCK_ITALIC, None, None,
@@ -294,12 +306,16 @@ class LabyrinthWindow (gtk.Window):
 		ag = gtk.ActionGroup ('WindowActions')
 		ag.add_actions (actions)
 		ag.add_radio_actions (self.radio_actions)
+		ag.add_radio_actions (self.view_radio_actions)
 		ag.add_toggle_actions (self.toggle_actions)
 		self.act = ag.get_action ('Edit')
 		self.ext_act = ag.get_action ('ViewExtend')
 		self.act.connect ("changed", self.mode_change_cb)
 		self.undo.set_widgets (ag.get_action ('Undo'), ag.get_action ('Redo'))
 
+		self.view_action = ag.get_action('UseBezier')
+		self.view_action.connect ("changed", self.view_change_cb)
+		
 		self.ui = gtk.UIManager ()
 		self.ui.insert_action_group (ag, 0)
 		self.ui.add_ui_from_file (utils.get_data_file_name('labyrinth-ui.xml'))
@@ -323,8 +339,20 @@ class LabyrinthWindow (gtk.Window):
 			self.swin.hide ()
 			self.view_type = 0
 			
-	def use_bezier_cb(self, arg):
-		utils.use_bezier_curves = arg.get_active()
+	def show_main_toolbar_cb(self, arg):
+		if arg.get_active():
+			self.main_toolbar.show()
+		else:
+			self.main_toolbar.hide()
+
+	def show_format_toolbar_cb(self, arg):
+		if arg.get_active():
+			self.format_toolbar.show()
+		else:
+			self.format_toolbar.hide()
+			
+	def view_change_cb(self, base, activated):
+		utils.use_bezier_curves = activated.get_current_value() == MMapArea.VIEW_BEZIER
 		self.MainArea.update_all_links()
 		self.MainArea.invalidate()
 
