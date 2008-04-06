@@ -23,6 +23,7 @@
         <menuitem action="ShowFormatToolbar"/>
       </menu>
       <menuitem action="ViewExtend"/>
+      <menuitem action="ViewOutline"/>
       <separator/>
       <menuitem action="UseLines"/>
       <menuitem action="UseBezier"/>

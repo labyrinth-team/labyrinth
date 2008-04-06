@@ -34,6 +34,7 @@ from MapList import MapList
 import xml.dom.minidom as dom
 import PeriodicSaveThread
 import ImageThought
+import TextThought
 
 # UNDO varieties for us
 UNDO_MODE = 0
@@ -159,6 +160,10 @@ class LabyrinthWindow (gtk.Window):
 			self.extended_visible = False
 		else:
 			self.parse_file (filename)
+			
+		# Setup treeview for a11y
+		self.create_tree_view()
+		self.MainArea.initialize_model(self.tree_model)
 
 		# Add all the extra widgets and pack everything in
 		self.swin = gtk.ScrolledWindow ()
@@ -194,18 +199,21 @@ class LabyrinthWindow (gtk.Window):
 		hbox.pack_start (right_box, False)
 		nvbox.pack_start (hbox)
 		nvbox.pack_start (down_box, False)
-		nvbox.pack_end (self.ui.get_widget('/AddedTools'), expand=False)
 
+		hpanes = gtk.HPaned ()
+		hpanes.pack1 (self.tree_view)
+		hpanes.pack2 (nvbox)
 		panes = gtk.VPaned ()
 		panes.connect ("button-release-event", self.pos_changed)
-		panes.add1 (nvbox)
+		panes.add1 (hpanes)
 		panes.add2 (self.swin)
 		panes.set_position (self.pane_pos)
 
 		vbox = gtk.VBox ()
 		vbox.pack_start(self.ui.get_widget('/MenuBar'), expand=False)
 		vbox.pack_start(self.main_toolbar, expand=False)
-		vbox.pack_end (panes)
+		vbox.pack_start (panes)
+		vbox.pack_end(self.format_toolbar, expand=False)
 
 		self.add (vbox)
 
@@ -230,6 +238,7 @@ class LabyrinthWindow (gtk.Window):
 		self.ui.get_widget('/MenuBar').show_all ()
 		self.main_toolbar.show_all ()
 		self.format_toolbar.show_all ()
+		hpanes.show ()
 		panes.show ()
 		nvbox.show ()
 		up_arrow.show()
@@ -243,6 +252,7 @@ class LabyrinthWindow (gtk.Window):
 		right_box.show()
 		self.MainArea.show ()
 		self.extended.show ()
+		self.tree_view.hide_all ()
 		self.undo.unblock ()
 
 		self.start_timer ()
@@ -272,9 +282,9 @@ class LabyrinthWindow (gtk.Window):
 			('ModeMenu', None, _('_Mode')),
 			('DeleteNodes', gtk.STOCK_DELETE, _('_Delete'), 'Delete',
 			 _('Delete the selected element(s)'), self.delete_cb),
-			('ZoomIn', gtk.STOCK_ZOOM_IN, None, None,
+			('ZoomIn', gtk.STOCK_ZOOM_IN, None, '<control>plus',
 			 None, self.zoomin_cb),
-			('ZoomOut', gtk.STOCK_ZOOM_OUT, None, None,
+			('ZoomOut', gtk.STOCK_ZOOM_OUT, None, '<control>minus',
 			 None, self.zoomout_cb)]
 		self.radio_actions = [
 			('Edit', gtk.STOCK_EDIT, _('_Edit Mode'), '<control>E',
@@ -292,6 +302,8 @@ class LabyrinthWindow (gtk.Window):
 		self.toggle_actions = [
 			('ViewExtend', None, _('_Extended Information'), None,
 			 _('Show extended information for thoughts'), self.view_extend_cb),
+			('ViewOutline', None, _('_Outline'), None,
+			 _('Show outline of thought hierarchy'), self.view_outline_cb),
 			('ShowMainToolbar', None, _('_Main'), None,
 			 _('Show main toolbar'), self.show_main_toolbar_cb),
 			('ShowFormatToolbar', None, _('_Format'), None,
@@ -320,6 +332,14 @@ class LabyrinthWindow (gtk.Window):
 		self.ui.insert_action_group (ag, 0)
 		self.ui.add_ui_from_file (utils.get_data_file_name('labyrinth-ui.xml'))
 		self.add_accel_group (self.ui.get_accel_group ())
+		
+	def create_tree_view(self):
+		self.tree_model = gtk.TreeStore(gobject.TYPE_STRING)
+		self.tree_view = gtk.TreeView(self.tree_model)
+		cell_renderer = gtk.CellRendererText()
+		tree_column = gtk.TreeViewColumn(_('Thoughts'), cell_renderer)
+		self.tree_view.append_column(tree_column)
+		tree_column.add_attribute(cell_renderer, "text", 0)
 
 	def link_thoughts_cb (self, arg):
 		self.MainArea.link_menu_cb ()
@@ -338,6 +358,12 @@ class LabyrinthWindow (gtk.Window):
 		else:
 			self.swin.hide ()
 			self.view_type = 0
+			
+	def view_outline_cb (self, arg):
+		if arg.get_active ():
+			self.tree_view.show()
+		else:
+			self.tree_view.hide()
 			
 	def show_main_toolbar_cb(self, arg):
 		if arg.get_active():
@@ -611,10 +637,7 @@ class LabyrinthWindow (gtk.Window):
 			vt = int (top_element.getAttribute ("view_type"))
 		else:
 			vt = 0
-		if vt == 1:
-			self.extended_visible = True
-		else:
-			self.extended_visible = False
+		self.extended_visible = vt == 1
 			
 		tmp = top_element.getAttribute ("size")
 		(width, height) = utils.parse_coords (tmp)

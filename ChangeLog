@@ -1,3 +1,12 @@
+2008-04-06 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/MainWindow.py
+	* src/BaseThought.py
+	* src/MMapArea.py
+	* data/labyrinth-ui.xml
+	Add thought outline (activate throught view -> outline) for
+	a11y.
+
 2008-04-05 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/MMapArea.py

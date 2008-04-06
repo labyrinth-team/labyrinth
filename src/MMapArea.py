@@ -691,6 +691,10 @@ class MMapArea (gtk.DrawingArea):
 			return
 		self.editing.finish_editing ()
 		self.editing = None
+		if thought.model_iter:
+			self.tree_model.set_value(thought.model_iter, 0, thought.text)
+		else:
+			self.add_thought_to_model (thought)
 
 	def update_view (self, thought):
 		if not self.editing:
@@ -762,7 +766,7 @@ class MMapArea (gtk.DrawingArea):
 			ye = self.bbox_current[1] - ys
 
 			color = utils.selected_colors["border"]
-			context.set_line_width(0.2)
+			context.set_line_width(0.5)
 			context.set_source_rgb(color[0], color[1], color[2])
 			context.rectangle(xs, ys, xe, ye)
 			context.stroke()
@@ -1052,6 +1056,39 @@ class MMapArea (gtk.DrawingArea):
 			self.select_thought (thought, None)
 		self.invalidate ()
 		return True
+
+	def recursively_add_thought_to_model(self, parent, thought, row):
+		if row[0] == parent:
+			thought.model_iter = self.tree_model.insert_after(row.iter, None, [thought.text])
+		else:
+			for r in row.iterchildren():
+				self.recursively_add_thought_to_model(parent, text, r)
+	
+	def add_thought_to_model(self, thought):
+		for l in self.links:
+			if l.child == thought and l.parent:
+				for row in self.tree_model:
+					self.recursively_add_thought_to_model(l.parent.text, thought, row)
+				return
+		thought.model_iter = self.tree_model.append(None, [thought.text])		
+		
+	def recursively_add_thoughts(self, parent, it):
+		for l in self.links:
+			if l.parent == parent and l.child != None:
+				it2 = self.tree_model.insert_after(it, None, [l.child.text])
+				self.recursively_add_thoughts(l.child, it2)
+				
+	def initialize_model(self, model):
+		self.tree_model = model
+		# find root thought
+		for t in self.thoughts:
+			if t.am_primary:
+				model.append(None, [t.text])
+				root_thought = t
+		try:
+			self.recursively_add_thoughts(root_thought, model.get_iter_root())
+		except UnboundLocalError:
+			pass
 
 	def load_thought (self, node, type):
 		thought = self.create_new_thought (None, type, loading = True)

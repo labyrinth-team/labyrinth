@@ -105,6 +105,7 @@ class BaseThought (gobject.GObject):
 		self.undo = undo
 		self.background_color = background_color
 		self.foreground_color = foreground_color
+		self.model_iter = None
 		extended_elem = save.createElement ("Extended")
 		self.extended_buffer = TextBufferMarkup.ExtendedBuffer (self.undo, extended_elem, save)
 		self.extended_buffer.set_text("")
