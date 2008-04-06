@@ -1,5 +1,10 @@
 2008-04-06 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* src/MMapArea.py
+	Fix bug and update model on thought deletion.
+
+2008-04-06 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* src/MainWindow.py
 	* src/BaseThought.py
 	* src/MMapArea.py

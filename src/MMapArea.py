@@ -692,7 +692,7 @@ class MMapArea (gtk.DrawingArea):
 		self.editing.finish_editing ()
 		self.editing = None
 		if thought.model_iter:
-			self.tree_model.set_value(thought.model_iter, 0, thought.text)
+			self.tree_model.set_value (thought.model_iter, 0, thought.text)
 		else:
 			self.add_thought_to_model (thought)
 
@@ -853,6 +853,7 @@ class MMapArea (gtk.DrawingArea):
 
 	def delete_thought (self, thought):
 		action = UndoManager.UndoAction (self, UNDO_DELETE_SINGLE, self.undo_deletion, [thought])
+		self.tree_model.remove(thought.model_iter)
 		if thought.element in self.element.childNodes:
 			self.element.removeChild (thought.element)
 		self.thoughts.remove (thought)
@@ -883,13 +884,14 @@ class MMapArea (gtk.DrawingArea):
 		self.undo.block ()
 		if mode == UndoManager.UNDO:
 			self.unselect_all ()
+			for l in action.args[1:]:
+				self.links.append (l)
+				self.element.appendChild (l.element)
 			for t in action.args[0]:
 				self.thoughts.append (t)
 				self.select_thought (t, -1)
 				self.element.appendChild (t.element)
-			for l in action.args[1:]:
-				self.links.append (l)
-				self.element.appendChild (l.element)
+				self.add_thought_to_model (t)
 			if action.undo_type == UNDO_DELETE_SINGLE:
 				self.begin_editing (action.args[0][0])
 				self.emit ("change_buffer", action.args[0][0].extended_buffer)
@@ -1062,7 +1064,7 @@ class MMapArea (gtk.DrawingArea):
 			thought.model_iter = self.tree_model.insert_after(row.iter, None, [thought.text])
 		else:
 			for r in row.iterchildren():
-				self.recursively_add_thought_to_model(parent, text, r)
+				self.recursively_add_thought_to_model(parent, thought, r)
 	
 	def add_thought_to_model(self, thought):
 		for l in self.links:
@@ -1075,8 +1077,8 @@ class MMapArea (gtk.DrawingArea):
 	def recursively_add_thoughts(self, parent, it):
 		for l in self.links:
 			if l.parent == parent and l.child != None:
-				it2 = self.tree_model.insert_after(it, None, [l.child.text])
-				self.recursively_add_thoughts(l.child, it2)
+				l.child.model_iter = self.tree_model.insert_after(it, None, [l.child.text])
+				self.recursively_add_thoughts(l.child, l.child.model_iter)
 				
 	def initialize_model(self, model):
 		self.tree_model = model
