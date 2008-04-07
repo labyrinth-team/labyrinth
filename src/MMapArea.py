@@ -681,10 +681,15 @@ class MMapArea (gtk.DrawingArea):
 		self.element.appendChild (element)
 		self.unending_link = None
 
-	def create_popup_menu (self, thought, coords, menu_type):
-		# TODO: FIXME
-		print "Popup menu requested"
-		return
+	def create_popup_menu (self, thought, event, menu_type):
+		menu = gtk.Menu()
+		# besides of the context-sensitive items we could always add items for
+		# undo/redo which seems to be standard for most applications
+		if thought:
+			for item in thought.get_popup_menu_items():
+				menu.append(item)
+				item.show()
+			menu.popup(None, None, None, event.button, event.get_time())
 
 	def finish_editing (self, thought = None):
 		if not self.editing or (thought and thought != self.editing):

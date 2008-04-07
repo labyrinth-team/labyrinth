@@ -247,6 +247,9 @@ class BaseThought (gobject.GObject):
 	
 	def set_bold (self, active):
 		pass
+		
+	def get_popup_menu_items(self):
+		pass
 
 
 class ResizableThought (BaseThought):

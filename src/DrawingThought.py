@@ -163,7 +163,7 @@ class DrawingThought (BaseThought.ResizableThought):
 				self.del_points = []
 				return True
 		elif event.button == 3:
-			self.emit ("popup_requested", (event.x, event.y), 1)
+			self.emit ("popup_requested", event, 1)
 		self.emit ("update_view")
 
 	def process_button_release (self, event, unending_link, mode, transformed):
@@ -616,3 +616,6 @@ class DrawingThought (BaseThought.ResizableThought):
 				self.emit ("change_mouse_cursor", gtk.gdk.LEFT_PTR)
 		self.want_move = (self.resizing != self.RESIZE_NONE)
 		return inside
+		
+	def get_popup_menu_items(self):
+		return []

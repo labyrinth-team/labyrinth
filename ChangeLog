@@ -1,3 +1,13 @@
+2008-04-07 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/DrawingThought.py
+	* src/BaseThought.py
+	* src/MMapArea.py
+	* src/ImageThought.py
+	* src/TextThought.py
+	Started working on popup menus. Added image changing through
+	popup menu.
+
 2008-04-06 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/MMapArea.py

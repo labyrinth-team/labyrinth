@@ -753,7 +753,7 @@ class TextThought (BaseThought.BaseThought):
 				clip = gtk.Clipboard (selection="PRIMARY")
 				self.paste_text (clip)
 		elif event.button == 3:
-			self.emit ("popup_requested", (event.x, event.y), 1)
+			self.emit ("popup_requested", event, 1)
 			
 		del self.current_attrs
 		self.current_attrs = []
@@ -1218,4 +1218,6 @@ class TextThought (BaseThought.BaseThought):
 													  old_attrs,
 													  self.attributes.copy()))
 		self.recalc_edges()
-
+		
+	def get_popup_menu_items(self):
+		return []

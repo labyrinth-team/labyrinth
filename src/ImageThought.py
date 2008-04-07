@@ -156,7 +156,7 @@ class ImageThought (BaseThought.ResizableThought):
 				self.want_move = True
 				return True
 		elif event.button == 3:
-			self.emit ("popup_requested", (event.x, event.y), 1)
+			self.emit ("popup_requested", event, 1)
 		self.emit ("update_view")
 
 	def process_button_release (self, event, unending_link, mode, transformed):
@@ -322,3 +322,13 @@ class ImageThought (BaseThought.ResizableThought):
 		else:
 			self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), gtk.gdk.INTERP_HYPER)
 		return
+	
+	def change_image_cb(self, widget):
+		self.open_image()
+	
+	def get_popup_menu_items(self):
+		item = gtk.MenuItem(_('Change Image'))
+		item.connect('activate', self.change_image_cb)
+		return [item]
+		
+		
