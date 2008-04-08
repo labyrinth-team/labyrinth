@@ -64,12 +64,9 @@ class LabyrinthWindow (gtk.Window):
 		else:
 			self.set_icon_from_file('images\\labyrinth-24.png')
 
-		if gtk.gtk_version[1] > 8:
 		# FIXME:  This can go when we move entirely to gtk 2.10
 		# pygtk 2.8 doesn't have the correct function :(
-			self.set_val = True
-		else:
-			self.set_val = False
+		self.set_val = gtk.gtk_version[1] > 8
 
 		# First, construct the MainArea and connect it all up
 		self.undo = UndoManager.UndoManager (self)

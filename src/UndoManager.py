@@ -227,11 +227,18 @@ class UndoManager:
 			return self.undo_list[-1]
 		else:
 			return UndoAction (None, None, None)
+			
 	def pop (self):
 		if len (self.undo_list) > 0:
 			return self.undo_list.pop ()
 		else:
 			return None
+			
+	def exists_undo_action (self):
+		return len(self.undo_list) > 0
+		
+	def exists_redo_action (self):
+		return len(self.redo_list) > 0
 
 	def add_undo (self, action):
 		if self.blocked:

@@ -327,7 +327,10 @@ class ImageThought (BaseThought.ResizableThought):
 		self.open_image()
 	
 	def get_popup_menu_items(self):
-		item = gtk.MenuItem(_('Change Image'))
+		image = gtk.Image()
+		image.set_from_stock(gtk.STOCK_OPEN, gtk.ICON_SIZE_MENU)
+		item = gtk.ImageMenuItem(_('Change Image'))
+		item.set_image(image)
 		item.connect('activate', self.change_image_cb)
 		return [item]
 		

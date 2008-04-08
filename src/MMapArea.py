@@ -221,7 +221,7 @@ class MMapArea (gtk.DrawingArea):
 			self.bbox_origin = coords
 			self.is_bbox_selecting = True
 		elif event.button == 3:
-			ret = self.create_popup_menu (None, event.get_coords (), MENU_EMPTY_SPACE)
+			ret = self.create_popup_menu (None, event, MENU_EMPTY_SPACE)
 		return ret
 
 	def undo_move (self, action, mode):
@@ -683,13 +683,26 @@ class MMapArea (gtk.DrawingArea):
 
 	def create_popup_menu (self, thought, event, menu_type):
 		menu = gtk.Menu()
-		# besides of the context-sensitive items we could always add items for
-		# undo/redo which seems to be standard for most applications
+		undo_item = gtk.ImageMenuItem(gtk.STOCK_UNDO)
+		undo_item.connect('activate', self.undo.undo_action)
+		undo_item.set_sensitive(self.undo.exists_undo_action())
+		redo_item = gtk.ImageMenuItem(gtk.STOCK_REDO)
+		redo_item.connect('activate', self.undo.redo_action)
+		redo_item.set_sensitive(self.undo.exists_redo_action())
+		sep_item = gtk.SeparatorMenuItem()
+		menu.append(undo_item)
+		menu.append(redo_item)
+		menu.append(sep_item)
+		undo_item.show()
+		redo_item.show()
+		sep_item.show()
+		
 		if thought:
 			for item in thought.get_popup_menu_items():
 				menu.append(item)
 				item.show()
-			menu.popup(None, None, None, event.button, event.get_time())
+				
+		menu.popup(None, None, None, event.button, event.get_time())
 
 	def finish_editing (self, thought = None):
 		if not self.editing or (thought and thought != self.editing):
