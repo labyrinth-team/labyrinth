@@ -252,6 +252,7 @@ class LabyrinthWindow (gtk.Window):
 		self.tree_view.hide_all ()
 		self.undo.unblock ()
 
+		self.ui.get_widget('/MenuBar/ViewMenu/UseBezier').set_active(utils.use_bezier_curves)
 		self.start_timer ()
 
 	def create_ui (self):

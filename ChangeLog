@@ -1,5 +1,12 @@
 2008-04-08 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* src/MainWindow.py
+	* src/MMapArea.py
+	* src/Browser.py
+	Save line/bezier state.
+
+2008-04-08 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* src/UndoManager.py
 	* src/MainWindow.py
 	* src/MMapArea.py

@@ -89,6 +89,7 @@ class Browser (gtk.Window):
 
 			width = self.config_client.get_int ('/apps/labyrinth/width')
 			height = self.config_client.get_int ('/apps/labyrinth/height')
+			utils.use_bezier_curves = self.config_client.get_bool ('/apps/labyrinth/curves')
 			if width == 0 or height == 0:
 				width = 400
 				height = 300
@@ -295,6 +296,7 @@ class Browser (gtk.Window):
 		width, height = self.main_window.get_size()
 
 		if os.name != 'nt':
+			self.config_client.set_bool('/apps/labyrinth/curves', utils.use_bezier_curves)
 			self.config_client.set_int('/apps/labyrinth/width',width)
 			self.config_client.set_int('/apps/labyrinth/height', height)
 		

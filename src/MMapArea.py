@@ -733,7 +733,8 @@ class MMapArea (gtk.DrawingArea):
 			ul = self.untransform_coords(transformed_area[0], transformed_area[1])
 			lr = self.untransform_coords(transformed_area[2], transformed_area[3])
 			rect = gtk.gdk.Rectangle (int(ul[0]), int(ul[1]), int(lr[0]-ul[0]), int(lr[1]-ul[1]))
-		self.window.invalidate_rect (rect, True)
+		if self.window:
+			self.window.invalidate_rect (rect, True)
 
 	def expose (self, widget, event):
 		'''Expose event.  Calls the draw function'''
