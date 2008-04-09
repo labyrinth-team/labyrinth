@@ -208,13 +208,13 @@ class MMapArea (gtk.DrawingArea):
 			ret = obj.process_button_down (event, self.mode, coords)
 			if event.button == 1 and self.mode == MODE_EDITING:
 				self.moving = not (event.state & gtk.gdk.CONTROL_MASK)
-				self.move_origin = (coords[0],coords[1])
+				self.move_origin = (coords[0], coords[1])
 				self.move_origin_new = self.move_origin
 			return ret
 		if obj:
 			if event.button == 1 and self.mode == MODE_EDITING:
 				self.moving = not (event.state & gtk.gdk.CONTROL_MASK)
-				self.move_origin = (coords[0],coords[1])
+				self.move_origin = (coords[0], coords[1])
 				self.move_origin_new = self.move_origin
 			ret = obj.process_button_down (event, self.mode, coords)
 		elif event.button == 1 and self.mode == MODE_EDITING:
@@ -279,7 +279,7 @@ class MMapArea (gtk.DrawingArea):
 		if obj:
 			ret = obj.process_button_release (event, self.unending_link, self.mode, coords)
 			if len(self.selected) != 1:
-				self.invalidate(obj.get_max_area())
+				self.invalidate()	# does not invalidate correctly with obj.get_max_area()
 				return ret
 		elif self.unending_link or event.button == 1:
 			sel = self.selected
@@ -545,24 +545,21 @@ class MMapArea (gtk.DrawingArea):
 			if self.selected.count (link) == 0:
 				self.selected.append (link)
 		else:
-			for x in self.selected:
-				x.unselect ()
+			map (lambda t : t.unselect(), self.selected)
 			self.selected = [link]
 		link.select()
 		self.emit("change_buffer", None)
 		
-		
 	def select_thought (self, thought, modifiers):
-		if modifiers and modifiers & gtk.gdk.SHIFT_MASK and len (self.selected) > 1 and self.selected.count (thought) > 0:
-			self.selected.remove (thought)
-			thought.unselect ()
-			return
 		self.hookup_im_context ()
 		if self.editing:
 			self.finish_editing ()
-		if thought in self.thoughts:
-			self.thoughts.remove (thought)
-		self.thoughts.append(thought)
+			
+		if thought in self.selected and self.moving:
+			return
+			
+		if thought not in self.thoughts:
+			self.thoughts.append(thought)
 
 		if modifiers and (modifiers & gtk.gdk.SHIFT_MASK or modifiers == -1):
 			if self.selected.count (thought) == 0:
@@ -590,8 +587,7 @@ class MMapArea (gtk.DrawingArea):
 	def begin_editing (self, thought):
 		if self.editing and thought != self.editing:
 			self.finish_editing ()
-		do_edit = thought.begin_editing ()
-		if do_edit:
+		if thought.begin_editing ():
 			self.editing = thought
 
 	def undo_link_action (self, action, mode):
@@ -872,7 +868,8 @@ class MMapArea (gtk.DrawingArea):
 
 	def delete_thought (self, thought):
 		action = UndoManager.UndoAction (self, UNDO_DELETE_SINGLE, self.undo_deletion, [thought])
-		self.tree_model.remove(thought.model_iter)
+		if thought.model_iter:
+			self.tree_model.remove(thought.model_iter)
 		if thought.element in self.element.childNodes:
 			self.element.removeChild (thought.element)
 		self.thoughts.remove (thought)
@@ -1061,6 +1058,8 @@ class MMapArea (gtk.DrawingArea):
 			self.delete_selected_elements ()
 		elif event.keyval == gtk.keysyms.Menu:
 			self.popup_menu_key (event)
+		elif event.keyval == gtk.keysyms.Escape:
+			self.unselect_all ()
 		elif event.keyval == gtk.keysyms.a and event.state & gtk.gdk.CONTROL_MASK:
 			self.unselect_all ()
 			for t in self.thoughts:
