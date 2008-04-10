@@ -1,5 +1,10 @@
 2008-04-10 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* src/MMapArea.py
+	Fix bug and issue 109.
+
+2008-04-10 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* src/MainWindow.py
 	* src/MMapArea.py
 	* data/labyrinth-ui.xml

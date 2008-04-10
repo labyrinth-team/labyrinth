@@ -705,6 +705,8 @@ class MMapArea (gtk.DrawingArea):
 			return
 		self.editing.finish_editing ()
 		self.editing = None
+		if not thought:
+			return
 		if thought.model_iter:
 			self.tree_model.set_value (thought.model_iter, 0, thought.text)
 		else:
