@@ -1028,13 +1028,13 @@ class MMapArea (gtk.DrawingArea):
 				t.move_by(dic[t][0], dic[t][1])
 		self.undo.unblock ()
 
-	def align_selected_thoughts(self, horizontal=True):
+	def align_top_left(self, vertical=True):
 		dic = {}
 		if len(self.selected) != 0:
 			x = self.selected[0].ul[0]
 			y = self.selected[0].ul[1]
 			for t in self.selected:
-				if horizontal:
+				if vertical:
 					vec = (-(t.ul[0]-x), 0)
 				else:
 					vec = (0, -(t.ul[1]-y))
@@ -1042,6 +1042,34 @@ class MMapArea (gtk.DrawingArea):
 				dic[t] = vec
 		self.undo.add_undo (UndoManager.UndoAction (self, UNDO_ALIGN, self.undo_align, dic))
 
+	def align_bottom_right(self, vertical=True):
+		dic = {}
+		if len(self.selected) != 0:
+			x = self.selected[0].lr[0]
+			y = self.selected[0].lr[1]
+			for t in self.selected:
+				if vertical:
+					vec = (-(t.lr[0]-x), 0)
+				else:
+					vec = (0, -(t.lr[1]-y))
+				t.move_by(vec[0], vec[1])
+				dic[t] = vec
+		self.undo.add_undo (UndoManager.UndoAction (self, UNDO_ALIGN, self.undo_align, dic))
+		
+	def align_centered(self, vertical=True):
+		dic = {}
+		if len(self.selected) != 0:
+			x = self.selected[0].ul[0] + (self.selected[0].lr[0] - self.selected[0].ul[0]) / 2.0
+			y = self.selected[0].ul[1] + (self.selected[0].lr[1] - self.selected[0].ul[1]) / 2.0
+			for t in self.selected:
+				if vertical:
+					vec = (-((t.ul[0] + (t.lr[0]-t.ul[0])/2.0)-x), 0)
+				else:
+					vec = (0, -((t.ul[1] + (t.lr[1]-t.ul[1])/2.0)-y))
+				t.move_by(vec[0], vec[1])
+				dic[t] = vec
+		self.undo.add_undo (UndoManager.UndoAction (self, UNDO_ALIGN, self.undo_align, dic))
+		
 	def global_key_handler (self, event):
 		thought = None
 		if event.keyval == gtk.keysyms.Up:
@@ -1065,10 +1093,6 @@ class MMapArea (gtk.DrawingArea):
 			for t in self.thoughts:
 				t.select ()
 				self.selected.append (t)
-		elif event.keyval == gtk.keysyms.f and event.state & gtk.gdk.CONTROL_MASK:
-			self.align_selected_thoughts(horizontal=True)
-		elif event.keyval == gtk.keysyms.g and event.state & gtk.gdk.CONTROL_MASK:
-			self.align_selected_thoughts(horizontal=False)
 		else:
 			return False
 

@@ -46,9 +46,4 @@
     <toolitem action="Undo"/>
     <toolitem action="Redo"/>
   </toolbar>
-  <toolbar name="AddedTools">
-  	<toolitem action="Bold"/>
-  	<toolitem action="Italics"/>
-  	<toolitem action="Underline"/>
-  </toolbar>
 </ui>

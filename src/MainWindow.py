@@ -40,7 +40,7 @@ import TextThought
 UNDO_MODE = 0
 UNDO_SHOW_EXTENDED = 1
 
-class LabyrinthWindow (gtk.Window):
+class LabyrinthWindow (gobject.GObject):
 	__gsignals__ = dict (title_changed		= (gobject.SIGNAL_RUN_FIRST,
 											   gobject.TYPE_NONE,
 											   (gobject.TYPE_STRING, gobject.TYPE_OBJECT)),
@@ -56,13 +56,6 @@ class LabyrinthWindow (gtk.Window):
 
 	def __init__ (self, filename, imported=False):
 		super(LabyrinthWindow, self).__init__()
-		if os.name != 'nt':
-			try:
-				self.set_icon_name ('labyrinth')
-			except:
-				self.set_icon_from_file(utils.get_data_file_name('labyrinth.svg'))
-		else:
-			self.set_icon_from_file('images\\labyrinth-24.png')
 
 		# FIXME:  This can go when we move entirely to gtk 2.10
 		# pygtk 2.8 doesn't have the correct function :(
@@ -72,7 +65,6 @@ class LabyrinthWindow (gtk.Window):
 		self.undo = UndoManager.UndoManager (self)
 		self.undo.block ()
 		self.MainArea = MMapArea.MMapArea (self.undo)
-		self.set_focus_child (self.MainArea)
 		self.MainArea.connect ("title_changed", self.title_changed_cb)
 		self.MainArea.connect ("doc_save", self.doc_save_cb)
 		self.MainArea.connect ("doc_delete", self.doc_del_cb)
@@ -80,45 +72,57 @@ class LabyrinthWindow (gtk.Window):
 		self.MainArea.connect ("button-press-event", self.main_area_focus_cb)
 		self.MainArea.connect ("change_buffer", self.switch_buffer_cb)
 		self.MainArea.connect ("thought_selection_changed", self.thought_selected_cb)
-		if os.name != 'nt':
-			self.MainArea.connect ("text_selection_changed", self.selection_changed_cb)
 		self.MainArea.connect ("set_focus", self.main_area_focus_cb)
 		self.MainArea.connect ("set_attrs", self.attrs_cb)
+		if os.name != 'nt':
+			self.MainArea.connect ("text_selection_changed", self.selection_changed_cb)
 
-		# Then, construct the menubar and toolbar and hook it all up
-		self.create_ui ()
-
+		glade = gtk.glade.XML(utils.get_data_file_name('labyrinth.glade'))
+		self.main_window = glade.get_widget ('MapWindow')
+		self.main_window.set_focus_child (self.MainArea)
+		if os.name != 'nt':
+			try:
+				self.main_window.set_icon_name ('labyrinth')
+			except:
+				self.main_window.set_icon_from_file(utils.get_data_file_name('labyrinth.svg'))
+		else:
+			self.main_window.set_icon_from_file('images\\labyrinth-24.png')
+	
+		# insert menu, toolbar and map
+		self.create_menu()
+		glade.get_widget ('main_area_insertion').pack_start(self.MainArea)
+		vbox = glade.get_widget ('map_window_vbox')
+		menubar = self.ui.get_widget('/MenuBar')
+		menubar.show_all()
+		vbox.pack_start(menubar)
+		vbox.reorder_child(menubar, 0)
+		vbox.set_child_packing(menubar, 0, 0, 0, gtk.PACK_START)
+		
+		toolbar = self.ui.get_widget('/ToolBar')
+		toolbar.show_all()
+		vbox.pack_start(toolbar)
+		vbox.reorder_child(toolbar, 1)
+		vbox.set_child_packing(toolbar, 0, 0, 0, gtk.PACK_START)
+		
 		# TODO: Bold, Italics etc.
-		self.bold_widget = self.ui.get_widget('/AddedTools/Bold')
+		self.bold_widget = glade.get_widget('tool_bold')
+		self.bold_widget.connect('toggled', self.bold_toggled)
 		self.bold_block = False
 		self.bold_state = False
-		self.italic_widget = self.ui.get_widget('/AddedTools/Italics')
+		self.italic_widget = glade.get_widget('tool_italic')
+		self.italic_widget.connect('toggled', self.italic_toggled)
 		self.italic_block = False
 		self.italic_state = False
-		self.underline_widget = self.ui.get_widget('/AddedTools/Underline')
+		self.underline_widget = glade.get_widget('tool_underline')
+		self.underline_widget.connect('toggled', self.underline_toggled)
 		self.underline_block = False
 		self.underline_state = False
 
-		toolbar = self.ui.get_widget('/AddedTools')
-		self.font_widget = gtk.FontButton()
-		self.font_widget.set_use_font (True)
-		toolitem = gtk.ToolItem()
-		toolitem.add(self.font_widget)
-		toolbar.insert(toolitem, -1)
+		self.font_widget = glade.get_widget('font_button')
 		self.font_widget.connect ("font-set", self.font_change_cb)
-
-		self.background_widget = gtk.ColorButton(gtk.gdk.color_parse("white"))
-		self.background_widget.set_title(_("Choose background color"))
-		toolitem = gtk.ToolItem()
-		toolitem.add(self.background_widget)
-		toolbar.insert(toolitem, -1)
+		self.background_widget = glade.get_widget('background_color_button')
 		self.background_widget.connect ("color-set", self.background_change_cb)
-
-		self.foreground_widget = gtk.ColorButton(gtk.gdk.color_parse("black"))
-		self.foreground_widget.set_title(_("Choose foreground color"))
-		toolitem = gtk.ToolItem()
-		toolitem.add(self.foreground_widget)
-		toolbar.insert(toolitem, -1)
+		self.foreground_widget = glade.get_widget('foreground_color_button')
 		self.foreground_widget.connect ("color-set", self.foreground_change_cb)
 
 		self.cut = self.ui.get_widget ('/MenuBar/EditMenu/Cut')
@@ -126,26 +130,27 @@ class LabyrinthWindow (gtk.Window):
 		self.paste = self.ui.get_widget ('/MenuBar/EditMenu/Paste')
 		self.link = self.ui.get_widget ('/MenuBar/EditMenu/LinkThoughts')
 		self.delete = self.ui.get_widget ('/MenuBar/EditMenu/DeleteNodes')
-		
-		# get toolbars and activate corresponding menu entries
-		self.main_toolbar = self.ui.get_widget ('/ToolBar')
-		self.format_toolbar = self.ui.get_widget ('/AddedTools')
-		self.ui.get_widget('/MenuBar/ViewMenu/ShowToolbars/ShowMainToolbar').set_active(True)
-		self.ui.get_widget('/MenuBar/ViewMenu/ShowToolbars/ShowFormatToolbar').set_active(True)		
 
 		self.ui.get_widget('/MenuBar/EditMenu').connect ('activate', self.edit_activated_cb)
 		self.cut.set_sensitive (False)
 		self.copy.set_sensitive (False)
+		
+		# get toolbars and activate corresponding menu entries
+		self.main_toolbar = self.ui.get_widget ('/ToolBar')
+		self.format_toolbar = glade.get_widget ('format_toolbar')
+		self.ui.get_widget('/MenuBar/ViewMenu/ShowToolbars/ShowMainToolbar').set_active(True)
+		self.ui.get_widget('/MenuBar/ViewMenu/ShowToolbars/ShowFormatToolbar').set_active(True)
+		self.ui.get_widget('/MenuBar/ViewMenu/UseBezier').set_active(utils.use_bezier_curves)
 
 		# Add in the extended info view
-		self.extended = gtk.TextView ()
-		self.extended.set_wrap_mode (gtk.WRAP_WORD_CHAR)
+		self.extended_window = glade.get_widget('extended_window')
+		self.extended = glade.get_widget('extended')
 		self.invisible_buffer = gtk.TextBuffer ()
 
 		# Connect all our signals
-		self.connect ("configure_event", self.configure_cb)
-		self.connect ("window-state-event", self.window_state_cb)
-		self.connect ("destroy", self.close_window_cb)
+		self.main_window.connect ("configure_event", self.configure_cb)
+		self.main_window.connect ("window-state-event", self.window_state_cb)
+		self.main_window.connect ("destroy", self.close_window_cb)
 
 		# Deal with loading the map
 		if not filename:
@@ -159,103 +164,60 @@ class LabyrinthWindow (gtk.Window):
 			self.parse_file (filename)
 			
 		# Setup treeview for a11y
-		self.create_tree_view()
+		self.create_tree_view(glade)
 		self.MainArea.initialize_model(self.tree_model)
 
-		# Add all the extra widgets and pack everything in
-		self.swin = gtk.ScrolledWindow ()
-		self.swin.set_policy (gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-		self.swin.add (self.extended)
-
-		up_box = gtk.EventBox()
-		up_arrow = gtk.Arrow(gtk.ARROW_UP, gtk.SHADOW_IN)
-		up_box.add(up_arrow)
+		up_box = glade.get_widget('up_box')
 		up_box.connect("button-press-event", self.translate, "Up")
 		up_box.connect("button-release-event", self.finish_translate)
-		down_arrow = gtk.Arrow(gtk.ARROW_DOWN, gtk.SHADOW_OUT)
-		down_box = gtk.EventBox()
-		down_box.add(down_arrow)
+		down_box = glade.get_widget('down_box')
 		down_box.connect("button-press-event", self.translate, "Down")
 		down_box.connect("button-release-event", self.finish_translate)
-		right_box = gtk.EventBox()
-		right_arrow = gtk.Arrow(gtk.ARROW_RIGHT, gtk.SHADOW_OUT)
-		right_box.add(right_arrow)
+		right_box = glade.get_widget('right_box')
 		right_box.connect("button-press-event", self.translate, "Right")
 		right_box.connect("button-release-event", self.finish_translate)
-		left_box = gtk.EventBox()
-		left_arrow = gtk.Arrow(gtk.ARROW_LEFT, gtk.SHADOW_IN)
-		left_box.add(left_arrow)
+		left_box = glade.get_widget('left_box')
 		left_box.connect("button-press-event", self.translate, "Left")
 		left_box.connect("button-release-event", self.finish_translate)
+		
+		self.align_button = glade.get_widget('tool_align')
+		self.align_handler_id = self.align_button.connect('clicked', self.align_cb, "vl")
+		glade.get_widget('align_vertical_left').connect('activate', self.align_cb, "vl")
+		glade.get_widget('align_vertical_right').connect('activate', self.align_cb, "vr")
+		glade.get_widget('align_vertical_center').connect('activate', self.align_cb, "vc")
+		glade.get_widget('align_horizontal_top').connect('activate', self.align_cb, "ht")
+		glade.get_widget('align_horizontal_bottom').connect('activate', self.align_cb, "hb")
+		glade.get_widget('align_horizontal_center').connect('activate', self.align_cb, "hc")
 
-		nvbox = gtk.VBox ()
-		hbox = gtk.HBox ()
-		nvbox.pack_start (up_box, False)
-		hbox.pack_start (left_box, False)
-		hbox.pack_start (self.MainArea)
-		hbox.pack_start (right_box, False)
-		nvbox.pack_start (hbox)
-		nvbox.pack_start (down_box, False)
-
-		hpanes = gtk.HPaned ()
-		hpanes.pack1 (self.tree_view)
-		hpanes.pack2 (nvbox)
-		panes = gtk.VPaned ()
+		panes = glade.get_widget('vpaned1')
 		panes.connect ("button-release-event", self.pos_changed)
-		panes.add1 (hpanes)
-		panes.add2 (self.swin)
 		panes.set_position (self.pane_pos)
 
-		vbox = gtk.VBox ()
-		vbox.pack_start(self.ui.get_widget('/MenuBar'), expand=False)
-		vbox.pack_start(self.main_toolbar, expand=False)
-		vbox.pack_start (panes)
-		vbox.pack_end(self.format_toolbar, expand=False)
-
-		self.add (vbox)
-
 		# Other stuff
-		self.width, self.height = self.get_size ()
+		self.width, self.height = self.main_window.get_size ()
 		
 		# if we import, we dump the old filename to create a new hashed one
 		if imported:
 			self.save_file = None
 		else:
 			self.save_file = filename
-			
+
 		self.maximised = False
 		self.view_type = 0
-		#self.set_title (self.title_cp)
 		if self.set_val:
 			self.act.set_current_value (self.mode)
 		self.ext_act.set_active (self.extended_visible)
 
-		# Show everything required
-		vbox.show ()
-		self.ui.get_widget('/MenuBar').show_all ()
-		self.main_toolbar.show_all ()
-		self.format_toolbar.show_all ()
-		hpanes.show ()
-		panes.show ()
-		nvbox.show ()
-		up_arrow.show()
-		up_box.show()
-		down_arrow.show()
-		down_box.show()
-		hbox.show()
-		left_arrow.show()
-		left_box.show()
-		right_arrow.show()
-		right_box.show()
-		self.MainArea.show ()
-		self.extended.show ()
-		self.tree_view.hide_all ()
 		self.undo.unblock ()
-
-		self.ui.get_widget('/MenuBar/ViewMenu/UseBezier').set_active(utils.use_bezier_curves)
 		self.start_timer ()
 
-	def create_ui (self):
+	def show(self):
+		self.main_window.show_all()
+		if not self.extended_visible:
+			self.extended_window.hide ()
+		self.tree_view.hide ()
+
+	def create_menu (self):
 		actions = [
 			('FileMenu', None, _('File')),
 			('Export', None, _('Export as Image'), None,
@@ -290,8 +252,7 @@ class LabyrinthWindow (gtk.Window):
 			 ('AddImage', gtk.STOCK_ADD, _('_Add Image'), None,
 			 _('Add an image to selected thought'), MMapArea.MODE_IMAGE),
 			 ('Drawing', gtk.STOCK_COLOR_PICKER, _('_Drawing Mode'), None,
-			 _('Make a pretty drawing'), MMapArea.MODE_DRAW)
-			]
+			 _('Make a pretty drawing'), MMapArea.MODE_DRAW)]
 		self.view_radio_actions = [
 			('UseBezier', None, _('Use _Curves'), None,
 			 _('Use curves as links'), MMapArea.VIEW_BEZIER),
@@ -305,13 +266,7 @@ class LabyrinthWindow (gtk.Window):
 			('ShowMainToolbar', None, _('_Main'), None,
 			 _('Show main toolbar'), self.show_main_toolbar_cb),
 			('ShowFormatToolbar', None, _('_Format'), None,
-			 _('Show format toolbar'), self.show_format_toolbar_cb),
-			('Bold', gtk.STOCK_BOLD, None, None,
-			None, self.bold_toggled),
-			('Italics', gtk.STOCK_ITALIC, None, None,
-			None, self.italic_toggled),
-			('Underline', gtk.STOCK_UNDERLINE, None, None,
-			None, self.underline_toggled)]
+			 _('Show format toolbar'), self.show_format_toolbar_cb)]
 
 		ag = gtk.ActionGroup ('WindowActions')
 		ag.add_actions (actions)
@@ -329,15 +284,29 @@ class LabyrinthWindow (gtk.Window):
 		self.ui = gtk.UIManager ()
 		self.ui.insert_action_group (ag, 0)
 		self.ui.add_ui_from_file (utils.get_data_file_name('labyrinth-ui.xml'))
-		self.add_accel_group (self.ui.get_accel_group ())
+		self.main_window.add_accel_group (self.ui.get_accel_group ())
 		
-	def create_tree_view(self):
+	def create_tree_view(self, glade):
 		self.tree_model = gtk.TreeStore(gobject.TYPE_STRING)
-		self.tree_view = gtk.TreeView(self.tree_model)
+		self.tree_view = glade.get_widget('outline_treeview')
+		self.tree_view.set_model(self.tree_model)
 		cell_renderer = gtk.CellRendererText()
 		tree_column = gtk.TreeViewColumn(_('Thoughts'), cell_renderer)
 		self.tree_view.append_column(tree_column)
 		tree_column.add_attribute(cell_renderer, "text", 0)
+
+	def align_cb(self, widget, direction):
+		if direction == "vl" or direction == "ht":
+			self.MainArea.align_top_left(direction == "vl")
+		elif direction == "vr" or direction == "hb":
+			self.MainArea.align_bottom_right(direction == "vr")
+		else:
+			self.MainArea.align_centered(direction == "vc")
+
+		if widget != self.align_button:
+			self.align_button.disconnect(self.align_handler_id)
+			self.align_handler_id = self.align_button.connect('clicked', self.align_cb, direction)
+			self.align_button.set_icon_name(widget.get_image().get_icon_name()[0])
 
 	def link_thoughts_cb (self, arg):
 		self.MainArea.link_menu_cb ()
@@ -351,10 +320,10 @@ class LabyrinthWindow (gtk.Window):
 		self.undo.add_undo (UndoManager.UndoAction (self, UNDO_SHOW_EXTENDED, self.undo_show_extended))
 		self.extended_visible = arg.get_active ()
 		if self.extended_visible:
-			self.swin.show ()
+			self.extended_window.show ()
 			self.view_type = 1
 		else:
-			self.swin.hide ()
+			self.extended_window.hide ()
 			self.view_type = 0
 			
 	def view_outline_cb (self, arg):
@@ -546,9 +515,9 @@ class LabyrinthWindow (gtk.Window):
 				self.title_cp += final
 		if len(self.title_cp) > 27:
 			x = self.title_cp[0:27]+"..."
-			self.set_title (x)
+			self.main_window.set_title (x)
 		else:
-			self.set_title (self.title_cp)
+			self.main_window.set_title (self.title_cp)
 		self.emit ("title-changed", self.title_cp, self)
 
 	def delete_cb (self, event):
@@ -556,7 +525,7 @@ class LabyrinthWindow (gtk.Window):
 
 	def close_window_cb (self, event):
 		self.SaveTimer.cancel = True
-		self.hide ()
+		self.main_window.hide ()
 		self.MainArea.save_thyself ()
 		del (self)
 
@@ -600,7 +569,7 @@ class LabyrinthWindow (gtk.Window):
 	def export_map_cb(self, event):
 		chooser = gtk.FileChooserDialog(title=_("Save File As"), action=gtk.FILE_CHOOSER_ACTION_SAVE, \
 										buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK))
-		chooser.set_current_name ("%s.mapz" % self.title)
+		chooser.set_current_name ("%s.mapz" % self.main_window.title)
 		response = chooser.run()
 		if response == gtk.RESPONSE_OK:
 			filename = chooser.get_filename ()
@@ -641,13 +610,13 @@ class LabyrinthWindow (gtk.Window):
 		(width, height) = utils.parse_coords (tmp)
 		tmp = top_element.getAttribute ("position")
 		(x, y) = utils.parse_coords (tmp)
-		self.resize (int (width), int (height))
+		self.main_window.resize (int (width), int (height))
 
 		# Don't know why, but metacity seems to move the window 24 pixels
 		# further down than requested.  Compensate by removing 24
 		# pixels from the stored size
 		y -= 24
-		self.move (int (x), int (y))
+		self.main_window.move (int (x), int (y))
 
 		#print "Setting title"
 		#self.set_title (self.title_cp)
@@ -707,7 +676,7 @@ class LabyrinthWindow (gtk.Window):
 				fil.add_pattern(pattern)
 			fc.add_filter(fil)
 
-		fc.set_current_name ("%s.png" % self.title)
+		fc.set_current_name ("%s.png" % self.main_window.title)
 		rad = glade.get_widget ('rb_complete_map')
 		rad2 = glade.get_widget ('rb_visible_area')
 		self.spin_width = glade.get_widget ('width_spin')

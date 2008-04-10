@@ -1,3 +1,11 @@
+2008-04-10 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/MainWindow.py
+	* src/MMapArea.py
+	* data/labyrinth-ui.xml
+	* data/labyrinth.glade
+	Use Glade for the MapWindow. Added general alignment widgets.
+
 2008-04-09 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/MMapArea.py
