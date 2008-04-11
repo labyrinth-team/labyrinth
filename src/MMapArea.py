@@ -1113,20 +1113,14 @@ class MMapArea (gtk.DrawingArea):
 		self.invalidate ()
 		return True
 
-	def recursively_add_thought_to_model(self, parent, thought, row):
-		if row[0] == parent:
-			thought.model_iter = self.tree_model.insert_after(row.iter, None, [thought.text])
-		else:
-			for r in row.iterchildren():
-				self.recursively_add_thought_to_model(parent, thought, r)
-	
 	def add_thought_to_model(self, thought):
 		for l in self.links:
 			if l.child == thought and l.parent:
-				for row in self.tree_model:
-					self.recursively_add_thought_to_model(l.parent.text, thought, row)
+				thought.model_iter = self.tree_model.insert_after(l.parent.model_iter, None, [thought.text])
 				return
-		thought.model_iter = self.tree_model.append(None, [thought.text])		
+		
+		print 'here'
+		thought.model_iter = self.tree_model.append(self.tree_model.get_iter_root(), [thought.text])		
 		
 	def recursively_add_thoughts(self, parent, it):
 		for l in self.links:
@@ -1139,7 +1133,8 @@ class MMapArea (gtk.DrawingArea):
 		# find root thought
 		for t in self.thoughts:
 			if t.am_primary:
-				model.append(None, [t.text])
+				model_iter = model.append(None, [t.text])
+				t.model_iter = model_iter
 				root_thought = t
 		try:
 			self.recursively_add_thoughts(root_thought, model.get_iter_root())

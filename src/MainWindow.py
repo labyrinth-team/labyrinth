@@ -34,7 +34,7 @@ from MapList import MapList
 import xml.dom.minidom as dom
 import PeriodicSaveThread
 import ImageThought
-import TextThought
+import BaseThought
 
 # UNDO varieties for us
 UNDO_MODE = 0
