@@ -1119,7 +1119,6 @@ class MMapArea (gtk.DrawingArea):
 				thought.model_iter = self.tree_model.insert_after(l.parent.model_iter, None, [thought.text])
 				return
 		
-		print 'here'
 		thought.model_iter = self.tree_model.append(self.tree_model.get_iter_root(), [thought.text])		
 		
 	def recursively_add_thoughts(self, parent, it):
