@@ -1,5 +1,10 @@
 2008-04-11 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* src/Links.py
+	Add link colors through context menu.
+
+2008-04-11 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* src/MMapArea.py
 	* src/MainWindow.py
 	Fixed outline treeview bugs and simplified its code.

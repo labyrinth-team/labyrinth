@@ -25,6 +25,8 @@ import gtk
 import BaseThought
 import utils
 import math
+import gettext
+_ = gettext.gettext
 
 def norm(x, y):
 	mod = math.sqrt(abs((x[0]**2 - y[0]**2) + (x[1]**2 - y[1]**2)))
@@ -49,6 +51,7 @@ class Link (gobject.GObject):
 		self.strength = strength
 		self.element = save.createElement ("link")
 		self.selected = False
+		self.color = utils.gtk_to_cairo_color(gtk.gdk.color_parse("black"))
 
 		if not self.start and parent and parent.lr:
 			self.start = (parent.ul[0]-((parent.ul[0]-parent.lr[0]) / 2.), \
@@ -134,6 +137,8 @@ class Link (gobject.GObject):
 		if self.selected:
 			color = utils.selected_colors["bg"]
 			context.set_source_rgb (color[0], color[1], color[2])
+		else:
+			context.set_source_rgb (self.color[0], self.color[1], self.color[2])
 		context.stroke ()
 		context.set_line_width (cwidth)
 
@@ -167,6 +172,8 @@ class Link (gobject.GObject):
 		self.element.setAttribute ("start", str(self.start))
 		self.element.setAttribute ("end", str(self.end))
 		self.element.setAttribute ("strength", str(self.strength))
+		self.element.setAttribute ("color", str(self.color))
+		print str(self.color)
 		if self.child:
 			self.element.setAttribute ("child", str(self.child.identity))
 		else:
@@ -189,6 +196,11 @@ class Link (gobject.GObject):
 			return
 		self.start = utils.parse_coords (tmp)
 		self.strength = int(node.getAttribute ("strength"))
+		try:
+			colors = node.getAttribute ("color").split()
+			self.color = (float(colors[0].strip('(,)')), float(colors[1].strip('(,)')), float(colors[2].strip('(,)')))
+		except:
+			pass
 		if node.hasAttribute ("parent"):
 			tmp = node.getAttribute ("parent")
 			if tmp == "None":
@@ -210,7 +222,7 @@ class Link (gobject.GObject):
 				self.emit ("select_link", event.state & modifiers)
 				self.emit ("update_view")
 		elif event.button == 3:
-			self.emit ("popup_requested", (event.x, event.y), 2)
+			self.emit ("popup_requested", event, 2)
 		self.emit ("update_view")
 		return False
 
@@ -250,3 +262,23 @@ class Link (gobject.GObject):
 	
 	def can_be_parent (self):
 		return False
+		
+	def set_color_cb(self, widget):
+		dialog = gtk.ColorSelectionDialog(_('Choose Color'))
+		dialog.connect('response', self.color_selection_ok_cb)
+		self.color_sel = dialog.colorsel
+		dialog.run()
+		
+	def color_selection_ok_cb(self, dialog, response_id):
+		if response_id == gtk.RESPONSE_OK:
+			self.color = utils.gtk_to_cairo_color(self.color_sel.get_current_color())
+		dialog.destroy()
+		
+	def get_popup_menu_items(self):
+		image = gtk.Image()
+		image.set_from_stock(gtk.STOCK_COLOR_PICKER, gtk.ICON_SIZE_MENU)
+		item = gtk.ImageMenuItem(_('Set Color'))
+		item.set_image(image)
+		item.connect('activate', self.set_color_cb)
+		return [item]
+	
