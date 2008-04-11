@@ -1,3 +1,9 @@
+2008-04-11 Martin Schaaf <mascha@ma-scha.de>
+
+	* src/MainWindow.py
+	Fix exception on maximizing loaded map by calling maximize on
+	the gtk window not on the labyrinth window object.
+
 2008-04-10 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/MMapArea.py
