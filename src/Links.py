@@ -105,9 +105,7 @@ class Link (gobject.GObject):
 			self.strength += 1
 		else:
 			self.strength -= 1
-		if self.strength == 0:
-			return False
-		return True
+		return self.strength != 0
 
 	def set_child (self, child):
 		self.child = child
@@ -141,7 +139,6 @@ class Link (gobject.GObject):
 			context.set_source_rgb (self.color[0], self.color[1], self.color[2])
 		context.stroke ()
 		context.set_line_width (cwidth)
-
 		context.set_source_rgb (0.0, 0.0, 0.0)
 
 	def export (self, context, move_x, move_y):
@@ -173,7 +170,6 @@ class Link (gobject.GObject):
 		self.element.setAttribute ("end", str(self.end))
 		self.element.setAttribute ("strength", str(self.strength))
 		self.element.setAttribute ("color", str(self.color))
-		print str(self.color)
 		if self.child:
 			self.element.setAttribute ("child", str(self.child.identity))
 		else:
@@ -230,20 +226,17 @@ class Link (gobject.GObject):
 		return False
 
 	def process_key_press (self, event, mode):
-		handled = False
 		if mode != BaseThought.MODE_EDITING:
-			return handled
+			return False
 		if event.keyval == gtk.keysyms.plus or \
 		   event.keyval == gtk.keysyms.KP_Add:
 			self.strength += 1
-			handled = True
 		elif (event.keyval == gtk.keysyms.minus or \
 			  event.keyval == gtk.keysyms.KP_Subtract) and \
 			 self.strength > 1:
 			self.strength -= 1
-			handled = True
 		self.emit("update_view")
-		return handled
+		return True
 
 	def handle_motion (self, event, mode, transformed):
 		pass

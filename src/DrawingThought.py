@@ -46,8 +46,7 @@ UNDO_ERASE = 2
 class DrawingThought (BaseThought.ResizableThought):
 	class DrawingPoint (object):
 		def __init__ (self, coords, style=STYLE_CONTINUE, color = gtk.gdk.Color(0,0,0), width = 2):
-			self.x = coords[0]
-			self.y = coords[1]
+			self.x, self.y = coords
 			self.style = style
 			if color == None:
 				color = gtk.gdk.Color(0,0,0)
@@ -96,7 +95,7 @@ class DrawingThought (BaseThought.ResizableThought):
 					context.line_to (p.x, p.y)
 					context.stroke()
 				else:
-					context.line_to (p.x,p.y)
+					context.line_to (p.x, p.y)
 
 		context.set_line_width (cwidth)
 		context.stroke ()
@@ -154,10 +153,9 @@ class DrawingThought (BaseThought.ResizableThought):
 				return True
 			elif mode == MODE_DRAW:
 				self.want_move = True
+				self.drawing = 2
 				if not event.state & gtk.gdk.SHIFT_MASK:
 					self.drawing = 1
-				else:
-					self.drawing = 2
 				self.orig_size = (self.ul, self.width, self.height)
 				self.ins_points = []
 				self.del_points = []

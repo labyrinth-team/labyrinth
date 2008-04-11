@@ -1,5 +1,13 @@
 2008-04-11 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* src/DrawingThought.py
+	* src/Links.py
+	* src/TextBufferMarkup.py
+	* src/UndoManager.py
+	Refactorizations.
+
+2008-04-11 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* src/Links.py
 	Add link colors through context menu.
 

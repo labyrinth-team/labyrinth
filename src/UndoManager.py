@@ -97,14 +97,8 @@ class UndoManager:
 	def update_sensitive (self):
 		if not self.undo or not self.redo:
 			return
-		if len(self.undo_list) > 0:
-			self.undo.set_sensitive (True)
-		else:
-			self.undo.set_sensitive (False)
-		if len(self.redo_list) > 0:
-			self.redo.set_sensitive (True)
-		else:
-			self.redo.set_sensitive (False)
+		self.undo.set_sensitive(len(self.undo_list) > 0)
+		self.redo.set_sensitive(len(self.redo_list) > 0)
 
 	def undo_action (self, arg):
 		result = self.undo_list.pop()
@@ -220,7 +214,6 @@ class UndoManager:
 			self.undo_list.append (back)
 		self.undo_list.append (UndoAction (owner, TRANSFORM_CANVAS, cb, orig_zoom,
 										   final_zoom, orig_trans, final_trans))
-
 
 	def peak (self):
 		if len (self.undo_list) > 0:

@@ -53,7 +53,6 @@ class ExtendedBuffer(gtk.TextBuffer):
 		self.connect_after('mark-set',self.mark_set_cb)
 		self.bold_block = False
 		self.italic_block = False
-		
 	
 	def undo_action (self, action, mode):
 		self.undo.block ()
@@ -306,8 +305,4 @@ class ExtendedBuffer(gtk.TextBuffer):
 			self.undo.add_undo(UndoManager.UndoAction(self, REMOVE_ATTR, self.undo_attr,
 													  "underline", selection))
 				
-		
-		
-		
-		
 		
