@@ -1,3 +1,8 @@
+2008-04-11 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/MMapArea.py
+	Use a 1-pixel-wide border line for selection box.
+
 2008-04-11 Martin Schaaf <mascha@ma-scha.de>
 
 	* src/MainWindow.py

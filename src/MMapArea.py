@@ -755,7 +755,7 @@ class MMapArea (gtk.DrawingArea):
 		context.scale(self.scale_fac, self.scale_fac)
 		context.translate(-alloc.width/2., -alloc.height/2.)		
 		context.translate(self.translation[0], self.translation[1])
-
+		
 		for l in self.links:
 			l.draw (context)
 			
@@ -781,17 +781,27 @@ class MMapArea (gtk.DrawingArea):
 			ys = self.bbox_origin[1]
 			xe = self.bbox_current[0] - xs
 			ye = self.bbox_current[1] - ys
+			
+			xs,ys = context.user_to_device(xs, ys)
+			xe,ye = context.user_to_device_distance(xe, ye)
+			xs = int(xs) + 0.5
+			ys = int(ys) + 0.5
+			xe = int(xe)
+			ye = int(ye)
+			xs,ys = context.device_to_user(xs, ys)
+			xe,ye = context.device_to_user_distance(xe, ye)
 
 			color = utils.selected_colors["border"]
-			context.set_line_width(0.5)
+			context.set_line_width(1.0)
 			context.set_source_rgb(color[0], color[1], color[2])
 			context.rectangle(xs, ys, xe, ye)
 			context.stroke()
+			
 			color = utils.selected_colors["fill"]
 			context.set_source_rgba(color[0], color[1], color[2], 0.3)
 			context.rectangle(xs, ys, xe, ye)
 			context.fill()
-			context.set_line_width(1.5)
+			context.set_line_width(2.0)
 			context.set_source_rgba(0.0, 0.0, 0.0, 1.0)
 
 	def undo_create_cb (self, action, mode):
