@@ -296,8 +296,7 @@ class Browser (gtk.Window):
 		width, height = self.main_window.get_size()
 
 		if os.name != 'nt':
-			self.config_client.set_bool('/apps/labyrinth/curves', utils.use_bezier_curves)
-			self.config_client.set_int('/apps/labyrinth/width',width)
+			self.config_client.set_int('/apps/labyrinth/width', width)
 			self.config_client.set_int('/apps/labyrinth/height', height)
 		
 		gtk.main_quit ()

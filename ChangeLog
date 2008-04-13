@@ -1,5 +1,12 @@
 2008-04-13 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* src/Browser.py
+	* src/MainWindow.py
+	Address some problems with the sidebar (Issue 94) such as
+	auto-showing and expanding.
+
+2008-04-13 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* src/MMapArea.py
 	Implemented issue 100. However it feels rather strange, so
 	it should be tested with users.

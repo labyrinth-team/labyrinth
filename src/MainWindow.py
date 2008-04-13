@@ -35,6 +35,8 @@ import xml.dom.minidom as dom
 import PeriodicSaveThread
 import ImageThought
 import BaseThought
+if os.name != 'nt':
+	import gconf
 
 # UNDO varieties for us
 UNDO_MODE = 0
@@ -76,6 +78,7 @@ class LabyrinthWindow (gobject.GObject):
 		self.MainArea.connect ("set_attrs", self.attrs_cb)
 		if os.name != 'nt':
 			self.MainArea.connect ("text_selection_changed", self.selection_changed_cb)
+			self.config_client = gconf.client_get_default()
 
 		glade = gtk.glade.XML(utils.get_data_file_name('labyrinth.glade'))
 		self.main_window = glade.get_widget ('MapWindow')
@@ -206,16 +209,21 @@ class LabyrinthWindow (gobject.GObject):
 		self.view_type = 0
 		if self.set_val:
 			self.act.set_current_value (self.mode)
-		self.ext_act.set_active (self.extended_visible)
-
+		
 		self.undo.unblock ()
 		self.start_timer ()
 
 	def show(self):
 		self.main_window.show_all()
+		self.ext_act.set_active(self.extended_visible)
 		if not self.extended_visible:
-			self.extended_window.hide ()
-		self.tree_view.hide ()
+			self.extended_window.hide()
+		if os.name != 'nt':
+			if not self.config_client.get_bool('/apps/labyrinth/show_tree_view'):
+				self.tree_view.hide()
+			else:
+				self.tree_view.expand_all()
+				self.ui.get_widget('/MenuBar/ViewMenu/ViewOutline').set_active(True)
 
 	def create_menu (self):
 		actions = [
@@ -331,6 +339,8 @@ class LabyrinthWindow (gobject.GObject):
 			self.tree_view.show()
 		else:
 			self.tree_view.hide()
+		if os.name != 'nt':
+			self.config_client.set_bool('/apps/labyrinth/show_tree_view', arg.get_active())
 			
 	def show_main_toolbar_cb(self, arg):
 		if arg.get_active():
@@ -346,6 +356,8 @@ class LabyrinthWindow (gobject.GObject):
 			
 	def view_change_cb(self, base, activated):
 		utils.use_bezier_curves = activated.get_current_value() == MMapArea.VIEW_BEZIER
+		if os.name != 'nt':
+			self.config_client.set_bool('/apps/labyrinth/curves', utils.use_bezier_curves)
 		self.MainArea.update_all_links()
 		self.MainArea.invalidate()
 
