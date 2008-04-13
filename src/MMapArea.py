@@ -335,10 +335,19 @@ class MMapArea (gtk.DrawingArea):
 			self.translation = action.args[3]
 		self.invalidate ()
 
-	def scroll (self, widget, event):
+	def scroll (self, widget, event):	
 		scale = self.scale_fac
 		if event.direction == gtk.gdk.SCROLL_UP:
 			self.scale_fac*=1.2
+			
+			# The following code is used to zoom where the cursor is currently
+			# located. It feels quite awkward but is requested by issue 100.
+			coords = self.transform_coords(event.x, event.y)
+			geom = self.window.get_geometry()
+			middle = self.transform_coords(geom[2]/2.0, geom[3]/2.0)
+
+			self.translation[0] -= coords[0] - middle[0]
+			self.translation[1] -= coords[1] - middle[1]
 		elif event.direction == gtk.gdk.SCROLL_DOWN:
 			self.scale_fac/=1.2
 		self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.TRANSFORM_CANVAS, \

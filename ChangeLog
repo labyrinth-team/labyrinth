@@ -1,3 +1,9 @@
+2008-04-13 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/MMapArea.py
+	Implemented issue 100. However it feels rather strange, so
+	it should be tested with users.
+
 2008-04-11 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/DrawingThought.py
