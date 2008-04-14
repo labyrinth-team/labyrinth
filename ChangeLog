@@ -1,3 +1,8 @@
+2008-04-14 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* help/
+	Initial import of user manual.
+
 2008-04-13 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/Browser.py
