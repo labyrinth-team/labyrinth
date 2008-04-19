@@ -200,9 +200,8 @@ class LabyrinthWindow (gobject.GObject):
 		self.width, self.height = self.main_window.get_size ()
 		
 		# if we import, we dump the old filename to create a new hashed one
-		if imported:
-			self.save_file = None
-		else:
+		self.save_file = None
+		if not imported:
 			self.save_file = filename
 
 		self.maximised = False
@@ -505,33 +504,24 @@ class LabyrinthWindow (gobject.GObject):
 	def mode_change_cb (self, base, activated):
 		self.MainArea.set_mode (activated.get_current_value ())
 		self.mode = activated.get_current_value ()
-		return
 
 	def mode_request_cb (self, widget, mode):
 		if self.set_val:
 			self.act.set_current_value (mode)
-		else:
-			pass
 
 	def title_changed_cb (self, widget, new_title):
-		self.title_cp = ''
-		if new_title == '':
-			self.title_cp = _('Untitled Map')
-		else:
+		self.title_cp = self.title_cp = _('Untitled Map')
+		if new_title != '':
 			split = new_title.splitlines ()
-			if split:
-				final = split.pop ()
-				for s in split:
-					self.title_cp += s
-					self.title_cp += ' '
-				self.title_cp += final
+			self.title_cp = reduce(lambda x,y : x + ' ' + y, split)
+			
 		if len(self.title_cp) > 27:
-			x = self.title_cp[0:27]+"..."
-			self.main_window.set_title (x)
+			x = self.title_cp[:27] + "..."
+			self.emit ("title-changed", x, self)
 		else:
-			self.main_window.set_title (self.title_cp)
-		self.emit ("title-changed", self.title_cp, self)
-
+			self.emit ("title-changed", self.title_cp, self)
+		self.main_window.set_title (self.title_cp)
+	
 	def delete_cb (self, event):
 		self.MainArea.delete_selected_elements ()
 
@@ -630,8 +620,6 @@ class LabyrinthWindow (gobject.GObject):
 		y -= 24
 		self.main_window.move (int (x), int (y))
 
-		#print "Setting title"
-		#self.set_title (self.title_cp)
 		self.MainArea.set_mode (self.mode)
 		self.MainArea.load_thyself (top_element, doc)
 		if top_element.hasAttribute("scale_factor"):
@@ -763,32 +751,32 @@ class LabyrinthWindow (gobject.GObject):
 			clip.clear ()
 
 	def edit_activated_cb (self, menu):
-			# FIXME: Keybindings should also be deactivated.
-			self.cut.set_sensitive (False)
-			self.copy.set_sensitive (False)
-			self.paste.set_sensitive (False)
-			self.link.set_sensitive (False)
-			if self.extended.is_focus ():
-				self.paste.set_sensitive (True)
-				stend = self.extended.get_buffer().get_selection_bounds()
-				if len (stend) > 1:
-					start,end = stend
-				else:
-					start = end = stend
+		# FIXME: Keybindings should also be deactivated.
+		self.cut.set_sensitive (False)
+		self.copy.set_sensitive (False)
+		self.paste.set_sensitive (False)
+		self.link.set_sensitive (False)
+		if self.extended.is_focus ():
+			self.paste.set_sensitive (True)
+			stend = self.extended.get_buffer().get_selection_bounds()
+			if len (stend) > 1:
+				start, end = stend
 			else:
-				start, end = self.MainArea.get_selection_bounds ()
-				try:
-					if self.mode == MMapArea.MODE_EDITING and len(self.MainArea.selected) and \
-					   self.MainArea.selected[0].editing:
-						self.paste.set_sensitive (True)
-				except AttributeError:
-					pass
-				if len (self.MainArea.selected) == 2:
-					self.link.set_sensitive (True)
+				start = end = stend
+		else:
+			start, end = self.MainArea.get_selection_bounds ()
+			try:
+				if self.mode == MMapArea.MODE_EDITING and len(self.MainArea.selected) and \
+				   self.MainArea.selected[0].editing:
+					self.paste.set_sensitive (True)
+			except AttributeError:
+				pass
+			if len (self.MainArea.selected) == 2:
+				self.link.set_sensitive (True)
 
-			if start and start != end:
-				self.cut.set_sensitive (True)
-				self.copy.set_sensitive (True)
+		if start and start != end:
+			self.cut.set_sensitive (True)
+			self.copy.set_sensitive (True)
 
 	def cut_text_cb (self, event):
 		clip = gtk.Clipboard ()
