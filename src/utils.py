@@ -149,7 +149,7 @@ def margin_thought_classic ():
 def gtk_to_cairo_color(color):
 	return (color.red / 65535.0, color.green / 65535.0, color.blue / 65535.0)
 
-def draw_thought_extended (context, ul, lr, am_root, am_primary, background_color, fatborder=False):
+def draw_thought_extended (context, ul, lr, am_root, am_primary, background_color, fatborder=False, dashborder=False):
 	context.move_to (ul[0], ul[1]+5)
 	context.line_to (ul[0], lr[1]-5)
 	context.curve_to (ul[0], lr[1], ul[0], lr[1], ul[0]+5, lr[1])
@@ -169,6 +169,8 @@ def draw_thought_extended (context, ul, lr, am_root, am_primary, background_colo
 		context.set_source_rgb (r, g, b)
 	context.fill_preserve ()
 	context.set_source_rgb (0,0,0)
+	if dashborder:
+		context.set_dash([4.0], 0.0)
 	if fatborder:
 		orig_line_width = context.get_line_width ()
 		context.set_line_width (5.0)
@@ -176,6 +178,9 @@ def draw_thought_extended (context, ul, lr, am_root, am_primary, background_colo
 		context.set_line_width (orig_line_width)
 	else:
 		context.stroke ()
+		
+	if dashborder:
+		context.set_dash([], 0.0)	
 		
 # Export outline stuff
 def export_thought_outline (context, ul, lr, background_color, am_root = False, am_primary = False, style=STYLE_NORMAL, move=(0,0)):

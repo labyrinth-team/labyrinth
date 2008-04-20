@@ -36,8 +36,8 @@ UNDO_REMOVE_ATTR=66
 UNDO_REMOVE_ATTR_SELECTION=67
 
 class TextThought (BaseThought.BaseThought):
-	def __init__ (self, coords, pango_context, thought_number, save, undo, loading, background_color, foreground_color):
-		super (TextThought, self).__init__(save, "thought", undo, background_color, foreground_color)
+	def __init__ (self, coords, pango_context, thought_number, save, undo, loading, background_color, foreground_color, name="thought"):
+		super (TextThought, self).__init__(save, name, undo, background_color, foreground_color)
 
 		self.index = 0
 		self.end_index = 0

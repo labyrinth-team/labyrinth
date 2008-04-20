@@ -37,6 +37,7 @@ import Links
 import TextThought
 import ImageThought
 import DrawingThought
+import ResourceThought
 import UndoManager
 import utils
 
@@ -48,6 +49,7 @@ RAD_RIGHT = (0)
 MODE_EDITING = 0
 MODE_IMAGE = 1
 MODE_DRAW = 2
+MODE_RESOURCE = 3
 # Until all references of MODE_MOVING are removed...
 MODE_MOVING = 999
 
@@ -57,6 +59,7 @@ VIEW_BEZIER = 1
 TYPE_TEXT = 0
 TYPE_IMAGE = 1
 TYPE_DRAWING = 2
+TYPE_RESOURCE = 3
 
 # TODO: Need to expand to support popup menus
 MENU_EMPTY_SPACE = 0
@@ -632,6 +635,7 @@ class MMapArea (gtk.DrawingArea):
 
 	def create_link (self, thought, thought_coords = None, child = None, child_coords = None, strength = 2):
 		if child:
+			self.add_thought_to_model(child)
 			for x in self.links:
 				if x.connects (thought, child):
 					if x.change_strength (thought, child):
@@ -857,6 +861,8 @@ class MMapArea (gtk.DrawingArea):
 		elif type == TYPE_DRAWING:
 			thought = DrawingThought.DrawingThought (coords, self.pango_context, self.nthoughts, self.save, self.undo,	\
 													 loading,self.background_color, self.foreground_color)
+		elif type == TYPE_RESOURCE:
+			thought = ResourceThought.ResourceThought (coords, self.pango_context, self.nthoughts, self.save, self.undo, loading, self.background_color, self.foreground_color)
 		if not thought.okay ():
 			return None
 
@@ -1169,6 +1175,8 @@ class MMapArea (gtk.DrawingArea):
 				self.load_thought (node, TYPE_IMAGE)
 			elif node.nodeName == "drawing_thought":
 				self.load_thought (node, TYPE_DRAWING)
+			elif node.nodeName == "res_thought":
+				self.load_thought (node, TYPE_RESOURCE)
 			elif node.nodeName == "link":
 				self.load_link (node)
 			else:
