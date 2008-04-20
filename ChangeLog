@@ -1,3 +1,14 @@
+2008-04-20 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/ResourceThought.py
+	* src/TextThought.py
+	* src/MainWindow.py
+	* src/MMapArea.py
+	* src/utils.py
+	* data/labyrinth-ui.xml
+	* data/labyrinth.glade
+	Add resource thoughts, tackling issue 101.
+
 2008-04-19 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/labyrinth.py
