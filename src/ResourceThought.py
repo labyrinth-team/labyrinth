@@ -27,6 +27,8 @@ import prefs
 import UndoManager
 import os
 import webbrowser
+import gettext
+_ = gettext.gettext
 
 class ResourceThought (TextThought.TextThought):
 	def __init__ (self, coords, pango_context, thought_number, save, undo, loading, background_color, foreground_color):
@@ -55,6 +57,8 @@ class ResourceThought (TextThought.TextThought):
 			self.emit ("select_thought", event.state & modifiers)
 		if event.button == 1 and mode == BaseThought.MODE_EDITING and event.type == gtk.gdk._2BUTTON_PRESS:
 			webbrowser.open(self.uri)
+		elif event.button == 3:
+			self.emit ("popup_requested", event, 1)
 			
 	def update_save (self):
 		super(ResourceThought, self).update_save()
@@ -107,3 +111,14 @@ class ResourceThought (TextThought.TextThought):
 			context.stroke ()
 		context.set_source_rgb (0,0,0)
 		context.stroke ()
+		
+	def get_popup_menu_items(self):
+		image = gtk.Image()
+		image.set_from_stock(gtk.STOCK_EDIT, gtk.ICON_SIZE_MENU)
+		item = gtk.ImageMenuItem(_('Edit Text'))
+		item.set_image(image)
+		item.connect('activate', self.edit_cb)
+		return [item]
+		
+	def edit_cb(self, widget):
+		self.emit ("begin_editing")

@@ -1,3 +1,8 @@
+2008-04-29 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/ResourceThought.py
+	Allow editing of a resource thought through right click.
+
 2008-04-20 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/ResourceThought.py
