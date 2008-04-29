@@ -36,7 +36,7 @@ class ResourceThought (TextThought.TextThought):
 
 		self.uri = ""
 		if not loading:
-			# FIXME: we should handle such things with a singleton
+			# TODO: we should handle such things with a singleton
 			glade = gtk.glade.XML(utils.get_data_file_name('labyrinth.glade'))
 			dialog = glade.get_widget('ResourceChooserDialog')
 			dialog.add_buttons(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
@@ -48,6 +48,7 @@ class ResourceThought (TextThought.TextThought):
 				# FIXME: validate input
 				self.uri = glade.get_widget('urlEntry').get_text()
 				self.add_text(self.uri)
+				self.rebuild_byte_table()
 				
 		self.all_okay = True
 
@@ -72,8 +73,6 @@ class ResourceThought (TextThought.TextThought):
 		if not self.layout:
 			self.recalc_edges ()
 		if not self.editing:
-			# We should draw the entire bounding box around ourselves
-			# We should also have our coordinates figured out.	If not, scream!
 			if not self.ul or not self.lr:
 				print "Warning: Trying to draw unfinished box "+str(self.identity)+". Aborting."
 				return

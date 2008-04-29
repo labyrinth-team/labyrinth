@@ -294,7 +294,7 @@ class LabyrinthWindow (gobject.GObject):
 		self.ui.insert_action_group (ag, 0)
 		self.ui.add_ui_from_file (utils.get_data_file_name('labyrinth-ui.xml'))
 		self.main_window.add_accel_group (self.ui.get_accel_group ())
-		
+				
 	def create_tree_view(self, glade):
 		self.tree_model = gtk.TreeStore(gobject.TYPE_STRING)
 		self.tree_view = glade.get_widget('outline_treeview')

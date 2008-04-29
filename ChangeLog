@@ -1,6 +1,12 @@
 2008-04-29 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/ResourceThought.py
+	* src/MainWindow.py
+	Fix severe bug on resource thought creation.
+
+2008-04-29 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/ResourceThought.py
 	Allow editing of a resource thought through right click.
 
 2008-04-20 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
