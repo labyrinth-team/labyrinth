@@ -797,7 +797,7 @@ class LabyrinthWindow (gobject.GObject):
 	def paste_text_cb (self, event):
 		clip = gtk.Clipboard ()
 		if self.extended.is_focus ():
-			self.extended.get_buffer().paste_clipboard (clip)
+			self.extended.get_buffer().paste_clipboard (clip, None, True)
 		else:
 			self.MainArea.paste_clipboard (clip)
 
