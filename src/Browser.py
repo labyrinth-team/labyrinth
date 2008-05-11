@@ -33,6 +33,8 @@ import MainWindow
 from MapList import MapList
 import TrayIcon
 import pango
+import gnome
+import gobject
 
 import gettext
 _ = gettext.gettext
@@ -77,8 +79,12 @@ class Browser (gtk.Window):
 		self.glade.get_widget('import1').connect ('activate', self.import_clicked)
 		self.glade.get_widget('quit1').connect ('activate', self.quit_clicked)
 		self.glade.get_widget('about1').connect ('activate', self.about_clicked)
+		self.glade.get_widget('showhelp').connect ('activate', self.show_help_clicked)
 
 		map(lambda x : x.set_sensitive(False), self.view_dependants)
+
+		props = { gnome.PARAM_APP_DATADIR : '/usr/share' }
+		prog = gnome.program_init('labyrinth', '0.5', properties=props)
 
 		self.main_window = self.glade.get_widget ('MapBrowser')
 		
@@ -180,6 +186,12 @@ class Browser (gtk.Window):
 			# may be the window should be raised?
 		else:
 			self.open_map (map)
+
+	def show_help_clicked(self, arg):
+		try:
+			gnome.help_display('labyrinth')
+		except gobject.GError, e:
+			print _('Unable to display help: %s') % str(e)
 
 	def about_clicked (self, arg):
 		about_dialog = gtk.AboutDialog ()

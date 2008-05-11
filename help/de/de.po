@@ -1,0 +1,327 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Labyrinth 0.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-05-12 00:12+0200\n"
+"PO-Revision-Date: 2008-05-12 00:17+0200\n"
+"Last-Translator: Matthias Vogelgesang <matthias.vogelgesang@gmail.com>\n"
+"Language-Team: Project-Id-Version: gtranslator 1.1.5"
+"Report-Msgid-Bugs-To: "
+"POT-Creation-Date: 2004-08-31 20:57+0200"
+"PO-Revision-Date: 2004-08-31 20:58+0200"
+"Last-Translator: Hendrik Brandt <eru@gmx.li>"
+"Language-Team: German <gnome-de@gnome.org>"
+"MIME-Version: 1.0"
+"Content-Type: text/plain; charset=UTF-8"
+"Content-Transfer-Encoding: 8bit"
+"Plural-Forms: nplurals=2; plural=(n != 1); <Project-Id-Version: gtranslator 1.1.5"
+"Report-Msgid-Bugs-To: "
+"POT-Creation-Date: 2004-08-31 20:57+0200"
+"PO-Revision-Date: 2004-08-31 20:58+0200"
+"Last-Translator: Hendrik Brandt <eru@gmx.li>"
+"Language-Team: German <gnome-de@gnome.org>"
+"MIME-Version: 1.0"
+"Content-Type: text/plain; charset=UTF-8"
+"Content-Transfer-Encoding: 8bit"
+"Plural-Forms: nplurals=2; plural=(n != 1);>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit"
+
+#. When image changes, this message will be marked fuzzy or untranslated for you.
+#. It doesn't matter what you translate it to: it's not used at all.
+#: labyrinth.xml:206(None) 
+msgid "@@image: 'figures/myapp_start_window.png'; md5=THIS FILE DOESN'T EXIST"
+msgstr ""
+
+#: labyrinth.xml:22(title) 
+msgid "<application>Labyrinth</application> Manual V1.0"
+msgstr "<application>Labyrinth</application> Manual V1.0"
+
+#: labyrinth.xml:25(year) 
+msgid "2008"
+msgstr "2008"
+
+#: labyrinth.xml:26(holder) 
+msgid "Matthias Vogelgesang"
+msgstr "Matthias Vogelgesang"
+
+#: labyrinth.xml:40(publishername) labyrinth.xml:53(orgname) labyrinth.xml:61(orgname) labyrinth.xml:103(para) labyrinth.xml:113(para) 
+msgid "GNOME Documentation Project"
+msgstr ""
+
+#: labyrinth.xml:50(firstname) labyrinth.xml:58(firstname) 
+msgid "Documentation"
+msgstr "Dokumentation"
+
+#: labyrinth.xml:51(surname) 
+msgid "Writer 2"
+msgstr ""
+
+#: labyrinth.xml:54(email) 
+msgid "doc-writer2@gnome.org"
+msgstr ""
+
+#: labyrinth.xml:59(surname) 
+msgid "Writer 1"
+msgstr ""
+
+#: labyrinth.xml:62(email) 
+msgid "doc-writer1@gnome.org"
+msgstr ""
+
+#: labyrinth.xml:97(revnumber) 
+msgid "Labyrinth Manual V1.0"
+msgstr "Labyrinth Manual V1.0"
+
+#: labyrinth.xml:100(para) 
+msgid "Documentation Writer 2 <email>docwriter2@gnome.org</email>"
+msgstr ""
+
+#: labyrinth.xml:107(revnumber) 
+msgid "Full title of previous manual."
+msgstr ""
+
+#: labyrinth.xml:108(date) 
+msgid "Release date of previous manual."
+msgstr ""
+
+#: labyrinth.xml:110(para) 
+msgid "Documentation Writer 1 <email>docwriter1@gnome.org</email>"
+msgstr ""
+
+#: labyrinth.xml:118(releaseinfo) 
+msgid "This manual describes version 0.5.0 of Labyrinth"
+msgstr "Dieses Manual beschreibt Labyrinth Version 0.5.0"
+
+#: labyrinth.xml:121(title) 
+msgid "Feedback"
+msgstr ""
+
+#: labyrinth.xml:122(para) 
+msgid "To report a bug or make a suggestion regarding the <application>Labyrinth</application> application or this manual, follow the directions in the <ulink url=\"ghelp:gnome-feedback\" type=\"help\">GNOME Feedback Page</ulink>."
+msgstr ""
+
+#: labyrinth.xml:131(primary) 
+msgid "MY-GNOME-APP"
+msgstr ""
+
+#: labyrinth.xml:134(primary) 
+msgid "mygnomeapp"
+msgstr ""
+
+#: labyrinth.xml:140(title) 
+msgid "Introduction"
+msgstr ""
+
+#: labyrinth.xml:141(para) 
+msgid "<application>Labyrinth</application> is a light-weight mind-mapping tool to structure one's thoughts. <application>Labyrinth</application> provides the following features:"
+msgstr ""
+
+#: labyrinth.xml:145(para) 
+msgid "Export maps as:"
+msgstr "Exportiert Maps als:"
+
+#: labyrinth.xml:148(para) 
+msgid "PDF - Portable Document Format"
+msgstr "PDF - Portable Document Format"
+
+#: labyrinth.xml:151(para) 
+msgid "SVG - Scalable Vector Graphics"
+msgstr "SVG - Scalable Vector Graphics"
+
+#: labyrinth.xml:154(para) 
+msgid "JPEG - Joint Photographic Experts Group"
+msgstr "JPEG - Joint Photographic Experts Group"
+
+#: labyrinth.xml:157(para) 
+msgid "PNG - Portable Network Graphics"
+msgstr "PNG - Portable Network Graphics"
+
+#: labyrinth.xml:166(title) 
+msgid "Getting Started"
+msgstr ""
+
+#: labyrinth.xml:169(title) 
+msgid "To Start <application>Labyrinth</application>"
+msgstr "<application>Labyrinth</application> starten"
+
+#: labyrinth.xml:170(para) 
+msgid "You can start <application><application>Labyrinth</application></application> in the following ways:"
+msgstr ""
+
+#: labyrinth.xml:174(term) 
+msgid "<guimenu>Applications</guimenu> menu"
+msgstr ""
+
+#: labyrinth.xml:176(para) 
+msgid "Choose <menuchoice><guisubmenu>Office</guisubmenu><guimenuitem>Labyrinth</guimenuitem></menuchoice>."
+msgstr ""
+
+#: labyrinth.xml:184(term) 
+msgid "Command line"
+msgstr ""
+
+#: labyrinth.xml:186(para) 
+msgid "To start <application><application>Labyrinth</application></application> from a command line, type the following command, then press <keycap>Return</keycap>:"
+msgstr ""
+
+#: labyrinth.xml:189(command) 
+msgid "labyrinth"
+msgstr ""
+
+#: labyrinth.xml:197(title) 
+msgid "When You Start <application>Labyrinth</application>"
+msgstr ""
+
+#: labyrinth.xml:198(para) 
+msgid "When you start <application><application>Labyrinth</application></application>, the following window is displayed."
+msgstr ""
+
+#: labyrinth.xml:202(title) 
+msgid "<application>Labyrinth</application> Start Up Window"
+msgstr ""
+
+#: labyrinth.xml:215(phrase) 
+msgid "Shows <application>Labyrinth</application> main window. Contains titlebar, menubar, toolbar, display area, and scrollbars. Menubar contains File, View, Settings, and Help menus."
+msgstr ""
+
+#. for example, the items on the menubar and on the toolbar. This section is optional.
+#: labyrinth.xml:226(para) 
+msgid "The <application>Labyrinth</application> browser window contains the following elements:"
+msgstr ""
+
+#: labyrinth.xml:230(term) 
+msgid "Menubar."
+msgstr ""
+
+#: labyrinth.xml:232(para) 
+msgid "The menus on the menubar contain all of the commands you need to work with files in <application><application>Labyrinth</application></application>."
+msgstr ""
+
+#: labyrinth.xml:237(term) 
+msgid "Toolbar."
+msgstr ""
+
+#: labyrinth.xml:239(para) 
+msgid "The toolbar contains a subset of the commands that you can access from the menubar."
+msgstr ""
+
+#: labyrinth.xml:249(title) 
+msgid "Usage"
+msgstr ""
+
+#: labyrinth.xml:250(para) 
+msgid "You can use the <application>Labyrinth</application> application to perform the following tasks: <placeholder-1/>"
+msgstr ""
+
+#: labyrinth.xml:272(title) 
+msgid "To Open an Image"
+msgstr ""
+
+#: labyrinth.xml:273(para) 
+msgid "To open an image, choose <menuchoice><guimenu>File</guimenu><guimenuitem>Open Image</guimenuitem></menuchoice>. The <guilabel>Open Image</guilabel> dialog is displayed. Select the file that you want to open, then click <guibutton>OK</guibutton>. To open another image in a new window, choose <menuchoice><guimenu>File</guimenu><guimenuitem>Create New Window</guimenuitem></menuchoice>. Choose <menuchoice><guimenu>File</guimenu><guimenuitem>Open Image</guimenuitem></menuchoice> to select the file that you want to open. You can also drag an image from another application such as a file manager to the <application>Labyrinth</application> window. If the <application>Labyrinth</application> window is empty, the application displays the image in the window. If the window is not empty, the application starts a new window to display the file. The application displays the name of the image file and the size of the image in pixels in the titlebar of the window."
+msgstr ""
+
+#: labyrinth.xml:297(para) 
+msgid "If you try to open an image file format that <application>Labyrinth</application> does not recognize, the application displays an error message."
+msgstr ""
+
+#: labyrinth.xml:303(para) 
+msgid "This is a caution."
+msgstr ""
+
+#: labyrinth.xml:308(title) 
+msgid "To Manipulate the View of an Image"
+msgstr ""
+
+#: labyrinth.xml:309(para) 
+msgid "You can use the following methods to resize the view of an image in the <application>Labyrinth</application> window:"
+msgstr ""
+
+#: labyrinth.xml:313(para) 
+msgid "To enlarge the view of an image, choose <menuchoice><guimenu>View</guimenu><guimenuitem>Zoom In</guimenuitem></menuchoice>."
+msgstr ""
+
+#: labyrinth.xml:320(para) 
+msgid "To shrink the view of an image, choose <menuchoice><guimenu>View</guimenu><guimenuitem>Zoom Out</guimenuitem></menuchoice>."
+msgstr ""
+
+#: labyrinth.xml:327(para) 
+msgid "To view the image at its actual size, choose <menuchoice><guimenu>View</guimenu><guimenuitem>Zoom 1:1</guimenuitem></menuchoice>."
+msgstr ""
+
+#: labyrinth.xml:334(para) 
+msgid "To enlarge or shrink the view of an image so that the image fits the <application>Labyrinth</application> window, choose <menuchoice><guimenu>View</guimenu><guimenuitem>Fit to Window</guimenuitem></menuchoice>."
+msgstr ""
+
+#: labyrinth.xml:342(para) 
+msgid "To enlarge or shrink the image to a specific zoom factor, choose <menuchoice><guimenu>View</guimenu><guimenuitem>Zoom factor</guimenuitem></menuchoice>, then choose the appropriate zoom factor from the drop-down list."
+msgstr ""
+
+#: labyrinth.xml:351(para) 
+msgid "To display the image in full screen mode, choose <menuchoice><guimenu>View</guimenu><guimenuitem>Full Screen</guimenuitem></menuchoice>. Full screen mode displays the image in a window that fills the full screen. The window does not contain a window frame, titlebar, menubar, or toolbar. To exit from this mode, press the <keycap>Esc</keycap> key or <keycombo><keycap>Ctrl</keycap><keycap>W</keycap></keycombo>."
+msgstr ""
+
+#: labyrinth.xml:368(para) 
+msgid "This is a tip."
+msgstr ""
+
+#: labyrinth.xml:373(title) 
+msgid "To Scroll an Image"
+msgstr ""
+
+#: labyrinth.xml:374(para) 
+msgid "To scroll around an image that is larger than the image window or full screen window, you can use the following methods:"
+msgstr ""
+
+#: labyrinth.xml:378(para) 
+msgid "Use the arrow keys on the keyboard."
+msgstr ""
+
+#: labyrinth.xml:381(para) 
+msgid "Drag the image in the opposite direction to the direction in which you want to scroll. For example, if you want to scroll down the image, drag the image upwards in the window."
+msgstr ""
+
+#: labyrinth.xml:387(para) 
+msgid "Use the scrollbars on the window."
+msgstr ""
+
+#: labyrinth.xml:393(title) 
+msgid "To Close an Image"
+msgstr ""
+
+#: labyrinth.xml:394(para) 
+msgid "To close an image, choose <menuchoice><guimenu>File</guimenu><guimenuitem>Close This Window</guimenuitem></menuchoice>. If the window is the last <application>Labyrinth</application> window open, the application exits."
+msgstr ""
+
+#: labyrinth.xml:400(para) 
+msgid "To quit <application>Labyrinth</application> and close all of the windows that you opened in the current session, choose <menuchoice><guimenu>File</guimenu><guimenuitem>Exit</guimenuitem></menuchoice>."
+msgstr ""
+
+#: labyrinth.xml:407(para) 
+msgid "This is a warning."
+msgstr ""
+
+#: labyrinth.xml:424(title) 
+msgid "About <application>Labyrinth</application>"
+msgstr ""
+
+#: labyrinth.xml:425(para) 
+msgid "<application>Labyrinth</application> was written by Don Scorgio, Martin Schaaf and Matthias Vogelgesang. (<email>hacker@gnome.org</email>). To find more information about <application>Labyrinth</application>, please visit the <ulink url=\"http://www.gnome.org/~dscorgie/labyrinth.html\" type=\"http\">Labyrinth Web page</ulink>."
+msgstr ""
+
+#: labyrinth.xml:430(para) 
+msgid "To report a bug or make a suggestion regarding this application or this manual, follow the directions in this <ulink url=\"ghelp:gnome-feedback\" type=\"help\">document</ulink>."
+msgstr ""
+
+#: labyrinth.xml:436(para) 
+msgid "This program is distributed under the terms of the GNU General Public license as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version. A copy of this license can be found at this <ulink url=\"ghelp:gpl\" type=\"help\">link</ulink>, or in the file COPYING included with the source code of this program."
+msgstr ""
+
+#. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2.
+#: labyrinth.xml:0(None) 
+msgid "translator-credits"
+msgstr ""
+

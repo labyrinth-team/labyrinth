@@ -1,4 +1,4 @@
-SUBDIRS = data doc src po
+SUBDIRS = data doc src po help
 
 DISTCLEANFILES = \
 	intltool-extract \
