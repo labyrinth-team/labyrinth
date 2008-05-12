@@ -1,5 +1,13 @@
 2008-05-12 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* help/C/figures
+	* help/C/figures/lab_browser_start.png
+	* help/C/figures/lab_map_start.png
+	* help/C/labyrinth.xml
+	More help.
+
+2008-05-12 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* src/Browser.py
 	* help/de
 	* help/de/de.po

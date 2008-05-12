@@ -92,29 +92,6 @@
 <!-- is written in that desktop timeframe is V2.0, the second version of the manual is V2.1, etc. -->
 <!-- When the desktop release version changes to V3.x, the revision number of the manual changes -->
 <!-- to V3.0, and so on. -->  
-    <revhistory>
-      <revision> 
-		<revnumber>Labyrinth Manual V&manrevision;</revnumber> 
-		<date>&date;</date> 
-		<revdescription> 
-	  		<para role="author">Documentation Writer 2
-	    	<email>docwriter2@gnome.org</email>
-	  		</para>
-	  		<para role="publisher">GNOME Documentation Project</para>
-		</revdescription> 
-      </revision> 
-      <revision> 
-		<revnumber>Full title of previous manual.</revnumber> 
-		<date>Release date of previous manual.</date> 
-		<revdescription> 
-	  		<para role="author">Documentation Writer 1 
-	    	<email>docwriter1@gnome.org</email>
-	  		</para>
-	  		<para role="publisher">GNOME Documentation Project</para>
-		</revdescription> 
-      </revision> 
-    </revhistory> 
-
     <releaseinfo>This manual describes version &appversion; of Labyrinth
     </releaseinfo> 
     <legalnotice> 
@@ -198,12 +175,12 @@
     <para>When you start <application>&app;</application>, the following window is displayed.</para>
 
     <!-- ==== Figure ==== -->
-      <figure id="mainwindow-fig"> 
+    <figure id="browserwindow-fig"> 
 	<title>&app; Start Up Window</title> 
 	<screenshot> 
 	  <mediaobject> 
 	    <imageobject><imagedata
-		fileref="figures/myapp_start_window.png" format="PNG"/> 
+		fileref="figures/lab_browser_start.png" format="PNG"/> 
 	    </imageobject>
 	    <!-- EPS versions of the figures are not required at the moment. -->
             <!-- 
@@ -212,8 +189,7 @@
     		    </imageobject>
 	    -->
 	    <textobject> 
-	      <phrase>Shows &app; main window. Contains titlebar, menubar, toolbar, display area, and
-	      scrollbars. Menubar contains File, View, Settings, and Help menus. </phrase> 
+	      <phrase>Shows &app; browser window. Contains titlebar, menubar, toolbar and the map list area. Menubar contains File and Help menus.</phrase> 
 	    </textobject> 
 	  </mediaobject> 
 	</screenshot> 
@@ -246,167 +222,172 @@
 <!-- Use this section to describe how to use the application to perform the tasks for 
   which the application is designed. -->
   <sect1 id="myapp-usage"> 
-    <title>Usage</title> 
-    <para>You can use the &app; application to
-      perform the following tasks: 
+    <title>Basic Usage</title> 
+    <para>You can use the &app; application to perform the following tasks: 
       <itemizedlist> 
 	<listitem> 
 	  <para> 
-	    <xref linkend="myapp-open-image"/></para> 
+	    <xref linkend="labyrinth-new-map"/></para> 
 	</listitem> 
 	<listitem> 
 	  <para> 
-	    <xref linkend="myapp-manipulate-view"/></para> 
+	    <xref linkend="labyrinth-manipulate-view"/></para> 
 	</listitem> 
 	<listitem> 
 	  <para> 
-	    <xref linkend="myapp-scroll-image"/></para>
-	</listitem> 
-	<listitem> 
-	  <para> 
-	    <xref linkend="myapp-close-image"/></para> 
+	    <xref linkend="labyrinth-export"/></para>
 	</listitem> 
       </itemizedlist> </para>
     <!-- ================ Usage Subsection ================================ -->
-    <sect2 id="myapp-open-image"> 
-      <title>To Open an Image</title> 
-      <para>To open an image, choose 
+    <sect2 id="labyrinth-new-map"> 
+      <title>To Create a new Map</title> 
+      <para>To create a new map, choose 
 	<menuchoice> 
 	  <guimenu>File</guimenu> 
-	  <guimenuitem>Open Image</guimenuitem> 
-	</menuchoice>. The 
-	<guilabel>Open Image</guilabel> dialog is displayed. Select the file
-	that you want to open, then click 
-	<guibutton>OK</guibutton>. To open another image in a new window,
-	choose 
-	<menuchoice> 
-	  <guimenu>File</guimenu> 
-	  <guimenuitem>Create New Window</guimenuitem> 
-	</menuchoice>. Choose 
-	<menuchoice> 
-	  <guimenu>File</guimenu> 
-	  <guimenuitem>Open Image</guimenuitem> 
-	</menuchoice> 
-	to select the file that you want to open. You can also drag an image
-	from another application such as a file manager to the &app;
-	window. If the &app; window is empty, the application displays
-	the image in the window. If the window is not empty, the
-	application starts a new window to display the file. The
-	application displays the name of the image file and the size
-	of the image in pixels in the titlebar of the window. </para>
-      <para>
-	If you try to open an image file format that &app; does
-	not recognize, the application displays an error
-	message.
-      </para>
-      <caution>
-      <para>This is a caution.</para>
-      </caution>
-    </sect2> 
+	  <guimenuitem>New</guimenuitem> 
+	</menuchoice> or click on <guimenuitem>New</guimenuitem> from the toolbar. A
+	new empty map window appears:
+	</para>
+	<screenshot> 
+	  <mediaobject> 
+	    <imageobject><imagedata
+		fileref="figures/lab_map_start.png" format="PNG"/> 
+	    </imageobject>
+	    <textobject> 
+	      <phrase>Shows &app; map window. Contains titlebar, menubar, toolbar and the map canvas area. Menubar contains File, Edit, View and Mode menus.</phrase> 
+	    </textobject> 
+	  </mediaobject> 
+	</screenshot> 
+	</sect2>
     <!-- ================ Usage Subsection ================================ -->
-	 <sect2 id="myapp-manipulate-view"> 
-      <title>To Manipulate the View of an Image</title> 
-      <para>You can use the following methods to resize the view of an image in
+	 <sect2 id="labyrinth-manipulate-view"> 
+      <title>To Manipulate the View of the Map</title> 
+      <para>You can use the following methods to resize the view of the Map in
 	the &app; window:</para> 
       <itemizedlist> 
 	<listitem> 
-	  <para>To enlarge the view of an image, choose 
+	  <para>To enlarge the view, choose
 	    <menuchoice> 
 	      <guimenu>View</guimenu> 
 	      <guimenuitem>Zoom In</guimenuitem> 
 	    </menuchoice>.</para> 
 	</listitem> 
 	<listitem> 
-	  <para>To shrink the view of an image, choose 
+	  <para>To shrink the view, choose 
 	    <menuchoice> 
 	      <guimenu>View</guimenu> 
 	      <guimenuitem>Zoom Out</guimenuitem> 
 	    </menuchoice>.</para> 
 	</listitem> 
-	<listitem> 
-	  <para>To view the image at its actual size, choose 
-	    <menuchoice> 
-	      <guimenu>View</guimenu> 
-	      <guimenuitem>Zoom 1:1</guimenuitem> 
-	    </menuchoice>. </para> 
-	</listitem> 
-	<listitem> 
-	  <para>To enlarge or shrink the view of an image so that the image
-	    fits the &app; window, choose 
-	    <menuchoice> 
-	      <guimenu>View</guimenu> 
-	      <guimenuitem>Fit to Window</guimenuitem> 
-	    </menuchoice>.</para> 
-	</listitem> 
-	<listitem> 
-	  <para>To enlarge or shrink the image to a specific zoom factor,
-	    choose 
-	    <menuchoice> 
-	      <guimenu>View</guimenu> 
-	      <guimenuitem>Zoom factor</guimenuitem> 
-	    </menuchoice>, then choose the appropriate zoom factor from the
-	    drop-down list.</para> 
-	</listitem> 
-	<listitem> 
-	  <para>To display the image in full screen mode, choose 
-	    <menuchoice> 
-	      <guimenu>View</guimenu> 
-	      <guimenuitem>Full Screen</guimenuitem> 
-	    </menuchoice>. Full screen mode displays the image in a window that
-	    fills the full screen. The window does not contain a
-	    window frame, titlebar, 
-	    menubar, or toolbar. To exit from this mode, press the 
-	    <keycap>Esc</keycap> key or 
-	    <keycombo>
-              <keycap>Ctrl</keycap>
-	      <keycap>W</keycap>
-	    </keycombo>.
-	  </para> 
-	</listitem> 
-      </itemizedlist> 
-      <tip>
-      <para>This is a tip.</para>
-      </tip>
+      </itemizedlist>
+     <para>To move the map around you have several options:</para>
+     	<itemizedlist>
+     		<listitem><para>Use the scroll arrows around the white canvas.</para></listitem>
+     		<listitem><para>Hold the middle button of your mouse and move the
+     			canvas while still holding the button.</para></listitem>
+     	</itemizedlist>
     </sect2> 
     <!-- ================ Usage Subsection ================================ -->
-    <sect2 id="myapp-scroll-image"> 
-      <title>To Scroll an Image</title> 
-      <para>To scroll around an image that is larger than the image window or
-	full screen window, you can use the following methods:</para> 
+    <sect2 id="labyrinth-export"> 
+      <title>To Export a Map</title> 
+      <para>To export the map, you can use the following methods:</para> 
       <itemizedlist> 
 	<listitem> 
-	  <para>Use the arrow keys on the keyboard.</para> 
+	  <para>To export the map for further loading, choose
+	  	<menuchoice>
+	  		<guimenu>File</guimenu>
+	  		<guimenuitem>Export Map...</guimenuitem>
+	  	</menuchoice>.</para> 
 	</listitem> 
 	<listitem> 
-	  <para>Drag the image in the opposite direction to the direction in
-	    which you want to scroll. For example, if you want to
-	      scroll down the image, 
-	    drag the image upwards in the window.</para> 
+	  <para>To export the map as an image, choose
+  	  	<menuchoice>
+	  		<guimenu>File</guimenu>
+	  		<guimenuitem>Export as Image</guimenuitem>
+	  	</menuchoice> and use the file dialog to choose the format you would like
+	  	to save the map and an appropriate file name. At the time of writing you
+	  	can export the map as PDF, SVG, PNG and JPG.</para> 
 	</listitem> 
-	<listitem> 
-	  <para>Use the scrollbars on the window.</para> 
-	</listitem> 
-      </itemizedlist> 
+      </itemizedlist>
+    <tip><para>Use a vector format like PDF or SVG for high quality printing purposes and
+    	a bitmap format like PNG or JPG for the web.</para></tip>
     </sect2>
-    <!-- ================ Usage Subsection ================================ -->
-    <sect2 id="myapp-close-image"> 
-      <title>To Close an Image</title> 
-      <para>To close an image, choose 
-	<menuchoice> 
-	  <guimenu>File</guimenu> 
-	  <guimenuitem>Close This Window</guimenuitem> 
-	</menuchoice>. If the window is the last
-	&app; window open, the application exits. </para> 
-      <para>To quit &app; and close all of the
-	windows that you opened in the current session, choose 
-	<menuchoice> 
-	  <guimenu>File</guimenu> 
-	  <guimenuitem>Exit</guimenuitem> 
-	</menuchoice>. </para> 
-      <warning>
-      <para>This is a warning.</para>
-      </warning>
-    </sect2> 
+  </sect1>
+  
+  <sect1>
+  	<title>Working with the Map</title>
+  	<para>The most common work you will do with &app; are:</para>
+  	<itemizedlist> 
+	<listitem> 
+	  <para><xref linkend="labyrinth-create-thoughts"/></para> 
+	</listitem> 
+	<listitem>
+	  <para><xref linkend="labyrinth-manipulate-thoughts"/></para> 
+	</listitem>
+	<listitem> 
+	  <para><xref linkend="labyrinth-working-with-links"/></para> 
+	</listitem> 
+	<listitem> 
+	  <para><xref linkend="labyrinth-format-thoughts"/></para>
+	</listitem> 
+      </itemizedlist>
+
+	<sect2 id="labyrinth-create-thoughts">
+		<title>To Create a Thought</title>
+		<para>In &app; a thought can be:</para>
+		<itemizedlist>
+			<listitem><para>Pure Text</para></listitem>
+			<listitem><para>An Image</para></listitem>
+			<listitem><para>A Drawing</para></listitem>
+			<listitem><para>A Resource like an URL</para></listitem>
+		</itemizedlist>
+		<para>What you are going to create depends on the mode that is activated.
+		The most common mode is the Edit Mode which can be activated by choosing
+		<menuchoice><guimenu>Mode</guimenu><guimenuitem>Edit Mode</guimenuitem></menuchoice>.
+		By clicking anywhere on the white map you create a new thought. You then
+		have to type some text which you can further <link linkend="labyrinth-format-thoughts">format</link> for your thought.</para>
+		
+		<para>An image thought is created in Image Mode which can be activated by
+		choosing <menuchoice><guimenu>Mode</guimenu><guimenuitem>Image Mode</guimenuitem></menuchoice>.
+		After creating the thought a dialog pops up asking for the image to load.</para>
+		
+		<para>In Drawing Mode (choose <menuchoice><guimenu>Mode</guimenu>
+			<guimenuitem>Drawing Mode</guimenuitem></menuchoice>.) you can freely
+			make some sketches by dragging the mouse over the canvas.</para>
+	</sect2>
+	
+	<sect2 id="labyrinth-manipulate-thoughts">
+		<title>To Manipulate Thoughts</title>
+		<para>Selecting a thought for moving can be done by:</para>
+	  	<itemizedlist> 
+		<listitem><para>Clicking on individual thoughts</para></listitem>
+		<listitem><para>Shift-Clicking to select more than one thought</para></listitem>
+		<listitem><para>Using a selection box by holding the <mousebutton>left</mousebutton> mouse button and dragging
+		  	the mouse while holding that button.</para></listitem>
+		</itemizedlist>
+		<para>Selected thoughts can be moved around by left-dragging them with
+			the mouse and <link linkend="labyrinth-format-thoughts">formatted</link> all at once.</para>.
+	</sect2>
+	
+	<sect2 id="labyrinth-working-with-links">
+		<title>Working with Links</title>
+		<para>Links are created automatically between a selected parent thought and a newly
+			created thought. If there is no thought selected, a connection is made between
+			the last selected - as a last resort the root - and the new thought. You can
+			create new links between existing thoughts by choosing 
+			<menuchoice><guimenu>Edit</guimenu><guimenuitem>Link Thoughts</guimenuitem></menuchoice> or
+			pressing <keycombo><keycap>Ctrl</keycap><keycap>L</keycap></keycombo>.</para>
+		<para>A link can be strengthened or weakened by selecting it with the <mousebutton>left</mousebutton>
+			mouse button and using <keycap>+</keycap> respectively <keycap>-</keycap>. The strength
+			of a link is visualised by the thickness of the line. A link with a strength of
+			zero is automatically deleted.</para>
+	</sect2>
+	
+	<sect2 id="labyrinth-format-thoughts">
+		<title>Format a Thought Text</title>
+		<para>A text and a resource thought can be formatted by using the tools of the lower
+			format toolbar.</para>
+	</sect2>
   </sect1>
 <!-- ============= Bugs ================================== -->
 <!-- This section is optional and is commented out by default. 
@@ -423,14 +404,13 @@
   <sect1 id="myapp-about"> 
     <title>About &app;</title> 
     <para> &app; was written by Don Scorgio, Martin Schaaf and Matthias Vogelgesang.
-      (<email>hacker@gnome.org</email>). To find more information about
-      &app;, please visit the 
+    	To find more information about &app;, please visit the 
       <ulink url="http://www.gnome.org/~dscorgie/labyrinth.html" type="http">Labyrinth Web
 	page</ulink>. </para>
     <para>
       To report a bug or make a suggestion regarding this application or
       this manual, follow the directions in this 
-      <ulink url="ghelp:gnome-feedback"   type="help">document</ulink>.
+      <ulink url="ghelp:gnome-feedback" type="help">document</ulink>.
     </para>
 
     <para> This program is distributed under the terms of the GNU
