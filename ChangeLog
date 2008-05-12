@@ -1,5 +1,11 @@
 2008-05-12 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* help/C/labyrinth.xml
+	A paragraph about links. Remove top links for each
+	section.
+
+2008-05-12 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* help/C/figures
 	* help/C/figures/lab_browser_start.png
 	* help/C/figures/lab_map_start.png

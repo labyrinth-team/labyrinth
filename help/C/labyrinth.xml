@@ -223,21 +223,7 @@
   which the application is designed. -->
   <sect1 id="myapp-usage"> 
     <title>Basic Usage</title> 
-    <para>You can use the &app; application to perform the following tasks: 
-      <itemizedlist> 
-	<listitem> 
-	  <para> 
-	    <xref linkend="labyrinth-new-map"/></para> 
-	</listitem> 
-	<listitem> 
-	  <para> 
-	    <xref linkend="labyrinth-manipulate-view"/></para> 
-	</listitem> 
-	<listitem> 
-	  <para> 
-	    <xref linkend="labyrinth-export"/></para>
-	</listitem> 
-      </itemizedlist> </para>
+    <para>You can use the &app; application to perform the following tasks:</para>
     <!-- ================ Usage Subsection ================================ -->
     <sect2 id="labyrinth-new-map"> 
       <title>To Create a new Map</title> 
@@ -314,23 +300,10 @@
     </sect2>
   </sect1>
   
-  <sect1>
+  <sect1 id="labyrinth-work">
   	<title>Working with the Map</title>
   	<para>The most common work you will do with &app; are:</para>
-  	<itemizedlist> 
-	<listitem> 
-	  <para><xref linkend="labyrinth-create-thoughts"/></para> 
-	</listitem> 
-	<listitem>
-	  <para><xref linkend="labyrinth-manipulate-thoughts"/></para> 
-	</listitem>
-	<listitem> 
-	  <para><xref linkend="labyrinth-working-with-links"/></para> 
-	</listitem> 
-	<listitem> 
-	  <para><xref linkend="labyrinth-format-thoughts"/></para>
-	</listitem> 
-      </itemizedlist>
+
 
 	<sect2 id="labyrinth-create-thoughts">
 		<title>To Create a Thought</title>
@@ -381,10 +354,15 @@
 			mouse button and using <keycap>+</keycap> respectively <keycap>-</keycap>. The strength
 			of a link is visualised by the thickness of the line. A link with a strength of
 			zero is automatically deleted.</para>
+		<tip><para>You can customize the look of the links by choosing either
+			<menuchoice><guimenu>View</guimenu><guimenuitem>Use Curves</guimenuitem></menuchoice> for
+			curved links or
+			<menuchoice><guimenu>View</guimenu><guimenuitem>Use Lines</guimenuitem></menuchoice> for
+			straight lined links.</para></tip>
 	</sect2>
 	
 	<sect2 id="labyrinth-format-thoughts">
-		<title>Format a Thought Text</title>
+		<title>Format a Thought's Text</title>
 		<para>A text and a resource thought can be formatted by using the tools of the lower
 			format toolbar.</para>
 	</sect2>
