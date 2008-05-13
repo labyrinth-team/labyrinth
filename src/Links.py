@@ -235,6 +235,8 @@ class Link (gobject.GObject):
 			  event.keyval == gtk.keysyms.KP_Subtract) and \
 			 self.strength > 1:
 			self.strength -= 1
+		elif event.keyval == gtk.keysyms.Escape:
+			self.unselect()
 		self.emit("update_view")
 		return True
 

@@ -35,22 +35,28 @@ class ResourceThought (TextThought.TextThought):
 		super (ResourceThought, self).__init__(coords, pango_context, thought_number, save, undo, loading, background_color, foreground_color, "res_thought")
 
 		self.uri = ""
-		if not loading:
-			# TODO: we should handle such things with a singleton
-			glade = gtk.glade.XML(utils.get_data_file_name('labyrinth.glade'))
-			dialog = glade.get_widget('ResourceChooserDialog')
-			dialog.add_buttons(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-				gtk.STOCK_OK, gtk.RESPONSE_OK)
-			res = dialog.run()
-			dialog.hide()
 
-			if res == gtk.RESPONSE_OK:
-				# FIXME: validate input
-				self.uri = glade.get_widget('urlEntry').get_text()
-				self.add_text(self.uri)
-				self.rebuild_byte_table()
-				
+		# TODO: we should handle such things with a singleton
+		self.glade = gtk.glade.XML(utils.get_data_file_name('labyrinth.glade'))
+		self.dialog = self.glade.get_widget('ResourceChooserDialog')
+		self.dialog.add_buttons(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+			gtk.STOCK_OK, gtk.RESPONSE_OK)
+
+		if not loading:
+			self.process_uri_dialog()
+			
 		self.all_okay = True
+
+	def process_uri_dialog(self, initial=True):
+		res = self.dialog.run()
+		self.dialog.hide()
+
+		if res == gtk.RESPONSE_OK:
+			# FIXME: validate input
+			self.uri = self.glade.get_widget('urlEntry').get_text()
+			if initial:
+				self.add_text(self.uri)
+			self.rebuild_byte_table()
 
 	def process_button_down (self, event, mode, transformed):
 		modifiers = gtk.accelerator_get_default_mod_mask ()
@@ -68,6 +74,7 @@ class ResourceThought (TextThought.TextThought):
 	def load (self, node):
 		super(ResourceThought, self).load(node)
 		self.uri = node.getAttribute ("uri")
+		self.glade.get_widget('urlEntry').set_text(self.uri)
 		
 	def draw (self, context):
 		if not self.layout:
@@ -76,7 +83,8 @@ class ResourceThought (TextThought.TextThought):
 			if not self.ul or not self.lr:
 				print "Warning: Trying to draw unfinished box "+str(self.identity)+". Aborting."
 				return
-			utils.draw_thought_extended (context, self.ul, self.lr, self.am_selected, self.am_primary, self.background_color, False, True)
+			utils.draw_thought_extended (context, self.ul, self.lr, \
+				self.am_selected, self.am_primary, self.background_color, False, True)
 		else:
 			ux, uy = self.ul
 			if prefs.get_direction() == gtk.TEXT_DIR_LTR:
@@ -114,10 +122,18 @@ class ResourceThought (TextThought.TextThought):
 	def get_popup_menu_items(self):
 		image = gtk.Image()
 		image.set_from_stock(gtk.STOCK_EDIT, gtk.ICON_SIZE_MENU)
-		item = gtk.ImageMenuItem(_('Edit Text'))
-		item.set_image(image)
-		item.connect('activate', self.edit_cb)
-		return [item]
+		edit_item = gtk.ImageMenuItem(_('Edit Text'))
+		edit_item.set_image(image)
+		edit_item.connect('activate', self.edit_cb)
+		image = gtk.Image()
+		image.set_from_stock(gtk.STOCK_NETWORK, gtk.ICON_SIZE_MENU)
+		uri_item = gtk.ImageMenuItem(_('Edit URI'))
+		uri_item.set_image(image)
+		uri_item.connect('activate', self.edit_uri_cb)
+		return [edit_item, uri_item]
 		
 	def edit_cb(self, widget):
 		self.emit ("begin_editing")
+		
+	def edit_uri_cb(self, widget):
+		self.process_uri_dialog(False)

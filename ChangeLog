@@ -1,3 +1,10 @@
+2008-05-13 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/ResourceThought.py
+	Allow editing of URIs.
+	* src/Links.py
+	Deselect links with Escape.
+
 2008-05-12 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* help/C/labyrinth.xml
