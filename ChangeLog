@@ -1,3 +1,11 @@
+2008-05-15 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/ResourceThought.py
+	Fix webpage loading on Fedora distributions. A protocol
+	must be given to load the page by the webbrowser module.
+	* help/C/labyrinth.xml
+	Add more help.
+
 2008-05-13 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/ResourceThought.py

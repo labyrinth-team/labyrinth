@@ -321,17 +321,24 @@
 		have to type some text which you can further <link linkend="labyrinth-format-thoughts">format</link> for your thought.</para>
 		
 		<para>An image thought is created in Image Mode which can be activated by
-		choosing <menuchoice><guimenu>Mode</guimenu><guimenuitem>Image Mode</guimenuitem></menuchoice>.
+		choosing <menuchoice><guimenu>Mode</guimenu><guimenuitem>Add Image</guimenuitem></menuchoice>.
 		After creating the thought a dialog pops up asking for the image to load.</para>
 		
 		<para>In Drawing Mode (choose <menuchoice><guimenu>Mode</guimenu>
 			<guimenuitem>Drawing Mode</guimenuitem></menuchoice>.) you can freely
 			make some sketches by dragging the mouse over the canvas.</para>
+			
+		<para>A resource thought can be added by choosing <menuchoice><guimenu>Mode</guimenu>
+			<guimenuitem>Add Resource</guimenuitem></menuchoice>. If you click
+			somewhere on the map you are asked to enter a URL and can then proceed
+			to edit the thought's text. If you double-click on a created
+			resource thought the URL is loaded in a webbrowser.</para>
 	</sect2>
 	
 	<sect2 id="labyrinth-manipulate-thoughts">
 		<title>To Manipulate Thoughts</title>
-		<para>Selecting a thought for moving can be done by:</para>
+		<para>Selecting a thought for moving or <link linkend="labyrinth-align-thoughts">alignment</link> 
+			can be done by:</para>
 	  	<itemizedlist> 
 		<listitem><para>Clicking on individual thoughts</para></listitem>
 		<listitem><para>Shift-Clicking to select more than one thought</para></listitem>
@@ -364,7 +371,47 @@
 	<sect2 id="labyrinth-format-thoughts">
 		<title>Format a Thought's Text</title>
 		<para>A text and a resource thought can be formatted by using the tools of the lower
-			format toolbar.</para>
+			format toolbar. For editing a thoughts text either:</para>
+		<itemizedlist>
+			<listitem><para>Double-Click on a text thought</para></listitem>
+			<listitem><para>Use <menuchoice><guimenu>context menu</guimenu>
+				<guimenuitem>Edit Text</guimenuitem></menuchoice></para></listitem>
+		</itemizedlist>
+		<para>You can then mark text by:</para>
+		<itemizedlist>
+			<listitem><para>Double-Click on text to select all</para></listitem>
+			<listitem><para>Press <shortcut><keycombo><keycap>Ctrl</keycap><keycap>A</keycap></keycombo></shortcut>
+				to select all</para></listitem>
+			<listitem><para>Drag the mouse to select parts of the text</para></listitem>
+		</itemizedlist>
+		<para>Now you are able to format the selected text just like in a word processor.
+		You can use the tools in the lower toolbar to change:</para>
+		<itemizedlist>
+			<listitem><para>characters to bold letters</para></listitem>
+			<listitem><para>characters to italized letters</para></listitem>
+			<listitem><para>characters to underlined letter</para></listitem>
+			<listitem><para>the font of the letters</para></listitem>
+			<listitem><para>the letter's color</para></listitem>
+			<listitem><para>the background's color</para></listitem>
+		</itemizedlist>
+	</sect2>
+	<sect2 id="labyrinth-align-thoughts">
+		<title>Align Thoughts</title>
+		<para>In order to organize your maps you can align the 
+		<link linkend="labyrinth-manipulate-thoughts">selected</link> thoughts
+			on your map by using the alignment tools in the lower toolbar:</para>
+		<screenshot> 
+		  <mediaobject> 
+			<imageobject><imagedata
+			fileref="figures/lab_alignment.png" format="PNG"/> 
+			</imageobject>
+			<textobject> 
+			  <phrase>Shows &app; alignment window containing tools for aligning vertically,
+			  	horizontally and all four edges.</phrase> 
+			</textobject> 
+		  </mediaobject> 
+		</screenshot>
+		<note><para>All thoughts are aligned to the first selected thought.</para></note>
 	</sect2>
   </sect1>
 <!-- ============= Bugs ================================== -->

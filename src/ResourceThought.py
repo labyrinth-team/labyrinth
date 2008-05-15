@@ -63,7 +63,10 @@ class ResourceThought (TextThought.TextThought):
 		if event.type == gtk.gdk.BUTTON_PRESS and not self.editing:
 			self.emit ("select_thought", event.state & modifiers)
 		if event.button == 1 and mode == BaseThought.MODE_EDITING and event.type == gtk.gdk._2BUTTON_PRESS:
-			webbrowser.open(self.uri)
+			if self.uri.find("http://") == -1:
+				webbrowser.open("http://" + self.uri)
+			else:
+				webbrowser.open(self.uri)
 		elif event.button == 3:
 			self.emit ("popup_requested", event, 1)
 			
