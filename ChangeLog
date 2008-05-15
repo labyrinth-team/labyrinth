@@ -1,5 +1,10 @@
 2008-05-15 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* help/C/figures/lab_alignment.png
+	Add the alignment image.
+
+2008-05-15 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* src/ResourceThought.py
 	Fix webpage loading on Fedora distributions. A protocol
 	must be given to load the page by the webbrowser module.
