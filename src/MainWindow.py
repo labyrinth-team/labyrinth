@@ -377,7 +377,9 @@ class LabyrinthWindow (gobject.GObject):
 			self.underline_block = True
 			self.underline_widget.set_active(underline)
 		if pango_font:
-			self.font_widget.set_font_name (pango_font.to_string ())
+			font_name = pango_font.to_string()
+			self.font_widget.set_font_name (font_name)
+			self.MainArea.set_font(font_name)
 		else:
 			self.font_widget.set_font_name ("Sans 12")
 

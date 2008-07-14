@@ -176,6 +176,7 @@ class MMapArea (gtk.DrawingArea):
 		w.realize()
 		style = w.get_style()
 		self.pango_context.set_font_description(style.font_desc)
+		self.font_name = style.font_desc.to_string()
 		
 		utils.default_colors["text"] = utils.gtk_to_cairo_color(style.text[gtk.STATE_NORMAL])
 		self.background_color = style.bg[gtk.STATE_NORMAL]
@@ -525,7 +526,7 @@ class MMapArea (gtk.DrawingArea):
 			self.commit_handler = None
 		if thought:
 			try:
-				self.commit_handler = self.im_context.connect ("commit", thought.commit_text, self.mode)
+				self.commit_handler = self.im_context.connect ("commit", thought.commit_text, self.mode, self.font_name)
 				self.delete_handler = self.im_context.connect ("delete-surrounding", thought.delete_surroundings, self.mode)
 				self.preedit_changed_handler = self.im_context.connect ("preedit-changed", thought.preedit_changed, self.mode)
 				self.preedit_end_handler = self.im_context.connect ("preedit-end", thought.preedit_end, self.mode)
@@ -1368,7 +1369,8 @@ class MMapArea (gtk.DrawingArea):
 
 	def set_font(self, font_name):
 		if len (self.selected) == 1 and hasattr(self.selected[0], "set_font"):
-			self.selected[0].set_font (font_name)
+			self.selected[0].set_font(font_name)
+			self.font_name = font_name
 			self.invalidate()
 
 class CursorFactory:

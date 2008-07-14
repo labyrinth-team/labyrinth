@@ -197,6 +197,8 @@ class TextThought (BaseThought.BaseThought):
 		return show_text
 
 	def recalc_edges (self):
+		if (not hasattr(self, "layout")):
+			return
 		del self.layout
 		show_text = self.attrs_changed ()
 		
@@ -227,9 +229,10 @@ class TextThought (BaseThought.BaseThought):
 			self.text_location = (self.lr[0] - margin[2] - x, self.ul[1] + margin[1])
 			self.ul = (self.lr[0] - margin[0] - margin[2] - x, tmp1)
 
-	def commit_text (self, context, string, mode):
+	def commit_text (self, context, string, mode, font_name):
 		if not self.editing:
 			self.emit ("begin_editing")
+		self.set_font(font_name)
 		self.add_text (string)
 		self.recalc_edges ()
 		self.emit ("title_changed", self.text)
@@ -1209,7 +1212,10 @@ class TextThought (BaseThought.BaseThought):
 			self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR,
 													  self.undo_attr_cb,
 													  attr))
-			self.current_attrs.change(attr)
+			try:
+				self.current_attrs.change(attr)
+			except AttributeError:
+				self.current_attrs.append(attr)
 		else:
 			old_attrs = self.attributes.copy()
 			self.attributes.change(attr)
