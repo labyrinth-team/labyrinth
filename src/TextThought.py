@@ -336,7 +336,10 @@ class TextThought (BaseThought.BaseThought):
 			context.stroke ()
 
 		(textx, texty) = (self.text_location[0], self.text_location[1])
-		r, g, b = utils.gtk_to_cairo_color(self.foreground_color)
+		if (self.foreground):
+			r, g, b = utils.gtk_to_cairo_color(self.foreground_color)
+		else:
+			r, g ,b = utils.gtk_to_cairo_color(utils.default_colors["fg"])
 		context.set_source_rgb (r, g, b)
 		context.move_to (textx, texty)
 		context.show_layout (self.layout)
