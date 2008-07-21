@@ -1,5 +1,12 @@
 2008-07-21 Martin Schaaf <mascha@ma-scha.de>
 
+	* src/utils.py
+	* src/MainWindow.py
+	* src/MMapArea.py
+	o fix issue 86 by setting gnome theme default font
+
+2008-07-21 Martin Schaaf <mascha@ma-scha.de>
+
 	* ChangeLog
 	o add missing entries
 

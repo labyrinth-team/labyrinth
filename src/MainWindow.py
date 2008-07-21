@@ -381,7 +381,7 @@ class LabyrinthWindow (gobject.GObject):
 			self.font_widget.set_font_name (font_name)
 			self.MainArea.set_font(font_name)
 		else:
-			self.font_widget.set_font_name ("Sans 12")
+			self.font_widget.set_font_name (utils.default_font)
 
 	def translate (self, box, arg1, direction):
 		self.orig_translate = [self.MainArea.translation[0], self.MainArea.translation[1]]

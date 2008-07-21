@@ -43,9 +43,10 @@ use_bezier_curves = False
 default_colors = {
 	"text" : (0.0, 0.0, 0.0),
 	"fg" : (0.0, 0.0, 0.0),
-	"bg" : (0.0, 0.0, 0.0) 
+	"bg" : (0.0, 0.0, 0.0),
+	"base" : (0.0, 0.0, 0.0)
 	}
-	
+
 selected_colors = {
 	"text" : (0.0, 0.0, 0.0),
 	"fg" : (0.0, 0.0, 0.0),
@@ -53,6 +54,8 @@ selected_colors = {
 	"border" : (0.0, 0.0, 0.0),		# bounding box
 	"fill" : (0.0, 0.0, 0.0)		# bounding box
 	}
+
+default_font = None
 
 def get_save_dir ():
 	''' Returns the path to the directory to save the maps to '''

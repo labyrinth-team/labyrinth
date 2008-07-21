@@ -177,6 +177,7 @@ class MMapArea (gtk.DrawingArea):
 		style = w.get_style()
 		self.pango_context.set_font_description(style.font_desc)
 		self.font_name = style.font_desc.to_string()
+		utils.default_font = self.font_name
 		
 		utils.default_colors["text"] = utils.gtk_to_cairo_color(style.text[gtk.STATE_NORMAL])
 		utils.default_colors["base"] = utils.gtk_to_cairo_color(style.base[gtk.STATE_NORMAL])
