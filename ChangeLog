@@ -1,3 +1,38 @@
+2008-07-21 Martin Schaaf <mascha@ma-scha.de>
+
+	* ChangeLog
+	o add missing entries
+
+2008-07-16 Martin Schaaf <mascha@ma-scha.de>
+
+	* src/MMapArea.py
+	o fix background setting setted to foreground
+	o set gdk color as default not the tuple
+
+2008-07-16 Martin Schaaf <mascha@ma-scha.de>
+
+	* src/MMapArea.py
+	o set "text" and "base" styles as foreground and backgroundcolor for widgets
+	with text like it is described in the documentation
+
+2008-07-16 Martin Schaaf <mascha@ma-scha.de>
+
+	* src/TextThought.py
+	o fix if statement to use correct foreground var
+
+2008-07-15 Martin Schaaf <mascha@ma-scha.de>
+
+	* src/TextThought.py
+	o fix  issue 96  exception if text foreground color isn't set
+
+2008-07-14 Martin Schaaf <mascha@ma-scha.de>
+
+	* src/MMapArea.py
+	* src/MainWindow.py
+	* src/TextThought.py
+	o fix AttributeErrors
+	o remember last selected font, fixes  issue 119 
+
 2008-05-15 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* help/C/figures/lab_alignment.png
