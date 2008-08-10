@@ -205,6 +205,7 @@ class MMapArea (gtk.DrawingArea):
 		ret = False
 		obj = self.find_object_at (coords)
 		if event.button == 2:
+			self.set_cursor (gtk.gdk.FLEUR)
 			self.original_translation = self.translation
 			self.origin_x = event.x
 			self.origin_y = event.y
@@ -250,6 +251,11 @@ class MMapArea (gtk.DrawingArea):
 	def button_release (self, widget, event):
 		coords = self.transform_coords (event.get_coords()[0], event.get_coords()[1])
 
+		if self.mode == MODE_EDITING:
+			self.set_cursor(gtk.gdk.LEFT_PTR)
+		else:
+			self.set_cursor(gtk.gdk.CROSSHAIR)
+
 		ret = False
 		if self.is_bbox_selecting:
 			self.is_bbox_selecting = False
@@ -267,13 +273,11 @@ class MMapArea (gtk.DrawingArea):
 			self.move_action.add_arg (coords)
 			self.undo.add_undo (self.move_action)
 			self.move_action = None
+
 		self.motion = None
 		self.moving = False
 		self.move_origin = None
-		if self.mode == MODE_EDITING:
-			self.set_cursor(gtk.gdk.LEFT_PTR)
-		else:
-			self.set_cursor(gtk.gdk.CROSSHAIR)
+
 		obj = self.find_object_at (coords)
 		if event.button == 2:
 			self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.TRANSFORM_CANVAS, \

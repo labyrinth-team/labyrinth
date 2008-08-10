@@ -1,5 +1,10 @@
 2008-08-10 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* src/MMapArea.py
+	Fix issue 125.
+
+2008-08-10 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* src/MainWindow.py
 	Set default size something lower so it works with netbook dimensions.
 
