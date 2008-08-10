@@ -157,7 +157,7 @@ class LabyrinthWindow (gobject.GObject):
 
 		# Deal with loading the map
 		if not filename:
-			self.MainArea.set_size_request (600, 500)
+			self.MainArea.set_size_request (400, 400)
 			# TODO: This shouldn't be set to a hard-coded number.  Fix.
 			self.pane_pos = 500
 			self.title_cp = _("Untitled Map")

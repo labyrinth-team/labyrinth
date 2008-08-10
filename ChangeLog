@@ -1,3 +1,8 @@
+2008-08-10 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/MainWindow.py
+	Set default size something lower so it works with netbook dimensions.
+
 2008-07-21 Martin Schaaf <mascha@ma-scha.de>
 
 	* src/utils.py
