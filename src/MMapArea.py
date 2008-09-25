@@ -201,7 +201,7 @@ class MMapArea (gtk.DrawingArea):
 
 	def button_down (self, widget, event):
 		coords = self.transform_coords (event.get_coords()[0], event.get_coords()[1])
-
+			
 		ret = False
 		obj = self.find_object_at (coords)
 		if event.button == 2:
@@ -224,11 +224,14 @@ class MMapArea (gtk.DrawingArea):
 				self.move_origin = (coords[0], coords[1])
 				self.move_origin_new = self.move_origin
 			ret = obj.process_button_down (event, self.mode, coords)
-		elif event.button == 1 and self.mode == MODE_EDITING:
+		elif event.button == 1 and self.mode == MODE_EDITING and not self.editing:
 			self.bbox_origin = coords
 			self.is_bbox_selecting = True
 		elif event.button == 3:
 			ret = self.create_popup_menu (None, event, MENU_EMPTY_SPACE)
+			
+		if self.editing:
+			self.finish_editing()
 		return ret
 
 	def undo_move (self, action, mode):
@@ -723,8 +726,11 @@ class MMapArea (gtk.DrawingArea):
 	def finish_editing (self, thought = None):
 		if not self.editing or (thought and thought != self.editing):
 			return
+
 		self.editing.finish_editing ()
+		thought = self.editing
 		self.editing = None
+
 		if not thought:
 			return
 		if thought.model_iter:
