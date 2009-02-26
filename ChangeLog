@@ -1,3 +1,8 @@
+2009-02-26 Martin Schaaf <mascha@ma-scha.de>
+
+	* src/MMapArea.py
+	Fix issue 135. Thanks to wks1985 for the patch.
+
 2008-09-25 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/MMapArea.py
