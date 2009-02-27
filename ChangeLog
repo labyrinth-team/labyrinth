@@ -1,3 +1,8 @@
+2009-02-27 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/labyrinth.py
+	Fix issue 133. Thanks to Romain Tartiere.
+
 2009-02-26 Martin Schaaf <mascha@ma-scha.de>
 
 	* src/MMapArea.py
