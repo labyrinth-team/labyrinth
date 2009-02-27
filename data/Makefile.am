@@ -13,7 +13,7 @@ gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
 
 install-icons:
 # This sucks
-	for size in 16x16 22x22 24x24 scalable; do mkdir --parents $(DESTDIR)/$(datadir)/icons/hicolor/$$size/apps; done
+	for size in 16x16 22x22 24x24 scalable; do install -d $(DESTDIR)/$(datadir)/icons/hicolor/$$size/apps; done
 	install -m 644 $(srcdir)/labyrinth-16.png $(DESTDIR)/$(datadir)/icons/hicolor/16x16/apps/labyrinth.png
 	install -m 644 $(srcdir)/labyrinth-22.png $(DESTDIR)/$(datadir)/icons/hicolor/22x22/apps/labyrinth.png
 	install -m 644 $(srcdir)/labyrinth-24.png $(DESTDIR)/$(datadir)/icons/hicolor/24x24/apps/labyrinth.png
