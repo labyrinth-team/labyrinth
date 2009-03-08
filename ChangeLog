@@ -1,3 +1,8 @@
+2009-03-08 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* data/labyrinth.glade
+	Fix Gtk warning
+
 2009-02-28 Martin Schaaf <mascha@ma-scha.de>
 
         * src/MMapArea.py
