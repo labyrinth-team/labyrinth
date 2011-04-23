@@ -26,6 +26,7 @@ import pygtk
 import gtk
 import xml.dom.minidom as dom
 import datetime
+from xml.parsers.expat import ExpatError
 
 class MapList(object):
     COL_ID = 0
@@ -106,10 +107,13 @@ class MapList(object):
     def new_from_file(cls, filename):
         index = len(cls._maps)
         map = cls.MapCore(index = index)
-        cls._maps.append(map)
-        map.modtime = datetime.datetime.fromtimestamp(os.stat(filename)[8]).strftime("%x %X")
-        cls.tree_view_model.append([map.index, map.title, map.modtime, map.filename, False])
-        map._read_from_file(filename)
+        try:
+            map._read_from_file(filename)
+            cls._maps.append(map)
+            map.modtime = datetime.datetime.fromtimestamp(os.stat(filename)[8]).strftime("%x %X")
+            cls.tree_view_model.append([map.index, map.title, map.modtime, map.filename, False])
+        except ExpatError:
+            map = None
         return map
 
     @classmethod

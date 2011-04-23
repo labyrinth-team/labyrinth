@@ -1,5 +1,10 @@
 2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* src/MapList.py
+	Fix issue 148 with Patch from "perlhead"
+
+2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* src/*.py
 	Respect PEP-8.
 
