@@ -8,6 +8,7 @@ AC_CONFIG_MACRO_DIR([m4])
 
 AM_INIT_AUTOMAKE
 GNOME_COMMON_INIT
+GNOME_DOC_INIT
 
 AM_MAINTAINER_MODE
 AM_DISABLE_STATIC
@@ -80,6 +81,7 @@ src/Makefile
 data/Makefile
 doc/Makefile
 po/Makefile.in
+help/Makefile
 ])
 
 echo

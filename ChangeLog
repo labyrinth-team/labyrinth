@@ -1,5 +1,10 @@
 2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* configure.ac:
+	Fix issue 143 with patch provided by CaptainM...
+
+2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* src/Makefile.in:
 	Add ResourceThought
 
