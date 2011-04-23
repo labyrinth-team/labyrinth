@@ -1,17 +1,22 @@
 2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
-	* src/MapList.py
+	* src/Makefile.in:
+	Add ResourceThought
+
+2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/MapList.py:
 	Fix issue 148 with Patch from "perlhead"
 
 2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
-	* src/*.py
+	* src/*.py:
 	Respect PEP-8.
 
 2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/MainWindow.py
-	* src/utils.py
+	* src/utils.py:
 	Replace deprecated libs
 
 2009-03-08 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>

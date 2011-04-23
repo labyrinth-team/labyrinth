@@ -1,3 +1,8 @@
+2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* po/pt_BR.po:
+	Fixed issue 142
+
 2008-03-26  Don Scorgie  <Don@Scorgie.org>
 
 	* LINGUAS: 

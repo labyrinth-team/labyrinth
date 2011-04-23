@@ -18,19 +18,19 @@ msgstr ""
 
 #: ../src/Browser.py:207
 msgid "The map cannot be deleted right now.  Is it open?"
-msgstr "O mapa n„o pode ser apagado agora. Ele est· aberto?"
+msgstr "O mapa n√£o pode ser apagado agora. Ele est√° aberto?"
 
 #: ../src/Browser.py:209
 msgid "The map has no associated filename."
-msgstr "O mapa n„o tem nenhum nome de arquivo associado."
+msgstr "O mapa n√£o tem nenhum nome de arquivo associado."
 
 #: ../src/Browser.py:212
 msgid "Cannot delete this map"
-msgstr "N„o È possÌvel apagar este mapa"
+msgstr "N√£o √© poss√≠vel apagar este mapa"
 
 #: ../src/Browser.py:219
 msgid "Do you really want to delete this Map?"
-msgstr "VocÈ quer realmente apagar este mapa?"
+msgstr "Voc√© quer realmente apagar este mapa?"
 
 #: ../src/Browser.py:248
 msgid "Map Name"
@@ -39,7 +39,7 @@ msgstr "Nome do Mapa"
 #: ../src/MainWindow.py:111 ../src/MainWindow.py:283
 #, python-format
 msgid "Untitled Map %d"
-msgstr "Mapa sem tÌtulo %d"
+msgstr "Mapa sem t√≠tulo %d"
 
 #: ../src/MainWindow.py:165
 msgid "File"
@@ -89,7 +89,7 @@ msgstr "_Modo Editar"
 
 #: ../src/MainWindow.py:186
 msgid "Turn on edit mode"
-msgstr "Voltar ao modo de ediÁ„o"
+msgstr "Voltar ao modo de edi√ß√£o"
 
 #: ../src/MainWindow.py:187
 msgid "_Add Image"
@@ -109,11 +109,11 @@ msgstr "Fazer um desenho bonito"
 
 #: ../src/MainWindow.py:192
 msgid "_View Extended"
-msgstr "_Vis„o Extendida"
+msgstr "_Vis√£o Extendida"
 
 #: ../src/MainWindow.py:193
 msgid "View extended info for thoughts"
-msgstr "Vis„o extendida das informaÁıes do pensamento"
+msgstr "Vis√£o extendida das informa√ß√µes do pensamento"
 
 #: ../src/MainWindow.py:446
 msgid "Unknown file format"
@@ -124,7 +124,7 @@ msgstr "Formato de imagem desconhecida"
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
 msgstr ""
-"O tipo de arquivo '%s' n„o È suportado.  Por favor use o sufixo '.png' ou '.jpg'"
+"O tipo de arquivo '%s' n√£o √© suportado.  Por favor use o sufixo '.png' ou '.jpg'"
 
 #: ../src/DrawingThought.py:67
 #, python-format
@@ -142,7 +142,7 @@ msgstr "Erro ao carregar arquivo"
 #: ../src/ImageThought.py:305
 #,python-format
 msgid "%s could not be found.  Associated thought will be empty."
-msgstr "%s n„o pode ser encontrado. O pensamento associado estar· vazio."
+msgstr "%s n√£o pode ser encontrado. O pensamento associado estar√° vazio."
 
 #: ../data/labyrinth.glade.h:1
 msgid "<b>Export Map</b>"
@@ -166,7 +166,7 @@ msgstr "Mapas do Labyrinth"
 
 #: ../data/labyrinth.glade.h:6
 msgid "Visible Area"
-msgstr "¡rea VisÌvel"
+msgstr "√Årea Vis√≠vel"
 
 #: ../data/labyrinth.glade.h:7
 msgid "Width"
@@ -235,4 +235,4 @@ msgstr "Mind-mapping"
 #~ msgstr "Voltar ao modo mover"
 
 #~ msgid "%s could not be read.  Please ensure its a valid image."
-#~ msgstr "%s n„o pode ser lido. Verifique se esta imagem È v·lida."
+#~ msgstr "%s n√£o pode ser lido. Verifique se esta imagem √© v√°lida."
