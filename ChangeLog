@@ -1,11 +1,17 @@
 2009-03-08 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* src/MainWindow.py
+	* src/utils.py
+	Replace deprecated libs
+
+2009-03-08 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* data/labyrinth.glade
 	Fix Gtk warning
 
 2009-02-28 Martin Schaaf <mascha@ma-scha.de>
 
-        * src/MMapArea.py
+	* src/MMapArea.py
 	Used wrong variable name use height instead of heigth0. Thanks to
 	Kunshan Wang for the pointer.
 

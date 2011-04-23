@@ -21,7 +21,7 @@
 
 import gtk
 import cairo, pangocairo
-import sha
+import hashlib
 import os
 import tarfile
 import gobject
@@ -559,14 +559,14 @@ class LabyrinthWindow (gobject.GObject):
 	def doc_save_cb (self, widget, doc, top_element):
 		save_string = self.serialize_to_xml(doc, top_element)
 		if not self.save_file:
-			sham = sha.new (save_string)
+			hsh = hashlib.sha256 (save_string)
 			save_loc = utils.get_save_dir ()
-			self.save_file = save_loc+sham.hexdigest()+".map"
+			self.save_file = save_loc+hsh.hexdigest()+".map"
 			counter = 1
 			while os.path.exists(self.save_file):
 			
 				print "Warning: Duplicate File.  Saving to alternative"
-				self.save_file = save_loc + "Dup"+str(counter)+sham.hexdigest()+".map"
+				self.save_file = save_loc + "Dup"+str(counter)+hsh.hexdigest()+".map"
 				counter += 1
 
 		self.save_map(self.save_file, save_string)

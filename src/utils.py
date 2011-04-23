@@ -26,7 +26,7 @@
 import sys
 from os.path import *
 import os
-from Numeric import *
+from numpy import *
 import gtk
 
 __BE_VERBOSE=os.environ.get('DEBUG_LABYRINTH',0)
