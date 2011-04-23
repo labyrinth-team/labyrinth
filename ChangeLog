@@ -1,5 +1,11 @@
 2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* src/MainWindow.py
+	* data/labyrinth-ui.xml:
+	Temporarily disable ResourceThoughts for an earlier release of 0.5
+
+2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* src/TextThought.py:
 	Fix issue 136 with patch provided by Dennis Guse
 

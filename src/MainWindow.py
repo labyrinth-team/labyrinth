@@ -259,9 +259,7 @@ class LabyrinthWindow (gobject.GObject):
                  ('AddImage', gtk.STOCK_ADD, _('_Add Image'), None,
                  _('Add an image to selected thought'), MMapArea.MODE_IMAGE),
                  ('Drawing', gtk.STOCK_COLOR_PICKER, _('_Drawing Mode'), None,
-                 _('Make a pretty drawing'), MMapArea.MODE_DRAW),
-                 ('AddResource', gtk.STOCK_NETWORK, _('Add Resource'), None,
-                 _('Add a resource'), MMapArea.MODE_RESOURCE)]
+                 _('Make a pretty drawing'), MMapArea.MODE_DRAW)]
         self.view_radio_actions = [
                 ('UseBezier', None, _('Use _Curves'), None,
                  _('Use curves as links'), MMapArea.VIEW_BEZIER),

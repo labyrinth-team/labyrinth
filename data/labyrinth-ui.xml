@@ -35,14 +35,12 @@
       <menuitem action="Edit"/>
       <menuitem action="Drawing"/>
       <menuitem action="AddImage"/>
-      <menuitem action="AddResource"/>
     </menu>
   </menubar>
   <toolbar name="ToolBar">
     <toolitem action="Edit"/>
     <toolitem action="Drawing"/>
     <toolitem action="AddImage"/>
-    <toolitem action="AddResource"/>
     <separator/>
     <toolitem action="ZoomIn"/>
     <toolitem action="ZoomOut"/>
