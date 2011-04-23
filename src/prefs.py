@@ -15,7 +15,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Labyrinth; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, 
+# Foundation, Inc., 51 Franklin St, Fifth Floor,
 # Boston, MA  02110-1301  USA
 #
 
@@ -26,13 +26,13 @@ import gtk
 _dirn = None
 
 def init ():
-	global _dirn
-	_dirn = gtk.widget_get_default_direction ()
-	
+    global _dirn
+    _dirn = gtk.widget_get_default_direction ()
+
 
 def get_direction ():
-	global _dirn
-	return _dirn
-	
-	
+    global _dirn
+    return _dirn
+
+
 init ()

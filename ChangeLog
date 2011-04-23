@@ -1,4 +1,9 @@
-2009-03-08 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/*.py
+	Respect PEP-8.
+
+2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/MainWindow.py
 	* src/utils.py

@@ -22,7 +22,7 @@ __revision__ = '$Id: $'
 # GNU General Public License, version 2 or later
 
 
-# for build this on a win32 environment and becames with a standalone distribution 
+# for build this on a win32 environment and becames with a standalone distribution
 # a base python 2.4 for 2in32 instalation must be present
 # along with gtk+ development libraries
 # pywin32com extensions, reportlab module, pygtk for win32 and pysqlite-1.1.7.win32-py2.4 (current win32 distro install is using this pysqlite 3 version)
@@ -50,31 +50,31 @@ from distutils.core import setup
 import glob
 import py2exe
 
-opts = { 
-    "py2exe": { 
+opts = {
+    "py2exe": {
         "includes": "cairo,pangocairo,pango,atk,gobject,xml.dom,xml.dom.minidom,threading,shutil,pygtk,gtk,sys,gtk.glade",
         "optimize": 2,
-		"dist_dir": "dist\\data_files", 
-    } 
-} 
+                "dist_dir": "dist\\data_files",
+    }
+}
 
 setup(
     name = "Labyrinth",
     description = "Labyrinth",
     version = "0.3",
-    windows = [ 
-        { 
-            "script": "src\\labyrinth.py", 
-            "icon_resources": [(1, "Windows\labyrinth.ico")] 
+    windows = [
+        {
+            "script": "src\\labyrinth.py",
+            "icon_resources": [(1, "Windows\labyrinth.ico")]
         }],
-		options = opts,
-		data_files=[
-		("images",
-		glob.glob("data\\*.png")),
-		("data",
-		glob.glob("data\\*.glade")),
-		("data",
-		glob.glob("data\\*.xml")),
-		("",
-		glob.glob("src\\*.py"))],
+                options = opts,
+                data_files=[
+                ("images",
+                glob.glob("data\\*.png")),
+                ("data",
+                glob.glob("data\\*.glade")),
+                ("data",
+                glob.glob("data\\*.xml")),
+                ("",
+                glob.glob("src\\*.py"))],
 )
