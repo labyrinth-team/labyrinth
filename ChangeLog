@@ -1,6 +1,13 @@
 2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/MainWindow.py
+	* src/MMapArea.py
+	* data/labyrinth-ui.xml:
+	Add Zoom-to-Fit functionality fixing issue 150
+
+2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
+	* src/MainWindow.py
 	* data/labyrinth-ui.xml:
 	Temporarily disable ResourceThoughts for an earlier release of 0.5
 

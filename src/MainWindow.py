@@ -43,18 +43,18 @@ UNDO_MODE = 0
 UNDO_SHOW_EXTENDED = 1
 
 class LabyrinthWindow (gobject.GObject):
-    __gsignals__ = dict (title_changed              = (gobject.SIGNAL_RUN_FIRST,
-                                                                                       gobject.TYPE_NONE,
-                                                                                       (gobject.TYPE_STRING, gobject.TYPE_OBJECT)),
-                                             doc_save                       = (gobject.SIGNAL_RUN_FIRST,
-                                                                                       gobject.TYPE_NONE,
-                                                                                       (gobject.TYPE_STRING, gobject.TYPE_OBJECT)),
-                                             file_saved         = (gobject.SIGNAL_RUN_FIRST,
-                                                                                       gobject.TYPE_NONE,
-                                                                                       (gobject.TYPE_STRING, gobject.TYPE_OBJECT)),
-                                             window_closed      = (gobject.SIGNAL_RUN_FIRST,
-                                                                                       gobject.TYPE_NONE,
-                                                                                       (gobject.TYPE_OBJECT, )))
+    __gsignals__ = dict (title_changed = (gobject.SIGNAL_RUN_FIRST,
+                                          gobject.TYPE_NONE,
+                                          (gobject.TYPE_STRING, gobject.TYPE_OBJECT)),
+                         doc_save      = (gobject.SIGNAL_RUN_FIRST,
+                                          gobject.TYPE_NONE,
+                                          (gobject.TYPE_STRING, gobject.TYPE_OBJECT)),
+                         file_saved    = (gobject.SIGNAL_RUN_FIRST,
+                                          gobject.TYPE_NONE,
+                                          (gobject.TYPE_STRING, gobject.TYPE_OBJECT)),
+                         window_closed = (gobject.SIGNAL_RUN_FIRST,
+                                          gobject.TYPE_NONE,
+                                          (gobject.TYPE_OBJECT, )))
 
     def __init__ (self, filename, imported=False):
         super(LabyrinthWindow, self).__init__()
@@ -252,7 +252,9 @@ class LabyrinthWindow (gobject.GObject):
                 ('ZoomIn', gtk.STOCK_ZOOM_IN, None, '<control>plus',
                  None, self.zoomin_cb),
                 ('ZoomOut', gtk.STOCK_ZOOM_OUT, None, '<control>minus',
-                 None, self.zoomout_cb)]
+                 None, self.zoomout_cb),
+                ('ZoomFit', gtk.STOCK_ZOOM_FIT, None, None,
+                 None, self.zoomfit_cb)]
         self.radio_actions = [
                 ('Edit', gtk.STOCK_EDIT, _('_Edit Mode'), '<control>E',
                  _('Turn on edit mode'), MMapArea.MODE_EDITING),
@@ -411,11 +413,11 @@ class LabyrinthWindow (gobject.GObject):
 
     def finish_translate (self, box, arg1):
         self.undo.add_undo (UndoManager.UndoAction (self.MainArea, UndoManager.TRANSFORM_CANVAS, \
-                                                                                                self.MainArea.undo_transform_cb,
-                                                                                                self.MainArea.scale_fac,
-                                                                                                self.MainArea.scale_fac,
-                                                                                                self.orig_translate,
-                                                                                                self.MainArea.translation))
+                self.MainArea.undo_transform_cb,
+                self.MainArea.scale_fac,
+                self.MainArea.scale_fac,
+                self.orig_translate,
+                self.MainArea.translation))
         self.tr_to = False
 
     def pos_changed (self, panes, arg2):
@@ -464,11 +466,15 @@ class LabyrinthWindow (gobject.GObject):
             self.MainArea.set_font (button.get_font_name ())
 
     def zoomin_cb(self, arg):
-        self.MainArea.scale_fac*=1.2
+        self.MainArea.scale_fac *= 1.2
         self.MainArea.invalidate()
 
     def zoomout_cb(self, arg):
-        self.MainArea.scale_fac/=1.2
+        self.MainArea.scale_fac /= 1.2
+        self.MainArea.invalidate()
+
+    def zoomfit_cb(self, arg):
+        self.MainArea.translation = [0.0, 0.0]
         self.MainArea.invalidate()
 
     def new_window_cb (self, arg):

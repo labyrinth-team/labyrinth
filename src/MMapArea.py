@@ -86,33 +86,33 @@ class MMapArea (gtk.DrawingArea):
        It is responsible for processing signals and such from the whole area and \
        passing these on to the correct child.  It also informs things when to draw'''
 
-    __gsignals__ = dict (title_changed              = (gobject.SIGNAL_RUN_FIRST,
-                                                                                       gobject.TYPE_NONE,
-                                                                                       (gobject.TYPE_STRING, )),
-                                             doc_save                       = (gobject.SIGNAL_RUN_FIRST,
-                                                                                       gobject.TYPE_NONE,
-                                                                                       (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT)),
-                                             doc_delete         = (gobject.SIGNAL_RUN_FIRST,
-                                                                                       gobject.TYPE_NONE,
-                                                                                       ()),
-                                             change_mode        = (gobject.SIGNAL_RUN_LAST,
-                                                                                       gobject.TYPE_NONE,
-                                                                                       (gobject.TYPE_INT, )),
-                                             change_buffer      = (gobject.SIGNAL_RUN_LAST,
-                                                                                       gobject.TYPE_NONE,
-                                                                                       (gobject.TYPE_OBJECT, )),
-                                             text_selection_changed  = (gobject.SIGNAL_RUN_FIRST,
-                                                                                       gobject.TYPE_NONE,
-                                                                                       (gobject.TYPE_INT, gobject.TYPE_INT, gobject.TYPE_STRING)),
-                                             thought_selection_changed = (gobject.SIGNAL_RUN_FIRST,
-                                                                                            gobject.TYPE_NONE,
-                                                                                            (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT)),
-                                             set_focus                               = (gobject.SIGNAL_RUN_FIRST,
-                                                                                                    gobject.TYPE_NONE,
-                                                                                                    (gobject.TYPE_PYOBJECT, gobject.TYPE_BOOLEAN)),
-                                             set_attrs                               = (gobject.SIGNAL_RUN_LAST,
-                                                                                                    gobject.TYPE_NONE,
-                                                                                                    (gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN, pango.FontDescription)))
+    __gsignals__ = dict (title_changed             = (gobject.SIGNAL_RUN_FIRST,
+                                                      gobject.TYPE_NONE,
+                                                      (gobject.TYPE_STRING, )),
+                         doc_save                  = (gobject.SIGNAL_RUN_FIRST,
+                                                      gobject.TYPE_NONE,
+                                                      (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT)),
+                         doc_delete                = (gobject.SIGNAL_RUN_FIRST,
+                                                      gobject.TYPE_NONE,
+                                                      ()),
+                         change_mode               = (gobject.SIGNAL_RUN_LAST,
+                                                      gobject.TYPE_NONE,
+                                                      (gobject.TYPE_INT, )),
+                         change_buffer             = (gobject.SIGNAL_RUN_LAST,
+                                                      gobject.TYPE_NONE,
+                                                      (gobject.TYPE_OBJECT, )),
+                         text_selection_changed    = (gobject.SIGNAL_RUN_FIRST,
+                                                      gobject.TYPE_NONE,
+                                                      (gobject.TYPE_INT, gobject.TYPE_INT, gobject.TYPE_STRING)),
+                         thought_selection_changed = (gobject.SIGNAL_RUN_FIRST,
+                                                      gobject.TYPE_NONE,
+                                                      (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT)),
+                         set_focus                 = (gobject.SIGNAL_RUN_FIRST,
+                                                      gobject.TYPE_NONE,
+                                                      (gobject.TYPE_PYOBJECT, gobject.TYPE_BOOLEAN)),
+                         set_attrs                 = (gobject.SIGNAL_RUN_LAST,
+                                                      gobject.TYPE_NONE,
+                                                      (gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN, pango.FontDescription)))
 
     def __init__(self, undo):
         super (MMapArea, self).__init__()
@@ -162,12 +162,11 @@ class MMapArea (gtk.DrawingArea):
         self.rotation = 0
 
         self.set_events (gtk.gdk.KEY_PRESS_MASK |
-                                         gtk.gdk.KEY_RELEASE_MASK |
-                                         gtk.gdk.BUTTON_PRESS_MASK |
-                                         gtk.gdk.BUTTON_RELEASE_MASK |
-                                         gtk.gdk.POINTER_MOTION_MASK |
-                                         gtk.gdk.SCROLL_MASK
-                                        )
+                         gtk.gdk.KEY_RELEASE_MASK |
+                         gtk.gdk.BUTTON_PRESS_MASK |
+                         gtk.gdk.BUTTON_RELEASE_MASK |
+                         gtk.gdk.POINTER_MOTION_MASK |
+                         gtk.gdk.SCROLL_MASK)
 
         self.set_flags (gtk.CAN_FOCUS)
 
@@ -283,11 +282,11 @@ class MMapArea (gtk.DrawingArea):
 
         obj = self.find_object_at (coords)
         if event.button == 2:
-            self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.TRANSFORM_CANVAS, \
-                                                                                                    self.undo_transform_cb,
-                                                                                                    self.scale_fac, self.scale_fac,
-                                                                                                    self.original_translation,
-                                                                                                    self.translation))
+            self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.TRANSFORM_CANVAS,
+                self.undo_transform_cb,
+                self.scale_fac, self.scale_fac,
+                self.original_translation,
+                self.translation))
 
         if obj:
             ret = obj.process_button_release (event, self.unending_link, self.mode, coords)
@@ -323,14 +322,14 @@ class MMapArea (gtk.DrawingArea):
             thought.foreground_color = self.foreground_color
             thought.background_color = self.background_color
             act = UndoManager.UndoAction (self, UNDO_CREATE, self.undo_create_cb, thought, sel, \
-                                                                      self.mode, self.old_mode, event.get_coords())
+                    self.mode, self.old_mode, event.get_coords())
             for l in self.links:
                 if l.uses (thought):
                     act.add_arg (l)
             if self.undo.peak ().undo_type == UNDO_DELETE_SINGLE:
                 last_action = self.undo.pop ()
                 action = UndoManager.UndoAction (self, UNDO_COMBINE_DELETE_NEW, self.undo_joint_cb, \
-                                                                                 last_action, act)
+                    last_action, act)
                 self.undo.add_undo (action)
             else:
                 self.undo.add_undo (act)
@@ -363,10 +362,11 @@ class MMapArea (gtk.DrawingArea):
             self.translation[1] -= coords[1] - middle[1]
         elif event.direction == gtk.gdk.SCROLL_DOWN:
             self.scale_fac/=1.2
+
         self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.TRANSFORM_CANVAS, \
-                                                                                                self.undo_transform_cb,
-                                                                                                scale, self.scale_fac, self.translation,
-                                                                                                self.translation))
+            self.undo_transform_cb,
+            scale, self.scale_fac, self.translation,
+            self.translation))
         self.invalidate()
 
     def undo_joint_cb (self, action, mode):

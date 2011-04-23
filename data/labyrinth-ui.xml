@@ -44,6 +44,7 @@
     <separator/>
     <toolitem action="ZoomIn"/>
     <toolitem action="ZoomOut"/>
+    <toolitem action="ZoomFit"/>
     <toolitem action="Undo"/>
     <toolitem action="Redo"/>
   </toolbar>
