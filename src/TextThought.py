@@ -793,7 +793,7 @@ class TextThought (BaseThought.BaseThought):
                  (self.ul[0]-((self.ul[0]-self.lr[0]) / 2.), self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)))
                 return True
         elif event.state & gtk.gdk.BUTTON1_MASK and not self.editing and \
-                mode == BaseThought.MODE_EDITING and not event.state & gtk.gdk.CONTROL_MASK:
+                mode == BaseThought.MODE_EDITING and event.state & gtk.gdk.CONTROL_MASK:
             self.emit ("create_link", \
              (self.ul[0]-((self.ul[0]-self.lr[0]) / 2.), self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)))
         self.recalc_edges()

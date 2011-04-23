@@ -1,5 +1,10 @@
 2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
+	* src/TextThought.py:
+	Fix issue 136 with patch provided by Dennis Guse
+
+2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+
 	* configure.ac:
 	Fix issue 143 with patch provided by CaptainM...
 
