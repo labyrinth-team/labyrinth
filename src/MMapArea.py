@@ -312,12 +312,14 @@ class MMapArea (gtk.DrawingArea):
                     x.unselect ()
                 self.selected = [thought]
                 thought.select ()
+
             if self.unending_link:
                 self.unending_link.set_child (thought)
                 self.links.append (self.unending_link)
                 element = self.unending_link.get_save_element ()
                 self.element.appendChild (element)
                 self.unending_link = None
+
             self.undo.unblock ()
             thought.foreground_color = self.foreground_color
             thought.background_color = self.background_color
@@ -387,6 +389,7 @@ class MMapArea (gtk.DrawingArea):
                 if not self.editing.process_key_press (event, self.mode):
                     return self.global_key_handler (event)
                 return True
+            b = self.selected[0].process_key_press (event, self.mode)
             if len(self.selected) != 1 or not self.selected[0].process_key_press (event, self.mode):
                 return self.global_key_handler (event)
         return True
@@ -661,7 +664,7 @@ class MMapArea (gtk.DrawingArea):
             if self.unending_link:
                 del self.unending_link
             self.unending_link = Links.Link (self.save, parent = thought, start_coords = thought_coords,
-                                                                             end_coords = child_coords, strength = strength)
+                    end_coords = child_coords, strength = strength)
 
     def set_mouse_cursor_cb (self, thought, cursor_type):
         if not self.moving:
@@ -678,6 +681,7 @@ class MMapArea (gtk.DrawingArea):
     def claim_unending_link (self, thought):
         if not self.unending_link:
             return
+        
         if self.unending_link.parent == thought:
             del self.unending_link
             self.unending_link = None
@@ -688,7 +692,7 @@ class MMapArea (gtk.DrawingArea):
                 x.change_strength (self.unending_link.parent, thought)
                 new_strength = x.strength
                 self.undo.add_undo (UndoManager.UndoAction (self, UNDO_STRENGTHEN_LINK, self.undo_link_action, x, \
-                                                                                                        old_strength, new_strength))
+                        old_strength, new_strength))
                 del self.unending_link
                 self.unending_link = None
                 return
@@ -696,6 +700,7 @@ class MMapArea (gtk.DrawingArea):
         self.undo.add_undo (UndoManager.UndoAction (self, UNDO_CREATE_LINK, self.undo_link_action, self.unending_link))
         self.unending_link.set_child (thought)
         self.links.append (self.unending_link)
+        self.connect_link(self.unending_link)
         element = self.unending_link.get_save_element ()
         self.element.appendChild (element)
         self.unending_link = None

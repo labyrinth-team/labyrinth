@@ -33,15 +33,16 @@ def norm(x, y):
     return [abs(x[0]-y[0]) / (mod), abs(x[1] - y[1]) / (mod)]
 
 class Link (gobject.GObject):
-    __gsignals__ = dict (select_link         = (gobject.SIGNAL_RUN_FIRST,
-                                                                                        gobject.TYPE_NONE,
-                                                                                        (gobject.TYPE_PYOBJECT,)),
-                                             update_view             = (gobject.SIGNAL_RUN_LAST,
-                                                                                            gobject.TYPE_NONE,
-                                                                                            ()),
-                                             popup_requested     = (gobject.SIGNAL_RUN_FIRST,
-                                                                                        gobject.TYPE_NONE,
-                                                                                        (gobject.TYPE_PYOBJECT, gobject.TYPE_INT)))
+    __gsignals__ = dict (select_link = (gobject.SIGNAL_RUN_FIRST,
+                                        gobject.TYPE_NONE,
+                                        (gobject.TYPE_PYOBJECT,)),
+                         update_view = (gobject.SIGNAL_RUN_LAST,
+                                        gobject.TYPE_NONE,
+                                        ()),
+                         popup_requested = (gobject.SIGNAL_RUN_FIRST,
+                                            gobject.TYPE_NONE,
+                                            (gobject.TYPE_PYOBJECT, gobject.TYPE_INT)))
+
     def __init__ (self, save, parent = None, child = None, start_coords = None, end_coords = None, strength = 2):
         super (Link, self).__init__()
         self.parent = parent
@@ -226,7 +227,7 @@ class Link (gobject.GObject):
         return False
 
     def process_key_press (self, event, mode):
-        if mode != BaseThought.MODE_EDITING:
+        if mode != BaseThought.MODE_EDITING or event.keyval == gtk.keysyms.Delete:
             return False
         if event.keyval == gtk.keysyms.plus or \
            event.keyval == gtk.keysyms.KP_Add:

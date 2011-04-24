@@ -1,10 +1,15 @@
-2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+2011-04-24 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+	* src/Links.py
+	* src/MMapArea.py:
+	Fix issue 124 and fix regression that links could not be deleted
+
+2011-04-24 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 	* po/pt_BR.po:
 	Really set to UTF-8
 	* configure.ac:
 	Prepare release candidate
 
-2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+2011-04-24 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 	* data/labyrinth-ui.xml
 	* src/MainWindow.py:
 	Removing 'delete from menu which interfered with application key
