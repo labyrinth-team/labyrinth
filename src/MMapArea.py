@@ -228,9 +228,6 @@ class MMapArea (gtk.DrawingArea):
             self.is_bbox_selecting = True
         elif event.button == 3:
             ret = self.create_popup_menu (None, event, MENU_EMPTY_SPACE)
-
-        if ret == False and self.editing:
-            self.finish_editing()
         return ret
 
     def undo_move (self, action, mode):

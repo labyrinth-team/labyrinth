@@ -138,7 +138,7 @@ class BaseThought (gobject.GObject):
 
     def move_by (self, x, y):
         self.ul = (self.ul[0]+x, self.ul[1]+y)
-        self.recalc_edges ()
+        self.recalc_position ()
         self.emit ("update_links")
         self.emit ("update_view")
 
@@ -228,6 +228,9 @@ class BaseThought (gobject.GObject):
         return False
 
     def recalc_edges (self):
+        pass
+
+    def recalc_position (self):
         pass
 
     def delete_surroundings(self, imcontext, offset, n_chars, mode):

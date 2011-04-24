@@ -129,6 +129,9 @@ class ImageThought (BaseThought.ResizableThought):
         self.pic_location = (self.ul[0]+margin[0], self.ul[1]+margin[1])
         self.lr = (self.pic_location[0]+self.width+margin[2], self.pic_location[1]+self.height+margin[3])
 
+    def recalc_position (self):
+        self.recalc_edges ()
+
     def undo_resize (self, action, mode):
         self.undo.block ()
         if mode == UndoManager.UNDO:

@@ -197,11 +197,9 @@ class TextThought (BaseThought.BaseThought):
         return show_text
 
     def recalc_edges (self):
-        if (not hasattr(self, "layout")):
-            return
         del self.layout
-        show_text = self.attrs_changed ()
 
+        show_text = self.attrs_changed ()
         r,g,b = utils.selected_colors["fill"]
         r *= 65536
         g *= 65536
@@ -215,6 +213,11 @@ class TextThought (BaseThought.BaseThought):
         self.layout = pango.Layout (self.pango_context)
         self.layout.set_text (show_text)
         self.layout.set_attributes(self.attrlist)
+        self.recalc_position ()
+
+    def recalc_position (self):
+        if self.layout is None:
+            self.recalc_edges()
 
         (x,y) = self.layout.get_pixel_size ()
         margin = utils.margin_required (utils.STYLE_NORMAL)
