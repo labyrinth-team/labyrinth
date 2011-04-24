@@ -4,185 +4,226 @@
 # Raphael J. Schmid <rjs@schattenschreiber.org>, 2008.
 # , fuzzy
 # Raphael J. Schmid <rjs@schattenschreiber.org>, 2008.
-# 
-# 
+#
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: labyrinth\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-03 21:51+0200\n"
+"POT-Creation-Date: 2011-04-24 19:12+0200\n"
 "PO-Revision-Date: 2008-04-03 21:51+0200\n"
 "Last-Translator: Raphael J. Schmid <rjs@schattenschreiber.org>, Matthias>\n"
 "Language-Team: de_DE <de@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/Browser.py:212
+#: ../src/Browser.py:194
+#, python-format
+msgid "Unable to display help: %s"
+msgstr "Kann Hilfe nicht anzeigen: %s"
+
+#: ../src/Browser.py:225
 msgid "Translation by Don Scorgie"
 msgstr "Übersetzung von Matthias Vogelgesang"
 
-#: ../src/Browser.py:234
+#: ../src/Browser.py:247
 msgid "The map cannot be deleted right now. Is it open?"
 msgstr "Mindmap kann nicht gelöscht werden. Ist sie geöffnet?"
 
-#: ../src/Browser.py:236
+#: ../src/Browser.py:249
 msgid "The map has no associated filename."
 msgstr "Der Mindmap ist kein Dateiname zugewiesen."
 
-#: ../src/Browser.py:239
+#: ../src/Browser.py:252
 msgid "Cannot delete this map"
 msgstr "Mindmap kann nicht gelöscht werden"
 
-#: ../src/Browser.py:246
+#: ../src/Browser.py:259
 msgid "Do you really want to delete this Map?"
 msgstr "Möchten Sie die Mindmap wirklich löschen?"
 
-#: ../src/Browser.py:271
+#: ../src/Browser.py:284
 msgid "Open File"
 msgstr "Öffne Datei"
 
-#: ../src/Browser.py:275
+#: ../src/Browser.py:288
 msgid "MAPZ Compressed Map (*.mapz)"
 msgstr "MAPZ komprimierte Mind Map (*.mapz)"
 
-#: ../src/Browser.py:306
+#: ../src/Browser.py:319
 msgid "Map Name"
 msgstr "Mindmap-Name"
 
-#: ../src/Browser.py:313
+#: ../src/Browser.py:326
 msgid "Last Modified"
 msgstr "Zuletzt modifiziert"
 
-#: ../src/MainWindow.py:113
-msgid "Choose background color"
-msgstr "Wähle Hintergrundfarbe"
-
-#: ../src/MainWindow.py:120
-msgid "Choose foreground color"
-msgstr "Wähle Textfarbe"
-
-#: ../src/MainWindow.py:152 ../src/MainWindow.py:485
+#: ../src/MainWindow.py:163 ../src/MainWindow.py:519
 msgid "Untitled Map"
 msgstr "Unbenannte Mindmap"
 
-#: ../src/MainWindow.py:250
+#: ../src/MainWindow.py:229
 msgid "File"
 msgstr "Datei"
 
-#: ../src/MainWindow.py:251
+#: ../src/MainWindow.py:230
 msgid "Export as Image"
 msgstr "Als Bild exportieren"
 
-#: ../src/MainWindow.py:252
+#: ../src/MainWindow.py:231
 msgid "Export your map as an image"
 msgstr "Exportieren Sie ihre Mindmap als Bild"
 
-#: ../src/MainWindow.py:253
+#: ../src/MainWindow.py:232
 msgid "Export Map..."
 msgstr "Exportiere Mindmap..."
 
-#: ../src/MainWindow.py:254
+#: ../src/MainWindow.py:233
 msgid "Export your map as XML"
 msgstr "Exportieren Sie ihre Mindmap als XML"
 
-#: ../src/MainWindow.py:256
+#: ../src/MainWindow.py:235
 msgid "Close the current window"
 msgstr "Aktuelles Fenster schließen"
 
-#: ../src/MainWindow.py:257
+#: ../src/MainWindow.py:236
 msgid "_Edit"
 msgstr "B_earbeiten"
 
-#: ../src/MainWindow.py:266
-msgid "(Un)Link Thoughts"
-msgstr "Gedanken ver-/entknüpfen"
+#: ../src/MainWindow.py:237
+msgid "_View"
+msgstr "_Ansicht"
 
-#: ../src/MainWindow.py:267
-msgid "(Un)Link the selected thoughts"
-msgstr "Gewählte Gedanken ver-/entknüpfen"
+#: ../src/MainWindow.py:238
+msgid "_Toolbar"
+msgstr "_Werkzeugleiste"
 
-#: ../src/MainWindow.py:268
+#: ../src/MainWindow.py:247
+#, fuzzy
+msgid "Link Thoughts"
+msgstr "Gedanken verknüpfen"
+
+#: ../src/MainWindow.py:248
+#, fuzzy
+msgid "Link the selected thoughts"
+msgstr "Gewählte Gedanken verknüpfen"
+
+#: ../src/MainWindow.py:249
 msgid "_Mode"
 msgstr "_Modus"
 
-#: ../src/MainWindow.py:269
-msgid "_Delete Selected Elements"
-msgstr "Gewählte(s) Element(e) _löschen"
-
-#: ../src/MainWindow.py:270
-msgid "Delete the selected element(s)"
-msgstr "Gewählte(s) Element(e) löschen"
-
-#: ../src/MainWindow.py:276
+#: ../src/MainWindow.py:257
 msgid "_Edit Mode"
 msgstr "Bearbeitungs_modus"
 
-#: ../src/MainWindow.py:277
+#: ../src/MainWindow.py:258
 msgid "Turn on edit mode"
 msgstr "Bearbeitungsmodus aktivieren"
 
-#: ../src/MainWindow.py:278
+#: ../src/MainWindow.py:259
 msgid "_Add Image"
 msgstr "_Bild hinzufügen"
 
-#: ../src/MainWindow.py:279
+#: ../src/MainWindow.py:260
 msgid "Add an image to selected thought"
 msgstr "Dem gewählten Gedanken ein Bild hinzufügen"
 
-#: ../src/MainWindow.py:280
+#: ../src/MainWindow.py:261
 msgid "_Drawing Mode"
 msgstr "Zeichenmo_dus"
 
-#: ../src/MainWindow.py:281
+#: ../src/MainWindow.py:262
 msgid "Make a pretty drawing"
 msgstr "Hübsche Zeichnung erstellen"
 
-#: ../src/MainWindow.py:283
-msgid "_View Extended"
-msgstr "_Erweiterte Ansicht"
-
-#: ../src/MainWindow.py:284
-msgid "View extended info for thoughts"
-msgstr "Erweiterte Informationen für Gedanken anzeigen"
-
-#: ../src/MainWindow.py:285
-msgid "_Use Bezier Curves"
+#: ../src/MainWindow.py:264
+#, fuzzy
+msgid "Use _Curves"
 msgstr "_Benutze Bezierkurven"
 
-#: ../src/MainWindow.py:286
-msgid "Use bezier curves as links"
+#: ../src/MainWindow.py:265
+#, fuzzy
+msgid "Use curves as links"
 msgstr "Benutze Bezierkurve als Link"
 
-#: ../src/MainWindow.py:548
+#: ../src/MainWindow.py:266
+msgid "Use _Lines"
+msgstr "Benutze Geraden"
+
+#: ../src/MainWindow.py:267
+#, fuzzy
+msgid "Use straight lines as links"
+msgstr "Benutze Bezierkurve als Link"
+
+#: ../src/MainWindow.py:269
+msgid "_Extended Information"
+msgstr "_Erweiterte Information"
+
+#: ../src/MainWindow.py:270
+#, fuzzy
+msgid "Show extended information for thoughts"
+msgstr "Erweiterte Informationen für Gedanken anzeigen"
+
+#: ../src/MainWindow.py:271
+msgid "_Outline"
+msgstr "_Gliederung"
+
+#: ../src/MainWindow.py:272
+msgid "Show outline of thought hierarchy"
+msgstr "Zeige Gliederung der Gedankenhierarchie"
+
+#: ../src/MainWindow.py:273
+msgid "_Main"
+msgstr ""
+
+#: ../src/MainWindow.py:274
+msgid "Show main toolbar"
+msgstr "Zeige Werkzeugleiste"
+
+#: ../src/MainWindow.py:275
+msgid "_Format"
+msgstr "_Formatierung"
+
+#: ../src/MainWindow.py:276
+msgid "Show format toolbar"
+msgstr "Zeige Werkzeugleiste zur Formatierung"
+
+#: ../src/MainWindow.py:301
+#, fuzzy
+msgid "Thoughts"
+msgstr "Gedanken"
+
+#: ../src/MainWindow.py:578
 msgid "Save File As"
 msgstr "Speichern unter"
 
-#: ../src/MainWindow.py:647
+#: ../src/MainWindow.py:672
 msgid "All Files"
 msgstr "Alle Dateien"
 
-#: ../src/MainWindow.py:648
+#: ../src/MainWindow.py:673
 msgid "PNG Image (*.png)"
 msgstr "PNG Bild (*.png)"
 
-#: ../src/MainWindow.py:649
+#: ../src/MainWindow.py:674
 msgid "JPEG Image (*.jpg, *.jpeg)"
 msgstr "JPEG Bild (*.jpg, *.jpeg)"
 
-#: ../src/MainWindow.py:650
+#: ../src/MainWindow.py:675
 msgid "SVG Vector Image (*.svg)"
 msgstr "SVG Vektorbild (*.svg)"
 
-#: ../src/MainWindow.py:651
+#: ../src/MainWindow.py:676
 msgid "PDF Portable Document (*.pdf)"
 msgstr "PDF Portable Document (*.pdf)"
 
-#: ../src/MainWindow.py:687
+#: ../src/MainWindow.py:712
 msgid "Unknown file format"
 msgstr "Unbekanntes Dateiformat"
 
-#: ../src/MainWindow.py:688
+#: ../src/MainWindow.py:713
 #, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
@@ -191,7 +232,7 @@ msgstr ""
 "Der Dateityp '%s' wird nicht unterstützt. Bitte verwenden Sie das Suffix '."
 "png', '.jpg' oder '.svg'."
 
-#: ../src/DrawingThought.py:67
+#: ../src/DrawingThought.py:66
 #, python-format
 msgid "Drawing #%d"
 msgstr "Zeichnung #%d"
@@ -200,50 +241,91 @@ msgstr "Zeichnung #%d"
 msgid "Choose image to insert"
 msgstr "Bild zum Einfügen auswählen"
 
-#: ../src/ImageThought.py:316
+#: ../src/ImageThought.py:319
 msgid "Error loading file"
 msgstr "Fehler beim Laden der Datei"
 
-#: ../src/ImageThought.py:317
+#: ../src/ImageThought.py:320
 #, python-format
 msgid "%s could not be found.  Associated thought will be empty."
 msgstr "Konnte %s nicht finden. Verknüpfter Gedanke wird leer sein."
+
+#: ../src/ImageThought.py:335
+msgid "Change Image"
+msgstr "Ändere Bild"
 
 #: ../data/labyrinth.glade.h:1
 msgid "<b>Export Map</b>"
 msgstr "<b>Exportierte Mindmap</b>"
 
 #: ../data/labyrinth.glade.h:2
+msgid "Align Bottom"
+msgstr "Unten ausrichten"
+
+#: ../data/labyrinth.glade.h:3
+msgid "Align Horizontal Center"
+msgstr "Horizontal zentrieren"
+
+#: ../data/labyrinth.glade.h:4
+msgid "Align Left"
+msgstr "Linksbündig ausrichten"
+
+#: ../data/labyrinth.glade.h:5
+msgid "Align Right"
+msgstr "Rechtsbündig ausrichten"
+
+#: ../data/labyrinth.glade.h:6
+msgid "Align Top"
+msgstr "Oben ausrichten"
+
+#: ../data/labyrinth.glade.h:7
+msgid "Align Vertical Center"
+msgstr "Vertikal zentrieren"
+
+#: ../data/labyrinth.glade.h:8
 msgid "Complete Map"
 msgstr "Vollständige Mindmap"
 
-#: ../data/labyrinth.glade.h:3
+#: ../data/labyrinth.glade.h:9
 msgid "Export Map as Image"
 msgstr "Mindmap als Bild exportieren"
 
-#: ../data/labyrinth.glade.h:4
+#: ../data/labyrinth.glade.h:10
 msgid "Height"
 msgstr "Höhe"
 
-#: ../data/labyrinth.glade.h:5
+#: ../data/labyrinth.glade.h:11
+#, fuzzy
+msgid "Import..."
+msgstr "Exportiere Mindmap..."
+
+#: ../data/labyrinth.glade.h:12
 msgid "Labyrinth Maps"
 msgstr "Labyrinth Mindmaps"
 
-#: ../data/labyrinth.glade.h:6
+#: ../data/labyrinth.glade.h:13
+msgid "URL"
+msgstr "URL"
+
+#: ../data/labyrinth.glade.h:14
 msgid "Visible Area"
 msgstr "Sichtbarer Bereich"
 
-#: ../data/labyrinth.glade.h:7
+#: ../data/labyrinth.glade.h:15
 msgid "Width"
 msgstr "Breite"
 
-#: ../data/labyrinth.glade.h:8
+#: ../data/labyrinth.glade.h:16
 msgid "_File"
 msgstr "_Datei"
 
-#: ../data/labyrinth.glade.h:9
+#: ../data/labyrinth.glade.h:17
 msgid "_Help"
 msgstr "_Hilfe"
+
+#: ../data/labyrinth.glade.h:18
+msgid "gtk-help"
+msgstr "gtk-help"
 
 #: ../data/labyrinth.desktop.in.h:1
 msgid "Labyrinth Mind-mapping"
@@ -256,6 +338,21 @@ msgstr "Map your mind"
 #: ../data/labyrinth.desktop.in.h:3
 msgid "Mind-mapping"
 msgstr "Mind-mapping"
+
+#~ msgid "Choose background color"
+#~ msgstr "Wähle Hintergrundfarbe"
+
+#~ msgid "Choose foreground color"
+#~ msgstr "Wähle Textfarbe"
+
+#~ msgid "_Delete Selected Elements"
+#~ msgstr "Gewählte(s) Element(e) _löschen"
+
+#~ msgid "Delete the selected element(s)"
+#~ msgstr "Gewählte(s) Element(e) löschen"
+
+#~ msgid "_View Extended"
+#~ msgstr "_Erweiterte Ansicht"
 
 #~ msgid "_Delete Selected Thoughts"
 #~ msgstr "Gewählte Ge_danken löschen"

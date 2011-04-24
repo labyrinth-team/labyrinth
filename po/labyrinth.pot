@@ -8,186 +8,220 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-03 21:51+0200\n"
+"POT-Creation-Date: 2011-04-24 19:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/Browser.py:212
+#: ../src/Browser.py:194
+#, python-format
+msgid "Unable to display help: %s"
+msgstr ""
+
+#: ../src/Browser.py:225
 msgid "Translation by Don Scorgie"
 msgstr ""
 
-#: ../src/Browser.py:234
+#: ../src/Browser.py:247
 msgid "The map cannot be deleted right now. Is it open?"
 msgstr ""
 
-#: ../src/Browser.py:236
+#: ../src/Browser.py:249
 msgid "The map has no associated filename."
 msgstr ""
 
-#: ../src/Browser.py:239
+#: ../src/Browser.py:252
 msgid "Cannot delete this map"
 msgstr ""
 
-#: ../src/Browser.py:246
+#: ../src/Browser.py:259
 msgid "Do you really want to delete this Map?"
 msgstr ""
 
-#: ../src/Browser.py:271
+#: ../src/Browser.py:284
 msgid "Open File"
 msgstr ""
 
-#: ../src/Browser.py:275
+#: ../src/Browser.py:288
 msgid "MAPZ Compressed Map (*.mapz)"
 msgstr ""
 
-#: ../src/Browser.py:306
+#: ../src/Browser.py:319
 msgid "Map Name"
 msgstr ""
 
-#: ../src/Browser.py:313
+#: ../src/Browser.py:326
 msgid "Last Modified"
 msgstr ""
 
-#: ../src/MainWindow.py:113
-msgid "Choose background color"
-msgstr ""
-
-#: ../src/MainWindow.py:120
-msgid "Choose foreground color"
-msgstr ""
-
-#: ../src/MainWindow.py:152 ../src/MainWindow.py:485
+#: ../src/MainWindow.py:163 ../src/MainWindow.py:519
 msgid "Untitled Map"
 msgstr ""
 
-#: ../src/MainWindow.py:250
+#: ../src/MainWindow.py:229
 msgid "File"
 msgstr ""
 
-#: ../src/MainWindow.py:251
+#: ../src/MainWindow.py:230
 msgid "Export as Image"
 msgstr ""
 
-#: ../src/MainWindow.py:252
+#: ../src/MainWindow.py:231
 msgid "Export your map as an image"
 msgstr ""
 
-#: ../src/MainWindow.py:253
+#: ../src/MainWindow.py:232
 msgid "Export Map..."
 msgstr ""
 
-#: ../src/MainWindow.py:254
+#: ../src/MainWindow.py:233
 msgid "Export your map as XML"
 msgstr ""
 
-#: ../src/MainWindow.py:256
+#: ../src/MainWindow.py:235
 msgid "Close the current window"
 msgstr ""
 
-#: ../src/MainWindow.py:257
+#: ../src/MainWindow.py:236
 msgid "_Edit"
 msgstr ""
 
-#: ../src/MainWindow.py:266
-msgid "(Un)Link Thoughts"
+#: ../src/MainWindow.py:237
+msgid "_View"
 msgstr ""
 
-#: ../src/MainWindow.py:267
-msgid "(Un)Link the selected thoughts"
+#: ../src/MainWindow.py:238
+msgid "_Toolbar"
 msgstr ""
 
-#: ../src/MainWindow.py:268
+#: ../src/MainWindow.py:247
+msgid "Link Thoughts"
+msgstr ""
+
+#: ../src/MainWindow.py:248
+msgid "Link the selected thoughts"
+msgstr ""
+
+#: ../src/MainWindow.py:249
 msgid "_Mode"
 msgstr ""
 
-#: ../src/MainWindow.py:269
-msgid "_Delete Selected Elements"
-msgstr ""
-
-#: ../src/MainWindow.py:270
-msgid "Delete the selected element(s)"
-msgstr ""
-
-#: ../src/MainWindow.py:276
+#: ../src/MainWindow.py:257
 msgid "_Edit Mode"
 msgstr ""
 
-#: ../src/MainWindow.py:277
+#: ../src/MainWindow.py:258
 msgid "Turn on edit mode"
 msgstr ""
 
-#: ../src/MainWindow.py:278
+#: ../src/MainWindow.py:259
 msgid "_Add Image"
 msgstr ""
 
-#: ../src/MainWindow.py:279
+#: ../src/MainWindow.py:260
 msgid "Add an image to selected thought"
 msgstr ""
 
-#: ../src/MainWindow.py:280
+#: ../src/MainWindow.py:261
 msgid "_Drawing Mode"
 msgstr ""
 
-#: ../src/MainWindow.py:281
+#: ../src/MainWindow.py:262
 msgid "Make a pretty drawing"
 msgstr ""
 
-#: ../src/MainWindow.py:283
-msgid "_View Extended"
+#: ../src/MainWindow.py:264
+msgid "Use _Curves"
 msgstr ""
 
-#: ../src/MainWindow.py:284
-msgid "View extended info for thoughts"
+#: ../src/MainWindow.py:265
+msgid "Use curves as links"
 msgstr ""
 
-#: ../src/MainWindow.py:285
-msgid "_Use Bezier Curves"
+#: ../src/MainWindow.py:266
+msgid "Use _Lines"
 msgstr ""
 
-#: ../src/MainWindow.py:286
-msgid "Use bezier curves as links"
+#: ../src/MainWindow.py:267
+msgid "Use straight lines as links"
 msgstr ""
 
-#: ../src/MainWindow.py:548
+#: ../src/MainWindow.py:269
+msgid "_Extended Information"
+msgstr ""
+
+#: ../src/MainWindow.py:270
+msgid "Show extended information for thoughts"
+msgstr ""
+
+#: ../src/MainWindow.py:271
+msgid "_Outline"
+msgstr ""
+
+#: ../src/MainWindow.py:272
+msgid "Show outline of thought hierarchy"
+msgstr ""
+
+#: ../src/MainWindow.py:273
+msgid "_Main"
+msgstr ""
+
+#: ../src/MainWindow.py:274
+msgid "Show main toolbar"
+msgstr ""
+
+#: ../src/MainWindow.py:275
+msgid "_Format"
+msgstr ""
+
+#: ../src/MainWindow.py:276
+msgid "Show format toolbar"
+msgstr ""
+
+#: ../src/MainWindow.py:301
+msgid "Thoughts"
+msgstr ""
+
+#: ../src/MainWindow.py:578
 msgid "Save File As"
 msgstr ""
 
-#: ../src/MainWindow.py:647
+#: ../src/MainWindow.py:672
 msgid "All Files"
 msgstr ""
 
-#: ../src/MainWindow.py:648
+#: ../src/MainWindow.py:673
 msgid "PNG Image (*.png)"
 msgstr ""
 
-#: ../src/MainWindow.py:649
+#: ../src/MainWindow.py:674
 msgid "JPEG Image (*.jpg, *.jpeg)"
 msgstr ""
 
-#: ../src/MainWindow.py:650
+#: ../src/MainWindow.py:675
 msgid "SVG Vector Image (*.svg)"
 msgstr ""
 
-#: ../src/MainWindow.py:651
+#: ../src/MainWindow.py:676
 msgid "PDF Portable Document (*.pdf)"
 msgstr ""
 
-#: ../src/MainWindow.py:687
+#: ../src/MainWindow.py:712
 msgid "Unknown file format"
 msgstr ""
 
-#: ../src/MainWindow.py:688
+#: ../src/MainWindow.py:713
 #, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
 "'.svg'."
 msgstr ""
 
-#: ../src/DrawingThought.py:67
+#: ../src/DrawingThought.py:66
 #, python-format
 msgid "Drawing #%d"
 msgstr ""
@@ -196,13 +230,17 @@ msgstr ""
 msgid "Choose image to insert"
 msgstr ""
 
-#: ../src/ImageThought.py:316
+#: ../src/ImageThought.py:319
 msgid "Error loading file"
 msgstr ""
 
-#: ../src/ImageThought.py:317
+#: ../src/ImageThought.py:320
 #, python-format
 msgid "%s could not be found.  Associated thought will be empty."
+msgstr ""
+
+#: ../src/ImageThought.py:335
+msgid "Change Image"
 msgstr ""
 
 #: ../data/labyrinth.glade.h:1
@@ -210,35 +248,71 @@ msgid "<b>Export Map</b>"
 msgstr ""
 
 #: ../data/labyrinth.glade.h:2
-msgid "Complete Map"
+msgid "Align Bottom"
 msgstr ""
 
 #: ../data/labyrinth.glade.h:3
-msgid "Export Map as Image"
+msgid "Align Horizontal Center"
 msgstr ""
 
 #: ../data/labyrinth.glade.h:4
-msgid "Height"
+msgid "Align Left"
 msgstr ""
 
 #: ../data/labyrinth.glade.h:5
-msgid "Labyrinth Maps"
+msgid "Align Right"
 msgstr ""
 
 #: ../data/labyrinth.glade.h:6
-msgid "Visible Area"
+msgid "Align Top"
 msgstr ""
 
 #: ../data/labyrinth.glade.h:7
-msgid "Width"
+msgid "Align Vertical Center"
 msgstr ""
 
 #: ../data/labyrinth.glade.h:8
-msgid "_File"
+msgid "Complete Map"
 msgstr ""
 
 #: ../data/labyrinth.glade.h:9
+msgid "Export Map as Image"
+msgstr ""
+
+#: ../data/labyrinth.glade.h:10
+msgid "Height"
+msgstr ""
+
+#: ../data/labyrinth.glade.h:11
+msgid "Import..."
+msgstr ""
+
+#: ../data/labyrinth.glade.h:12
+msgid "Labyrinth Maps"
+msgstr ""
+
+#: ../data/labyrinth.glade.h:13
+msgid "URL"
+msgstr ""
+
+#: ../data/labyrinth.glade.h:14
+msgid "Visible Area"
+msgstr ""
+
+#: ../data/labyrinth.glade.h:15
+msgid "Width"
+msgstr ""
+
+#: ../data/labyrinth.glade.h:16
+msgid "_File"
+msgstr ""
+
+#: ../data/labyrinth.glade.h:17
 msgid "_Help"
+msgstr ""
+
+#: ../data/labyrinth.glade.h:18
+msgid "gtk-help"
 msgstr ""
 
 #: ../data/labyrinth.desktop.in.h:1
