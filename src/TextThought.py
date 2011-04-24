@@ -197,6 +197,9 @@ class TextThought (BaseThought.BaseThought):
         return show_text
 
     def recalc_edges (self):
+        if not hasattr(self, 'layout'):
+            return
+
         del self.layout
 
         show_text = self.attrs_changed ()
