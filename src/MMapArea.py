@@ -229,7 +229,7 @@ class MMapArea (gtk.DrawingArea):
         elif event.button == 3:
             ret = self.create_popup_menu (None, event, MENU_EMPTY_SPACE)
 
-        if self.editing:
+        if ret == False and self.editing:
             self.finish_editing()
         return ret
 
@@ -389,7 +389,6 @@ class MMapArea (gtk.DrawingArea):
                 if not self.editing.process_key_press (event, self.mode):
                     return self.global_key_handler (event)
                 return True
-            b = self.selected[0].process_key_press (event, self.mode)
             if len(self.selected) != 1 or not self.selected[0].process_key_press (event, self.mode):
                 return self.global_key_handler (event)
         return True
@@ -614,6 +613,7 @@ class MMapArea (gtk.DrawingArea):
             self.finish_editing ()
         if thought.begin_editing ():
             self.editing = thought
+            self.invalidate()
 
     def undo_link_action (self, action, mode):
         self.undo.block ()
