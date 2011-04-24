@@ -1,4 +1,10 @@
 2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+	* po/pt_BR.po:
+	Really set to UTF-8
+	* configure.ac:
+	Prepare release candidate
+
+2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 	* data/labyrinth-ui.xml
 	* src/MainWindow.py:
 	Removing 'delete from menu which interfered with application key
