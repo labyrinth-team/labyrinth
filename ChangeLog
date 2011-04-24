@@ -1,9 +1,7 @@
 2011-04-24 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
-	* src/BaseThought.py
-	* src/MMapArea.py
-	* src/ImageThought.py
-	* src/TextThought.py:
-	Fix performance regression
+	* src/labyrinth.py
+	* src/MainWindow.py:
+	Add text domain to action group
 
 2011-04-24 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 	* src/MMapArea.py:

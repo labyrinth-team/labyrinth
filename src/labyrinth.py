@@ -67,6 +67,7 @@ if hasattr(locale, 'bindtextdomain'):
 gtk.glade.bindtextdomain('labyrinth')
 gtk.glade.textdomain('labyrinth')
 
+
 def main():
     parser = optparse.OptionParser()
     parser.add_option("--use-tray-icon", dest="tray_icon",
@@ -85,7 +86,7 @@ def main():
     MapBrowser = Browser.Browser (
             start_hidden = options.hide_main_window,
             tray_icon = options.tray_icon
-)
+    )
 
     if options.filename != None:
         MapBrowser.open_map_filename (utils.get_save_dir() + options.filename)

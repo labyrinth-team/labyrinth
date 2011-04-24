@@ -276,6 +276,7 @@ class LabyrinthWindow (gobject.GObject):
                  _('Show format toolbar'), self.show_format_toolbar_cb)]
 
         ag = gtk.ActionGroup ('WindowActions')
+        ag.set_translation_domain(gettext.textdomain())
         ag.add_actions (actions)
         ag.add_radio_actions (self.radio_actions)
         ag.add_radio_actions (self.view_radio_actions)
