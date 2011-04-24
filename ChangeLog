@@ -1,4 +1,10 @@
 2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+	* data/labyrinth-ui.xml
+	* src/MainWindow.py:
+	Removing 'delete from menu which interfered with application key
+	binding
+
+2011-04-23 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 
 	* src/MainWindow.py
 	* src/MMapArea.py

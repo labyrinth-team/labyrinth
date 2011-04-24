@@ -862,7 +862,7 @@ class MMapArea (gtk.DrawingArea):
     def create_new_thought (self, coords, thought_type = None, loading = False):
         if self.editing:
             self.editing.finish_editing ()
-        if thought_type!= None:
+        if thought_type != None:
             type = thought_type
         else:
             type = self.mode

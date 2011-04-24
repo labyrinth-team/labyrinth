@@ -247,8 +247,6 @@ class LabyrinthWindow (gobject.GObject):
                 ('LinkThoughts', None, _("Link Thoughts"), '<control>L',
                 _("Link the selected thoughts"), self.link_thoughts_cb),
                 ('ModeMenu', None, _('_Mode')),
-                ('DeleteNodes', gtk.STOCK_DELETE, _('_Delete'), 'Delete',
-                 _('Delete the selected element(s)'), self.delete_cb),
                 ('ZoomIn', gtk.STOCK_ZOOM_IN, None, '<control>plus',
                  None, self.zoomin_cb),
                 ('ZoomOut', gtk.STOCK_ZOOM_OUT, None, '<control>minus',

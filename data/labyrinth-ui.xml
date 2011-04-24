@@ -15,7 +15,6 @@
 	  <menuitem action="Paste"/>
 	  <separator/>
 	  <menuitem action="LinkThoughts"/>
-      <menuitem action="DeleteNodes"/>
     </menu>
     <menu action="ViewMenu">
       <menu action="ShowToolbars">
