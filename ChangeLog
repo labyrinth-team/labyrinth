@@ -1,3 +1,8 @@
+2011-04-25 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
+	* src/TextThought.py
+	* src/MainWindow.py:
+	Clean-up TextThought code in order to find font issue
+
 2011-04-24 Matthias Vogelgesang <matthias.vogelgesang@gmail.com>
 	* src/labyrinth.py
 	* src/MainWindow.py:

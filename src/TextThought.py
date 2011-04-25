@@ -35,6 +35,9 @@ UNDO_ADD_ATTR_SELECTION=65
 UNDO_REMOVE_ATTR=66
 UNDO_REMOVE_ATTR_SELECTION=67
 
+def minmax(a, b):
+    return (min(a, b), max(a, b))
+
 class TextThought (BaseThought.BaseThought):
     def __init__ (self, coords, pango_context, thought_number, save, undo, loading, background_color, foreground_color, name="thought"):
         super (TextThought, self).__init__(save, name, undo, background_color, foreground_color)
@@ -69,11 +72,9 @@ class TextThought (BaseThought.BaseThought):
         self.all_okay = True
 
     def index_from_bindex (self, bindex):
-        if bindex == 0:
-            return 0
         index = 0
-        for x in range(bindex):
-            index += int(self.bytes[x])
+        if bindex > 0:
+            index = sum([ int(self.bytes[i]) for i in range(bindex) ])
         return index
 
     def bindex_from_index (self, index):
@@ -83,7 +84,7 @@ class TextThought (BaseThought.BaseThought):
         nbytes = 0
         for x in self.bytes:
             nbytes += int (x)
-            bind+=1
+            bind += 1
             if nbytes == index:
                 break
         if nbytes < index:
@@ -100,17 +101,16 @@ class TextThought (BaseThought.BaseThought):
         # TODO: splice instead of own method
         it = self.attributes.get_iterator()
 
-        while 1:
+        while it.next():
             at = it.get_attrs()
             for x in at:
                 self.attrlist.insert(x)
-            if it.next() == False:
-                break
+
         if self.preedit:
             ins_text = self.preedit[0]
             ins_style = self.preedit[1]
             if self.index == len(self.text):
-                show_text = self.text+ins_text
+                show_text = self.text + ins_text
             elif self.index == 0:
                 show_text = ins_text + self.text
             else:
@@ -122,7 +122,7 @@ class TextThought (BaseThought.BaseThought):
             show_text = self.text
 
         it = self.attributes.get_iterator()
-        while(1):
+        while it.next():
             found = False
             r = it.range()
             if self.index == self.end_index:
@@ -167,8 +167,7 @@ class TextThought (BaseThought.BaseThought):
                         underline = True
                     elif x.type == pango.ATTR_FONT_DESC:
                         pango_font = x.desc
-            if it.next() == False:
-                break
+
         to_add = []
         if bold:
             to_add.append(pango.AttrWeight(pango.WEIGHT_BOLD, self.index, self.index))
@@ -246,36 +245,24 @@ class TextThought (BaseThought.BaseThought):
 
     def add_text (self, string):
         if self.index > self.end_index:
-            left = self.text[:self.end_index]
-            right = self.text[self.index:]
-            bleft = self.bytes[:self.b_f_i (self.end_index)]
-            bright = self.bytes[self.b_f_i (self.index):]
-            change = self.end_index - self.index + len(string)
-            old = self.index
-            self.index = self.end_index
-            self.end_index = old
-        elif self.index < self.end_index:
-            left = self.text[:self.index]
-            right = self.text[self.end_index:]
-            bleft = self.bytes[:self.b_f_i (self.index)]
-            bright = self.bytes[self.b_f_i (self.end_index):]
-            change = self.index - self.end_index + len(string)
-        else:
-            left = self.text[:self.index]
-            right = self.text[self.index:]
-            bleft = self.bytes[:self.b_f_i(self.index)]
-            bright = self.bytes[self.b_f_i(self.index):]
-            change = len(string)
+            self.index, self.end_index = self.end_index, self.index
 
-        it = self.attributes.get_iterator()
-        changes= []
+        left = self.text[:self.index]
+        right = self.text[self.end_index:]
+        bleft = self.bytes[:self.b_f_i (self.index)]
+        bright = self.bytes[self.b_f_i (self.end_index):]
+        change = self.index - self.end_index + len(string)
+
+        changes = []
         for x in self.current_attrs:
             x.start_index = self.index
             x.end_index = self.index + len(string)
             changes.append(x)
+
         old_attrs = []
-        while (1):
-            (start,end) = it.range()
+        it = self.attributes.get_iterator()
+        while it.next():
+            start, end = it.range()
             l = it.get_attrs()
             if start <= self.index:
                 if end > self.end_index:
@@ -299,13 +286,10 @@ class TextThought (BaseThought.BaseThought):
                     for x in l:
                         old_attrs.append(x.copy())
                         changes.append(x)
-            if it.next() == False:
-                break
 
         del self.attributes
         self.attributes = pango.AttrList()
-        for x in changes:
-            self.attributes.change(x)
+        map (lambda x : self.attributes.change(x), changes)
 
         self.text = left + string + right
         self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.INSERT_LETTER, self.undo_text_action,
@@ -341,7 +325,7 @@ class TextThought (BaseThought.BaseThought):
                 context.line_to (lx-5, uy)
             context.stroke ()
 
-        (textx, texty) = (self.text_location[0], self.text_location[1])
+        textx, texty = (self.text_location[0], self.text_location[1])
         if (self.foreground_color):
             r, g, b = utils.gtk_to_cairo_color(self.foreground_color)
         else:
@@ -351,9 +335,9 @@ class TextThought (BaseThought.BaseThought):
         context.show_layout (self.layout)
         if self.editing:
             if self.preedit:
-                (strong, weak) = self.layout.get_cursor_pos (self.index + self.preedit[2])
+                strong, weak = self.layout.get_cursor_pos (self.index + self.preedit[2])
             else:
-                (strong, weak) = self.layout.get_cursor_pos (self.index)
+                strong, weak = self.layout.get_cursor_pos (self.index)
             (startx, starty, curx,cury) = strong
             startx /= pango.SCALE
             starty /= pango.SCALE
@@ -385,9 +369,9 @@ class TextThought (BaseThought.BaseThought):
             return False
 
         inside = (coords[0] < self.lr[0] + self.sensitive) and \
-                         (coords[0] > self.ul[0] - self.sensitive) and \
-                     (coords[1] < self.lr[1] + self.sensitive) and \
-                     (coords[1] > self.ul[1] - self.sensitive)
+                 (coords[0] > self.ul[0] - self.sensitive) and \
+                 (coords[1] < self.lr[1] + self.sensitive) and \
+                 (coords[1] > self.ul[1] - self.sensitive)
         if inside and self.editing:
             self.emit ("change_mouse_cursor", gtk.gdk.XTERM)
         elif inside:
@@ -502,13 +486,13 @@ class TextThought (BaseThought.BaseThought):
             local_bytes = self.bytes[self.b_f_i(self.index)]
             change = -len(local_text)
 
-        changes= []
+        changes = []
         old_attrs = []
         accounted = -change
 
         it = self.attributes.get_iterator()
-        while (1):
-            (start,end) = it.range()
+        while it.next():
+            start, end = it.range()
             l = it.get_attrs()
             if end <= self.index:
                 for x in l:
@@ -542,8 +526,6 @@ class TextThought (BaseThought.BaseThought):
                     x.start_index += change
                     x.end_index += change
                     changes.append(x)
-            if it.next() == False:
-                break
 
         del self.attributes
         self.attributes = pango.AttrList()
@@ -584,8 +566,8 @@ class TextThought (BaseThought.BaseThought):
         accounted = -change
 
         it = self.attributes.get_iterator()
-        while (1):
-            (start,end) = it.range()
+        while it.next():
+            start, end = it.range()
             l = it.get_attrs()
             if end <= self.index:
                 for x in l:
@@ -620,13 +602,10 @@ class TextThought (BaseThought.BaseThought):
                     x.start_index += change
                     x.end_index += change
                     changes.append(x)
-            if it.next() == False:
-                break
-
 
         del self.attributes
         self.attributes = pango.AttrList()
-        map(lambda a : self.attributes.change(a), changes)
+        map (lambda a : self.attributes.change(a), changes)
 
         self.text = left+right
         self.bytes = bleft+bright
@@ -667,7 +646,7 @@ class TextThought (BaseThought.BaseThought):
                 loc -= len (i)+1
                 line -= 1
                 break
-            line+=1
+            line += 1
         if line == -1:
             self.end_index = self.index
             return
@@ -778,7 +757,7 @@ class TextThought (BaseThought.BaseThought):
             self.emit ("claim_unending_link")
 
     def selection_changed (self):
-        (start, end) = (min(self.index, self.end_index), max(self.index, self.end_index))
+        start, end = minmax(self.index, self.end_index)
         self.emit ("text_selection_changed", start, end, self.text[start:end])
 
     def handle_motion (self, event, mode, transformed):
@@ -807,7 +786,7 @@ class TextThought (BaseThought.BaseThought):
 
     def export (self, context, move_x, move_y):
         utils.export_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_NORMAL,
-                                                                  (move_x, move_y))
+                                      (move_x, move_y))
 
         r,g,b = utils.gtk_to_cairo_color (self.foreground_color)
         context.set_source_rgb (r, g, b)
@@ -863,38 +842,25 @@ class TextThought (BaseThought.BaseThought):
                 self.element.removeAttribute ("primary_root")
             except xml.dom.NotFoundErr:
                 pass
+
         doc = self.element.ownerDocument
         it = self.attributes.get_iterator()
-        while (1):
+        while it.next():
             r = it.range()
             for x in it.get_attrs():
+                elem = doc.createElement ("attribute")
+                elem.setAttribute("start", str(r[0]))
+                elem.setAttribute("end", str(r[1]))
+                self.element.appendChild (elem)
                 if x.type == pango.ATTR_WEIGHT and x.value == pango.WEIGHT_BOLD:
-                    elem = doc.createElement ("attribute")
-                    self.element.appendChild (elem)
-                    elem.setAttribute("start", str(r[0]))
-                    elem.setAttribute("end", str(r[1]))
                     elem.setAttribute("type", "bold")
                 elif x.type == pango.ATTR_STYLE and x.value == pango.STYLE_ITALIC:
-                    elem = doc.createElement ("attribute")
-                    self.element.appendChild (elem)
-                    elem.setAttribute("start", str(r[0]))
-                    elem.setAttribute("end", str(r[1]))
                     elem.setAttribute("type", "italics")
                 elif x.type == pango.ATTR_UNDERLINE and x.value == pango.UNDERLINE_SINGLE:
-                    elem = doc.createElement ("attribute")
-                    self.element.appendChild (elem)
-                    elem.setAttribute("start", str(r[0]))
-                    elem.setAttribute("end", str(r[1]))
                     elem.setAttribute("type", "underline")
                 elif x.type == pango.ATTR_FONT_DESC:
-                    elem = doc.createElement ("attribute")
-                    self.element.appendChild (elem)
-                    elem.setAttribute("start", str(r[0]))
-                    elem.setAttribute("end", str(r[1]))
                     elem.setAttribute("type", "font")
                     elem.setAttribute("value", x.desc.to_string ())
-            if not it.next():
-                break
 
     def rebuild_byte_table (self):
         # Build the Byte table
@@ -970,21 +936,16 @@ class TextThought (BaseThought.BaseThought):
                     attr = pango.AttrFontDesc (pango_font, start, end)
                 self.attributes.change(attr)
             else:
-                print "Unknown: "+n.nodeName
+                print "Unknown: " + n.nodeName
         self.rebuild_byte_table ()
         self.recalc_edges ()
 
     def copy_text (self, clip):
-        if self.end_index > self.index:
-            clip.set_text (self.text[self.index:self.end_index])
-        else:
-            clip.set_text (self.text[self.end_index:self.index])
+        start, end = minmax(self.index, self.end_index)
+        clip.set_text (self.text[start:end])
 
     def cut_text (self, clip):
-        if self.end_index > self.index:
-            clip.set_text (self.text[self.index:self.end_index])
-        else:
-            clip.set_text (self.text[self.end_index:self.index])
+        self.copy_text (clip)
         self.delete_char ()
         self.recalc_edges ()
         self.emit ("title_changed", self.text)
@@ -1022,8 +983,8 @@ class TextThought (BaseThought.BaseThought):
         end_index = offset - (new-orig)
 
         it = self.attributes.get_iterator()
-        while (1):
-            (start,end) = it.range()
+        while it.next():
+            start, end = it.range()
             l = it.get_attrs()
             if end <= start:
                 for x in l:
@@ -1057,8 +1018,6 @@ class TextThought (BaseThought.BaseThought):
                     x.start_index += change
                     x.end_index += change
                     changes.append(x)
-            if it.next() == False:
-                break
 
         del self.attributes
         self.attributes = pango.AttrList()
@@ -1126,8 +1085,7 @@ class TextThought (BaseThought.BaseThought):
             pstyle, ptype, pvalue = (pango.UNDERLINE_NONE, pango.ATTR_UNDERLINE, pango.UNDERLINE_SINGLE)
 
         index, end_index = (self.index, self.end_index)
-        init = min(index, end_index)
-        end = max(index, end_index)
+        init, end = minmax(index, end_index)
 
         if not active:
             attr = pango.AttrStyle(pstyle, init, end)
@@ -1144,18 +1102,18 @@ class TextThought (BaseThought.BaseThought):
                         attr = x
                     else:
                         tmp.append(x)
-                    self.current_attrs = tmp
-                    self.recalc_edges()
-                    self.undo.add_undo(UndoManager.UndoAction(self, UNDO_REMOVE_ATTR, \
-                                                                                                            self.undo_attr_cb,\
-                                                                                                            attr))
-                    return
+                self.current_attrs = tmp
+                self.recalc_edges()
+                self.undo.add_undo(UndoManager.UndoAction(self, UNDO_REMOVE_ATTR, \
+                                                          self.undo_attr_cb,\
+                                                          attr))
+                return
 
             it = self.attributes.get_iterator()
             old_attrs = self.attributes.copy()
             changed = []
 
-            while True:
+            while it.next():
                 r = it.range()
                 if r[0] <= init and r[1] >= end:
                     for x in it.get_attrs():
@@ -1167,36 +1125,29 @@ class TextThought (BaseThought.BaseThought):
                 else:
                     map(lambda x : changed.append(x), it.get_attrs())
 
-                if not it.next():
-                    break
-
             del self.attributes
             self.attributes = pango.AttrList()
             map(lambda x : self.attributes.change(x), changed)
-            tmp = []
-            for x in self.current_attrs:
-                if not (x.type == ptype and x.value == pvalue):
-                    tmp.append(x)
-            self.current_attrs = tmp
+            self.current_attrs = [ x for x in self.current_attrs if x.type == ptype and x.value == pvalue ]
             self.undo.add_undo(UndoManager.UndoAction(self, UNDO_REMOVE_ATTR_SELECTION,
-                                                                                                    self.undo_attr_cb,
-                                                                                                    old_attrs,
-                                                                                                    self.attributes.copy()))
+                                                      self.undo_attr_cb,
+                                                      old_attrs,
+                                                      self.attributes.copy()))
         else:
             if index == end_index:
                 attr = self.create_attribute(attribute, index, end_index)
                 self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR,
-                                                                                                        self.undo_attr_cb,
-                                                                                                        attr))
+                                                          self.undo_attr_cb,
+                                                          attr))
                 self.current_attrs.change(attr)
             else:
                 attr = self.create_attribute(attribute, init, end)
                 old_attrs = self.attributes.copy()
                 self.attributes.change(attr)
                 self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR_SELECTION,
-                                                                                                        self.undo_attr_cb,
-                                                                                                        old_attrs,
-                                                                                                        self.attributes.copy()))
+                                                          self.undo_attr_cb,
+                                                          old_attrs,
+                                                          self.attributes.copy()))
         self.recalc_edges()
 
     def set_bold (self, active):
@@ -1211,27 +1162,23 @@ class TextThought (BaseThought.BaseThought):
     def set_font (self, font_name):
         if not self.editing:
             return
-        start = min(self.index, self.end_index)
-        end = max(self.index, self.end_index)
+        start, end = minmax(self.index, self.end_index)
 
         pango_font = pango.FontDescription (font_name)
         attr = pango.AttrFontDesc (pango_font, start, end)
 
         if start == end:
             self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR,
-                                                                                              self.undo_attr_cb,
-                                                                                              attr))
-            try:
-                self.current_attrs.change(attr)
-            except AttributeError:
-                self.current_attrs.append(attr)
+                                                      self.undo_attr_cb, 
+                                                      attr))
+            self.current_attrs.append(attr)
         else:
             old_attrs = self.attributes.copy()
             self.attributes.change(attr)
             self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR_SELECTION,
-                                                                                              self.undo_attr_cb,
-                                                                                              old_attrs,
-                                                                                              self.attributes.copy()))
+                                                      self.undo_attr_cb, 
+                                                      old_attrs, 
+                                                      self.attributes.copy()))
         self.recalc_edges()
 
     def get_popup_menu_items(self):

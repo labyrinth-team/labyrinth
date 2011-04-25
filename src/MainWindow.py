@@ -701,7 +701,7 @@ class LabyrinthWindow (gobject.GObject):
             response = dialog.run()
             if response == gtk.RESPONSE_OK:
                 ext_mime_mapping = { 'png':'png', 'jpg':'jpeg', 'jpeg':'jpeg', \
-                                                         'svg':'svg', 'pdf':'pdf' }
+                            'svg':'svg', 'pdf':'pdf' }
                 filename = fc.get_filename()
                 ext = filename[filename.rfind('.')+1:]
 
@@ -710,9 +710,9 @@ class LabyrinthWindow (gobject.GObject):
                     break
                 except KeyError:
                     msg = gtk.MessageDialog(self, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, \
-                                                                    _("Unknown file format"))
+                            _("Unknown file format"))
                     msg.format_secondary_text (_("The file type '%s' is unsupported.  Please use the suffix '.png',"\
-                                                                       " '.jpg' or '.svg'." % ext))
+                            " '.jpg' or '.svg'." % ext))
                     msg.run ()
                     msg.destroy ()
             else:
@@ -739,9 +739,7 @@ class LabyrinthWindow (gobject.GObject):
         self.MainArea.export (pixmap.cairo_create (), width, height, native)
 
         pb = gtk.gdk.Pixbuf.get_from_drawable(gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, width, height), \
-                                                                                  pixmap, \
-                                                                                  gtk.gdk.colormap_get_system(), \
-                                                                                  0, 0, 0, 0, width, height)
+                pixmap, gtk.gdk.colormap_get_system(), 0, 0, 0, 0, width, height)
         pb.save(filename, mime)
 
     def save_surface(self, surface, width, height, native):
