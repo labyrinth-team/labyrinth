@@ -1,0 +1,326 @@
+#
+# jiero <lililjlj@gmail.com>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-04-24 19:12+0200\n"
+"PO-Revision-Date: 2011-05-30 10:00+1000\n"
+"Last-Translator: jiero <lililjlj@gmail.com>\n"
+"Language-Team: Simplified Chinese <i18n-zh@googlegroups.com>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8-bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: ../src/Browser.py:194
+#, python-format
+msgid "Unable to display help: %s"
+msgstr "无法显示帮助 %s"
+
+#: ../src/Browser.py:225
+msgid "Translation by Don Scorgie"
+msgstr "简体翻译 来自 jiero"
+
+#: ../src/Browser.py:247
+msgid "The map cannot be deleted right now. Is it open?"
+msgstr "无法删除。或许正在编辑？"
+
+#: ../src/Browser.py:249
+msgid "The map has no associated filename."
+msgstr "没有对应的文件名。"
+
+#: ../src/Browser.py:252
+msgid "Cannot delete this map"
+msgstr "无法删除"
+
+#: ../src/Browser.py:259
+msgid "Do you really want to delete this Map?"
+msgstr "确定删除此图？"
+
+#: ../src/Browser.py:284
+msgid "Open File"
+msgstr "打开文件"
+
+#: ../src/Browser.py:288
+msgid "MAPZ Compressed Map (*.mapz)"
+msgstr "MAPZ 压缩(*.mapz)"
+
+#: ../src/Browser.py:319
+msgid "Map Name"
+msgstr "名称"
+
+#: ../src/Browser.py:326
+msgid "Last Modified"
+msgstr "最后修改"
+
+#: ../src/MainWindow.py:163 ../src/MainWindow.py:519
+msgid "Untitled Map"
+msgstr "未命名"
+
+#: ../src/MainWindow.py:229
+msgid "File"
+msgstr "文件"
+
+#: ../src/MainWindow.py:230
+msgid "Export as Image"
+msgstr "导出图片"
+
+#: ../src/MainWindow.py:231
+msgid "Export your map as an image"
+msgstr "作为图片导出"
+
+#: ../src/MainWindow.py:232
+msgid "Export Map..."
+msgstr "导出"
+
+#: ../src/MainWindow.py:233
+msgid "Export your map as XML"
+msgstr "导出为XML"
+
+#: ../src/MainWindow.py:235
+msgid "Close the current window"
+msgstr "关闭当前窗口"
+
+#: ../src/MainWindow.py:236
+msgid "_Edit"
+msgstr "编辑(_E)"
+
+#: ../src/MainWindow.py:237
+msgid "_View"
+msgstr "查看(_V)"
+
+#: ../src/MainWindow.py:238
+msgid "_Toolbar"
+msgstr "工具栏(_T)"
+
+#: ../src/MainWindow.py:247
+msgid "Link Thoughts"
+msgstr "链接线索"
+
+#: ../src/MainWindow.py:248
+msgid "Link the selected thoughts"
+msgstr "链接选中的线索"
+
+#: ../src/MainWindow.py:249
+msgid "_Mode"
+msgstr "模式(_M)"
+
+#: ../src/MainWindow.py:257
+msgid "_Edit Mode"
+msgstr "编辑模式(_E)"
+
+#: ../src/MainWindow.py:258
+msgid "Turn on edit mode"
+msgstr "切至编辑模式"
+
+#: ../src/MainWindow.py:259
+msgid "_Add Image"
+msgstr "添加图片(_A)"
+
+#: ../src/MainWindow.py:260
+msgid "Add an image to selected thought"
+msgstr "添加图片到选中的线索"
+
+#: ../src/MainWindow.py:261
+msgid "_Drawing Mode"
+msgstr "描绘模式(_D)"
+
+#: ../src/MainWindow.py:262
+msgid "Make a pretty drawing"
+msgstr "绘制"
+
+#: ../src/MainWindow.py:264
+msgid "Use _Curves"
+msgstr "使用曲线(_C)"
+
+#: ../src/MainWindow.py:265
+msgid "Use curves as links"
+msgstr "使用曲线链接"
+
+#: ../src/MainWindow.py:266
+msgid "Use _Lines"
+msgstr "使用直线(_L)"
+
+#: ../src/MainWindow.py:267
+msgid "Use straight lines as links"
+msgstr "使用直线链接"
+
+#: ../src/MainWindow.py:269
+msgid "_Extended Information"
+msgstr "扩展信息(_E)"
+
+#: ../src/MainWindow.py:270
+msgid "Show extended information for thoughts"
+msgstr "显示线索相关的补充信息"
+
+#: ../src/MainWindow.py:271
+msgid "_Outline"
+msgstr "轮廓(_O)"
+
+#: ../src/MainWindow.py:272
+msgid "Show outline of thought hierarchy"
+msgstr "显示线索框架的优先级"
+
+#: ../src/MainWindow.py:273
+msgid "_Main"
+msgstr "主栏(_M)"
+
+#: ../src/MainWindow.py:274
+msgid "Show main toolbar"
+msgstr "显示主工具栏"
+
+#: ../src/MainWindow.py:275
+msgid "_Format"
+msgstr "格式(_F)"
+
+#: ../src/MainWindow.py:276
+msgid "Show format toolbar"
+msgstr "显示格式工具栏"
+
+#: ../src/MainWindow.py:301
+msgid "Thoughts"
+msgstr "想法"
+
+#: ../src/MainWindow.py:578
+msgid "Save File As"
+msgstr "文件保存为"
+
+#: ../src/MainWindow.py:672
+msgid "All Files"
+msgstr "所有文件"
+
+#: ../src/MainWindow.py:673
+msgid "PNG Image (*.png)"
+msgstr "PNG (*.png)"
+
+#: ../src/MainWindow.py:674
+msgid "JPEG Image (*.jpg, *.jpeg)"
+msgstr "JPEG (*.jpg, *.jpeg)"
+
+#: ../src/MainWindow.py:675
+msgid "SVG Vector Image (*.svg)"
+msgstr "SVG (*.svg)"
+
+#: ../src/MainWindow.py:676
+msgid "PDF Portable Document (*.pdf)"
+msgstr "PDF (*.pdf)"
+
+#: ../src/MainWindow.py:712
+msgid "Unknown file format"
+msgstr "未知文件格式"
+
+#: ../src/MainWindow.py:713
+#, python-format
+msgid ""
+"The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
+"'.svg'."
+msgstr "文件类型'%s'无法使用。请添加'.png'或'.jpg'或'.svg'。"
+
+#: ../src/DrawingThought.py:66
+#, python-format
+msgid "Drawing #%d"
+msgstr "绘图 #%d"
+
+#: ../src/ImageThought.py:64
+msgid "Choose image to insert"
+msgstr "选择图片插入"
+
+#: ../src/ImageThought.py:319
+msgid "Error loading file"
+msgstr "读取文件错误"
+
+#: ../src/ImageThought.py:320
+#, python-format
+msgid "%s could not be found.  Associated thought will be empty."
+msgstr "%s 无法找到。相关线索将被清空。"
+
+#: ../src/ImageThought.py:335
+msgid "Change Image"
+msgstr "改变图像"
+
+#: ../data/labyrinth.glade.h:1
+msgid "<b>Export Map</b>"
+msgstr "<b>导出</b>"
+
+#: ../data/labyrinth.glade.h:2
+msgid "Align Bottom"
+msgstr "对齐底部"
+
+#: ../data/labyrinth.glade.h:3
+msgid "Align Horizontal Center"
+msgstr "中心对齐"
+
+#: ../data/labyrinth.glade.h:4
+msgid "Align Left"
+msgstr "对齐左边"
+
+#: ../data/labyrinth.glade.h:5
+msgid "Align Right"
+msgstr "对齐右边"
+
+#: ../data/labyrinth.glade.h:6
+msgid "Align Top"
+msgstr "对齐顶部"
+
+#: ../data/labyrinth.glade.h:7
+msgid "Align Vertical Center"
+msgstr "对齐垂直中心"
+
+#: ../data/labyrinth.glade.h:8
+msgid "Complete Map"
+msgstr "完整视图"
+
+#: ../data/labyrinth.glade.h:9
+msgid "Export Map as Image"
+msgstr "作为图片导出"
+
+#: ../data/labyrinth.glade.h:10
+msgid "Height"
+msgstr "高度"
+
+#: ../data/labyrinth.glade.h:11
+msgid "Import..."
+msgstr "导入..."
+
+#: ../data/labyrinth.glade.h:12
+msgid "Labyrinth Maps"
+msgstr "Labyrinth 图"
+
+#: ../data/labyrinth.glade.h:13
+msgid "URL"
+msgstr "URL"
+
+#: ../data/labyrinth.glade.h:14
+msgid "Visible Area"
+msgstr "可视区域"
+
+#: ../data/labyrinth.glade.h:15
+msgid "Width"
+msgstr "宽度"
+
+#: ../data/labyrinth.glade.h:16
+msgid "_File"
+msgstr "文件(_F)"
+
+#: ../data/labyrinth.glade.h:17
+msgid "_Help"
+msgstr "帮助(_H)"
+
+#: ../data/labyrinth.glade.h:18
+msgid "gtk-help"
+msgstr "gtk-help"
+
+#: ../data/labyrinth.desktop.in.h:1
+msgid "Labyrinth Mind-mapping"
+msgstr "Labyrinth 思维导图"
+
+#: ../data/labyrinth.desktop.in.h:2
+msgid "Map your mind"
+msgstr "绘画思维的节点"
+
+#: ../data/labyrinth.desktop.in.h:3
+msgid "Mind-mapping"
+msgstr "思维导图"
