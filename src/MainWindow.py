@@ -166,10 +166,6 @@ class LabyrinthWindow (gobject.GObject):
         else:
             self.parse_file (filename)
 
-        # Setup treeview for a11y
-        self.create_tree_view(glade)
-        self.MainArea.initialize_model(self.tree_model)
-
         up_box = glade.get_widget('up_box')
         up_box.connect("button-press-event", self.translate, "Up")
         up_box.connect("button-release-event", self.finish_translate)
@@ -217,12 +213,6 @@ class LabyrinthWindow (gobject.GObject):
         self.ext_act.set_active(self.extended_visible)
         if not self.extended_visible:
             self.extended_window.hide()
-        if os.name != 'nt':
-            if not self.config_client.get_bool('/apps/labyrinth/show_tree_view'):
-                self.tree_view.hide()
-            else:
-                self.tree_view.expand_all()
-                self.ui.get_widget('/MenuBar/ViewMenu/ViewOutline').set_active(True)
 
     def create_menu (self):
         actions = [
@@ -268,8 +258,6 @@ class LabyrinthWindow (gobject.GObject):
         self.toggle_actions = [
                 ('ViewExtend', None, _('_Extended Information'), None,
                  _('Show extended information for thoughts'), self.view_extend_cb),
-                ('ViewOutline', None, _('_Outline'), None,
-                 _('Show outline of thought hierarchy'), self.view_outline_cb),
                 ('ShowMainToolbar', None, _('_Main'), None,
                  _('Show main toolbar'), self.show_main_toolbar_cb),
                 ('ShowFormatToolbar', None, _('_Format'), None,
@@ -293,15 +281,6 @@ class LabyrinthWindow (gobject.GObject):
         self.ui.insert_action_group (ag, 0)
         self.ui.add_ui_from_file (utils.get_data_file_name('labyrinth-ui.xml'))
         self.main_window.add_accel_group (self.ui.get_accel_group ())
-
-    def create_tree_view(self, glade):
-        self.tree_model = gtk.TreeStore(gobject.TYPE_STRING)
-        self.tree_view = glade.get_widget('outline_treeview')
-        self.tree_view.set_model(self.tree_model)
-        cell_renderer = gtk.CellRendererText()
-        tree_column = gtk.TreeViewColumn(_('Thoughts'), cell_renderer)
-        self.tree_view.append_column(tree_column)
-        tree_column.add_attribute(cell_renderer, "text", 0)
 
     def align_cb(self, widget, direction):
         if direction == "vl" or direction == "ht":
@@ -333,14 +312,6 @@ class LabyrinthWindow (gobject.GObject):
         else:
             self.extended_window.hide ()
             self.view_type = 0
-
-    def view_outline_cb (self, arg):
-        if arg.get_active ():
-            self.tree_view.show()
-        else:
-            self.tree_view.hide()
-        if os.name != 'nt':
-            self.config_client.set_bool('/apps/labyrinth/show_tree_view', arg.get_active())
 
     def show_main_toolbar_cb(self, arg):
         if arg.get_active():

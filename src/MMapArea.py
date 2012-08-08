@@ -645,7 +645,6 @@ class MMapArea (gtk.DrawingArea):
 
     def create_link (self, thought, thought_coords = None, child = None, child_coords = None, strength = 2):
         if child:
-            self.add_thought_to_model(child)
             for x in self.links:
                 if x.connects (thought, child):
                     if x.change_strength (thought, child):
@@ -732,13 +731,6 @@ class MMapArea (gtk.DrawingArea):
         self.editing.finish_editing ()
         thought = self.editing
         self.editing = None
-
-        if not thought:
-            return
-        if thought.model_iter:
-            self.tree_model.set_value (thought.model_iter, 0, thought.text)
-        else:
-            self.add_thought_to_model (thought)
 
     def update_view (self, thought):
         if not self.editing:
@@ -910,8 +902,6 @@ class MMapArea (gtk.DrawingArea):
 
     def delete_thought (self, thought):
         action = UndoManager.UndoAction (self, UNDO_DELETE_SINGLE, self.undo_deletion, [thought])
-        if thought.model_iter:
-            self.tree_model.remove(thought.model_iter)
         if thought.element in self.element.childNodes:
             self.element.removeChild (thought.element)
         self.thoughts.remove (thought)
@@ -949,7 +939,6 @@ class MMapArea (gtk.DrawingArea):
                 self.thoughts.append (t)
                 self.select_thought (t, -1)
                 self.element.appendChild (t.element)
-                self.add_thought_to_model (t)
             if action.undo_type == UNDO_DELETE_SINGLE:
                 self.begin_editing (action.args[0][0])
                 self.emit ("change_buffer", action.args[0][0].extended_buffer)
@@ -1142,33 +1131,6 @@ class MMapArea (gtk.DrawingArea):
             self.select_thought (thought, None)
         self.invalidate ()
         return True
-
-    def add_thought_to_model(self, thought):
-        for l in self.links:
-            if l.child == thought and l.parent:
-                thought.model_iter = self.tree_model.insert_after(l.parent.model_iter, None, [thought.text])
-                return
-
-        thought.model_iter = self.tree_model.append(self.tree_model.get_iter_root(), [thought.text])
-
-    def recursively_add_thoughts(self, parent, it):
-        for l in self.links:
-            if l.parent == parent and l.child != None:
-                l.child.model_iter = self.tree_model.insert_after(it, None, [l.child.text])
-                self.recursively_add_thoughts(l.child, l.child.model_iter)
-
-    def initialize_model(self, model):
-        self.tree_model = model
-        # find root thought
-        for t in self.thoughts:
-            if t.am_primary:
-                model_iter = model.append(None, [t.text])
-                t.model_iter = model_iter
-                root_thought = t
-        try:
-            self.recursively_add_thoughts(root_thought, model.get_iter_root())
-        except UnboundLocalError:
-            pass
 
     def load_thought (self, node, type):
         thought = self.create_new_thought (None, type, loading = True)
