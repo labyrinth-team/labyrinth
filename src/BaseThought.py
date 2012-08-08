@@ -176,7 +176,7 @@ class BaseThought (gobject.GObject):
         yto = other.ul[1]-((other.ul[1]-other.lr[1]) / 2.)
         return (xfrom, yfrom), (xto, yto)
 
-    # All the rest of these should be handled within you're thought
+    # All the rest of these should be handled within your thought
     # type, supposing you actually want to handle them.
     # You almost certianly do want to ;)
     def process_button_down (self, event, mode, transformed):

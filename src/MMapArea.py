@@ -566,7 +566,8 @@ class MMapArea (gtk.DrawingArea):
             if self.selected.count (link) == 0:
                 self.selected.append (link)
         else:
-            map (lambda t : t.unselect(), self.selected)
+            for t in self.selected:
+                t.unselect()
             self.selected = [link]
         link.select()
         self.emit("change_buffer", None)
@@ -586,7 +587,8 @@ class MMapArea (gtk.DrawingArea):
             if self.selected.count (thought) == 0:
                 self.selected.append (thought)
         else:
-            map(lambda x : x.unselect(), self.selected)
+            for x in self.selected:
+                x.unselect()
             self.selected = [thought]
         self.current_root = []
         for x in self.selected:
@@ -667,7 +669,8 @@ class MMapArea (gtk.DrawingArea):
             self.set_cursor (cursor_type)
 
     def update_all_links(self):
-        map(lambda l : l.find_ends(), self.links)
+        for l in self.links:
+            l.find_ends()
 
     def update_links_cb (self, thought):
         for x in self.links:
