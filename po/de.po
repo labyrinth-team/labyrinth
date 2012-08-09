@@ -4,17 +4,16 @@
 # Raphael J. Schmid <rjs@schattenschreiber.org>, 2008.
 # , fuzzy
 # Raphael J. Schmid <rjs@schattenschreiber.org>, 2008.
-#
+# Matthias Vogelgesang <matthias.vogelgesang@gmail.com>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: labyrinth\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-04-24 19:12+0200\n"
-"PO-Revision-Date: 2008-04-03 21:51+0200\n"
-"Last-Translator: Raphael J. Schmid <rjs@schattenschreiber.org>, Matthias>\n"
+"PO-Revision-Date: 2012-08-06 21:20+0200\n"
+"Last-Translator: Matthias Vogelgesang <matthias.vogelgesang@gmail.com>\n"
 "Language-Team: de_DE <de@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"

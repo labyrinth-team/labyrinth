@@ -179,15 +179,6 @@ class LabyrinthWindow (gobject.GObject):
         left_box.connect("button-press-event", self.translate, "Left")
         left_box.connect("button-release-event", self.finish_translate)
 
-        self.align_button = glade.get_widget('tool_align')
-        self.align_handler_id = self.align_button.connect('clicked', self.align_cb, "vl")
-        glade.get_widget('align_vertical_left').connect('activate', self.align_cb, "vl")
-        glade.get_widget('align_vertical_right').connect('activate', self.align_cb, "vr")
-        glade.get_widget('align_vertical_center').connect('activate', self.align_cb, "vc")
-        glade.get_widget('align_horizontal_top').connect('activate', self.align_cb, "ht")
-        glade.get_widget('align_horizontal_bottom').connect('activate', self.align_cb, "hb")
-        glade.get_widget('align_horizontal_center').connect('activate', self.align_cb, "hc")
-
         panes = glade.get_widget('vpaned1')
         panes.connect ("button-release-event", self.pos_changed)
         panes.set_position (self.pane_pos)
