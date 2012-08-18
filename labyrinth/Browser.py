@@ -20,24 +20,28 @@
 # Boston, MA  02110-1301  USA
 #
 
-import utils
-import gtk
+# Standard library
 import sys
 import tarfile
 from os.path import *
 import os
+import gettext
+_ = gettext.gettext
+
+# Gtk stuff
+import gtk
 if os.name != 'nt':
     import gconf
 import gtk.glade
-import MainWindow
-from MapList import MapList
-import TrayIcon
 import pango
 import gnome
 import gobject
 
-import gettext
-_ = gettext.gettext
+# Local imports
+import utils
+import MainWindow
+from MapList import MapList
+import TrayIcon
 
 AUTHORS = ['Don Scorgie <Don@Scorgie.org>',
                    'Martin Schaaf <mascha@ma-scha.de>',

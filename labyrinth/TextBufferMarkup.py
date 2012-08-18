@@ -21,8 +21,9 @@
 
 import gtk
 import gobject
-import UndoManager
 import pango
+
+import UndoManager
 
 ADD_ATTR = 42
 REMOVE_ATTR = 43

@@ -22,9 +22,9 @@
 import gobject
 import gtk
 import utils
-import TextBufferMarkup
 import pango
 
+import TextBufferMarkup
 
 MODE_EDITING = 0
 MODE_IMAGE = 1

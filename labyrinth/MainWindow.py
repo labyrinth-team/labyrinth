@@ -19,24 +19,29 @@
 # Boston, MA  02110-1301  USA
 #
 
-import gtk
-import cairo, pangocairo
+# Standard library
 import hashlib
 import os
 import tarfile
-import gobject
 import gettext
 _ = gettext.gettext
+import xml.dom.minidom as dom
+
+# Gtk stuff
+import gtk
+import cairo, pangocairo
+import gobject
+if os.name != 'nt':
+    import gconf
+
+# Local imports
 import MMapArea
 import UndoManager
-import utils
-from MapList import MapList
-import xml.dom.minidom as dom
 import PeriodicSaveThread
 import ImageThought
 import BaseThought
-if os.name != 'nt':
-    import gconf
+import utils
+from MapList import MapList
 
 # UNDO varieties for us
 UNDO_MODE = 0

@@ -29,6 +29,7 @@ As of now it only brings the application to front if it is clicked.
 import sys
 import os
 import gtk
+
 from utils import *
 
 class TrayIcon(object):

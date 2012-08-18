@@ -36,7 +36,7 @@ from labyrinth import utils
 from labyrinth import Browser
 from labyrinth import prefs
 try:
-    import defs
+    from labyrinth import defs
     localedir = abspath(join(defs.DATA_DIR, "locale"))
 except:
     localedir = ""

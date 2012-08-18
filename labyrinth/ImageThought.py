@@ -19,14 +19,18 @@
 # Boston, MA  02110-1301  USA
 #
 
-import gtk
+# Standard library
 import os.path
 import xml.dom.minidom as dom
 import xml.dom
 import gettext
 _ = gettext.gettext
+
+# Gtk stuff
+import gtk
 import cairo
 
+# Local imports
 import BaseThought
 import utils
 import UndoManager

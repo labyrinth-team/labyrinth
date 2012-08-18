@@ -22,13 +22,14 @@
 
 import gtk
 import pango
+
+import os
+import xml.dom
+
 import utils
 import BaseThought
-import prefs
 import UndoManager
-import os
-
-import xml.dom
+import prefs
 
 UNDO_ADD_ATTR=64
 UNDO_ADD_ATTR_SELECTION=65

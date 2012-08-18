@@ -21,14 +21,16 @@
 
 import gtk
 import pango
-import utils
-import BaseThought, TextThought
-import prefs
-import UndoManager
+
 import os
 import webbrowser
 import gettext
 _ = gettext.gettext
+
+import utils
+import BaseThought, TextThought
+import prefs
+import UndoManager
 
 class ResourceThought (TextThought.TextThought):
     def __init__ (self, coords, pango_context, thought_number, save, undo, loading, background_color, foreground_color):

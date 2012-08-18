@@ -19,14 +19,16 @@
 # Boston, MA  02110-1301  USA
 #
 
+import math
+import gettext
+_ = gettext.gettext
+
 import gobject
 import gtk
 
 import BaseThought
 import utils
-import math
-import gettext
-_ = gettext.gettext
+
 
 def norm(x, y):
     mod = math.sqrt(abs((x[0]**2 - y[0]**2) + (x[1]**2 - y[1]**2)))
