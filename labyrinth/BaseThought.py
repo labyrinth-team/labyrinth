@@ -19,18 +19,18 @@
 # Boston, MA  02110-1301  USA
 #
 
-import gobject
-import gtk
-import utils
-import pango
+from gi.repository import GObject
+from gi.repository import Gdk
+from gi.repository import Pango
 
+import utils
 import TextBufferMarkup
 
 MODE_EDITING = 0
 MODE_IMAGE = 1
 MODE_DRAW = 2
 
-class BaseThought (gobject.GObject):
+class BaseThought (GObject.GObject):
     ''' The basic class to derive other thoughts from. \
             Instructions for creating derivative thought types are  \
             given as comments'''
@@ -38,48 +38,49 @@ class BaseThought (gobject.GObject):
     # emit.  If you emit other signals, the chances are they'll be ignored
     # by the MMapArea.  It's you're responsiblity to catch and handle them.
     # All these signals are handled correctly by the MMapArea.
-    __gsignals__ = dict (select_thought      = (gobject.SIGNAL_RUN_FIRST,
-                                                                                        gobject.TYPE_NONE,
-                                                                                        (gobject.TYPE_PYOBJECT,)),
-                                             begin_editing       = (gobject.SIGNAL_RUN_FIRST,
-                                                                                        gobject.TYPE_NONE,
-                                                                                        ()),
-                                             popup_requested     = (gobject.SIGNAL_RUN_FIRST,
-                                                                                        gobject.TYPE_NONE,
-                                                                                        (gobject.TYPE_PYOBJECT, gobject.TYPE_INT)),
-                                             claim_unending_link = (gobject.SIGNAL_RUN_FIRST,
-                                                                                            gobject.TYPE_NONE,
-                                                                                            ()),
-                                             update_view             = (gobject.SIGNAL_RUN_LAST,
-                                                                                            gobject.TYPE_NONE,
-                                                                                            ()),
-                                             create_link             = (gobject.SIGNAL_RUN_FIRST,
-                                                                                            gobject.TYPE_NONE,
-                                                                                            (gobject.TYPE_PYOBJECT,)),
-                                             title_changed       = (gobject.SIGNAL_RUN_LAST,
-                                                                                            gobject.TYPE_NONE,
-                                                                                            (gobject.TYPE_STRING,)),
-                                             finish_editing          = (gobject.SIGNAL_RUN_FIRST,
-                                                                                            gobject.TYPE_NONE,
-                                                                                            ()),
-                                             delete_thought          = (gobject.SIGNAL_RUN_LAST,
-                                                                                            gobject.TYPE_NONE,
-                                                                                            ()),
-                                             text_selection_changed = (gobject.SIGNAL_RUN_LAST,
-                                                                                               gobject.TYPE_NONE,
-                                                                                               (gobject.TYPE_INT, gobject.TYPE_INT, gobject.TYPE_STRING)),
-                                             change_mouse_cursor    = (gobject.SIGNAL_RUN_FIRST,
-                                                                                               gobject.TYPE_NONE,
-                                                                                               (gobject.TYPE_INT,)),
-                                             update_links                   = (gobject.SIGNAL_RUN_LAST,
-                                                                                               gobject.TYPE_NONE,
-                                                                                               ()),
-                                             grab_focus                             = (gobject.SIGNAL_RUN_FIRST,
-                                                                                               gobject.TYPE_NONE,
-                                                                                               (gobject.TYPE_BOOLEAN,)),
-                                             update_attrs                   = (gobject.SIGNAL_RUN_FIRST,
-                                                                                               gobject.TYPE_NONE,
-                                                                                               (gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN, pango.FontDescription)))
+    __gsignals__ = dict (select_thought      = (GObject.SignalFlags.RUN_FIRST,
+                                                None,
+                                                (object,)),
+                         begin_editing       = (GObject.SignalFlags.RUN_FIRST,
+                                                None,
+                                                ()),
+                         popup_requested     = (GObject.SignalFlags.RUN_FIRST,
+                                                None,
+                                                (object, int)),
+                         claim_unending_link = (GObject.SignalFlags.RUN_FIRST,
+                                                None,
+                                                ()),
+                         update_view         = (GObject.SignalFlags.RUN_LAST,
+                                                None,
+                                                ()),
+                         create_link         = (GObject.SignalFlags.RUN_FIRST,
+                                                None,
+                                                (object,)),
+                         title_changed       = (GObject.SignalFlags.RUN_LAST,
+                                                None,
+                                                (str,)),
+                         finish_editing      = (GObject.SignalFlags.RUN_FIRST,
+                                                None,
+                                                ()),
+                         delete_thought      = (GObject.SignalFlags.RUN_LAST,
+                                                None,
+                                                ()),
+                         text_selection_changed = (GObject.SignalFlags.RUN_LAST,
+                                                   None,
+                                                   (int, int, str)),
+                         change_mouse_cursor    = (GObject.SignalFlags.RUN_FIRST,
+                                                   None,
+                                                   (int,)),
+                         update_links        = (GObject.SignalFlags.RUN_LAST,
+                                                None,
+                                                ()),
+                         grab_focus          = (GObject.SignalFlags.RUN_FIRST,
+                                                None,
+                                                (bool,)),
+                         update_attrs        = (GObject.SignalFlags.RUN_FIRST,
+                                                None,
+                                                (bool, bool, bool, Pango.FontDescription)),
+                        )
 
     # The first thing that should be called is this constructor
     # It sets some basic properties of all thoughts and should be called
@@ -289,7 +290,7 @@ class ResizableThought (BaseThought):
         self.motion_coords = coords
 
         if inside and (mode != MODE_EDITING or self.button_down):
-            self.emit ("change_mouse_cursor", gtk.gdk.LEFT_PTR)
+            self.emit ("change_mouse_cursor", Gdk.CursorType.LEFT_PTR)
             return inside
 
         if inside:
@@ -303,39 +304,39 @@ class ResizableThought (BaseThought):
                 if abs (coords[1] - self.ul[1]) < self.sensitive:
                 # Its in the ul corner
                     self.resizing = self.RESIZE_UL
-                    self.emit ("change_mouse_cursor", gtk.gdk.TOP_LEFT_CORNER)
+                    self.emit ("change_mouse_cursor", Gdk.CursorType.TOP_LEFT_CORNER)
                 elif abs (coords[1] - self.lr[1]) < self.sensitive:
                 # Its in the ll corner
                     self.resizing = self.RESIZE_LL
-                    self.emit ("change_mouse_cursor", gtk.gdk.BOTTOM_LEFT_CORNER)
+                    self.emit ("change_mouse_cursor", Gdk.CursorType.BOTTOM_LEFT_CORNER)
                 elif coords[1] < self.lr[1] and coords[1] > self.ul[1]:
                 #anywhere else along the left edge
                     self.resizing = self.RESIZE_LEFT
-                    self.emit ("change_mouse_cursor", gtk.gdk.LEFT_SIDE)
+                    self.emit ("change_mouse_cursor", Gdk.CursorType.LEFT_SIDE)
             elif abs (coords[0] - self.lr[0]) < self.sensitive:
                 if abs (coords[1] - self.ul[1]) < self.sensitive:
                 # Its in the UR corner
                     self.resizing = self.RESIZE_UR
-                    self.emit ("change_mouse_cursor", gtk.gdk.TOP_RIGHT_CORNER)
+                    self.emit ("change_mouse_cursor", Gdk.CursorType.TOP_RIGHT_CORNER)
                 elif abs (coords[1] - self.lr[1]) < self.sensitive:
                 # Its in the lr corner
                     self.resizing = self.RESIZE_LR
-                    self.emit ("change_mouse_cursor", gtk.gdk.BOTTOM_RIGHT_CORNER)
+                    self.emit ("change_mouse_cursor", Gdk.CursorType.BOTTOM_RIGHT_CORNER)
                 elif coords[1] < self.lr[1] and coords[1] > self.ul[1]:
                 #anywhere else along the right edge
                     self.resizing = self.RESIZE_RIGHT
-                    self.emit ("change_mouse_cursor", gtk.gdk.RIGHT_SIDE)
+                    self.emit ("change_mouse_cursor", Gdk.CursorType.RIGHT_SIDE)
             elif abs (coords[1] - self.ul[1]) < self.sensitive and \
                      (coords[0] < self.lr[0] and coords[0] > self.ul[0]):
                 # Along the top edge somewhere
                 self.resizing = self.RESIZE_TOP
-                self.emit ("change_mouse_cursor", gtk.gdk.TOP_SIDE)
+                self.emit ("change_mouse_cursor", Gdk.CursorType.TOP_SIDE)
             elif abs (coords[1] - self.lr[1]) < self.sensitive and \
                      (coords[0] < self.lr[0] and coords[0] > self.ul[0]):
                 # Along the bottom edge somewhere
                 self.resizing = self.RESIZE_BOTTOM
-                self.emit ("change_mouse_cursor", gtk.gdk.BOTTOM_SIDE)
+                self.emit ("change_mouse_cursor", Gdk.CursorType.BOTTOM_SIDE)
             else:
-                self.emit ("change_mouse_cursor", gtk.gdk.LEFT_PTR)
+                self.emit ("change_mouse_cursor", Gdk.CursorType.LEFT_PTR)
         self.want_move = (self.resizing != self.RESIZE_NONE)
         return inside
