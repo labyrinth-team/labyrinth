@@ -27,7 +27,6 @@ import sys
 from os.path import *
 import os
 from numpy import *
-import gtk
 
 __BE_VERBOSE=os.environ.get('DEBUG_LABYRINTH',0)
 if __BE_VERBOSE:

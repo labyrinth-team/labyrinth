@@ -19,8 +19,6 @@
 # Boston, MA  02110-1301  USA
 #
 
-import gtk
-
 # Different modes of operation - redo, undo
 UNDO = 0
 REDO = 1

@@ -21,16 +21,12 @@
 # Boston, MA  02110-1301  USA
 #
 
-import pygtk
 import gettext, locale
 import optparse
 import sys, os
 import os.path as osp
 
-if os.name != 'nt':
-    pygtk.require('2.0')
-
-import gtk
+from gi.repository import Gtk
 
 from labyrinth import utils
 from labyrinth import Browser
@@ -55,6 +51,7 @@ if hasattr(locale, 'bindtextdomain'):
         locale.textdomain('labyrinth')
 
 
+# FIXME: Convert from glade to gtkbuilder
 gtk.glade.bindtextdomain('labyrinth')
 gtk.glade.textdomain('labyrinth')
 
@@ -85,7 +82,7 @@ def main():
         MapBrowser.open_map_filename (options.filepath)
 
     try:
-        gtk.main()
+        Gtk.main()
     except:
         print "Exception caught while running.  Dying a death."
         sys.exit(1)
