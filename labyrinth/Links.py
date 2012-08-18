@@ -235,7 +235,7 @@ class Link (GObject.GObject):
             return False
         if event.keyval in (Gdk.KEY_plus, Gdk.KEY_KP_Add):
             self.strength += 1
-        elif (event.keyval in (Gdk.KEY_minus, Gdk.KEY_KP_Subtract) and \
+        elif event.keyval in (Gdk.KEY_minus, Gdk.KEY_KP_Subtract) and \
                  self.strength > 1:
             self.strength -= 1
         elif event.keyval == Gdk.KEY_Escape:
