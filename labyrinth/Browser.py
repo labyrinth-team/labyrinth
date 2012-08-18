@@ -34,6 +34,7 @@ if os.name != 'nt':
     from gi.repository import GConf
 from gi.repository import Pango
 from gi.repository import GObject
+from gi.repository import GdkPixbuf
 
 # Local imports
 import utils
@@ -203,7 +204,7 @@ class Browser (Gtk.Window):
             except:
                 pass
         else:
-            about_dialog.set_logo (gtk.gdk.pixbuf_new_from_file("images\\labyrinth-24.png"))
+            about_dialog.set_logo (GdkPixbuf.Pixbuf.new_from_file("images\\labyrinth-24.png"))
         about_dialog.set_license (
 "Labyrinth is free software; you can redistribute it and/or modify "
 "it under the terms of the GNU General Public Licence as published by "
@@ -282,7 +283,7 @@ class Browser (Gtk.Window):
 
     def import_clicked(self, button, other=None, *data):
         chooser = Gtk.FileChooserDialog(title=_("Open File"), action=Gtk.FileChooserAction.OPEN, \
-                buttons=(gtk.STOCK_CANCEL, gtk.ResponseType.CANCEL, gtk.STOCK_OPEN, gtk.ResponseType.OK))
+                buttons=(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
 
         filtr = Gtk.FileFilter()
         filtr.set_name(_('MAPZ Compressed Map (*.mapz)'))
@@ -314,9 +315,9 @@ class Browser (Gtk.Window):
         Gtk.main_quit()
 
     def populate_view (self):
-        cellrenderer = gtk.CellRendererText()
-        cellrenderer.set_property("ellipsize", pango.ELLIPSIZE_END)
-        column = gtk.TreeViewColumn(_("Map Name"), cellrenderer,
+        cellrenderer = Gtk.CellRendererText()
+        cellrenderer.set_property("ellipsize", Pango.EllipsizeMode.END)
+        column = Gtk.TreeViewColumn(_("Map Name"), cellrenderer,
                                                                 text=self.COL_TITLE)
         column.set_resizable(True)
         column.set_expand (True)
