@@ -28,11 +28,12 @@ _ = gettext.gettext
 import xml.dom.minidom as dom
 
 # Gtk stuff
-import gtk
-import cairo, pangocairo
-import gobject
+from gi.repository import Gtk
+from gi.repository import GObject
+from gi.repository import PangoCairo
+import cairo
 if os.name != 'nt':
-    import gconf
+    from gi.repository import GConf
 
 # Local imports
 import MMapArea
@@ -47,26 +48,23 @@ from MapList import MapList
 UNDO_MODE = 0
 UNDO_SHOW_EXTENDED = 1
 
-class LabyrinthWindow (gobject.GObject):
-    __gsignals__ = dict (title_changed = (gobject.SIGNAL_RUN_FIRST,
-                                          gobject.TYPE_NONE,
-                                          (gobject.TYPE_STRING, gobject.TYPE_OBJECT)),
-                         doc_save      = (gobject.SIGNAL_RUN_FIRST,
-                                          gobject.TYPE_NONE,
-                                          (gobject.TYPE_STRING, gobject.TYPE_OBJECT)),
-                         file_saved    = (gobject.SIGNAL_RUN_FIRST,
-                                          gobject.TYPE_NONE,
-                                          (gobject.TYPE_STRING, gobject.TYPE_OBJECT)),
-                         window_closed = (gobject.SIGNAL_RUN_FIRST,
-                                          gobject.TYPE_NONE,
-                                          (gobject.TYPE_OBJECT, )))
+class LabyrinthWindow (GObject.GObject):
+    __gsignals__ = dict (title_changed = (GObject.SignalFlags.RUN_FIRST,
+                                          None,
+                                          (str, object)),
+                         doc_save      = (GObject.SignalFlags.RUN_FIRST,
+                                          None,
+                                          (str, object)),
+                         file_saved    = (GObject.SignalFlags.RUN_FIRST,
+                                          None,
+                                          (str, object)),
+                         window_closed = (GObject.SignalFlags.RUN_FIRST,
+                                          None,
+                                          (object, )),
+                        )
 
     def __init__ (self, filename, imported=False):
         super(LabyrinthWindow, self).__init__()
-
-        # FIXME:  This can go when we move entirely to gtk 2.10
-        # pygtk 2.8 doesn't have the correct function :(
-        self.set_val = gtk.gtk_version[1] > 8
 
         # First, construct the MainArea and connect it all up
         self.undo = UndoManager.UndoManager (self)
@@ -83,8 +81,9 @@ class LabyrinthWindow (gobject.GObject):
         self.MainArea.connect ("set_attrs", self.attrs_cb)
         if os.name != 'nt':
             self.MainArea.connect ("text_selection_changed", self.selection_changed_cb)
-            self.config_client = gconf.client_get_default()
+            self.config_client = GConf.Client.get_default()
 
+        # FIXME: Convert to gtkbuilder
         glade = gtk.glade.XML(utils.get_data_file_name('labyrinth.glade'))
         self.main_window = glade.get_widget ('MapWindow')
         self.main_window.set_focus_child (self.MainArea)
@@ -153,7 +152,7 @@ class LabyrinthWindow (gobject.GObject):
         # Add in the extended info view
         self.extended_window = glade.get_widget('extended_window')
         self.extended = glade.get_widget('extended')
-        self.invisible_buffer = gtk.TextBuffer ()
+        self.invisible_buffer = Gtk.TextBuffer()
 
         # Connect all our signals
         self.main_window.connect ("configure_event", self.configure_cb)
@@ -198,8 +197,7 @@ class LabyrinthWindow (gobject.GObject):
 
         self.maximised = False
         self.view_type = 0
-        if self.set_val:
-            self.act.set_current_value (self.mode)
+        self.act.set_current_value (self.mode)
 
         self.undo.unblock ()
         self.start_timer ()
@@ -215,36 +213,36 @@ class LabyrinthWindow (gobject.GObject):
                 ('FileMenu', None, _('File')),
                 ('Export', None, _('Export as Image'), None,
                  _("Export your map as an image"), self.export_cb),
-                ('ExportMap', gtk.STOCK_SAVE_AS, _('Export Map...'), '<control>S',
+                ('ExportMap', Gtk.STOCK_SAVE_AS, _('Export Map...'), '<control>S',
                  _("Export your map as XML"), self.export_map_cb),
-                ('Close', gtk.STOCK_CLOSE, None, '<control>W',
+                ('Close', Gtk.STOCK_CLOSE, None, '<control>W',
                  _('Close the current window'), self.close_window_cb),
                 ('EditMenu', None, _('_Edit')),
                 ('ViewMenu', None, _('_View')),
                 ('ShowToolbars', None, _('_Toolbar')),
-                ('Undo', gtk.STOCK_UNDO, None, '<control>Z', None),
-                ('Redo', gtk.STOCK_REDO, None, '<control><shift>Z', None),
-                ('Cut', gtk.STOCK_CUT, None, '<control>X',
+                ('Undo', Gtk.STOCK_UNDO, None, '<control>Z', None),
+                ('Redo', Gtk.STOCK_REDO, None, '<control><shift>Z', None),
+                ('Cut', Gtk.STOCK_CUT, None, '<control>X',
                  None, self.cut_text_cb),
-                ('Copy', gtk.STOCK_COPY, None, '<control>C',
+                ('Copy', Gtk.STOCK_COPY, None, '<control>C',
                  None, self.copy_text_cb),
-                ('Paste', gtk.STOCK_PASTE, None, '<control>V',
+                ('Paste', Gtk.STOCK_PASTE, None, '<control>V',
                  None, self.paste_text_cb),
                 ('LinkThoughts', None, _("Link Thoughts"), '<control>L',
                 _("Link the selected thoughts"), self.link_thoughts_cb),
                 ('ModeMenu', None, _('_Mode')),
-                ('ZoomIn', gtk.STOCK_ZOOM_IN, None, '<control>plus',
+                ('ZoomIn', Gtk.STOCK_ZOOM_IN, None, '<control>plus',
                  None, self.zoomin_cb),
-                ('ZoomOut', gtk.STOCK_ZOOM_OUT, None, '<control>minus',
+                ('ZoomOut', Gtk.STOCK_ZOOM_OUT, None, '<control>minus',
                  None, self.zoomout_cb),
-                ('ZoomFit', gtk.STOCK_ZOOM_FIT, None, None,
+                ('ZoomFit', Gtk.STOCK_ZOOM_FIT, None, None,
                  None, self.zoomfit_cb)]
         self.radio_actions = [
-                ('Edit', gtk.STOCK_EDIT, _('_Edit Mode'), '<control>E',
+                ('Edit', Gtk.STOCK_EDIT, _('_Edit Mode'), '<control>E',
                  _('Turn on edit mode'), MMapArea.MODE_EDITING),
-                 ('AddImage', gtk.STOCK_ADD, _('_Add Image'), None,
+                 ('AddImage', Gtk.STOCK_ADD, _('_Add Image'), None,
                  _('Add an image to selected thought'), MMapArea.MODE_IMAGE),
-                 ('Drawing', gtk.STOCK_COLOR_PICKER, _('_Drawing Mode'), None,
+                 ('Drawing', Gtk.STOCK_COLOR_PICKER, _('_Drawing Mode'), None,
                  _('Make a pretty drawing'), MMapArea.MODE_DRAW)]
         self.view_radio_actions = [
                 ('UseBezier', None, _('Use _Curves'), None,
@@ -259,7 +257,7 @@ class LabyrinthWindow (gobject.GObject):
                 ('ShowFormatToolbar', None, _('_Format'), None,
                  _('Show format toolbar'), self.show_format_toolbar_cb)]
 
-        ag = gtk.ActionGroup ('WindowActions')
+        ag = Gtk.ActionGroup ('WindowActions')
         ag.set_translation_domain(gettext.textdomain())
         ag.add_actions (actions)
         ag.add_radio_actions (self.radio_actions)
@@ -273,7 +271,7 @@ class LabyrinthWindow (gobject.GObject):
         self.view_action = ag.get_action('UseBezier')
         self.view_action.connect ("changed", self.view_change_cb)
 
-        self.ui = gtk.UIManager ()
+        self.ui = Gtk.UIManager ()
         self.ui.insert_action_group (ag, 0)
         self.ui.add_ui_from_file (utils.get_data_file_name('labyrinth-ui.xml'))
         self.main_window.add_accel_group (self.ui.get_accel_group ())
@@ -366,7 +364,7 @@ class LabyrinthWindow (gobject.GObject):
         else:
             print "Error"
             return
-        gobject.timeout_add (20, self.translate_timeout, translation_x, translation_y)
+        GObject.timeout_add (20, self.translate_timeout, translation_x, translation_y)
         self.tr_to = True
 
     def translate_timeout (self, addition_x, addition_y):
@@ -480,8 +478,7 @@ class LabyrinthWindow (gobject.GObject):
         self.mode = activated.get_current_value ()
 
     def mode_request_cb (self, widget, mode):
-        if self.set_val:
-            self.act.set_current_value (mode)
+        self.act.set_current_value (mode)
 
     def title_changed_cb (self, widget, new_title):
         self.title_cp = self.title_cp = _('Untitled Map')
@@ -539,11 +536,11 @@ class LabyrinthWindow (gobject.GObject):
         self.emit ('file_saved', self.save_file, self)
 
     def export_map_cb(self, event):
-        chooser = gtk.FileChooserDialog(title=_("Save File As"), action=gtk.FILE_CHOOSER_ACTION_SAVE, \
-                                                                        buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK))
+        chooser = Gtk.FileChooserDialog(title=_("Save File As"), action=Gtk.FileChooserAction.SAVE, \
+                                                                        buttons=(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, gtk.STOCK_OPEN, gtk.ResponseType.OK))
         chooser.set_current_name ("%s.mapz" % self.main_window.title)
         response = chooser.run()
-        if response == gtk.RESPONSE_OK:
+        if response == Gtk.ResponseType.OK:
             filename = chooser.get_filename ()
             self.MainArea.save_thyself ()
             tf = tarfile.open (filename, "w")
@@ -630,7 +627,7 @@ class LabyrinthWindow (gobject.GObject):
         glade = gtk.glade.XML (utils.get_data_file_name('labyrinth.glade'))
         dialog = glade.get_widget ('ExportImageDialog')
         box = glade.get_widget ('dialog_insertion')
-        fc = gtk.FileChooserWidget(gtk.FILE_CHOOSER_ACTION_SAVE)
+        fc = Gtk.FileChooserWidget(Gtk.FileChooserAction.SAVE)
         box.pack_end (fc)
 
         filter_mapping = [  (_('All Files'), ['*']),
@@ -640,7 +637,7 @@ class LabyrinthWindow (gobject.GObject):
                                                 (_('PDF Portable Document (*.pdf)'), ['*.pdf']) ]
 
         for (filter_name, filter_patterns) in filter_mapping:
-            fil = gtk.FileFilter ()
+            fil = Gtk.FileFilter()
             fil.set_name(filter_name)
             for pattern in filter_patterns:
                 fil.add_pattern(pattern)
@@ -662,7 +659,7 @@ class LabyrinthWindow (gobject.GObject):
         while 1:
         # Cheesy loop.  Break out as needed.
             response = dialog.run()
-            if response == gtk.RESPONSE_OK:
+            if response == Gtk.ResponseType.OK:
                 ext_mime_mapping = { 'png':'png', 'jpg':'jpeg', 'jpeg':'jpeg', \
                             'svg':'svg', 'pdf':'pdf' }
                 filename = fc.get_filename()
@@ -672,7 +669,7 @@ class LabyrinthWindow (gobject.GObject):
                     mime = ext_mime_mapping[ext]
                     break
                 except KeyError:
-                    msg = gtk.MessageDialog(self, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, \
+                    msg = Gtk.MessageDialog(self, Gtk.DialogFlags.DESTROY_WITH_PARENT, Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, \
                             _("Unknown file format"))
                     msg.format_secondary_text (_("The file type '%s' is unsupported.  Please use the suffix '.png',"\
                             " '.jpg' or '.svg'." % ext))
@@ -698,6 +695,8 @@ class LabyrinthWindow (gobject.GObject):
             self.save_surface(surface, true_width, true_height, native)
 
     def save_as_pixmap(self, filename, mime, width, height, bitdepth, native):
+        # FIXME: Convert to cairo surfaces:
+        # http://developer.gnome.org/gtk3/3.5/ch24s02.html#id1444286
         pixmap = gtk.gdk.Pixmap (None, width, height, bitdepth)
         self.MainArea.export (pixmap.cairo_create (), width, height, native)
 
@@ -711,8 +710,8 @@ class LabyrinthWindow (gobject.GObject):
         self.MainArea.export(context, width, height, native)
         surface.finish()
 
-    def selection_changed_cb (self, area, start, end, text):
-        clip = gtk.Clipboard (selection="PRIMARY")
+    def selection_changed_cb(self, area, start, end, text):
+        clip = Gtk.Clipboard(selection="PRIMARY")
         if text:
             clip.set_text (text)
         else:
@@ -747,21 +746,21 @@ class LabyrinthWindow (gobject.GObject):
             self.copy.set_sensitive (True)
 
     def cut_text_cb (self, event):
-        clip = gtk.Clipboard ()
+        clip = Gtk.Clipboard()
         if self.extended.is_focus ():
             self.extended.get_buffer().cut_clipboard (clip)
         else:
             self.MainArea.cut_clipboard (clip)
 
     def copy_text_cb (self, event):
-        clip = gtk.Clipboard ()
+        clip = Gtk.Clipboard()
         if self.extended.is_focus ():
             self.extended.get_buffer().copy_clipboard (clip)
         else:
             self.MainArea.copy_clipboard (clip)
 
     def paste_text_cb (self, event):
-        clip = gtk.Clipboard ()
+        clip = Gtk.Clipboard()
         if self.extended.is_focus ():
             self.extended.get_buffer().paste_clipboard (clip, None, True)
         else:
