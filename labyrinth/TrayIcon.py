@@ -28,7 +28,7 @@ As of now it only brings the application to front if it is clicked.
 """
 import sys
 import os
-import gtk
+from gi.repository import Gtk
 
 from utils import *
 
@@ -43,9 +43,9 @@ class TrayIcon(object):
     def __init__(self, icon_name="TestTrayIcon", icon_file=None, menu=None, activate=None):
         # thats so incredibly simple!
         if icon_file:
-            self.status_icon=gtk.status_icon_new_from_file(icon_file)
+            self.status_icon=Gtk.StatusIcon.new_from_file(icon_file)
         else:
-            self.status_icon=gtk.status_icon_new_from_icon_name(icon_name)
+            self.status_icon=Gtk.StatusIcon.new_from_icon_name(icon_name)
 
         # connect the menu and the callback if given
         if menu:
@@ -65,11 +65,11 @@ class TrayIcon(object):
         self.status_icon.connect("popup-menu", popup_menu_callback)
 
 if __name__ == "__main__":
-    menu = gtk.Menu()
-    quit_item = gtk.MenuItem("Quit")
-    quit_item.connect("activate", gtk.main_quit)
+    menu = Gtk.Menu()
+    quit_item = Gtk.MenuItem("Quit")
+    quit_item.connect("activate", Gtk.main_quit)
     menu.add(quit_item)
     menu.show_all()
     yell_at_them = lambda : sys.stdout.write("you hit %s...\n" % trayicon)
     trayicon = TrayIcon(icon_name="labyrinth", menu=menu, activate=yell_at_them)
-    gtk.main()
+    Gtk.main()
