@@ -516,11 +516,6 @@ class LabyrinthWindow (gobject.GObject):
         string = doc.toxml ()
         return string.encode ("utf-8" )
 
-    def save_map(self, filename, string):
-        f = file (filename, 'w')
-        f.write (string)
-        f.close ()
-
     def doc_save_cb (self, widget, doc, top_element):
         save_string = self.serialize_to_xml(doc, top_element)
         if not self.save_file:
@@ -534,7 +529,8 @@ class LabyrinthWindow (gobject.GObject):
                 self.save_file = save_loc + "Dup"+str(counter)+hsh.hexdigest()+".map"
                 counter += 1
 
-        self.save_map(self.save_file, save_string)
+        with open(self.save_file, 'w') as f:
+            f.write(save_string)
         self.emit ('file_saved', self.save_file, self)
 
     def export_map_cb(self, event):
@@ -546,10 +542,10 @@ class LabyrinthWindow (gobject.GObject):
             filename = chooser.get_filename ()
             self.MainArea.save_thyself ()
             tf = tarfile.open (filename, "w")
-            tf.add (self.save_file, utils.strip_path_from_file_name(self.save_file))
+            tf.add (self.save_file, os.path.basename(self.save_file))
             for t in self.MainArea.thoughts:
                 if isinstance(t, ImageThought.ImageThought):
-                    tf.add (t.filename, 'images/' + utils.strip_path_from_file_name(t.filename))
+                    tf.add (t.filename, 'images/' + os.path.basename(t.filename))
 
             tf.close()
 

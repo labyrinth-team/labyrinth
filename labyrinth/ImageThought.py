@@ -20,6 +20,7 @@
 #
 
 import gtk
+import os.path
 import xml.dom.minidom as dom
 import xml.dom
 import gettext
@@ -78,7 +79,7 @@ class ImageThought (BaseThought.ResizableThought):
         except:
             try:
                 # lets see if file was imported and is already extracted
-                fname = utils.get_save_dir() + 'images/' + utils.strip_path_from_file_name(filename)
+                fname = utils.get_save_dir() + 'images/' + os.path.basename(filename)
                 self.orig_pic = gtk.gdk.pixbuf_new_from_file (fname)
             except:
                 return False

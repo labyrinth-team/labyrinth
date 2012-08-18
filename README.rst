@@ -40,7 +40,7 @@ Requirements
 I don't really know what the exact requirements are.  In the configure script,
 the following are checked:
 
-* Python              >= 2.4
+* Python              >= 2.6
 * gtk+                >= 2.8
 * pygtk-2.0           >= 2.8
 * pygobject-2.0       >= 2.10

@@ -116,15 +116,11 @@ def get_data_dir():
 
 def get_data_file_name (file_name):
     ''' takes a string and either returns it with the data directory prepended.'''
-    return get_data_dir() + os.sep + file_name
+    return os.path.join(get_data_dir(), file_name)
 
 def get_data_file (file_name):
     ''' takes a string and either returns a data file of that name or raises an exception if it cant find it '''
     return open(get_data_file_name(file_name))
-
-def strip_path_from_file_name(f):
-    ''' Removes the path including all leading and trailing slashes from a filename. '''
-    return f.split('/')[-1]
 
 # Drawing functions
 
