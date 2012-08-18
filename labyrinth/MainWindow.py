@@ -625,7 +625,7 @@ class LabyrinthWindow (GObject.GObject):
 
         x, y, width, height, bitdepth = self.MainArea.window.get_geometry ()
         glade = Gtk.Builder()
-        glade.add_from_file(utils.get_data_file_name('labyrinth.glade'))
+        glade.add_from_file(utils.get_data_file_name('labyrinth.xml'))
         dialog = glade.get_object('ExportImageDialog')
         box = glade.get_object('dialog_insertion')
         fc = Gtk.FileChooserWidget(Gtk.FileChooserAction.SAVE)

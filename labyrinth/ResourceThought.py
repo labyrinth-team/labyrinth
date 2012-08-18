@@ -39,7 +39,7 @@ class ResourceThought (TextThought.TextThought):
 
         # TODO: we should handle such things with a singleton
         # FIXME: convert from glade to gtkbuilder
-        self.glade = gtk.glade.XML(utils.get_data_file_name('labyrinth.glade'))
+        self.glade = gtk.glade.XML(utils.get_data_file_name('labyrinth.xml'))
         self.dialog = self.glade.get_widget('ResourceChooserDialog')
         self.dialog.add_buttons(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
                 Gtk.STOCK_OK, Gtk.ResponseType.OK)

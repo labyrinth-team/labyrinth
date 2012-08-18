@@ -54,7 +54,7 @@ class Browser (Gtk.Window):
     def __init__(self, start_hidden, tray_icon):
         super(Browser, self).__init__()
         self.glade = Gtk.Builder()
-        self.glade.add_from_file(utils.get_data_file_name('labyrinth.glade'))
+        self.glade.add_from_file(utils.get_data_file_name('labyrinth.xml'))
         self.view = self.glade.get_object('MainView')
         self.populate_view ()
         self.view.connect ('row-activated', self.open_row_cb)
