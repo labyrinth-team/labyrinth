@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/python
 # labyrith.py
 # This file is part of Labyrith
 #
@@ -29,21 +29,12 @@ import os.path as osp
 
 if os.name != 'nt':
     pygtk.require('2.0')
-    def _check (path):
-        return osp.exists(path) and osp.isdir(path) and osp.isfile(path+"/AUTHORS")
-
-    name = osp.join(osp.dirname(__file__), '..')
-    if _check(name):
-        sys.path.insert(0, osp.abspath(name))
-    else:
-        sys.path.insert(0, osp.abspath("@PYTHONDIR@"))
 
 import gtk
 
-# Hopefully this will work now ;)
-import utils
-import Browser
-import prefs
+from labyrinth import utils
+from labyrinth import Browser
+from labyrinth import prefs
 try:
     import defs
     localedir = abspath(join(defs.DATA_DIR, "locale"))
