@@ -552,8 +552,8 @@ class LabyrinthWindow (gobject.GObject):
         chooser.destroy()
 
     def parse_file (self, filename):
-        f = file (filename, 'r')
-        doc = dom.parse (f)
+        with open(filename, 'r') as f:
+            doc = dom.parse(f)
         top_element = doc.documentElement
         self.title_cp = top_element.getAttribute ("title")
         self.mode = int (top_element.getAttribute ("mode"))
