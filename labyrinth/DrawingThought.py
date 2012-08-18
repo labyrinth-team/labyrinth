@@ -19,12 +19,13 @@
 # Boston, MA  02110-1301  USA
 #
 
-import gtk
 import xml.dom.minidom as dom
 import xml.dom
 import gettext
 _ = gettext.gettext
 import math
+
+from gi.repository import Gtk, Gdk
 
 import BaseThought
 import utils
@@ -45,11 +46,11 @@ UNDO_ERASE = 2
 
 class DrawingThought (BaseThought.ResizableThought):
     class DrawingPoint (object):
-        def __init__ (self, coords, style=STYLE_CONTINUE, color = gtk.gdk.Color(0,0,0), width = 2):
+        def __init__ (self, coords, style=STYLE_CONTINUE, color = Gdk.Color(0,0,0), width = 2):
             self.x, self.y = coords
             self.style = style
             if color == None:
-                color = gtk.gdk.Color(0,0,0)
+                color = Gdk.Color(0,0,0)
             self.color = color
             self.width = 1
         def move_by (self, x, y):
@@ -140,10 +141,10 @@ class DrawingThought (BaseThought.ResizableThought):
         self.undo.unblock ()
 
     def process_button_down (self, event, mode, transformed):
-        modifiers = gtk.accelerator_get_default_mod_mask ()
+        modifiers = Gtk.accelerator_get_default_mod_mask ()
         self.button_down = True
         if event.button == 1:
-            if event.type == gtk.gdk.BUTTON_PRESS:
+            if event.type == Gdk.EventType.BUTTON_PRESS:
                 self.emit ("select_thought", event.state & modifiers)
                 self.emit ("update_view")
             if mode == MODE_EDITING and self.resizing != self.RESIZE_NONE:
@@ -154,7 +155,7 @@ class DrawingThought (BaseThought.ResizableThought):
             elif mode == MODE_DRAW:
                 self.want_move = True
                 self.drawing = 2
-                if not event.state & gtk.gdk.SHIFT_MASK:
+                if not event.state & Gdk.ModifierType.SHIFT_MASK:
                     self.drawing = 1
                 self.orig_size = (self.ul, self.width, self.height)
                 self.ins_points = []
@@ -204,9 +205,9 @@ class DrawingThought (BaseThought.ResizableThought):
         self.emit ("update_view")
 
     def handle_motion (self, event, mode, transformed):
-        if (self.resizing == self.RESIZE_NONE or not self.want_move or not event.state & gtk.gdk.BUTTON1_MASK) \
+        if (self.resizing == self.RESIZE_NONE or not self.want_move or not event.state & Gdk.ModifierType.BUTTON1_MASK) \
            and mode != MODE_DRAW:
-            if not event.state & gtk.gdk.BUTTON1_MASK or mode != MODE_EDITING:
+            if not event.state & Gdk.ModifierType.BUTTON1_MASK or mode != MODE_EDITING:
                 return False
             else:
                 self.emit ("create_link", \
@@ -493,9 +494,9 @@ class DrawingThought (BaseThought.ResizableThought):
         self.identity = int (node.getAttribute ("identity"))
         try:
             tmp = node.getAttribute ("background-color")
-            self.background_color = gtk.gdk.color_parse(tmp)
+            self.background_color = Gdk.color_parse(tmp)
             tmp = node.getAttribute ("foreground-color")
-            self.foreground_color = gtk.gdk.color_parse(tmp)
+            self.foreground_color = Gdk.color_parse(tmp)
         except ValueError:
             pass
         self.min_x = float(node.getAttribute ("min_x"))
@@ -519,7 +520,7 @@ class DrawingThought (BaseThought.ResizableThought):
                 col = None
                 try:
                     tmp = n.getAttribute ("color")
-                    col = gtk.gdk.color_parse (tmp)
+                    col = Gdk.color_parse (tmp)
                 except ValueError:
                     pass
                 self.points.append (self.DrawingPoint (c, style, col))
@@ -549,7 +550,7 @@ class DrawingThought (BaseThought.ResizableThought):
             return False
 
         if self.want_move and mode == MODE_DRAW:
-            self.emit ("change_mouse_cursor", gtk.gdk.PENCIL)
+            self.emit ("change_mouse_cursor", Gdk.CursorType.PENCIL)
             return True
 
         inside = (coords[0] < self.lr[0] + self.sensitive) and \
@@ -562,9 +563,9 @@ class DrawingThought (BaseThought.ResizableThought):
 
         if inside and (mode != MODE_EDITING or self.button_down):
             if mode == MODE_DRAW:
-                self.emit ("change_mouse_cursor", gtk.gdk.PENCIL)
+                self.emit ("change_mouse_cursor", Gdk.CursorType.PENCIL)
             else:
-                self.emit ("change_mouse_cursor", gtk.gdk.LEFT_PTR)
+                self.emit ("change_mouse_cursor", Gdk.CursorType.LEFT_PTR)
             return inside
 
         if inside:
@@ -578,40 +579,40 @@ class DrawingThought (BaseThought.ResizableThought):
                 if abs (coords[1] - self.ul[1]) < self.sensitive:
                 # Its in the ul corner
                     self.resizing = self.RESIZE_UL
-                    self.emit ("change_mouse_cursor", gtk.gdk.TOP_LEFT_CORNER)
+                    self.emit ("change_mouse_cursor", Gdk.CursorType.TOP_LEFT_CORNER)
                 elif abs (coords[1] - self.lr[1]) < self.sensitive:
                 # Its in the ll corner
                     self.resizing = self.RESIZE_LL
-                    self.emit ("change_mouse_cursor", gtk.gdk.BOTTOM_LEFT_CORNER)
+                    self.emit ("change_mouse_cursor", Gdk.CursorType.BOTTOM_LEFT_CORNER)
                 elif coords[1] < self.lr[1] and coords[1] > self.ul[1]:
                 #anywhere else along the left edge
                     self.resizing = self.RESIZE_LEFT
-                    self.emit ("change_mouse_cursor", gtk.gdk.LEFT_SIDE)
+                    self.emit ("change_mouse_cursor", Gdk.CursorType.LEFT_SIDE)
             elif abs (coords[0] - self.lr[0]) < self.sensitive:
                 if abs (coords[1] - self.ul[1]) < self.sensitive:
                 # Its in the UR corner
                     self.resizing = self.RESIZE_UR
-                    self.emit ("change_mouse_cursor", gtk.gdk.TOP_RIGHT_CORNER)
+                    self.emit ("change_mouse_cursor", Gdk.CursorType.TOP_RIGHT_CORNER)
                 elif abs (coords[1] - self.lr[1]) < self.sensitive:
                 # Its in the lr corner
                     self.resizing = self.RESIZE_LR
-                    self.emit ("change_mouse_cursor", gtk.gdk.BOTTOM_RIGHT_CORNER)
+                    self.emit ("change_mouse_cursor", Gdk.CursorType.BOTTOM_RIGHT_CORNER)
                 elif coords[1] < self.lr[1] and coords[1] > self.ul[1]:
                 #anywhere else along the right edge
                     self.resizing = self.RESIZE_RIGHT
-                    self.emit ("change_mouse_cursor", gtk.gdk.RIGHT_SIDE)
+                    self.emit ("change_mouse_cursor", Gdk.CursorType.RIGHT_SIDE)
             elif abs (coords[1] - self.ul[1]) < self.sensitive and \
                      (coords[0] < self.lr[0] and coords[0] > self.ul[0]):
                 # Along the top edge somewhere
                 self.resizing = self.RESIZE_TOP
-                self.emit ("change_mouse_cursor", gtk.gdk.TOP_SIDE)
+                self.emit ("change_mouse_cursor", Gdk.CursorType.TOP_SIDE)
             elif abs (coords[1] - self.lr[1]) < self.sensitive and \
                      (coords[0] < self.lr[0] and coords[0] > self.ul[0]):
                 # Along the bottom edge somewhere
                 self.resizing = self.RESIZE_BOTTOM
-                self.emit ("change_mouse_cursor", gtk.gdk.BOTTOM_SIDE)
+                self.emit ("change_mouse_cursor", Gdk.CursorType.BOTTOM_SIDE)
             else:
-                self.emit ("change_mouse_cursor", gtk.gdk.LEFT_PTR)
+                self.emit ("change_mouse_cursor", Gdk.CursorType.LEFT_PTR)
         self.want_move = (self.resizing != self.RESIZE_NONE)
         return inside
 
