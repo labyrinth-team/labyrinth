@@ -1,25 +1,5 @@
 Labyrinth
----------
-
-License
--------
-
-This software is released under the GNU GPL v2 (or later) license.  All source
-files are included in this, unless explicitly stated in the source file itself.
-  For copyright owners, please refer to the source files individually.
-
-The "labyrinth" icon (data/labyrinth.svg and data/labyrinth-*.png) is copyright
-Josef Vybíral and is released under the GNU GPL v2 license.
-
-Please refer to the "COPYING" file for a complete copy of the GNU GPL v2
-license.
-
-All documentation (This file, anything in the docs directory) released with
-this package is released as public domain.  The documentation, you can do with
-as you please.
-
-What is it?
------------
+=========
 
 Labyrinth is a lightweight mind-mapping tool, written in Python using Gtk and
 Cairo to do the drawing.  It is intended to be as light and intuitive as
@@ -30,13 +10,6 @@ linked to and arranged radially around a central key word or idea. It is used
 to generate, visualise, structure and classify ideas, and as an aid in study,
 organisation, problem solving, and decision making. (From wikipedia)
 
-Current Release
----------------
-
-This is v0.3.  Note that maps created with this release may be incompatible
-with future releases.  We will try and minimise this as much as possible, but
-be warned that it may happen.
-
 Currently, Labyrinth provides 3 different types of thoughts, or nodes - Text,
 Image and Drawing.  Text is the basic standard text node.  Images allow you to
 insert and scale any supported image file (png, jpeg, svg).  Drawings are for
@@ -44,20 +17,37 @@ those times when you want to illustrate something, but don't want to fire up
 a separate drawing program.  It allows you to quickly and easily sketch very
 simple line diagrams.
 
+License
+-------
+
+This software is released under the GNU GPL v2 (or later) license.  All source
+files are included in this, unless explicitly stated in the source file itself.
+For copyright owners, please refer to the source files individually.
+
+The "labyrinth" icon (``data/labyrinth.svg`` and ``data/labyrinth-*.png``) is
+copyright Josef Vybíral and is released under the GNU GPL v2 license.
+
+Please refer to the "COPYING" file for a complete copy of the GNU GPL v2
+license.
+
+All documentation (This file, anything in the docs directory) released with
+this package is released as public domain.  The documentation, you can do with
+as you please.
+
 Requirements
 ------------
 
 I don't really know what the exact requirements are.  In the configure script,
 the following are checked:
-Python              == 2.4
-gtk+                >= 2.8
-pygtk-2.0           >= 2.8
-pygobject-2.0       >= 2.10
-gnome-python-2.0    >= 2.12
-gnome-desktop-2.0   >= 2.14
-pycairo             >= 1.0
 
-which probably means (to compile) you need the -dev versions of all these
+* Python              >= 2.4
+* gtk+                >= 2.8
+* pygtk-2.0           >= 2.8
+* pygobject-2.0       >= 2.10
+* gnome-python-2.0    >= 2.12
+* pycairo             >= 1.0
+
+which probably means (to compile) you need the ``-dev`` versions of all these
 (except Python).  Note that although these are checked, it may work with
 previous versions.  If it does, please let us know and the configure script
 can be adapted accordingly.
@@ -65,16 +55,19 @@ can be adapted accordingly.
 How to use it
 -------------
 
-From the top directory of the package, run the command:
-python src/labyrinth.py
+From the top directory of the package, run the command::
 
-It can also be installed using the ./configure && make dance thus:
-./configure --prefix=<prefix_to_use>
-make
-make install
+    python src/labyrinth.py
 
-and run with:
-labyrinth
+It can also be installed using the ./configure && make dance thus::
+
+    ./configure --prefix=<prefix_to_use>
+    make
+    make install
+
+and run with::
+
+    labyrinth
 
 This will open a browser window, showing you all the maps currently available
 and allow you to modify / delete them and create new maps.  The title is
@@ -99,28 +92,13 @@ thoughts (hold down the shift key to select > 1 thought) and choosing
 
 Loading and saving of maps is in the tomboy style - they are automatically
 saved, you shouldn't have to worry about them.  For reference anyway, the maps
-are saved in ~/.gnome2/labyrinth/<longstring>.map
-
-a11y, themes and i18n
----------------------
-
-All these are currently missing.  The background is always white.  The font is
-always the same.  The interface is always in English.
-
-This should change soon, with bits 'n pieces marked for translation and
-different font sizes allowed.  The colours should be changable and (where
-possible) follow the current theme.
-
-I'm also looking at ways of making Labyrinth accessible.  Don't know exactly
-how to do this yet and my previous attempts at adding simple a11y stuff failed
-miserably.
-
+are saved in ``~/.gnome2/labyrinth/<longstring>.map``.
 
 Future Plans
 ------------
 
-In doc/TheFuture, there are a list of goals for a 1.0 release and for the next
-release.  Releases are feature-based at this stage.  Once all the required
+In ``doc/TheFuture``, there are a list of goals for a 1.0 release and for the next
+release. Releases are feature-based at this stage. Once all the required
 features are in place, a release is made.
 
 However a release may also be made without all the changes if it is deemed
@@ -129,8 +107,7 @@ that this is in the best interest.
 Getting the Latest Development Code
 -----------------------------------
 
-Development happens in Google SVN.  Instructions for grabbing the latest source
-can be found at http://code.google.com/p/labyrinth/source
+Development happens on Github. See https://github.com/labyrinth-team/labyrinth
 
 Helping Out and Questions
 -------------------------
