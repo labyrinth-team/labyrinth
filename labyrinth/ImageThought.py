@@ -27,7 +27,7 @@ import gettext
 _ = gettext.gettext
 
 # Gtk stuff
-import gtk
+from gi.repository import Gtk
 import cairo
 
 # Local imports
@@ -63,15 +63,15 @@ class ImageThought (BaseThought.ResizableThought):
     def open_image (self, filename = None):
         # Present a dialog for the user to choose an image here
         if not filename:
-            fil = gtk.FileFilter ()
+            fil = Gtk.FileFilter ()
             fil.set_name("Images")
             fil.add_pixbuf_formats ()
-            dialog = gtk.FileChooserDialog (_("Choose image to insert"), None, gtk.FILE_CHOOSER_ACTION_OPEN, \
-                                     (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK))
+            dialog = Gtk.FileChooserDialog (_("Choose image to insert"), None, Gtk.FileChooserAction.OPEN, \
+                                     (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
             dialog.add_filter (fil)
             res = dialog.run ()
             dialog.hide ()
-            if res != gtk.RESPONSE_OK:
+            if res != Gtk.ResponseType.OK:
                 return False
             else:
                 fname = dialog.get_filename()
@@ -79,12 +79,12 @@ class ImageThought (BaseThought.ResizableThought):
             fname = filename
 
         try:
-            self.orig_pic = gtk.gdk.pixbuf_new_from_file (fname)
+            self.orig_pic = GdkPixbuf.Pixbuf.new_from_file (fname)
         except:
             try:
                 # lets see if file was imported and is already extracted
                 fname = utils.get_save_dir() + 'images/' + os.path.basename(filename)
-                self.orig_pic = gtk.gdk.pixbuf_new_from_file (fname)
+                self.orig_pic = GdkPixbuf.Pixbuf.new_from_file (fname)
             except:
                 return False
 
@@ -146,17 +146,17 @@ class ImageThought (BaseThought.ResizableThought):
         self.ul = action.args[choose][0]
         self.width = action.args[choose][1]
         self.height = action.args[choose][2]
-        self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), gtk.gdk.INTERP_HYPER)
+        self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), GdkPixbuf.InterpType.HYPER)
         self.recalc_edges ()
         self.emit ("update_links")
         self.emit ("update_view")
         self.undo.unblock ()
 
     def process_button_down (self, event, mode, transformed):
-        modifiers = gtk.accelerator_get_default_mod_mask ()
+        modifiers = Gtk.accelerator_get_default_mod_mask ()
         self.button_down = True
         if event.button == 1:
-            if event.type == gtk.gdk.BUTTON_PRESS:
+            if event.type == Gdk.EventType.BUTTON_PRESS:
                 self.emit ("select_thought", event.state & modifiers)
                 self.emit ("update_view")
             if mode == MODE_EDITING and self.resizing != self.RESIZE_NONE:
@@ -173,7 +173,7 @@ class ImageThought (BaseThought.ResizableThought):
             unending_link.set_child (self)
             self.emit ("claim_unending_link")
         if self.orig_pic:
-            self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), gtk.gdk.INTERP_HYPER)
+            self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), GdkPixbuf.InterpType.HYPER)
         self.emit ("update_view")
         if self.want_move:
             self.undo.add_undo (UndoManager.UndoAction (self, UNDO_RESIZE, self.undo_resize, \
@@ -181,8 +181,8 @@ class ImageThought (BaseThought.ResizableThought):
             self.want_move = False
 
     def handle_motion (self, event, mode, transformed):
-        if self.resizing == self.RESIZE_NONE or not self.want_move or not event.state & gtk.gdk.BUTTON1_MASK:
-            if not event.state & gtk.gdk.BUTTON1_MASK:
+        if self.resizing == self.RESIZE_NONE or not self.want_move or not event.state & Gdk.ModifierType.BUTTON1_MASK:
+            if not event.state & Gdk.ModifierType.BUTTON1_MASK:
                 return False
             elif mode == MODE_EDITING:
                 self.emit ("create_link", \
@@ -255,7 +255,7 @@ class ImageThought (BaseThought.ResizableThought):
             self.width += diffx
             self.height += diffy
         if self.orig_pic:
-            self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), gtk.gdk.INTERP_NEAREST)
+            self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), GdkPixbuf.InterpType.NEAREST)
         self.emit ("update_links")
         self.emit ("update_view")
         return True
@@ -301,7 +301,7 @@ class ImageThought (BaseThought.ResizableThought):
         self.identity = int (node.getAttribute ("identity"))
         try:
             tmp = node.getAttribute ("background-color")
-            self.background_color = gtk.gdk.color_parse(tmp)
+            self.background_color = Gdk.color_parse(tmp)
         except ValueError:
             pass
         self.width = float(node.getAttribute ("image_width"))
@@ -319,25 +319,25 @@ class ImageThought (BaseThought.ResizableThought):
         self.okay = self.open_image (self.filename)
         self.lr = (self.pic_location[0]+self.width+margin[2], self.pic_location[1]+self.height+margin[3])
         if not self.okay:
-            dialog = gtk.MessageDialog (None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
-                                                                    gtk.MESSAGE_WARNING, gtk.BUTTONS_CLOSE,
+            dialog = Gtk.MessageDialog (None, Gtk.DialogFlagsMODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
+                                                                    Gtk.MessageType.WARNING, Gtk.ButtonsType.CLOSE,
                                                                     _("Error loading file"))
-            dialog.format_secondary_text (_("%s could not be found.  Associated thought will be empty."%self.filename))
+            dialog.format_secondary_text(_("%s could not be found.  Associated thought will be empty.") % self.filename)
             dialog.run ()
             dialog.hide ()
             self.pic = None
             self.orig_pic = None
         else:
-            self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), gtk.gdk.INTERP_HYPER)
+            self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), GdkPixbuf.InterpType.HYPER)
         return
 
     def change_image_cb(self, widget):
         self.open_image()
 
     def get_popup_menu_items(self):
-        image = gtk.Image()
-        image.set_from_stock(gtk.STOCK_OPEN, gtk.ICON_SIZE_MENU)
-        item = gtk.ImageMenuItem(_('Change Image'))
+        image = Gtk.Image()
+        image.set_from_stock(Gtk.STOCK_OPEN, Gtk.IconSize.MENU)
+        item = Gtk.ImageMenuItem(_('Change Image'))
         item.set_image(image)
         item.connect('activate', self.change_image_cb)
         return [item]
