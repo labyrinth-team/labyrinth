@@ -20,8 +20,7 @@
 # Boston, MA  02110-1301  USA
 #
 
-import gtk
-import pango
+from gi.repository import Gtk, Pango
 
 import os
 import xml.dom
@@ -56,13 +55,13 @@ class TextThought (BaseThought.BaseThought):
         self.moving = False
         self.preedit = None
         self.attrlist = None
-        self.attributes = pango.AttrList()
+        self.attributes = Pango.AttrList()
         self.current_attrs = []
 
-        if prefs.get_direction () == gtk.TEXT_DIR_LTR:
-            self.pango_context.set_base_dir (pango.DIRECTION_LTR)
+        if prefs.get_direction() == Gtk.TextDirection.LTR:
+            self.pango_context.set_base_dir(Pango.Direction.LTR)
         else:
-            self.pango_context.set_base_dir (pango.DIRECTION_RTL)
+            self.pango_context.set_base_dir(Pango.Direction.RTL)
 
         self.b_f_i = self.bindex_from_index
         margin = utils.margin_required (utils.STYLE_NORMAL)
@@ -98,7 +97,7 @@ class TextThought (BaseThought.BaseThought):
         underline = False
         pango_font = None
         del self.attrlist
-        self.attrlist = pango.AttrList ()
+        self.attrlist = Pango.AttrList()
         # TODO: splice instead of own method
         it = self.attributes.get_iterator()
 
@@ -157,38 +156,41 @@ class TextThought (BaseThought.BaseThought):
                 # through pango.
                 attr = it.get_attrs()
                 for x in attr:
-                    if x.type == pango.ATTR_WEIGHT and \
-                       x.value == pango.WEIGHT_BOLD:
+                    if x.type == Pango.AttrType.WEIGHT and \
+                       x.value == Pango.Weight.BOLD:
                         bold = True
-                    elif x.type == pango.ATTR_STYLE and \
-                             x.value == pango.STYLE_ITALIC:
+                    elif x.type == Pango.AttrType.STYLE and \
+                             x.value == Pango.Style.ITALIC:
                         italics = True
-                    elif x.type == pango.ATTR_UNDERLINE and \
-                             x.value == pango.UNDERLINE_SINGLE:
+                    elif x.type == Pango.AttrType.UNDERLINE and \
+                             x.value == Pango.Underline.SINGLE:
                         underline = True
-                    elif x.type == pango.ATTR_FONT_DESC:
+                    elif x.type == Pango.AttrType.FONT_DESC:
                         pango_font = x.desc
 
         to_add = []
+        # FIXME: Pango.AttrWeight, AttrStyle, etc. don't appear to exist.
+        # Is a workaround using parse_markup possible?
+        # http://gitorious.org/mypaint/mypaint/commit/edd97f1e39c9082e5e9ba037fd9b8056948b03e8?format=patch
         if bold:
-            to_add.append(pango.AttrWeight(pango.WEIGHT_BOLD, self.index, self.index))
+            to_add.append(Pango.AttrWeight(Pango.Weight.BOLD, self.index, self.index))
         if italics:
-            to_add.append(pango.AttrStyle(pango.STYLE_ITALIC, self.index, self.index))
+            to_add.append(Pango.AttrStyle(Pango.Style.ITALIC, self.index, self.index))
         if underline:
-            to_add.append(pango.AttrUnderline(pango.UNDERLINE_SINGLE, self.index, self.index))
+            to_add.append(Pango.AttrUnderline(Pango.Underline.SINGLE, self.index, self.index))
         if pango_font:
-            to_add.append(pango.AttrFontDesc(pango_font, self.index, self.index))
+            to_add.append(Pango.AttrFontDesc(pango_font, self.index, self.index))
         for x in self.current_attrs:
-            if x.type == pango.ATTR_WEIGHT and x.value == pango.WEIGHT_BOLD:
+            if x.type == Pango.AttrType.WEIGHT and x.value == Pango.Weight.BOLD:
                 bold = True
                 to_add.append(x)
-            if x.type == pango.ATTR_STYLE and x.value == pango.STYLE_ITALIC:
+            if x.type == Pango.AttrType.STYLE and x.value == Pango.Style.ITALIC:
                 italics = True
                 to_add.append(x)
-            if x.type == pango.ATTR_UNDERLINE and x.value == pango.UNDERLINE_SINGLE:
+            if x.type == Pango.AttrType.UNDERLINE and x.value == Pango.Underline.SINGLE:
                 underline = True
                 to_add.append(x)
-            if x.type == pango.ATTR_FONT_DESC:
+            if x.type == Pango.AttrType.FONT_DESC:
                 pango_font = x.desc
                 to_add.append(x)
         del self.current_attrs
@@ -208,12 +210,12 @@ class TextThought (BaseThought.BaseThought):
         g *= 65536
         b *= 65536
         if self.index > self.end_index:
-            bgsel = pango.AttrBackground (int(r), int(g), int(b), self.end_index, self.index)
+            bgsel = Pango.AttrBackground(int(r), int(g), int(b), self.end_index, self.index)
         else:
-            bgsel = pango.AttrBackground (int(r), int(g), int(b), self.index, self.end_index)
+            bgsel = Pango.AttrBackground(int(r), int(g), int(b), self.index, self.end_index)
         self.attrlist.insert (bgsel)
 
-        self.layout = pango.Layout (self.pango_context)
+        self.layout = Pango.Layout(self.pango_context)
         self.layout.set_text (show_text)
         self.layout.set_attributes(self.attrlist)
         self.recalc_position ()
@@ -224,11 +226,11 @@ class TextThought (BaseThought.BaseThought):
 
         (x,y) = self.layout.get_pixel_size ()
         margin = utils.margin_required (utils.STYLE_NORMAL)
-        if prefs.get_direction () == gtk.TEXT_DIR_LTR:
+        if prefs.get_direction () == Gtk.TextDirection.LTR:
             self.text_location = (self.ul[0] + margin[0], self.ul[1] + margin[1])
             self.lr = (x + self.text_location[0]+margin[2], y + self.text_location[1] + margin[3])
         else:
-            self.layout.set_alignment (pango.ALIGN_RIGHT)
+            self.layout.set_alignment (Pango.Alignment.RIGHT)
             tmp1 = self.ul[1]
             if not self.lr:
                 self.lr = (self.ul[0], self.ul[1] + y + margin[1] + margin[3])
@@ -289,7 +291,7 @@ class TextThought (BaseThought.BaseThought):
                         changes.append(x)
 
         del self.attributes
-        self.attributes = pango.AttrList()
+        self.attributes = Pango.AttrList()
         map (lambda x : self.attributes.change(x), changes)
 
         self.text = left + string + right
@@ -315,7 +317,7 @@ class TextThought (BaseThought.BaseThought):
             utils.draw_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, style)
         else:
             ux, uy = self.ul
-            if prefs.get_direction() == gtk.TEXT_DIR_LTR:
+            if prefs.get_direction() == Gtk.TextDirection.LTR:
                 context.move_to (ux, uy+5)
                 context.line_to (ux, uy)
                 context.line_to (ux+5, uy)
@@ -340,10 +342,10 @@ class TextThought (BaseThought.BaseThought):
             else:
                 strong, weak = self.layout.get_cursor_pos (self.index)
             (startx, starty, curx,cury) = strong
-            startx /= pango.SCALE
-            starty /= pango.SCALE
-            curx /= pango.SCALE
-            cury /= pango.SCALE
+            startx /= Pango.SCALE
+            starty /= Pango.SCALE
+            curx /= Pango.SCALE
+            cury /= Pango.SCALE
             context.move_to (textx + startx, texty + starty)
             context.line_to (textx + startx, texty + starty + cury)
             context.stroke ()
@@ -374,50 +376,50 @@ class TextThought (BaseThought.BaseThought):
                  (coords[1] < self.lr[1] + self.sensitive) and \
                  (coords[1] > self.ul[1] - self.sensitive)
         if inside and self.editing:
-            self.emit ("change_mouse_cursor", gtk.gdk.XTERM)
+            self.emit ("change_mouse_cursor", Gdk.CursorType.XTERM)
         elif inside:
-            self.emit ("change_mouse_cursor", gtk.gdk.LEFT_PTR)
+            self.emit ("change_mouse_cursor", Gdk.CursorType.LEFT_PTR)
         return inside
 
     def process_key_press (self, event, mode):
-        modifiers = gtk.accelerator_get_default_mod_mask ()
-        shift = event.state & modifiers == gtk.gdk.SHIFT_MASK
+        modifiers = Gtk.accelerator_get_default_mod_mask ()
+        shift = event.state & modifiers == Gdk.ModifierType.SHIFT_MASK
         handled = True
         clear_attrs = True
         if not self.editing:
             return False
 
-        if (event.state & modifiers) & gtk.gdk.CONTROL_MASK:
-            if event.keyval == gtk.keysyms.a:
+        if (event.state & modifiers) & Gdk.ModifierType.CONTROL_MASK:
+            if event.keyval == Gdk.KEY_a:
                 self.index = self.bindex = 0
                 self.end_index = len (self.text)
-        elif event.keyval == gtk.keysyms.Escape:
+        elif event.keyval == Gdk.KEY_Escape:
             self.emit ("finish_editing")
-        elif event.keyval == gtk.keysyms.Left:
-            if prefs.get_direction() == gtk.TEXT_DIR_LTR:
+        elif event.keyval == Gdk.KEY_Left:
+            if prefs.get_direction() == Gtk.TextDirection.LTR:
                 self.move_index_back (shift)
             else:
                 self.move_index_forward (shift)
-        elif event.keyval == gtk.keysyms.Right:
-            if prefs.get_direction() == gtk.TEXT_DIR_RTL:
+        elif event.keyval == Gdk.KEY_Right:
+            if prefs.get_direction() == Gtk.TextDirection.RTL:
                 self.move_index_back (shift)
             else:
                 self.move_index_forward (shift)
-        elif event.keyval == gtk.keysyms.Up:
+        elif event.keyval == Gdk.KEY_Up:
             self.move_index_up (shift)
-        elif event.keyval == gtk.keysyms.Down:
+        elif event.keyval == Gdk.KEY_Down:
             self.move_index_down (shift)
-        elif event.keyval == gtk.keysyms.Home:
-            if prefs.get_direction() == gtk.TEXT_DIR_LTR:
+        elif event.keyval == Gdk.KEY_Home:
+            if prefs.get_direction() == Gtk.TextDirection.LTR:
                 self.move_index_horizontal (shift, True)        # move home
             else:
                 self.move_index_horizontal (shift)                      # move end
             self.move_index_horizontal (shift, True)                # move home
-        elif event.keyval == gtk.keysyms.End:
+        elif event.keyval == Gdk.KEY_End:
             self.move_index_horizontal (shift)                      # move
-        elif event.keyval == gtk.keysyms.BackSpace and self.editing:
+        elif event.keyval == Gdk.KEY_BackSpace and self.editing:
             self.backspace_char ()
-        elif event.keyval == gtk.keysyms.Delete and self.editing:
+        elif event.keyval == Gdk.KEY_Delete and self.editing:
             self.delete_char ()
         elif len (event.string) != 0:
             self.add_text (event.string)
@@ -456,7 +458,7 @@ class TextThought (BaseThought.BaseThought):
             self.bindex = self.b_f_i (self.index)
 
         del self.attributes
-        self.attributes = pango.AttrList()
+        self.attributes = Pango.AttrList()
         map(lambda a : self.attributes.change(a), attrs)
         self.recalc_edges ()
         self.emit ("begin_editing")
@@ -529,7 +531,7 @@ class TextThought (BaseThought.BaseThought):
                     changes.append(x)
 
         del self.attributes
-        self.attributes = pango.AttrList()
+        self.attributes = Pango.AttrList()
         map(lambda a : self.attributes.change(a), changes)
 
         self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.DELETE_LETTER, self.undo_text_action,
@@ -605,7 +607,7 @@ class TextThought (BaseThought.BaseThought):
                     changes.append(x)
 
         del self.attributes
-        self.attributes = pango.AttrList()
+        self.attributes = Pango.AttrList()
         map (lambda a : self.attributes.change(a), changes)
 
         self.text = left+right
@@ -711,30 +713,30 @@ class TextThought (BaseThought.BaseThought):
             line += 1
 
     def process_button_down (self, event, mode, transformed):
-        modifiers = gtk.accelerator_get_default_mod_mask ()
+        modifiers = Gtk.accelerator_get_default_mod_mask ()
 
         if event.button == 1:
-            if event.type == gtk.gdk.BUTTON_PRESS and not self.editing:
+            if event.type == Gdk.EventType.BUTTON_PRESS and not self.editing:
                 self.emit ("select_thought", event.state & modifiers)
-            elif event.type == gtk.gdk.BUTTON_PRESS and self.editing:
-                x = int ((transformed[0] - self.ul[0])*pango.SCALE)
-                y = int ((transformed[1] - self.ul[1])*pango.SCALE)
+            elif event.type == Gdk.EventType.BUTTON_PRESS and self.editing:
+                x = int ((transformed[0] - self.ul[0])*Pango.SCALE)
+                y = int ((transformed[1] - self.ul[1])*Pango.SCALE)
                 loc = self.layout.xy_to_index (x, y)
                 self.index = loc[0]
                 if loc[0] >= len(self.text) -1 or self.text[loc[0]+1] == '\n':
                     self.index += loc[1]
                 self.bindex = self.bindex_from_index (self.index)
-                if not (event.state & modifiers) & gtk.gdk.SHIFT_MASK:
+                if not (event.state & modifiers) & Gdk.ModifierType.SHIFT_MASK:
                     self.end_index = self.index
-            elif mode == BaseThought.MODE_EDITING and event.type == gtk.gdk._2BUTTON_PRESS:
+            elif mode == BaseThought.MODE_EDITING and event.type == Gdk.EventType._2BUTTON_PRESS:
                 if self.editing:
                     self.move_index_horizontal(False)       # go to the end
                     self.index = 0                                          # and mark all
                 else:
                     self.emit ("begin_editing")
         elif event.button == 2 and self.editing:
-            x = int ((transformed[0] - self.ul[0])*pango.SCALE)
-            y = int ((transformed[1] - self.ul[1])*pango.SCALE)
+            x = int ((transformed[0] - self.ul[0])*Pango.SCALE)
+            y = int ((transformed[1] - self.ul[1])*Pango.SCALE)
             loc = self.layout.xy_to_index (x, y)
             self.index = loc[0]
             if loc[0] >= len(self.text) -1 or self.text[loc[0]+1] == '\n':
@@ -742,7 +744,7 @@ class TextThought (BaseThought.BaseThought):
             self.bindex = self.bindex_from_index (self.index)
             self.end_index = self.index
             if os.name != 'nt':
-                clip = gtk.Clipboard (selection="PRIMARY")
+                clip = Gtk.Clipboard (selection="PRIMARY")
                 self.paste_text (clip)
         elif event.button == 3:
             self.emit ("popup_requested", event, 1)
@@ -762,11 +764,11 @@ class TextThought (BaseThought.BaseThought):
         self.emit ("text_selection_changed", start, end, self.text[start:end])
 
     def handle_motion (self, event, mode, transformed):
-        if event.state & gtk.gdk.BUTTON1_MASK and self.editing:
+        if event.state & Gdk.EventMask.BUTTON1_MASK and self.editing:
             if transformed[0] < self.lr[0] and transformed[0] > self.ul[0] and \
                transformed[1] < self.lr[1] and transformed[1] > self.ul[1]:
-                x = int ((transformed[0] - self.ul[0])*pango.SCALE)
-                y = int ((transformed[1] - self.ul[1])*pango.SCALE)
+                x = int ((transformed[0] - self.ul[0])*Pango.SCALE)
+                y = int ((transformed[1] - self.ul[1])*Pango.SCALE)
                 loc = self.layout.xy_to_index (x, y)
                 self.index = loc[0]
                 if loc[0] >= len(self.text) -1 or self.text[loc[0]+1] == '\n':
@@ -778,8 +780,8 @@ class TextThought (BaseThought.BaseThought):
                 self.emit ("create_link", \
                  (self.ul[0]-((self.ul[0]-self.lr[0]) / 2.), self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)))
                 return True
-        elif event.state & gtk.gdk.BUTTON1_MASK and not self.editing and \
-                mode == BaseThought.MODE_EDITING and event.state & gtk.gdk.CONTROL_MASK:
+        elif event.state & Gdk.EventMask.BUTTON1_MASK and not self.editing and \
+                mode == BaseThought.MODE_EDITING and event.state & Gdk.ModifierType.CONTROL_MASK:
             self.emit ("create_link", \
              (self.ul[0]-((self.ul[0]-self.lr[0]) / 2.), self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)))
         self.recalc_edges()
@@ -853,13 +855,13 @@ class TextThought (BaseThought.BaseThought):
                 elem.setAttribute("start", str(r[0]))
                 elem.setAttribute("end", str(r[1]))
                 self.element.appendChild (elem)
-                if x.type == pango.ATTR_WEIGHT and x.value == pango.WEIGHT_BOLD:
+                if x.type == Pango.AttrType.WEIGHT and x.value == Pango.Weight.BOLD:
                     elem.setAttribute("type", "bold")
-                elif x.type == pango.ATTR_STYLE and x.value == pango.STYLE_ITALIC:
+                elif x.type == Pango.AttrType.STYLE and x.value == Pango.Style.ITALIC:
                     elem.setAttribute("type", "italics")
-                elif x.type == pango.ATTR_UNDERLINE and x.value == pango.UNDERLINE_SINGLE:
+                elif x.type == Pango.AttrType.UNDERLINE and x.value == Pango.Underline.SINGLE:
                     elem.setAttribute("type", "underline")
-                elif x.type == pango.ATTR_FONT_DESC:
+                elif x.type == Pango.AttrType.FONT_DESC:
                     elem.setAttribute("type", "font")
                     elem.setAttribute("value", x.desc.to_string ())
 
@@ -900,9 +902,9 @@ class TextThought (BaseThought.BaseThought):
         self.identity = int (node.getAttribute ("identity"))
         try:
             tmp = node.getAttribute ("background-color")
-            self.background_color = gtk.gdk.color_parse(tmp)
+            self.background_color = Gdk.color_parse(tmp)
             tmp = node.getAttribute ("foreground-color")
-            self.foreground_color = gtk.gdk.color_parse(tmp)
+            self.foreground_color = Gdk.color_parse(tmp)
         except ValueError:
             pass
 
@@ -926,15 +928,15 @@ class TextThought (BaseThought.BaseThought):
                 end = int(n.getAttribute("end"))
 
                 if attrType == "bold":
-                    attr = pango.AttrWeight(pango.WEIGHT_BOLD, start, end)
+                    attr = Pango.AttrWeight(Pango.Weight.BOLD, start, end)
                 elif attrType == "italics":
-                    attr = pango.AttrStyle(pango.STYLE_ITALIC, start, end)
+                    attr = Pango.AttrStyle(Pango.Style.ITALIC, start, end)
                 elif attrType == "underline":
-                    attr = pango.AttrUnderline(pango.UNDERLINE_SINGLE, start, end)
+                    attr = Pango.AttrUnderline(Pango.Underline.SINGLE, start, end)
                 elif attrType == "font":
                     font_name = str(n.getAttribute("value"))
-                    pango_font = pango.FontDescription (font_name)
-                    attr = pango.AttrFontDesc (pango_font, start, end)
+                    pango_font = Pango.FontDescription (font_name)
+                    attr = Pango.AttrFontDesc (pango_font, start, end)
                 self.attributes.change(attr)
             else:
                 print "Unknown: " + n.nodeName
@@ -1021,7 +1023,7 @@ class TextThought (BaseThought.BaseThought):
                     changes.append(x)
 
         del self.attributes
-        self.attributes = pango.AttrList()
+        self.attributes = Pango.AttrList()
         map(lambda x : self.attributes.change(x), changes)
 
         self.recalc_edges ()
@@ -1068,28 +1070,28 @@ class TextThought (BaseThought.BaseThought):
 
     def create_attribute(self, attribute, start, end):
         if attribute == 'bold':
-            return pango.AttrWeight(pango.WEIGHT_BOLD, start, end)
+            return Pango.AttrWeight(Pango.Weight.BOLD, start, end)
         elif attribute == 'italic':
-            return pango.AttrStyle(pango.STYLE_ITALIC, start, end)
+            return Pango.AttrStyle(Pango.Style.ITALIC, start, end)
         elif attribute == 'underline':
-            return pango.AttrUnderline(pango.UNDERLINE_SINGLE, start, end)
+            return Pango.AttrUnderline(Pango.Underline.SINGLE, start, end)
 
     def set_attribute(self, active, attribute):
         if not self.editing:
             return
 
         if attribute == 'bold':
-            pstyle, ptype, pvalue = (pango.WEIGHT_NORMAL, pango.ATTR_WEIGHT, pango.WEIGHT_BOLD)
+            pstyle, ptype, pvalue = (Pango.Weight.NORMAL, Pango.AttrType.WEIGHT, Pango.Weight.BOLD)
         elif attribute == 'italic':
-            pstyle, ptype, pvalue = (pango.STYLE_NORMAL, pango.ATTR_STYLE, pango.STYLE_ITALIC)
+            pstyle, ptype, pvalue = (Pango.Style.NORMAL, Pango.AttrType.ATTR_STYLE, Pango.Style.ITALIC)
         elif attribute == 'underline':
-            pstyle, ptype, pvalue = (pango.UNDERLINE_NONE, pango.ATTR_UNDERLINE, pango.UNDERLINE_SINGLE)
+            pstyle, ptype, pvalue = (Pango.Underline.NONE, Pango.AttrType.UNDERLINE, Pango.Underline.SINGLE)
 
         index, end_index = (self.index, self.end_index)
         init, end = minmax(index, end_index)
 
         if not active:
-            attr = pango.AttrStyle(pstyle, init, end)
+            attr = Pango.AttrStyle(pstyle, init, end)
             if index == end_index:
                 self.current_attrs.change(attr)
             else:
@@ -1127,7 +1129,7 @@ class TextThought (BaseThought.BaseThought):
                     map(lambda x : changed.append(x), it.get_attrs())
 
             del self.attributes
-            self.attributes = pango.AttrList()
+            self.attributes = Pango.AttrList()
             map(lambda x : self.attributes.change(x), changed)
             self.current_attrs = [ x for x in self.current_attrs if x.type == ptype and x.value == pvalue ]
             self.undo.add_undo(UndoManager.UndoAction(self, UNDO_REMOVE_ATTR_SELECTION,
@@ -1165,8 +1167,8 @@ class TextThought (BaseThought.BaseThought):
             return
         start, end = minmax(self.index, self.end_index)
 
-        pango_font = pango.FontDescription (font_name)
-        attr = pango.AttrFontDesc (pango_font, start, end)
+        pango_font = Pango.FontDescription (font_name)
+        attr = Pango.AttrFontDesc (pango_font, start, end)
 
         if start == end:
             self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR,
