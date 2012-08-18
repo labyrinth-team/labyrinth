@@ -83,9 +83,9 @@ class LabyrinthWindow (GObject.GObject):
             self.MainArea.connect ("text_selection_changed", self.selection_changed_cb)
             self.config_client = GConf.Client.get_default()
 
-        # FIXME: Convert to gtkbuilder
-        glade = gtk.glade.XML(utils.get_data_file_name('labyrinth.glade'))
-        self.main_window = glade.get_widget ('MapWindow')
+        glade = Gtk.Builder()
+        glade.add_from_file(utils.get_data_file_name('labyrinth.xml'))
+        self.main_window = glade.get_object('MapWindow')
         self.main_window.set_focus_child (self.MainArea)
         if os.name != 'nt':
             try:
@@ -97,8 +97,8 @@ class LabyrinthWindow (GObject.GObject):
 
         # insert menu, toolbar and map
         self.create_menu()
-        glade.get_widget ('main_area_insertion').pack_start(self.MainArea)
-        vbox = glade.get_widget ('map_window_vbox')
+        glade.get_object('main_area_insertion').pack_start(self.MainArea)
+        vbox = glade.get_object('map_window_vbox')
         menubar = self.ui.get_widget('/MenuBar')
         menubar.show_all()
         vbox.pack_start(menubar)
@@ -112,24 +112,24 @@ class LabyrinthWindow (GObject.GObject):
         vbox.set_child_packing(toolbar, 0, 0, 0, gtk.PACK_START)
 
         # TODO: Bold, Italics etc.
-        self.bold_widget = glade.get_widget('tool_bold')
+        self.bold_widget = glade.get_object('tool_bold')
         self.bold_widget.connect('toggled', self.bold_toggled)
         self.bold_block = False
         self.bold_state = False
-        self.italic_widget = glade.get_widget('tool_italic')
+        self.italic_widget = glade.get_object('tool_italic')
         self.italic_widget.connect('toggled', self.italic_toggled)
         self.italic_block = False
         self.italic_state = False
-        self.underline_widget = glade.get_widget('tool_underline')
+        self.underline_widget = glade.get_object('tool_underline')
         self.underline_widget.connect('toggled', self.underline_toggled)
         self.underline_block = False
         self.underline_state = False
 
-        self.font_widget = glade.get_widget('font_button')
+        self.font_widget = glade.get_object('font_button')
         self.font_widget.connect ("font-set", self.font_change_cb)
-        self.background_widget = glade.get_widget('background_color_button')
+        self.background_widget = glade.get_object('background_color_button')
         self.background_widget.connect ("color-set", self.background_change_cb)
-        self.foreground_widget = glade.get_widget('foreground_color_button')
+        self.foreground_widget = glade.get_object('foreground_color_button')
         self.foreground_widget.connect ("color-set", self.foreground_change_cb)
 
         self.cut = self.ui.get_widget ('/MenuBar/EditMenu/Cut')
@@ -144,14 +144,14 @@ class LabyrinthWindow (GObject.GObject):
 
         # get toolbars and activate corresponding menu entries
         self.main_toolbar = self.ui.get_widget ('/ToolBar')
-        self.format_toolbar = glade.get_widget ('format_toolbar')
+        self.format_toolbar = glade.get_object('format_toolbar')
         self.ui.get_widget('/MenuBar/ViewMenu/ShowToolbars/ShowMainToolbar').set_active(True)
         self.ui.get_widget('/MenuBar/ViewMenu/ShowToolbars/ShowFormatToolbar').set_active(True)
         self.ui.get_widget('/MenuBar/ViewMenu/UseBezier').set_active(utils.use_bezier_curves)
 
         # Add in the extended info view
-        self.extended_window = glade.get_widget('extended_window')
-        self.extended = glade.get_widget('extended')
+        self.extended_window = glade.get_object('extended_window')
+        self.extended = glade.get_object('extended')
         self.invisible_buffer = Gtk.TextBuffer()
 
         # Connect all our signals
@@ -170,20 +170,20 @@ class LabyrinthWindow (GObject.GObject):
         else:
             self.parse_file (filename)
 
-        up_box = glade.get_widget('up_box')
+        up_box = glade.get_object('up_box')
         up_box.connect("button-press-event", self.translate, "Up")
         up_box.connect("button-release-event", self.finish_translate)
-        down_box = glade.get_widget('down_box')
+        down_box = glade.get_object('down_box')
         down_box.connect("button-press-event", self.translate, "Down")
         down_box.connect("button-release-event", self.finish_translate)
-        right_box = glade.get_widget('right_box')
+        right_box = glade.get_object('right_box')
         right_box.connect("button-press-event", self.translate, "Right")
         right_box.connect("button-release-event", self.finish_translate)
-        left_box = glade.get_widget('left_box')
+        left_box = glade.get_object('left_box')
         left_box.connect("button-press-event", self.translate, "Left")
         left_box.connect("button-release-event", self.finish_translate)
 
-        panes = glade.get_widget('vpaned1')
+        panes = glade.get_object('vpaned1')
         panes.connect ("button-release-event", self.pos_changed)
         panes.set_position (self.pane_pos)
 
@@ -624,9 +624,10 @@ class LabyrinthWindow (GObject.GObject):
         maxx, maxy = self.MainArea.get_max_area ()
 
         x, y, width, height, bitdepth = self.MainArea.window.get_geometry ()
-        glade = gtk.glade.XML (utils.get_data_file_name('labyrinth.glade'))
-        dialog = glade.get_widget ('ExportImageDialog')
-        box = glade.get_widget ('dialog_insertion')
+        glade = Gtk.Builder()
+        glade.add_from_file(utils.get_data_file_name('labyrinth.glade'))
+        dialog = glade.get_object('ExportImageDialog')
+        box = glade.get_object('dialog_insertion')
         fc = Gtk.FileChooserWidget(Gtk.FileChooserAction.SAVE)
         box.pack_end (fc)
 
@@ -644,10 +645,10 @@ class LabyrinthWindow (GObject.GObject):
             fc.add_filter(fil)
 
         fc.set_current_name ("%s.png" % self.main_window.title)
-        rad = glade.get_widget ('rb_complete_map')
-        rad2 = glade.get_widget ('rb_visible_area')
-        self.spin_width = glade.get_widget ('width_spin')
-        self.spin_height = glade.get_widget ('height_spin')
+        rad = glade.get_object('rb_complete_map')
+        rad2 = glade.get_object('rb_visible_area')
+        self.spin_width = glade.get_object('width_spin')
+        self.spin_height = glade.get_object('height_spin')
         self.spin_width.set_value (maxx)
         self.spin_height.set_value (maxy)
         self.spin_width.set_sensitive (False)

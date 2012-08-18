@@ -32,7 +32,6 @@ _ = gettext.gettext
 from gi.repository import Gtk
 if os.name != 'nt':
     from gi.repository import GConf
-import gtk.glade
 from gi.repository import Pango
 from gi.repository import GObject
 
@@ -54,19 +53,19 @@ class Browser (Gtk.Window):
 
     def __init__(self, start_hidden, tray_icon):
         super(Browser, self).__init__()
-        # FIXME: Convert from glade to gtkbuilder
-        self.glade=gtk.glade.XML(utils.get_data_file_name('labyrinth.glade'))
-        self.view = self.glade.get_widget ('MainView')
+        self.glade = Gtk.Builder()
+        self.glade.add_from_file(utils.get_data_file_name('labyrinth.glade'))
+        self.view = self.glade.get_object('MainView')
         self.populate_view ()
         self.view.connect ('row-activated', self.open_row_cb)
         self.view.connect ('cursor-changed', self.cursor_change_cb)
 
         self.view_dependants = []
 
-        self.open_button = self.glade.get_widget('OpenButton')
-        self.delete_button = self.glade.get_widget('DeleteButton')
-        self.open_menu = self.glade.get_widget('open1')
-        self.delete_menu = self.glade.get_widget('delete1')
+        self.open_button = self.glade.get_object('OpenButton')
+        self.delete_button = self.glade.get_object('DeleteButton')
+        self.open_menu = self.glade.get_object('open1')
+        self.delete_menu = self.glade.get_object('delete1')
 
         self.view_dependants.append (self.open_button)
         self.view_dependants.append (self.delete_button)
@@ -74,20 +73,20 @@ class Browser (Gtk.Window):
         self.view_dependants.append (self.delete_menu)
 
         self.open_button.connect ('clicked', self.open_clicked)
-        self.glade.get_widget('NewButton').connect ('clicked', self.new_clicked)
+        self.glade.get_object('NewButton').connect ('clicked', self.new_clicked)
         self.delete_button.connect ('clicked', self.delete_clicked)
 
         self.open_menu.connect ('activate', self.open_clicked)
-        self.glade.get_widget('new1').connect ('activate', self.new_clicked)
+        self.glade.get_object('new1').connect ('activate', self.new_clicked)
         self.delete_menu.connect ('activate', self.delete_clicked)
-        self.glade.get_widget('import1').connect ('activate', self.import_clicked)
-        self.glade.get_widget('quit1').connect ('activate', self.quit_clicked)
-        self.glade.get_widget('about1').connect ('activate', self.about_clicked)
-        self.glade.get_widget('showhelp').connect ('activate', self.show_help_clicked)
+        self.glade.get_object('import1').connect ('activate', self.import_clicked)
+        self.glade.get_object('quit1').connect ('activate', self.quit_clicked)
+        self.glade.get_object('about1').connect ('activate', self.about_clicked)
+        self.glade.get_object('showhelp').connect ('activate', self.show_help_clicked)
 
         map(lambda x : x.set_sensitive(False), self.view_dependants)
 
-        self.main_window = self.glade.get_widget ('MapBrowser')
+        self.main_window = self.glade.get_object('MapBrowser')
 
         # set remembered size
         if os.name != 'nt':

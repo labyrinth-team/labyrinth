@@ -50,12 +50,6 @@ if hasattr(locale, 'bindtextdomain'):
             locale.bind_textdomain_codeset('labyrinth','UTF-8')
         locale.textdomain('labyrinth')
 
-
-# FIXME: Convert from glade to gtkbuilder
-gtk.glade.bindtextdomain('labyrinth')
-gtk.glade.textdomain('labyrinth')
-
-
 def main():
     parser = optparse.OptionParser()
     parser.add_option("--use-tray-icon", dest="tray_icon",
