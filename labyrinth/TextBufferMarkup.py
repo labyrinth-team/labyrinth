@@ -19,25 +19,26 @@
 # Boston, MA  02110-1301  USA
 #
 
-import gtk
-import gobject
-import pango
+from gi.repository import Gtk
+from gi.repository import GObject
+from gi.repository import Pango
 
 import UndoManager
 
 ADD_ATTR = 42
 REMOVE_ATTR = 43
 
-class ExtendedBuffer(gtk.TextBuffer):
-    __gsignals__ = dict (set_focus          = (gobject.SIGNAL_RUN_FIRST,
-                                                                               gobject.TYPE_NONE,
-                                                                               ()),
-                                             set_attrs      = (gobject.SIGNAL_RUN_LAST,
-                                                                               gobject.TYPE_NONE,
-                                                                               (gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN, gobject.TYPE_BOOLEAN, pango.FontDescription)))
+class ExtendedBuffer(Gtk.TextBuffer):
+    __gsignals__ = dict (set_focus  = (GObject.SignalFlags.RUN_FIRST,
+                                       None,
+                                       ()),
+                         set_attrs  = (GObject.SignalFlags.RUN_LAST,
+                                       None,
+                                       (bool, bool, bool, Pango.FontDescription)),
+                        )
 
     def __init__(self, undo_manager, save, save_doc):
-        super (gtk.TextBuffer, self).__init__()
+        super (Gtk.TextBuffer, self).__init__()
         self.undo = undo_manager
         self.connect('insert-text', self.insert_text_cb)
         self.connect_after('insert-text', self.apply_attrs_cb)
@@ -46,9 +47,9 @@ class ExtendedBuffer(gtk.TextBuffer):
         self.save = save_doc
         self.element = save
         self.element.appendChild(self.text_elem)
-        self.bold_tag = self.create_tag("bold", weight=pango.WEIGHT_BOLD)
-        self.italics_tag = self.create_tag("italics", style=pango.STYLE_ITALIC)
-        self.underline_tag = self.create_tag("underline", underline=pango.UNDERLINE_SINGLE)
+        self.bold_tag = self.create_tag("bold", weight=Pango.Weight.BOLD)
+        self.italics_tag = self.create_tag("italics", style=Pango.Style.ITALIC)
+        self.underline_tag = self.create_tag("underline", underline=Pango.Underline.SINGLE)
         self.current_tags = []
         self.requested_tags = []
         self.connect_after('mark-set',self.mark_set_cb)
@@ -210,7 +211,7 @@ class ExtendedBuffer(gtk.TextBuffer):
     def get_text (self, start=None, end=None, include_hidden_chars=True):
         if not start: start=self.get_start_iter()
         if not end: end=self.get_end_iter()
-        return gtk.TextBuffer.get_text(self,start,end)
+        return Gtk.TextBuffer.get_text(self,start,end)
 
     def undo_attr (self, action, mode):
         if mode == UndoManager.UNDO:
