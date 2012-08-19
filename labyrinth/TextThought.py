@@ -216,8 +216,10 @@ class TextThought (BaseThought.BaseThought):
         self.attrlist.insert (bgsel)
 
         self.layout = Pango.Layout(self.pango_context)
-        self.layout.set_text (show_text)
-        self.layout.set_attributes(self.attrlist)
+        self.layout.set_text (show_text, -1)
+        print "123"
+        #self.layout.set_attributes(self.attrlist)
+        print "456"
         self.recalc_position ()
 
     def recalc_position (self):
@@ -935,8 +937,10 @@ class TextThought (BaseThought.BaseThought):
                     attr = Pango.AttrUnderline(Pango.Underline.SINGLE, start, end)
                 elif attrType == "font":
                     font_name = str(n.getAttribute("value"))
+                    print font_name
+                    #continue
                     pango_font = Pango.FontDescription (font_name)
-                    attr = Pango.AttrFontDesc (pango_font, start, end)
+                    attr = Pango.AttrFontDesc_(pango_font, start, end)
                 self.attributes.change(attr)
             else:
                 print "Unknown: " + n.nodeName
@@ -1168,7 +1172,7 @@ class TextThought (BaseThought.BaseThought):
         start, end = minmax(self.index, self.end_index)
 
         pango_font = Pango.FontDescription (font_name)
-        attr = Pango.AttrFontDesc (pango_font, start, end)
+        attr = Pango.AttrFontDesc_(pango_font, start, end)
 
         if start == end:
             self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR,

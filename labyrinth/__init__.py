@@ -1,6 +1,9 @@
 import os, sys
 from os.path import join, exists, isdir, isfile, dirname, abspath, expanduser
 
+# Monkey patch Pango bindings
+from . import pango_compat
+
 UNINSTALLED_LAB = False
 def _check (path):
     return exists(path) and isdir(path) and isfile(path+"/AUTHORS")
