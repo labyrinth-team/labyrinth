@@ -211,7 +211,7 @@ class ExtendedBuffer(Gtk.TextBuffer):
     def get_text (self, start=None, end=None, include_hidden_chars=True):
         if not start: start=self.get_start_iter()
         if not end: end=self.get_end_iter()
-        return Gtk.TextBuffer.get_text(self,start,end)
+        return Gtk.TextBuffer.get_text(self, start, end, include_hidden_chars)
 
     def undo_attr (self, action, mode):
         if mode == UndoManager.UNDO:

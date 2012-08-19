@@ -49,7 +49,7 @@ class DrawingThought (BaseThought.ResizableThought):
         def __init__ (self, coords, style=STYLE_CONTINUE, color = Gdk.Color(0,0,0), width = 2):
             self.x, self.y = coords
             self.style = style
-            if color == None:
+            if color is None:
                 color = Gdk.Color(0,0,0)
             self.color = color
             self.width = 1

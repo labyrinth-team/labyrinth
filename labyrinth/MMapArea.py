@@ -500,7 +500,7 @@ class MMapArea (Gtk.DrawingArea):
         self.finish_editing ()
         self.hookup_im_context ()
 
-        if self.window:
+        if self.get_window():
             if mode == MODE_IMAGE or mode == MODE_DRAW:
                 self.set_cursor(Gdk.CursorType.CROSSHAIR)
             else:
@@ -508,7 +508,7 @@ class MMapArea (Gtk.DrawingArea):
         else:
             self.realize_handle = self.connect ("realize", self.realize_cb)
         self.mode = mode
-        if self.window:
+        if self.get_window():
             self.invalidate ()
 
     def title_changed_cb (self, widget, new_title):
@@ -750,13 +750,15 @@ class MMapArea (Gtk.DrawingArea):
         rect = None
         if not transformed_area:
             alloc = self.get_allocation ()
-            rect = Gdk.Rectangle(0, 0, alloc.width, alloc.height)
+            rect = Gdk.Rectangle()
+            rect.height = alloc.height
+            rect.width = alloc.width
         else:
             ul = self.untransform_coords(transformed_area[0], transformed_area[1])
             lr = self.untransform_coords(transformed_area[2], transformed_area[3])
             rect = Gdk.Rectangle(int(ul[0]), int(ul[1]), int(lr[0]-ul[0]), int(lr[1]-ul[1]))
-        if self.window:
-            self.window.invalidate_rect (rect, True)
+        if self.get_window():
+            self.get_window().invalidate_rect (rect, True)
 
     def expose (self, widget, event):
         '''Expose event.  Calls the draw function'''
