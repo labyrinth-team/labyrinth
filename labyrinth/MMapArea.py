@@ -145,7 +145,7 @@ class MMapArea (Gtk.DrawingArea):
         self.mode = MODE_EDITING
         self.old_mode = MODE_EDITING
 
-        self.connect ("expose_event", self.expose)
+        self.connect ("draw", self.draw)
         self.connect ("button_release_event", self.button_release)
         self.connect ("button_press_event", self.button_down)
         self.connect ("motion_notify_event", self.motion)
@@ -490,7 +490,7 @@ class MMapArea (Gtk.DrawingArea):
         new_cursor = CursorFactory().get_cursor(kind)
         if self.current_cursor != new_cursor:
             self.current_cursor = new_cursor
-            self.window.set_cursor(self.current_cursor)
+            self.get_window().set_cursor(self.current_cursor)
 
     def set_mode (self, mode):
         if mode == self.mode:
@@ -764,13 +764,13 @@ class MMapArea (Gtk.DrawingArea):
         self.draw (event, context)
         return False
 
-    def draw (self, event, context):
+    def draw (self, widget, context):
         '''Draw the map and all the associated thoughts'''
-        area = event.area
-        context.rectangle (area.x, area.y, area.width, area.height)
+        #area = event.area
+        width, height = self.get_allocated_width(), self.get_allocated_height()
+        context.rectangle (0, 0, width, height)
         context.clip ()
         context.set_source_rgb (1.0,1.0,1.0)
-        context.move_to (area.x, area.y)
         context.paint ()
         context.set_source_rgb (0.0,0.0,0.0)
 
@@ -790,9 +790,9 @@ class MMapArea (Gtk.DrawingArea):
         self.transform = context.get_matrix()
         self.transform.invert()
 
-        ax, ay = self.transform_coords(area.x, area.y)
-        width  = area.width / self.scale_fac
-        height = area.height / self.scale_fac
+        ax, ay = self.transform_coords(0, 0)
+        width  = width / self.scale_fac
+        height = height / self.scale_fac
         for t in self.thoughts:
             try:
                 if max(t.ul[0],ax)<=min(t.lr[0],ax+width) and max(t.ul[1],ay)<=min(t.lr[1],ay+height):

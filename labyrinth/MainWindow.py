@@ -29,6 +29,7 @@ import xml.dom.minidom as dom
 
 # Gtk stuff
 from gi.repository import Gtk
+from gi.repository import Gdk
 from gi.repository import GObject
 from gi.repository import PangoCairo
 import cairo

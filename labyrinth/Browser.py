@@ -272,7 +272,7 @@ class Browser (Gtk.Window):
             MapList.delete(map)
             self.view.emit ('cursor-changed')
             return
-        raise "Cant remove map of window %s" % mobj
+        raise KeyError("Cant remove map of window %s" % mobj)
 
     def file_save_cb (self, mobj, new_fname, mobj1):
         map = MapList.get_by_window(mobj)
