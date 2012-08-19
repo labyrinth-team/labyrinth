@@ -83,7 +83,7 @@ class ImageThought (BaseThought.ResizableThought):
         except:
             try:
                 # lets see if file was imported and is already extracted
-                fname = utils.get_save_dir() + 'images/' + os.path.basename(filename)
+                fname = os.path.join (utils.get_images_dir (), + os.path.basename(filename))
                 self.orig_pic = gtk.gdk.pixbuf_new_from_file (fname)
             except:
                 return False

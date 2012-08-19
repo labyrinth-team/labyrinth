@@ -64,12 +64,15 @@ def get_save_dir ():
     except:
         base = os.environ ['USERPROFILE']
     if os.name != 'nt':
-        dirname = os.path.join (base, ".gnome2", "labyrinth"+os.sep)
+        dirname = os.path.join (base, ".gnome2", "labyrinth")
     else:
-        dirname = os.path.join (base, ".labyrinth"+os.sep)
+        dirname = os.path.join (base, ".labyrinth")
     if not os.access (dirname, os.W_OK):
         os.makedirs (dirname)
     return dirname
+
+def get_images_dir ():
+    return os.path.join(get_save_dir, 'images')
 
 def parse_coords (string):
     if string == "None":

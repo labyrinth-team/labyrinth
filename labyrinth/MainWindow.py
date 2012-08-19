@@ -526,12 +526,12 @@ class LabyrinthWindow (gobject.GObject):
         if not self.save_file:
             hsh = hashlib.sha256 (save_string)
             save_loc = utils.get_save_dir ()
-            self.save_file = save_loc+hsh.hexdigest()+".map"
+            self.save_file = os.path.join (save_loc, hsh.hexdigest() + ".map")
             counter = 1
             while os.path.exists(self.save_file):
-
-                print "Warning: Duplicate File.  Saving to alternative"
-                self.save_file = save_loc + "Dup"+str(counter)+hsh.hexdigest()+".map"
+                print "Warning: Duplicate File. Saving to alternative"
+                alt_name = "Dup" + str(counter) + hsh.hexdigest() + ".map"
+                self.save_file = save_loc + os.path.join (save_loc, alt_name)
                 counter += 1
 
         with open(self.save_file, 'w') as f:

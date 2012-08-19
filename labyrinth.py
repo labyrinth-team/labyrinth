@@ -80,14 +80,14 @@ def main():
     )
 
     if options.filename != None:
-        MapBrowser.open_map_filename (utils.get_save_dir() + options.filename)
+        MapBrowser.open_map_filename (os.path.join (utils.get_save_dir(), options.filename))
     elif options.filepath != None:
         MapBrowser.open_map_filename (options.filepath)
 
     try:
         gtk.main()
     except:
-        print "Exception caught while running.  Dying a death."
+        print "Exception caught while running. Dying a death."
         sys.exit(1)
 
 if __name__ == '__main__':

@@ -99,9 +99,10 @@ class MapList(object):
 
     @classmethod
     def load_all_from_dir(cls,dir):
-        for f in os.listdir(dir):
-            if not os.path.isdir(dir+f):
-                cls.new_from_file(dir+f)
+        for f in os.listdir (dir):
+            path = os.path.join (dir, f)
+            if not os.path.isdir (path):
+                cls.new_from_file (path)
 
     @classmethod
     def new_from_file(cls, filename):

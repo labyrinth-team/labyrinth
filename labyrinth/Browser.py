@@ -297,7 +297,7 @@ class Browser (gtk.Window):
         if response == gtk.RESPONSE_OK:
             filename = chooser.get_filename()
             tf = tarfile.open(filename)
-            mapname = utils.get_save_dir() + tf.getnames()[0]
+            mapname = os.path.join (utils.get_save_dir (), tf.getnames()[0])
             tf.extractall(utils.get_save_dir())
             tf.close()
             map = MapList.new_from_file(mapname)
