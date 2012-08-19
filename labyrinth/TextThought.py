@@ -218,6 +218,7 @@ class TextThought (BaseThought.BaseThought):
         self.layout = Pango.Layout(self.pango_context)
         self.layout.set_text (show_text, -1)
         print "123"
+        # This next line appears to cause segfaults
         #self.layout.set_attributes(self.attrlist)
         print "456"
         self.recalc_position ()
