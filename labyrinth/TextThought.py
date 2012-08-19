@@ -20,7 +20,7 @@
 # Boston, MA  02110-1301  USA
 #
 
-from gi.repository import Gtk, Pango
+from gi.repository import Gtk, Gdk, Pango
 
 import os
 import xml.dom

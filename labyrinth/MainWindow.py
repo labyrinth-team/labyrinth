@@ -97,19 +97,19 @@ class LabyrinthWindow (GObject.GObject):
 
         # insert menu, toolbar and map
         self.create_menu()
-        glade.get_object('main_area_insertion').pack_start(self.MainArea)
+        glade.get_object('main_area_insertion').pack_start(self.MainArea, expand=True, fill=True, padding=0)
         vbox = glade.get_object('map_window_vbox')
         menubar = self.ui.get_widget('/MenuBar')
         menubar.show_all()
-        vbox.pack_start(menubar)
+        vbox.pack_start(menubar, expand=True, fill=True, padding=0)
         vbox.reorder_child(menubar, 0)
-        vbox.set_child_packing(menubar, 0, 0, 0, gtk.PACK_START)
+        vbox.set_child_packing(menubar, 0, 0, 0, Gtk.PackType.START)
 
         toolbar = self.ui.get_widget('/ToolBar')
         toolbar.show_all()
-        vbox.pack_start(toolbar)
+        vbox.pack_start(toolbar, expand=True, fill=True, padding=0)
         vbox.reorder_child(toolbar, 1)
-        vbox.set_child_packing(toolbar, 0, 0, 0, gtk.PACK_START)
+        vbox.set_child_packing(toolbar, 0, 0, 0, Gtk.PackType.START)
 
         # TODO: Bold, Italics etc.
         self.bold_widget = glade.get_object('tool_bold')
@@ -537,7 +537,7 @@ class LabyrinthWindow (GObject.GObject):
 
     def export_map_cb(self, event):
         chooser = Gtk.FileChooserDialog(title=_("Save File As"), action=Gtk.FileChooserAction.SAVE, \
-                                                                        buttons=(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, gtk.STOCK_OPEN, gtk.ResponseType.OK))
+                    buttons=(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
         chooser.set_current_name ("%s.mapz" % self.main_window.title)
         response = chooser.run()
         if response == Gtk.ResponseType.OK:
@@ -604,7 +604,7 @@ class LabyrinthWindow (GObject.GObject):
         return False
 
     def window_state_cb (self, window, event):
-        if event.changed_mask & gtk.gdk.WINDOW_STATE_MAXIMIZED:
+        if event.changed_mask & Gdk.WindowState.MAXIMIZED:
             self.maximised = not self.maximised
 
     def toggle_range (self, arg, native_width, native_height, max_width, max_height):
