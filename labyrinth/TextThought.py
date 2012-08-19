@@ -20,7 +20,7 @@
 # Boston, MA  02110-1301  USA
 #
 
-from gi.repository import Gtk, Gdk, Pango
+from gi.repository import Gtk, Gdk, Pango, PangoCairo
 
 import os
 import xml.dom
@@ -335,13 +335,13 @@ class TextThought (BaseThought.BaseThought):
             r, g ,b = utils.gtk_to_cairo_color(utils.default_colors["text"])
         context.set_source_rgb (r, g, b)
         context.move_to (textx, texty)
-        context.show_layout (self.layout)
+        PangoCairo.show_layout(context, self.layout)
         if self.editing:
             if self.preedit:
                 strong, weak = self.layout.get_cursor_pos (self.index + self.preedit[2])
             else:
                 strong, weak = self.layout.get_cursor_pos (self.index)
-            (startx, starty, curx,cury) = strong
+            startx, starty, curx, cury = strong.x, strong.y, strong.width, strong.height
             startx /= Pango.SCALE
             starty /= Pango.SCALE
             curx /= Pango.SCALE
@@ -764,7 +764,7 @@ class TextThought (BaseThought.BaseThought):
         self.emit ("text_selection_changed", start, end, self.text[start:end])
 
     def handle_motion (self, event, mode, transformed):
-        if event.state & Gdk.EventMask.BUTTON1_MASK and self.editing:
+        if event.state & Gdk.EventMask.BUTTON1_MOTION_MASK and self.editing:
             if transformed[0] < self.lr[0] and transformed[0] > self.ul[0] and \
                transformed[1] < self.lr[1] and transformed[1] > self.ul[1]:
                 x = int ((transformed[0] - self.ul[0])*Pango.SCALE)
@@ -780,7 +780,7 @@ class TextThought (BaseThought.BaseThought):
                 self.emit ("create_link", \
                  (self.ul[0]-((self.ul[0]-self.lr[0]) / 2.), self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)))
                 return True
-        elif event.state & Gdk.EventMask.BUTTON1_MASK and not self.editing and \
+        elif event.state & Gdk.EventMask.BUTTON1_MOTION_MASK and not self.editing and \
                 mode == BaseThought.MODE_EDITING and event.state & Gdk.ModifierType.CONTROL_MASK:
             self.emit ("create_link", \
              (self.ul[0]-((self.ul[0]-self.lr[0]) / 2.), self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)))
