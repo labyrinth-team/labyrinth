@@ -57,7 +57,7 @@ How to use it
 
 From the top directory of the package, run the command::
 
-    python labyrinth.py
+    ./labyrinth
 
 It can also be installed using the ./configure && make dance thus::
 
