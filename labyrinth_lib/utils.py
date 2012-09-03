@@ -118,7 +118,7 @@ def get_data_dir():
     return __data_dir
 
 def get_data_file_name (file_name):
-    ''' takes a string and either returns it with the data directory prepended.'''
+    ''' takes a string and returns it with the data directory prepended.'''
     return os.path.join(get_data_dir(), file_name)
 
 def get_data_file (file_name):
