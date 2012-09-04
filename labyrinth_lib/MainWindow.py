@@ -441,10 +441,6 @@ class LabyrinthWindow (gobject.GObject):
         self.MainArea.translation = [0.0, 0.0]
         self.MainArea.invalidate()
 
-    def new_window_cb (self, arg):
-        global_new_window ()
-        return
-
     def switch_buffer_cb (self, arg, new_buffer):
         if new_buffer:
             self.extended.set_editable (True)
