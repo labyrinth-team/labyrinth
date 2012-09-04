@@ -27,7 +27,6 @@ import pango
 import gobject
 import gettext
 import copy
-import cairo
 _ = gettext.gettext
 
 import xml.dom.minidom as dom

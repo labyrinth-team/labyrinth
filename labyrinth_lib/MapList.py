@@ -19,10 +19,8 @@
 # Boston, MA  02110-1301  USA
 #
 
-
 import os
 import utils
-import pygtk
 import gtk
 import xml.dom.minidom as dom
 import datetime
