@@ -24,10 +24,9 @@
 # that can be accessed from anywhere :)
 
 import sys
-from os.path import *
+from os.path import join, dirname, exists, isdir, isfile
 import os
-from numpy import *
-import gtk
+from numpy import array
 
 __BE_VERBOSE=os.environ.get('DEBUG_LABYRINTH',0)
 if __BE_VERBOSE:
@@ -64,12 +63,12 @@ def get_save_dir ():
     except:
         base = os.environ ['USERPROFILE']
     if os.name != 'nt':
-        dirname = os.path.join (base, ".gnome2", "labyrinth")
+        savedir = os.path.join (base, ".gnome2", "labyrinth")
     else:
-        dirname = os.path.join (base, ".labyrinth")
-    if not os.access (dirname, os.W_OK):
-        os.makedirs (dirname)
-    return dirname
+        savedir = os.path.join (base, ".labyrinth")
+    if not os.access (savedir, os.W_OK):
+        os.makedirs (savedir)
+    return savedir
 
 def get_images_dir ():
     return os.path.join(get_save_dir, 'images')

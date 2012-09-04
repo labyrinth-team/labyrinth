@@ -34,10 +34,9 @@ import gtk
 
 from labyrinth_lib import utils
 from labyrinth_lib import Browser
-from labyrinth_lib import prefs
 try:
     from labyrinth_lib import defs
-    localedir = abspath(join(defs.DATA_DIR, "locale"))
+    localedir = osp.abspath(osp.join(defs.DATA_DIR, "locale"))
 except:
     localedir = ""
 

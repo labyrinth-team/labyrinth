@@ -39,9 +39,7 @@ import MMapArea
 import UndoManager
 import PeriodicSaveThread
 import ImageThought
-import BaseThought
 import utils
-from MapList import MapList
 
 # UNDO varieties for us
 UNDO_MODE = 0

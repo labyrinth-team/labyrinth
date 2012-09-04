@@ -20,7 +20,6 @@
 #
 
 import gtk
-import xml.dom.minidom as dom
 import xml.dom
 import gettext
 _ = gettext.gettext

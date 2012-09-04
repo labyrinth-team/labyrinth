@@ -22,7 +22,6 @@
 
 import math
 
-import time
 import gtk
 import pango
 import gobject
@@ -879,7 +878,6 @@ class MMapArea (gtk.DrawingArea):
         if type == TYPE_IMAGE:
             self.emit ("change_mode", self.old_mode)
         self.nthoughts += 1
-        element = thought.element
         self.element.appendChild (thought.element)
         thought.connect ("select_thought", self.select_thought)
         thought.connect ("begin_editing", self.begin_editing)

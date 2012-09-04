@@ -21,9 +21,7 @@
 #
 
 # Standard library
-import sys
 import tarfile
-from os.path import *
 import os
 import gettext
 _ = gettext.gettext
