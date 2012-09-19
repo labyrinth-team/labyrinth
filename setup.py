@@ -1,5 +1,4 @@
 from distutils.core import setup
-from glob import glob
 
 from labyrinth_lib import __version__
 
@@ -11,7 +10,7 @@ setup(name='Labyrinth',
       url='http://people.gnome.org/~dscorgie/labyrinth.html',
       packages=['labyrinth_lib'],
       scripts=['labyrinth'],
-      data_files=[('share/labyrinth', glob('data/*'))],
+      data_files=[('share/labyrinth', ['data/labyrinth.glade', 'data/labyrinth-ui.xml'])],
       requires=['PyGTK'],
       classifiers = [
         'Environment :: X11 Applications :: GTK',
