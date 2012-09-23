@@ -4,12 +4,14 @@ LANGS=ca cs de es eu fa fr it nl pl pt_BR pt_PT ru sv zh_CN
 %.mo: %.po
 	msgfmt -o $@ $<
 
+all-mo: $(LANGS:%=%.mo)
+
 labyrinth.pot:
 	xgettext --language=Python --keyword=_ --output=$@ `find ../labyrinth_lib -name "*.py"`
 	xgettext --output=$@ --join-existing ../data/labyrinth.glade
 
 update-%-po:
-	@echo "Updating $*.po"
+	@echo -n "Updating $*.po"
 	@result="`msgmerge -o $*.new.po $*.po labyrinth.pot`"; \
 	if $$result; then \
 		if cmp $*.po $*.new.po >/dev/null 2>&1; then \
