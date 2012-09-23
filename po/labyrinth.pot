@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-24 19:12+0200\n"
+"POT-Creation-Date: 2012-09-23 18:55+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,312 +17,300 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/Browser.py:194
+#: ../labyrinth_lib/ImageThought.py:68
+msgid "Choose image to insert"
+msgstr ""
+
+#: ../labyrinth_lib/ImageThought.py:323
+msgid "Error loading file"
+msgstr ""
+
+#: ../labyrinth_lib/ImageThought.py:324
+#, python-format
+msgid "%s could not be found.  Associated thought will be empty."
+msgstr ""
+
+#: ../labyrinth_lib/ImageThought.py:339
+msgid "Change Image"
+msgstr ""
+
+#: ../labyrinth_lib/Browser.py:192
 #, python-format
 msgid "Unable to display help: %s"
 msgstr ""
 
-#: ../src/Browser.py:225
+#: ../labyrinth_lib/Browser.py:223
 msgid "Translation by Don Scorgie"
 msgstr ""
 
-#: ../src/Browser.py:247
+#: ../labyrinth_lib/Browser.py:245
 msgid "The map cannot be deleted right now. Is it open?"
 msgstr ""
 
-#: ../src/Browser.py:249
+#: ../labyrinth_lib/Browser.py:247
 msgid "The map has no associated filename."
 msgstr ""
 
-#: ../src/Browser.py:252
+#: ../labyrinth_lib/Browser.py:250
 msgid "Cannot delete this map"
 msgstr ""
 
-#: ../src/Browser.py:259
+#: ../labyrinth_lib/Browser.py:257
 msgid "Do you really want to delete this Map?"
 msgstr ""
 
-#: ../src/Browser.py:284
+#: ../labyrinth_lib/Browser.py:282
 msgid "Open File"
 msgstr ""
 
-#: ../src/Browser.py:288
+#: ../labyrinth_lib/Browser.py:286
 msgid "MAPZ Compressed Map (*.mapz)"
 msgstr ""
 
-#: ../src/Browser.py:319
+#: ../labyrinth_lib/Browser.py:317
 msgid "Map Name"
 msgstr ""
 
-#: ../src/Browser.py:326
+#: ../labyrinth_lib/Browser.py:324
 msgid "Last Modified"
 msgstr ""
 
-#: ../src/MainWindow.py:163 ../src/MainWindow.py:519
+#: ../labyrinth_lib/Links.py:265
+msgid "Choose Color"
+msgstr ""
+
+#: ../labyrinth_lib/Links.py:278
+msgid "Set Color"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:166 ../labyrinth_lib/MainWindow.py:481
 msgid "Untitled Map"
 msgstr ""
 
-#: ../src/MainWindow.py:229
+#: ../labyrinth_lib/MainWindow.py:213
 msgid "File"
 msgstr ""
 
-#: ../src/MainWindow.py:230
+#: ../labyrinth_lib/MainWindow.py:214
 msgid "Export as Image"
 msgstr ""
 
-#: ../src/MainWindow.py:231
+#: ../labyrinth_lib/MainWindow.py:215
 msgid "Export your map as an image"
 msgstr ""
 
-#: ../src/MainWindow.py:232
+#: ../labyrinth_lib/MainWindow.py:216
 msgid "Export Map..."
 msgstr ""
 
-#: ../src/MainWindow.py:233
+#: ../labyrinth_lib/MainWindow.py:217
 msgid "Export your map as XML"
 msgstr ""
 
-#: ../src/MainWindow.py:235
+#: ../labyrinth_lib/MainWindow.py:219
 msgid "Close the current window"
 msgstr ""
 
-#: ../src/MainWindow.py:236
+#: ../labyrinth_lib/MainWindow.py:220
 msgid "_Edit"
 msgstr ""
 
-#: ../src/MainWindow.py:237
+#: ../labyrinth_lib/MainWindow.py:221
 msgid "_View"
 msgstr ""
 
-#: ../src/MainWindow.py:238
+#: ../labyrinth_lib/MainWindow.py:222
 msgid "_Toolbar"
 msgstr ""
 
-#: ../src/MainWindow.py:247
+#: ../labyrinth_lib/MainWindow.py:231
 msgid "Link Thoughts"
 msgstr ""
 
-#: ../src/MainWindow.py:248
+#: ../labyrinth_lib/MainWindow.py:232
 msgid "Link the selected thoughts"
 msgstr ""
 
-#: ../src/MainWindow.py:249
+#: ../labyrinth_lib/MainWindow.py:233
 msgid "_Mode"
 msgstr ""
 
-#: ../src/MainWindow.py:257
+#: ../labyrinth_lib/MainWindow.py:241
 msgid "_Edit Mode"
 msgstr ""
 
-#: ../src/MainWindow.py:258
+#: ../labyrinth_lib/MainWindow.py:242
 msgid "Turn on edit mode"
 msgstr ""
 
-#: ../src/MainWindow.py:259
+#: ../labyrinth_lib/MainWindow.py:243
 msgid "_Add Image"
 msgstr ""
 
-#: ../src/MainWindow.py:260
+#: ../labyrinth_lib/MainWindow.py:244
 msgid "Add an image to selected thought"
 msgstr ""
 
-#: ../src/MainWindow.py:261
+#: ../labyrinth_lib/MainWindow.py:245
 msgid "_Drawing Mode"
 msgstr ""
 
-#: ../src/MainWindow.py:262
+#: ../labyrinth_lib/MainWindow.py:246
 msgid "Make a pretty drawing"
 msgstr ""
 
-#: ../src/MainWindow.py:264
+#: ../labyrinth_lib/MainWindow.py:248
 msgid "Use _Curves"
 msgstr ""
 
-#: ../src/MainWindow.py:265
+#: ../labyrinth_lib/MainWindow.py:249
 msgid "Use curves as links"
 msgstr ""
 
-#: ../src/MainWindow.py:266
+#: ../labyrinth_lib/MainWindow.py:250
 msgid "Use _Lines"
 msgstr ""
 
-#: ../src/MainWindow.py:267
+#: ../labyrinth_lib/MainWindow.py:251
 msgid "Use straight lines as links"
 msgstr ""
 
-#: ../src/MainWindow.py:269
+#: ../labyrinth_lib/MainWindow.py:253
 msgid "_Extended Information"
 msgstr ""
 
-#: ../src/MainWindow.py:270
+#: ../labyrinth_lib/MainWindow.py:254
 msgid "Show extended information for thoughts"
 msgstr ""
 
-#: ../src/MainWindow.py:271
-msgid "_Outline"
-msgstr ""
-
-#: ../src/MainWindow.py:272
-msgid "Show outline of thought hierarchy"
-msgstr ""
-
-#: ../src/MainWindow.py:273
+#: ../labyrinth_lib/MainWindow.py:255
 msgid "_Main"
 msgstr ""
 
-#: ../src/MainWindow.py:274
+#: ../labyrinth_lib/MainWindow.py:256
 msgid "Show main toolbar"
 msgstr ""
 
-#: ../src/MainWindow.py:275
+#: ../labyrinth_lib/MainWindow.py:257
 msgid "_Format"
 msgstr ""
 
-#: ../src/MainWindow.py:276
+#: ../labyrinth_lib/MainWindow.py:258
 msgid "Show format toolbar"
 msgstr ""
 
-#: ../src/MainWindow.py:301
-msgid "Thoughts"
-msgstr ""
-
-#: ../src/MainWindow.py:578
+#: ../labyrinth_lib/MainWindow.py:536
 msgid "Save File As"
 msgstr ""
 
-#: ../src/MainWindow.py:672
+#: ../labyrinth_lib/MainWindow.py:630
 msgid "All Files"
 msgstr ""
 
-#: ../src/MainWindow.py:673
+#: ../labyrinth_lib/MainWindow.py:631
 msgid "PNG Image (*.png)"
 msgstr ""
 
-#: ../src/MainWindow.py:674
+#: ../labyrinth_lib/MainWindow.py:632
 msgid "JPEG Image (*.jpg, *.jpeg)"
 msgstr ""
 
-#: ../src/MainWindow.py:675
+#: ../labyrinth_lib/MainWindow.py:633
 msgid "SVG Vector Image (*.svg)"
 msgstr ""
 
-#: ../src/MainWindow.py:676
+#: ../labyrinth_lib/MainWindow.py:634
 msgid "PDF Portable Document (*.pdf)"
 msgstr ""
 
-#: ../src/MainWindow.py:712
+#: ../labyrinth_lib/MainWindow.py:670
 msgid "Unknown file format"
 msgstr ""
 
-#: ../src/MainWindow.py:713
+#: ../labyrinth_lib/MainWindow.py:671
 #, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
 "'.svg'."
 msgstr ""
 
-#: ../src/DrawingThought.py:66
+#: ../labyrinth_lib/ResourceThought.py:128
+msgid "Edit Text"
+msgstr ""
+
+#: ../labyrinth_lib/ResourceThought.py:133
+msgid "Edit URI"
+msgstr ""
+
+#: ../labyrinth_lib/DrawingThought.py:65
 #, python-format
 msgid "Drawing #%d"
 msgstr ""
 
-#: ../src/ImageThought.py:64
-msgid "Choose image to insert"
-msgstr ""
-
-#: ../src/ImageThought.py:319
-msgid "Error loading file"
-msgstr ""
-
-#: ../src/ImageThought.py:320
-#, python-format
-msgid "%s could not be found.  Associated thought will be empty."
-msgstr ""
-
-#: ../src/ImageThought.py:335
-msgid "Change Image"
-msgstr ""
-
-#: ../data/labyrinth.glade.h:1
-msgid "<b>Export Map</b>"
-msgstr ""
-
-#: ../data/labyrinth.glade.h:2
-msgid "Align Bottom"
-msgstr ""
-
-#: ../data/labyrinth.glade.h:3
-msgid "Align Horizontal Center"
-msgstr ""
-
-#: ../data/labyrinth.glade.h:4
-msgid "Align Left"
-msgstr ""
-
-#: ../data/labyrinth.glade.h:5
-msgid "Align Right"
-msgstr ""
-
-#: ../data/labyrinth.glade.h:6
-msgid "Align Top"
-msgstr ""
-
-#: ../data/labyrinth.glade.h:7
-msgid "Align Vertical Center"
-msgstr ""
-
-#: ../data/labyrinth.glade.h:8
-msgid "Complete Map"
-msgstr ""
-
-#: ../data/labyrinth.glade.h:9
+#: ../data/labyrinth.glade:7
 msgid "Export Map as Image"
 msgstr ""
 
-#: ../data/labyrinth.glade.h:10
-msgid "Height"
+#: ../data/labyrinth.glade:87
+msgid "Complete Map"
 msgstr ""
 
-#: ../data/labyrinth.glade.h:11
-msgid "Import..."
-msgstr ""
-
-#: ../data/labyrinth.glade.h:12
-msgid "Labyrinth Maps"
-msgstr ""
-
-#: ../data/labyrinth.glade.h:13
-msgid "URL"
-msgstr ""
-
-#: ../data/labyrinth.glade.h:14
+#: ../data/labyrinth.glade:101
 msgid "Visible Area"
 msgstr ""
 
-#: ../data/labyrinth.glade.h:15
+#: ../data/labyrinth.glade:157
 msgid "Width"
 msgstr ""
 
-#: ../data/labyrinth.glade.h:16
+#: ../data/labyrinth.glade:172
+msgid "Height"
+msgstr ""
+
+#: ../data/labyrinth.glade:226
+msgid "<b>Export Map</b>"
+msgstr ""
+
+#: ../data/labyrinth.glade:245
+msgid "Labyrinth Maps"
+msgstr ""
+
+#: ../data/labyrinth.glade:259
 msgid "_File"
 msgstr ""
 
-#: ../data/labyrinth.glade.h:17
+#: ../data/labyrinth.glade:299
+msgid "Import..."
+msgstr ""
+
+#: ../data/labyrinth.glade:329
 msgid "_Help"
 msgstr ""
 
-#: ../data/labyrinth.glade.h:18
-msgid "gtk-help"
+#: ../data/labyrinth.glade:765
+msgid "URL"
 msgstr ""
 
-#: ../data/labyrinth.desktop.in.h:1
-msgid "Labyrinth Mind-mapping"
+#: ../data/labyrinth.glade:806
+msgid "Align Left"
 msgstr ""
 
-#: ../data/labyrinth.desktop.in.h:2
-msgid "Map your mind"
+#: ../data/labyrinth.glade:825
+msgid "Align Right"
 msgstr ""
 
-#: ../data/labyrinth.desktop.in.h:3
-msgid "Mind-mapping"
+#: ../data/labyrinth.glade:844
+msgid "Align Vertical Center"
+msgstr ""
+
+#: ../data/labyrinth.glade:863
+msgid "Align Top"
+msgstr ""
+
+#: ../data/labyrinth.glade:882
+msgid "Align Bottom"
+msgstr ""
+
+#: ../data/labyrinth.glade:901
+msgid "Align Horizontal Center"
 msgstr ""

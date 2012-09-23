@@ -6,187 +6,343 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-07 12:46+0000\n"
+"POT-Creation-Date: 2012-09-23 18:55+0100\n"
 "PO-Revision-Date: 2006-11-07 15:20+0100\n"
 "Last-Translator: Gil Forcada <gilforcada@guifi.net>\n"
 "Language-Team: Catalan <tradgnome@softcatala.net>\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/Browser.py:207
-msgid "The map cannot be deleted right now.  Is it open?"
-msgstr "No es pot suprimir el mapa ara mateix.  Està obert?"
-
-#: ../src/Browser.py:209
-msgid "The map has no associated filename."
-msgstr "El mapa no té un nom de fitxer associat."
-
-#: ../src/Browser.py:212
-msgid "Cannot delete this map"
-msgstr "No s'ha pogut suprimir el mapa"
-
-#: ../src/Browser.py:219
-msgid "Do you really want to delete this Map?"
-msgstr "Realment voleu suprimir aquest mapa?"
-
-#: ../src/Browser.py:248
-msgid "Map Name"
-msgstr "Nom del mapa"
-
-#: ../src/MainWindow.py:111 ../src/MainWindow.py:283
-#, python-format
-msgid "Untitled Map %d"
-msgstr "Mapa sense nom %d"
-
-#: ../src/MainWindow.py:165
-msgid "File"
-msgstr "Fitxer"
-
-#: ../src/MainWindow.py:166
-msgid "Export as Image"
-msgstr "Exporta com a imatge"
-
-#: ../src/MainWindow.py:167
-msgid "Export your map as an image"
-msgstr "Exporteu el vostre mapa com a imatge"
-
-#: ../src/MainWindow.py:169
-msgid "Close the current window"
-msgstr "Tanca la finestra actual"
-
-#: ../src/MainWindow.py:170
-msgid "_Edit"
-msgstr "_Edita"
-
-#: ../src/MainWindow.py:179
-msgid "(Un)Link Thoughts"
-msgstr "Enllaça/Desenllaça els pensaments"
-
-#: ../src/MainWindow.py:180
-msgid "(Un)Link the selected thoughts"
-msgstr "Enllaça/Desenllaça els pensaments seleccionats"
-
-#: ../src/MainWindow.py:181
-msgid "_Mode"
-msgstr "_Mode"
-
-#: ../src/MainWindow.py:182
-msgid "_Delete Selected Thoughts"
-msgstr "_Suprimeix els pensaments seleccionats"
-
-#: ../src/MainWindow.py:183
-msgid "Delete the selected element(s)"
-msgstr "Suprimeix els elements seleccionats"
-
-#: ../src/MainWindow.py:185
-msgid "_Edit Mode"
-msgstr "Mode d'_edició"
-
-#: ../src/MainWindow.py:186
-msgid "Turn on edit mode"
-msgstr "Activa el mode d'edició"
-
-#: ../src/MainWindow.py:187
-msgid "_Add Image"
-msgstr "_Afegeix una imatge"
-
-#: ../src/MainWindow.py:188
-msgid "Add an image to selected thought"
-msgstr "Afegeix una imatge al pensament seleccionat"
-
-#: ../src/MainWindow.py:189
-msgid "_Drawing Mode"
-msgstr "_Mode de dibuix"
-
-#: ../src/MainWindow.py:190
-msgid "Make a pretty drawing"
-msgstr "Fes un dibuix bonic"
-
-#: ../src/MainWindow.py:192
-msgid "_View Extended"
-msgstr "_Visualització estesa"
-
-#: ../src/MainWindow.py:193
-msgid "View extended info for thoughts"
-msgstr "Visualitza informació addicional per als pensaments"
-
-#: ../src/MainWindow.py:446
-msgid "Unknown file format"
-msgstr "Format de fitxer desconegut"
-
-#: ../src/MainWindow.py:447
-#, python-format
-msgid ""
-"The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
-msgstr ""
-"No està implementat el tipus de fitxer «%s».  Feu servir el sufix «.png» o «.jpg»"
-
-#: ../src/DrawingThought.py:67
-#, python-format
-msgid "Drawing #%d"
-msgstr "Dibuix #%d"
-
-#: ../src/ImageThought.py:64
+#: ../labyrinth_lib/ImageThought.py:68
 msgid "Choose image to insert"
 msgstr "Escolliu la imatge a inserir"
 
-#: ../src/ImageThought.py:304
+#: ../labyrinth_lib/ImageThought.py:323
 msgid "Error loading file"
 msgstr "S'ha produït un error en carregar el fitxer"
 
-#: ../src/ImageThought.py:305
+#: ../labyrinth_lib/ImageThought.py:324
 #, python-format
 msgid "%s could not be found.  Associated thought will be empty."
 msgstr "No s'ha pogut trobar %s.  El pensament associat estarà buit."
 
-#: ../data/labyrinth.glade.h:1
-msgid "<b>Export Map</b>"
+#: ../labyrinth_lib/ImageThought.py:339
+msgid "Change Image"
+msgstr ""
+
+#: ../labyrinth_lib/Browser.py:192
+#, python-format
+msgid "Unable to display help: %s"
+msgstr ""
+
+#: ../labyrinth_lib/Browser.py:223
+msgid "Translation by Don Scorgie"
+msgstr ""
+
+#: ../labyrinth_lib/Browser.py:245
+#, fuzzy
+msgid "The map cannot be deleted right now. Is it open?"
+msgstr "No es pot suprimir el mapa ara mateix.  Està obert?"
+
+#: ../labyrinth_lib/Browser.py:247
+msgid "The map has no associated filename."
+msgstr "El mapa no té un nom de fitxer associat."
+
+#: ../labyrinth_lib/Browser.py:250
+msgid "Cannot delete this map"
+msgstr "No s'ha pogut suprimir el mapa"
+
+#: ../labyrinth_lib/Browser.py:257
+msgid "Do you really want to delete this Map?"
+msgstr "Realment voleu suprimir aquest mapa?"
+
+#: ../labyrinth_lib/Browser.py:282
+#, fuzzy
+msgid "Open File"
+msgstr "Fitxer"
+
+#: ../labyrinth_lib/Browser.py:286
+msgid "MAPZ Compressed Map (*.mapz)"
+msgstr ""
+
+#: ../labyrinth_lib/Browser.py:317
+msgid "Map Name"
+msgstr "Nom del mapa"
+
+#: ../labyrinth_lib/Browser.py:324
+msgid "Last Modified"
+msgstr ""
+
+#: ../labyrinth_lib/Links.py:265
+msgid "Choose Color"
+msgstr ""
+
+#: ../labyrinth_lib/Links.py:278
+msgid "Set Color"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:166 ../labyrinth_lib/MainWindow.py:481
+#, fuzzy
+msgid "Untitled Map"
+msgstr "Mapa sense nom %d"
+
+#: ../labyrinth_lib/MainWindow.py:213
+msgid "File"
+msgstr "Fitxer"
+
+#: ../labyrinth_lib/MainWindow.py:214
+msgid "Export as Image"
+msgstr "Exporta com a imatge"
+
+#: ../labyrinth_lib/MainWindow.py:215
+msgid "Export your map as an image"
+msgstr "Exporteu el vostre mapa com a imatge"
+
+#: ../labyrinth_lib/MainWindow.py:216
+#, fuzzy
+msgid "Export Map..."
 msgstr "<b>Exporta el mapa</b>"
 
-#: ../data/labyrinth.glade.h:2
-msgid "Complete Map"
-msgstr "Mapa complet"
+#: ../labyrinth_lib/MainWindow.py:217
+#, fuzzy
+msgid "Export your map as XML"
+msgstr "Exporteu el vostre mapa com a imatge"
 
-#: ../data/labyrinth.glade.h:3
+#: ../labyrinth_lib/MainWindow.py:219
+msgid "Close the current window"
+msgstr "Tanca la finestra actual"
+
+#: ../labyrinth_lib/MainWindow.py:220
+msgid "_Edit"
+msgstr "_Edita"
+
+#: ../labyrinth_lib/MainWindow.py:221
+msgid "_View"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:222
+msgid "_Toolbar"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:231
+#, fuzzy
+msgid "Link Thoughts"
+msgstr "Enllaça/Desenllaça els pensaments"
+
+#: ../labyrinth_lib/MainWindow.py:232
+#, fuzzy
+msgid "Link the selected thoughts"
+msgstr "Enllaça/Desenllaça els pensaments seleccionats"
+
+#: ../labyrinth_lib/MainWindow.py:233
+msgid "_Mode"
+msgstr "_Mode"
+
+#: ../labyrinth_lib/MainWindow.py:241
+msgid "_Edit Mode"
+msgstr "Mode d'_edició"
+
+#: ../labyrinth_lib/MainWindow.py:242
+msgid "Turn on edit mode"
+msgstr "Activa el mode d'edició"
+
+#: ../labyrinth_lib/MainWindow.py:243
+msgid "_Add Image"
+msgstr "_Afegeix una imatge"
+
+#: ../labyrinth_lib/MainWindow.py:244
+msgid "Add an image to selected thought"
+msgstr "Afegeix una imatge al pensament seleccionat"
+
+#: ../labyrinth_lib/MainWindow.py:245
+msgid "_Drawing Mode"
+msgstr "_Mode de dibuix"
+
+#: ../labyrinth_lib/MainWindow.py:246
+msgid "Make a pretty drawing"
+msgstr "Fes un dibuix bonic"
+
+#: ../labyrinth_lib/MainWindow.py:248
+msgid "Use _Curves"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:249
+msgid "Use curves as links"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:250
+msgid "Use _Lines"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:251
+msgid "Use straight lines as links"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:253
+msgid "_Extended Information"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:254
+#, fuzzy
+msgid "Show extended information for thoughts"
+msgstr "Visualitza informació addicional per als pensaments"
+
+#: ../labyrinth_lib/MainWindow.py:255
+msgid "_Main"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:256
+msgid "Show main toolbar"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:257
+msgid "_Format"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:258
+msgid "Show format toolbar"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:536
+msgid "Save File As"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:630
+#, fuzzy
+msgid "All Files"
+msgstr "Fitxer"
+
+#: ../labyrinth_lib/MainWindow.py:631
+msgid "PNG Image (*.png)"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:632
+msgid "JPEG Image (*.jpg, *.jpeg)"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:633
+msgid "SVG Vector Image (*.svg)"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:634
+msgid "PDF Portable Document (*.pdf)"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:670
+msgid "Unknown file format"
+msgstr "Format de fitxer desconegut"
+
+#: ../labyrinth_lib/MainWindow.py:671
+#, fuzzy, python-format
+msgid ""
+"The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
+"'.svg'."
+msgstr ""
+"No està implementat el tipus de fitxer «%s».  Feu servir el sufix «.png» o «."
+"jpg»"
+
+#: ../labyrinth_lib/ResourceThought.py:128
+#, fuzzy
+msgid "Edit Text"
+msgstr "Mode d'_edició"
+
+#: ../labyrinth_lib/ResourceThought.py:133
+#, fuzzy
+msgid "Edit URI"
+msgstr "_Edita"
+
+#: ../labyrinth_lib/DrawingThought.py:65
+#, python-format
+msgid "Drawing #%d"
+msgstr "Dibuix #%d"
+
+#: ../data/labyrinth.glade:7
 msgid "Export Map as Image"
 msgstr "Exporta el mapa com a imatge"
 
-#: ../data/labyrinth.glade.h:4
-msgid "Height"
-msgstr "Altura"
+#: ../data/labyrinth.glade:87
+msgid "Complete Map"
+msgstr "Mapa complet"
 
-#: ../data/labyrinth.glade.h:5
-msgid "Labyrinth Maps"
-msgstr "Mapes Labyrinth"
-
-#: ../data/labyrinth.glade.h:6
+#: ../data/labyrinth.glade:101
 msgid "Visible Area"
 msgstr "Àrea visible"
 
-#: ../data/labyrinth.glade.h:7
+#: ../data/labyrinth.glade:157
 msgid "Width"
 msgstr "Amplada"
 
-#: ../data/labyrinth.glade.h:8
+#: ../data/labyrinth.glade:172
+msgid "Height"
+msgstr "Altura"
+
+#: ../data/labyrinth.glade:226
+msgid "<b>Export Map</b>"
+msgstr "<b>Exporta el mapa</b>"
+
+#: ../data/labyrinth.glade:245
+msgid "Labyrinth Maps"
+msgstr "Mapes Labyrinth"
+
+#: ../data/labyrinth.glade:259
 msgid "_File"
 msgstr "_Fitxer"
 
-#: ../data/labyrinth.glade.h:9
+#: ../data/labyrinth.glade:299
+msgid "Import..."
+msgstr ""
+
+#: ../data/labyrinth.glade:329
 msgid "_Help"
 msgstr "A_juda"
 
-#: ../data/labyrinth.desktop.in.h:1
-msgid "Labyrinth Mind-mapping"
-msgstr "Creació de mapes mentals Labyrinth"
+#: ../data/labyrinth.glade:765
+msgid "URL"
+msgstr ""
 
-#: ../data/labyrinth.desktop.in.h:2
-msgid "Map your mind"
-msgstr "Mapejeu la vostra memòria"
+#: ../data/labyrinth.glade:806
+msgid "Align Left"
+msgstr ""
 
-#: ../data/labyrinth.desktop.in.h:3
-msgid "Mind-mapping"
-msgstr "Mapa mental"
+#: ../data/labyrinth.glade:825
+msgid "Align Right"
+msgstr ""
+
+#: ../data/labyrinth.glade:844
+msgid "Align Vertical Center"
+msgstr ""
+
+#: ../data/labyrinth.glade:863
+msgid "Align Top"
+msgstr ""
+
+#: ../data/labyrinth.glade:882
+msgid "Align Bottom"
+msgstr ""
+
+#: ../data/labyrinth.glade:901
+msgid "Align Horizontal Center"
+msgstr ""
+
+#~ msgid "_Delete Selected Thoughts"
+#~ msgstr "_Suprimeix els pensaments seleccionats"
+
+#~ msgid "Delete the selected element(s)"
+#~ msgstr "Suprimeix els elements seleccionats"
+
+#~ msgid "_View Extended"
+#~ msgstr "_Visualització estesa"
+
+#~ msgid "Labyrinth Mind-mapping"
+#~ msgstr "Creació de mapes mentals Labyrinth"
+
+#~ msgid "Map your mind"
+#~ msgstr "Mapejeu la vostra memòria"
+
+#~ msgid "Mind-mapping"
+#~ msgstr "Mapa mental"
 
 #~ msgid "Learn about the application"
 #~ msgstr "Aprèn sobre l'aplicació"
