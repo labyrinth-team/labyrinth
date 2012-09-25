@@ -44,7 +44,6 @@ the following are checked:
 * gtk+                >= 2.8
 * pygtk-2.0           >= 2.8
 * pygobject-2.0       >= 2.10
-* gnome-python-2.0    >= 2.12
 * pycairo             >= 1.0
 
 which probably means (to compile) you need the ``-dev`` versions of all these

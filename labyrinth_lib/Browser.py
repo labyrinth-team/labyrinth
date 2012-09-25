@@ -32,7 +32,6 @@ if os.name != 'nt':
     import gconf
 import gtk.glade
 import pango
-import gnome
 import gobject
 
 # Local imports
@@ -84,9 +83,6 @@ class Browser (gtk.Window):
         self.glade.get_widget('showhelp').connect ('activate', self.show_help_clicked)
 
         map(lambda x : x.set_sensitive(False), self.view_dependants)
-
-        props = { gnome.PARAM_APP_DATADIR : '/usr/share' }
-        prog = gnome.program_init('labyrinth', '0.5', properties=props)
 
         self.main_window = self.glade.get_widget ('MapBrowser')
 
@@ -191,7 +187,7 @@ class Browser (gtk.Window):
 
     def show_help_clicked(self, arg):
         try:
-            gnome.help_display('labyrinth')
+            gtk.show_uri(None, 'help:labyrinth', 0)
         except gobject.GError, e:
             print _('Unable to display help: %s') % str(e)
 
