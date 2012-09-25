@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[labyrinth.master]
+file_filter = po/<lang>.po
+source_file = po/labyrinth.pot
+source_lang = en
+type = PO
