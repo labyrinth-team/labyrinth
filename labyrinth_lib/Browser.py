@@ -39,6 +39,7 @@ import utils
 import MainWindow
 from MapList import MapList
 import TrayIcon
+from . import __version__
 
 AUTHORS = ['Don Scorgie <Don@Scorgie.org>',
                    'Martin Schaaf <mascha@ma-scha.de>',
@@ -194,7 +195,7 @@ class Browser (gtk.Window):
     def about_clicked (self, arg):
         about_dialog = gtk.AboutDialog ()
         about_dialog.set_name ("Labyrinth")
-        about_dialog.set_version (utils.get_version())
+        about_dialog.set_version (__version__)
         if os.name != 'nt':
             try:
                 about_dialog.set_logo_icon_name("labyrinth")

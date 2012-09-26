@@ -83,18 +83,6 @@ def parse_coords (string):
 
 __data_dir = None
 
-_version = None
-
-def get_version ():
-    global _version
-    if not _version:
-        try:
-            import defs
-            _version = defs.VERSION
-        except:
-            _version = "Uninstalled"
-    return _version
-
 def get_data_dir():
     '''returns the data dir. Tries to find it the first time its called'''
     global __data_dir

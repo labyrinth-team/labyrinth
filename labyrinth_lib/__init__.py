@@ -1,1 +1,1 @@
-from defs import VERSION as __version__
+__version__ = "0.6a1"

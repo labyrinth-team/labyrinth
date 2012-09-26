@@ -38,7 +38,7 @@ try:
     from labyrinth_lib import defs
     localedir = osp.abspath(osp.join(defs.DATA_DIR, "locale"))
 except:
-    localedir = ""
+    localedir = "/usr/share/locale"
 
 gettext.bindtextdomain('labyrinth', localedir)
 if hasattr(gettext, 'bind_textdomain_codeset'):
