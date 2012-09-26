@@ -1,10 +1,19 @@
 LANGS=ca cs de es eu fa fr it nl pl pt_BR pt_PT ru sv zh_CN
 
+LANG_FOLDERS:=$(addprefix $(localedir)/,$(LANGS))
+INST_MO:=$(addsuffix /LC_MESSAGES/labyrinth.mo,$(LANG_FOLDERS))
+
 # Translate to binary message format
 %.mo: %.po
 	msgfmt -o $@ $<
 
 all-mo: $(LANGS:%=%.mo)
+
+# The installation rule
+$(localedir)/%/LC_MESSAGES/labyrinth.mo : %.mo
+	install -D -m 644 $< $@
+
+install: all-mo $(INST_MO)
 
 labyrinth.pot:
 	xgettext --language=Python --keyword=_ --output=$@ `find ../labyrinth_lib -name "*.py"`
@@ -33,3 +42,7 @@ update-%-po:
 	fi; \
 
 update-po: labyrinth.pot $(LANGS:%=update-%-po)
+
+clean:
+	rm -rf *.mo
+	rm -rf *.new.po

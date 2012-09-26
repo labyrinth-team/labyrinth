@@ -37,19 +37,14 @@ as you please.
 Requirements
 ------------
 
-I don't really know what the exact requirements are.  In the configure script,
-the following are checked:
+* Python >= 2.6
+* gtk+
+* pygtk
+* pygobject
+* pycairo
 
-* Python              >= 2.6
-* gtk+                >= 2.8
-* pygtk-2.0           >= 2.8
-* pygobject-2.0       >= 2.10
-* pycairo             >= 1.0
-
-which probably means (to compile) you need the ``-dev`` versions of all these
-(except Python).  Note that although these are checked, it may work with
-previous versions.  If it does, please let us know and the configure script
-can be adapted accordingly.
+The minimum required versions are unknown, but any reasonably recent packages
+should work.
 
 How to use it
 -------------
@@ -58,15 +53,9 @@ From the top directory of the package, run the command::
 
     ./labyrinth
 
-It can also be installed using the ./configure && make dance thus::
-
-    ./configure --prefix=<prefix_to_use>
-    make
-    make install
-
-and run with::
-
-    labyrinth
+You can also install Labyrinth with ``python setup.py install``, and
+``./install_data_files.sh`` for icons and translations. It can then be run as
+``labyrinth``.
 
 This will open a browser window, showing you all the maps currently available
 and allow you to modify / delete them and create new maps.  The title is
