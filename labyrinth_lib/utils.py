@@ -94,11 +94,7 @@ def get_data_dir():
             if exists(path) and isdir(path) and isfile(path+"/AUTHORS"):
                 __data_dir = os.sep.join([dirname(__file__), '..' , 'data'])
             else:
-                try:
-                    import defs
-                    __data_dir=defs.pkgdatadir
-                except:
-                    __data_dir = "./data"
+                __data_dir = "/usr/share/labyrinth"
     else:
         if __data_dir is None:
             __data_dir = join (".","data")
