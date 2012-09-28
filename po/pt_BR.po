@@ -1,21 +1,23 @@
-# labrynth translation to Brazilian Portuguese.
-# Copyright (C) 2006 
-# Leonardo Gregianin <leogregianin@gmail.com>, 2006
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Leonardo Gregianin <leogregianin@gmail.com>, 2006.
+#   <shorterfire@gmail.com>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: pt-br\n"
+"Project-Id-Version: Labyrinth\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-23 18:55+0100\n"
-"PO-Revision-Date: 2006-10-16 14:05+0200\n"
-"Last-Translator: Leonardo Gregianin <leonardo@riseup.net>\n"
-"Language-Team: Brazilian Portuguese <leonardo@riseup.net>\n"
-"Language: pt_BR\n"
+"PO-Revision-Date: 2012-09-28 16:28+0000\n"
+"Last-Translator: salmora8 <shorterfire@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: ../labyrinth_lib/ImageThought.py:68
 msgid "Choose image to insert"
@@ -28,25 +30,24 @@ msgstr "Erro ao carregar arquivo"
 #: ../labyrinth_lib/ImageThought.py:324
 #, python-format
 msgid "%s could not be found.  Associated thought will be empty."
-msgstr "%s não pode ser encontrado. O pensamento associado estará vazio."
+msgstr "%s não pode ser encontrado. O nó associado estará vazio."
 
 #: ../labyrinth_lib/ImageThought.py:339
 msgid "Change Image"
-msgstr ""
+msgstr "Alterar Imagem"
 
 #: ../labyrinth_lib/Browser.py:192
 #, python-format
 msgid "Unable to display help: %s"
-msgstr ""
+msgstr "Não foi possível exibir ajuda: %s"
 
 #: ../labyrinth_lib/Browser.py:223
 msgid "Translation by Don Scorgie"
-msgstr ""
+msgstr "Tradução por Alexandro Casanova"
 
 #: ../labyrinth_lib/Browser.py:245
-#, fuzzy
 msgid "The map cannot be deleted right now. Is it open?"
-msgstr "O mapa não pode ser apagado agora. Ele está aberto?"
+msgstr "O mapa não pode ser excluído no momento. Ele está aberto?"
 
 #: ../labyrinth_lib/Browser.py:247
 msgid "The map has no associated filename."
@@ -54,20 +55,19 @@ msgstr "O mapa não tem nenhum nome de arquivo associado."
 
 #: ../labyrinth_lib/Browser.py:250
 msgid "Cannot delete this map"
-msgstr "Não é possível apagar este mapa"
+msgstr "Não foi possível apagar este mapa"
 
 #: ../labyrinth_lib/Browser.py:257
 msgid "Do you really want to delete this Map?"
 msgstr "Vocé quer realmente apagar este mapa?"
 
 #: ../labyrinth_lib/Browser.py:282
-#, fuzzy
 msgid "Open File"
-msgstr "Arquivo"
+msgstr "Abrir Arquivo"
 
 #: ../labyrinth_lib/Browser.py:286
 msgid "MAPZ Compressed Map (*.mapz)"
-msgstr ""
+msgstr "MAPZ Compressed Map (*.mapz)"
 
 #: ../labyrinth_lib/Browser.py:317
 msgid "Map Name"
@@ -75,20 +75,19 @@ msgstr "Nome do Mapa"
 
 #: ../labyrinth_lib/Browser.py:324
 msgid "Last Modified"
-msgstr ""
+msgstr "Última Modificação"
 
 #: ../labyrinth_lib/Links.py:265
 msgid "Choose Color"
-msgstr ""
+msgstr "Escolha a Cor"
 
 #: ../labyrinth_lib/Links.py:278
 msgid "Set Color"
-msgstr ""
+msgstr "Definir Cor"
 
 #: ../labyrinth_lib/MainWindow.py:166 ../labyrinth_lib/MainWindow.py:481
-#, fuzzy
 msgid "Untitled Map"
-msgstr "Mapa sem título %d"
+msgstr "Mapa sem Título"
 
 #: ../labyrinth_lib/MainWindow.py:213
 msgid "File"
@@ -103,18 +102,16 @@ msgid "Export your map as an image"
 msgstr "Exportar seu mapa como uma imagem"
 
 #: ../labyrinth_lib/MainWindow.py:216
-#, fuzzy
 msgid "Export Map..."
-msgstr "<b>Exportar Mapa</b>"
+msgstr "Exportar Mapa..."
 
 #: ../labyrinth_lib/MainWindow.py:217
-#, fuzzy
 msgid "Export your map as XML"
-msgstr "Exportar seu mapa como uma imagem"
+msgstr "Exportar seu mapa como XML"
 
 #: ../labyrinth_lib/MainWindow.py:219
 msgid "Close the current window"
-msgstr "Fechar esta janela"
+msgstr "Fechar a janela atual"
 
 #: ../labyrinth_lib/MainWindow.py:220
 msgid "_Edit"
@@ -122,21 +119,19 @@ msgstr "_Editar"
 
 #: ../labyrinth_lib/MainWindow.py:221
 msgid "_View"
-msgstr ""
+msgstr "_Ver"
 
 #: ../labyrinth_lib/MainWindow.py:222
 msgid "_Toolbar"
-msgstr ""
+msgstr "_Barra de Ferramentas"
 
 #: ../labyrinth_lib/MainWindow.py:231
-#, fuzzy
 msgid "Link Thoughts"
-msgstr "(Un)Link Thoughts"
+msgstr "Link de Nós"
 
 #: ../labyrinth_lib/MainWindow.py:232
-#, fuzzy
 msgid "Link the selected thoughts"
-msgstr "(Un)Link the selected thoughts"
+msgstr "Vincular os nós selecionados"
 
 #: ../labyrinth_lib/MainWindow.py:233
 msgid "_Mode"
@@ -152,11 +147,11 @@ msgstr "Voltar ao modo de edição"
 
 #: ../labyrinth_lib/MainWindow.py:243
 msgid "_Add Image"
-msgstr "_Adicionar image"
+msgstr "_Adicionar Imagem"
 
 #: ../labyrinth_lib/MainWindow.py:244
 msgid "Add an image to selected thought"
-msgstr "Adicione uma imagem ao mapa selecionado"
+msgstr "Adicione uma imagem para o nó selecionado"
 
 #: ../labyrinth_lib/MainWindow.py:245
 msgid "_Drawing Mode"
@@ -164,96 +159,90 @@ msgstr "_Modo Desenho"
 
 #: ../labyrinth_lib/MainWindow.py:246
 msgid "Make a pretty drawing"
-msgstr "Fazer um desenho bonito"
+msgstr "Fazer um desenho"
 
 #: ../labyrinth_lib/MainWindow.py:248
 msgid "Use _Curves"
-msgstr ""
+msgstr "Usar _Curvas"
 
 #: ../labyrinth_lib/MainWindow.py:249
 msgid "Use curves as links"
-msgstr ""
+msgstr "Usar curvas como links"
 
 #: ../labyrinth_lib/MainWindow.py:250
 msgid "Use _Lines"
-msgstr ""
+msgstr "Usar _Linhas"
 
 #: ../labyrinth_lib/MainWindow.py:251
 msgid "Use straight lines as links"
-msgstr ""
+msgstr "Usar linhas retas como links"
 
 #: ../labyrinth_lib/MainWindow.py:253
 msgid "_Extended Information"
-msgstr ""
+msgstr "_Informação Adicional"
 
 #: ../labyrinth_lib/MainWindow.py:254
-#, fuzzy
 msgid "Show extended information for thoughts"
-msgstr "Visão extendida das informações do pensamento"
+msgstr "Mostrar informação adicional dos nós"
 
 #: ../labyrinth_lib/MainWindow.py:255
 msgid "_Main"
-msgstr ""
+msgstr "_Principal"
 
 #: ../labyrinth_lib/MainWindow.py:256
 msgid "Show main toolbar"
-msgstr ""
+msgstr "Mostrar barra de ferramentas principal"
 
 #: ../labyrinth_lib/MainWindow.py:257
 msgid "_Format"
-msgstr ""
+msgstr "_Formatação"
 
 #: ../labyrinth_lib/MainWindow.py:258
 msgid "Show format toolbar"
-msgstr ""
+msgstr "_Mostrar barra de formatação"
 
 #: ../labyrinth_lib/MainWindow.py:536
 msgid "Save File As"
-msgstr ""
+msgstr "Salvar Arquivo Como"
 
 #: ../labyrinth_lib/MainWindow.py:630
-#, fuzzy
 msgid "All Files"
-msgstr "Arquivo"
+msgstr "Todos os Arquivos"
 
 #: ../labyrinth_lib/MainWindow.py:631
 msgid "PNG Image (*.png)"
-msgstr ""
+msgstr "Imagem PNG (*.png)"
 
 #: ../labyrinth_lib/MainWindow.py:632
 msgid "JPEG Image (*.jpg, *.jpeg)"
-msgstr ""
+msgstr "Imagem JPEG (*.jpg, *.jpeg)"
 
 #: ../labyrinth_lib/MainWindow.py:633
 msgid "SVG Vector Image (*.svg)"
-msgstr ""
+msgstr "Imagem Vetorial SVG (*.svg)"
 
 #: ../labyrinth_lib/MainWindow.py:634
 msgid "PDF Portable Document (*.pdf)"
-msgstr ""
+msgstr "Documento Portátil PDF (*.pdf)"
 
 #: ../labyrinth_lib/MainWindow.py:670
 msgid "Unknown file format"
 msgstr "Formato de imagem desconhecida"
 
 #: ../labyrinth_lib/MainWindow.py:671
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
 "'.svg'."
-msgstr ""
-"O tipo de arquivo '%s' não é suportado.  Por favor use o sufixo '.png' ou '."
-"jpg'"
+msgstr "O tipo de arquivo '%s' não é suportado. Favor usar o sufixo '.png', '.jpg' ou '.svg'."
 
 #: ../labyrinth_lib/ResourceThought.py:128
-#, fuzzy
 msgid "Edit Text"
-msgstr "_Modo Editar"
+msgstr "Editar Texto"
 
 #: ../labyrinth_lib/ResourceThought.py:133
-#, fuzzy
 msgid "Edit URI"
-msgstr "_Editar"
+msgstr "Editar URI"
 
 #: ../labyrinth_lib/DrawingThought.py:65
 #, python-format
@@ -294,7 +283,7 @@ msgstr "_Arquivo"
 
 #: ../data/labyrinth.glade:299
 msgid "Import..."
-msgstr ""
+msgstr "Importar..."
 
 #: ../data/labyrinth.glade:329
 msgid "_Help"
@@ -302,91 +291,28 @@ msgstr "_Ajuda"
 
 #: ../data/labyrinth.glade:765
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: ../data/labyrinth.glade:806
 msgid "Align Left"
-msgstr ""
+msgstr "Alinhar à Esquerda"
 
 #: ../data/labyrinth.glade:825
 msgid "Align Right"
-msgstr ""
+msgstr "Alinhar à Direita"
 
 #: ../data/labyrinth.glade:844
 msgid "Align Vertical Center"
-msgstr ""
+msgstr "Alinhar no Centro Vertical"
 
 #: ../data/labyrinth.glade:863
 msgid "Align Top"
-msgstr ""
+msgstr "Alinhar no Topo"
 
 #: ../data/labyrinth.glade:882
 msgid "Align Bottom"
-msgstr ""
+msgstr "Alinhar para Baixo"
 
 #: ../data/labyrinth.glade:901
 msgid "Align Horizontal Center"
-msgstr ""
-
-#~ msgid "_Delete Selected Thoughts"
-#~ msgstr "_Apagando Pensamentos Selecionados"
-
-#~ msgid "Delete the selected element(s)"
-#~ msgstr "Apagar o(s) elemento(s) selecionado(s)"
-
-#~ msgid "_View Extended"
-#~ msgstr "_Visão Extendida"
-
-#~ msgid "Labyrinth Mind-mapping"
-#~ msgstr "Labyrinth Mapa Mental"
-
-#~ msgid "Map your mind"
-#~ msgstr "Mapeando sua mente"
-
-#~ msgid "Mind-mapping"
-#~ msgstr "Mind-mapping"
-
-#~ msgid "Learn about the application"
-#~ msgstr "Aprender sobre o programa"
-
-#~ msgid "Delete Map"
-#~ msgstr "Apagar mapa"
-
-#~ msgid "New Map"
-#~ msgstr "Novo map"
-
-#~ msgid "Open Map"
-#~ msgstr "Abrir"
-
-#~ msgid "Quit"
-#~ msgstr "Sair"
-
-#~ msgid "_New"
-#~ msgstr "_Novo"
-
-#~ msgid "Create a new mind-map"
-#~ msgstr "Criar um novo mapa-mental"
-
-#~ msgid "_Close"
-#~ msgstr "_Sair"
-
-#~ msgid "_Quit"
-#~ msgstr "_Sair"
-
-#~ msgid "Close all the windows and exit the application"
-#~ msgstr "Fechar todas as janelas e sair do programa"
-
-#~ msgid "_About"
-#~ msgstr "_Sobre"
-
-#~ msgid "Somethings broken"
-#~ msgstr "Algo quebrado"
-
-#~ msgid "_Move Mode"
-#~ msgstr "_Modo Mover"
-
-#~ msgid "Turn on move mode"
-#~ msgstr "Voltar ao modo mover"
-
-#~ msgid "%s could not be read.  Please ensure its a valid image."
-#~ msgstr "%s não pode ser lido. Verifique se esta imagem é válida."
+msgstr "Alinhar no Centro Horizontal"
