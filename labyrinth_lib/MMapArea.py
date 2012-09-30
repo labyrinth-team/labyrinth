@@ -596,7 +596,10 @@ class MMapArea (gtk.DrawingArea):
         if len(self.selected) == 1:
             self.emit ("thought_selection_changed", thought.background_color, thought.foreground_color)
             self.background_color = thought.background_color
-            self.foreground_color = thought.foreground_color
+            # Image thoughts don't have a foreground colour, so we shouldn't
+            # copy it.
+            if thought.foreground_color is not None:
+                self.foreground_color = thought.foreground_color
             try:
                 self.emit ("change_buffer", thought.extended_buffer)
             except AttributeError:
