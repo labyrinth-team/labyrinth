@@ -330,7 +330,7 @@ class TextThought (BaseThought.BaseThought):
         if (self.foreground_color):
             r, g, b = utils.gtk_to_cairo_color(self.foreground_color)
         else:
-            r, g ,b = utils.gtk_to_cairo_color(utils.default_colors["text"])
+            r, g ,b = utils.default_colors["text"]
         context.set_source_rgb (r, g, b)
         context.move_to (textx, texty)
         context.show_layout (self.layout)
