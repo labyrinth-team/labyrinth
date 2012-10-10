@@ -36,6 +36,14 @@ UNDO_ADD_ATTR_SELECTION=65
 UNDO_REMOVE_ATTR=66
 UNDO_REMOVE_ATTR_SELECTION=67
 
+def wrap_attriterator(ai):
+    """Wraps a pango AttrIterator so it can be used like a regular Python
+    iterator. Yields (ai.get_attrs(), ai.range()) at each step.
+    """
+    yield ai.get_attrs(), ai.range()
+    while ai.next():
+        yield ai.get_attrs(), ai.range()
+
 def minmax(a, b):
     return (min(a, b), max(a, b))
 
@@ -98,15 +106,8 @@ class TextThought (BaseThought.BaseThought):
         underline = False
         pango_font = None
         del self.attrlist
-        self.attrlist = pango.AttrList ()
-        # TODO: splice instead of own method
-        it = self.attributes.get_iterator()
-
-        while it.next():
-            at = it.get_attrs()
-            for x in at:
-                self.attrlist.insert(x)
-
+        self.attrlist = self.attributes.copy()
+        
         if self.preedit:
             ins_text = self.preedit[0]
             ins_style = self.preedit[1]
@@ -261,30 +262,29 @@ class TextThought (BaseThought.BaseThought):
             changes.append(x)
 
         old_attrs = []
-        it = self.attributes.get_iterator()
-        while it.next():
-            start, end = it.range()
-            l = it.get_attrs()
+        it = wrap_attriterator(self.attributes.get_iterator())
+        
+        for attrs, (start, end) in it:
             if start <= self.index:
                 if end > self.end_index:
                     # Inside range
-                    for x in l:
+                    for x in attrs:
                         old_attrs.append(x.copy())
                         x.end_index += change
                         changes.append(x)
                 else:
-                    for x in l:
+                    for x in attrs:
                         old_attrs.append(x.copy())
                         changes.append(x)
             else:
                 if end > self.end_index:
-                    for x in l:
+                    for x in attrs:
                         old_attrs.append(x.copy())
                         x.end_index += change
                         x.start_index += change
                         changes.append(x)
                 else:
-                    for x in l:
+                    for x in attrs:
                         old_attrs.append(x.copy())
                         changes.append(x)
 
