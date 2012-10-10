@@ -278,7 +278,8 @@ class TextThought (BaseThought.BaseThought):
 
         del self.attributes
         self.attributes = pango.AttrList()
-        map (lambda x : self.attributes.change(x), changes)
+        for x in changes:
+            self.attributes.change(x)
 
         self.text = left + string + right
         self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.INSERT_LETTER, self.undo_text_action,
