@@ -1081,14 +1081,14 @@ class TextThought (BaseThought.BaseThought):
 
         if not active:
             attr = self.create_attribute(attribute, init, end, pdefault)
-            if index == end_index:
-                self.current_attrs.change(attr)
-            else:
+            
+            if index != end_index:
                 self.attributes.change(attr)
-
-            tmp = []
-            attr = None
+            
+            
             if index == end_index:
+                tmp = []
+                attr = None
                 for x in self.current_attrs:
                     if x.type == ptype and x.value == pvalue:
                         attr = x
@@ -1123,7 +1123,7 @@ class TextThought (BaseThought.BaseThought):
             for x in changed:
                 self.attributes.change(x)
 
-            self.current_attrs = [ x for x in self.current_attrs if x.type == ptype and x.value == pvalue ]
+            self.current_attrs = [ x for x in self.current_attrs if x.type != ptype or x.value != pvalue ]
             self.undo.add_undo(UndoManager.UndoAction(self, UNDO_REMOVE_ATTR_SELECTION,
                                                       self.undo_attr_cb,
                                                       old_attrs,
