@@ -840,7 +840,6 @@ class TextThought (BaseThought.BaseThought):
                 pass
 
         doc = self.element.ownerDocument
-        it = self.attributes.get_iterator()
         for attrs, r in wrap_attriterator(self.attributes.get_iterator()):
             for x in attrs:
                 elem = doc.createElement ("attribute")
@@ -976,11 +975,8 @@ class TextThought (BaseThought.BaseThought):
         accounted = -change
         index     = offset
         end_index = offset - (new-orig)
-
-        it = self.attributes.get_iterator()
-        while it.next():
-            start, end = it.range()
-            l = it.get_attrs()
+        
+        for l, (start, end) in wrap_attriterator(self.attributes.get_iterator()):
             if end <= start:
                 for x in l:
                     changes.append(x)
