@@ -132,25 +132,15 @@ class TextThought (BaseThought.BaseThought):
             elif self.index < self.end_index:
                 if start > self.end_index:
                     break
-                if self.index == self.end_index and \
-                        start < self.index and \
-                        end   > self.index:
-                    found = True
-                elif self.index != self.end_index and \
-                        start <= self.index and \
-                        end   >= self.end_index:
+                elif start <= self.index and \
+                     end   >= self.end_index:
                     # We got a winner!
                     found = True
             else: # i.e. self.index > self.end_index
                 if start > self.index:
                     break
-                if self.index == self.end_index and \
-                        start < self.index and \
-                        end   > self.index:
-                    found = True
-                elif self.index != self.end_index and \
-                        start <= self.end_index and \
-                        end   >= self.index:
+                elif start <= self.end_index and \
+                     end   >= self.index:
                     # We got another winner!
                     found = True
 
@@ -455,7 +445,8 @@ class TextThought (BaseThought.BaseThought):
 
         del self.attributes
         self.attributes = pango.AttrList()
-        map(lambda a : self.attributes.change(a), attrs)
+        for a in attrs:
+            self.attributes.change(a)
         self.recalc_edges ()
         self.emit ("begin_editing")
         self.emit ("title_changed", self.text)
@@ -528,7 +519,8 @@ class TextThought (BaseThought.BaseThought):
 
         del self.attributes
         self.attributes = pango.AttrList()
-        map(lambda a : self.attributes.change(a), changes)
+        for a in changes:
+            self.attributes.change(a)
 
         self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.DELETE_LETTER, self.undo_text_action,
                                                 self.b_f_i (self.index), local_text, len(local_text), local_bytes, old_attrs,
@@ -1020,7 +1012,8 @@ class TextThought (BaseThought.BaseThought):
 
         del self.attributes
         self.attributes = pango.AttrList()
-        map(lambda x : self.attributes.change(x), changes)
+        for x in changes:
+            self.attributes.change(x)
 
         self.recalc_edges ()
         self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.DELETE_LETTER, self.undo_text_action,
@@ -1123,11 +1116,13 @@ class TextThought (BaseThought.BaseThought):
                         else:
                             changed.append(x)
                 else:
-                    map(lambda x : changed.append(x), attrs)
+                    changed.extend(attrs)
 
             del self.attributes
             self.attributes = pango.AttrList()
-            map(lambda x : self.attributes.change(x), changed)
+            for x in changed:
+                self.attributes.change(x)
+
             self.current_attrs = [ x for x in self.current_attrs if x.type == ptype and x.value == pvalue ]
             self.undo.add_undo(UndoManager.UndoAction(self, UNDO_REMOVE_ATTR_SELECTION,
                                                       self.undo_attr_cb,
