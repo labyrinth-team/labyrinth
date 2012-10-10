@@ -1134,7 +1134,7 @@ class TextThought (BaseThought.BaseThought):
                 self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR,
                                                           self.undo_attr_cb,
                                                           attr))
-                self.current_attrs.change(attr)
+                self.current_attrs.append(attr)
             else:
                 attr = self.create_attribute(attribute, init, end, pvalue)
                 old_attrs = self.attributes.copy()
