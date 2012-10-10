@@ -243,11 +243,20 @@ class TextThought (BaseThought.BaseThought):
         bright = self.bytes[self.b_f_i (self.end_index):]
         change = self.index - self.end_index + len(string)
 
+        # Rather a hack: font descriptions override bold/italic attributes, so
+        # we pull them out and set them before other changes.
         changes = []
+        fontdesc_changes = []
+        def cache_change(x):
+            if x.type == pango.ATTR_FONT_DESC:
+                fontdesc_changes.append(x)
+            else:
+                changes.append(x)
+        
         for x in self.current_attrs:
             x.start_index = self.index
             x.end_index = self.index + len(string)
-            changes.append(x)
+            cache_change(x)
 
         old_attrs = []
         it = wrap_attriterator(self.attributes.get_iterator())
@@ -259,26 +268,26 @@ class TextThought (BaseThought.BaseThought):
                     for x in attrs:
                         old_attrs.append(x.copy())
                         x.end_index += change
-                        changes.append(x)
+                        cache_change(x)
                 else:
                     for x in attrs:
                         old_attrs.append(x.copy())
-                        changes.append(x)
+                        cache_change(x)
             else:
                 if end > self.end_index:
                     for x in attrs:
                         old_attrs.append(x.copy())
                         x.end_index += change
                         x.start_index += change
-                        changes.append(x)
+                        cache_change(x)
                 else:
                     for x in attrs:
                         old_attrs.append(x.copy())
-                        changes.append(x)
+                        cache_change(x)
 
         del self.attributes
         self.attributes = pango.AttrList()
-        for x in changes:
+        for x in fontdesc_changes + changes:
             self.attributes.change(x)
 
         self.text = left + string + right
@@ -1102,7 +1111,6 @@ class TextThought (BaseThought.BaseThought):
                                                           attr))
                 return
 
-            it = self.attributes.get_iterator()
             old_attrs = self.attributes.copy()
             changed = []
             
