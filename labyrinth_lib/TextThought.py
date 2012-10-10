@@ -841,9 +841,8 @@ class TextThought (BaseThought.BaseThought):
 
         doc = self.element.ownerDocument
         it = self.attributes.get_iterator()
-        while it.next():
-            r = it.range()
-            for x in it.get_attrs():
+        for attrs, r in wrap_attriterator(self.attributes.get_iterator()):
+            for x in attrs:
                 elem = doc.createElement ("attribute")
                 elem.setAttribute("start", str(r[0]))
                 elem.setAttribute("end", str(r[1]))
