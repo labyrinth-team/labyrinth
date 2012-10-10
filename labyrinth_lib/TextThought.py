@@ -123,41 +123,39 @@ class TextThought (BaseThought.BaseThought):
         else:
             show_text = self.text
 
-        it = self.attributes.get_iterator()
-        while it.next():
+        it = wrap_attriterator(self.attributes.get_iterator())
+        for attrs, (start, end) in it:
             found = False
-            r = it.range()
             if self.index == self.end_index:
-                if r[0] <= self.index and r[1] > self.index:
+                if start <= self.index and end > self.index:
                     found = True
             elif self.index < self.end_index:
-                if r[0] > self.end_index:
+                if start > self.end_index:
                     break
                 if self.index == self.end_index and \
-                        r[0] < self.index and \
-                        r[1] > self.index:
+                        start < self.index and \
+                        end   > self.index:
                     found = True
-                elif self.index != self.end_index and r[0] <= self.index and \
-                   r[1] >= self.end_index:
+                elif self.index != self.end_index and \
+                        start <= self.index and \
+                        end   >= self.end_index:
                     # We got a winner!
                     found = True
-            else:
-                if r[0] > self.index:
+            else: # i.e. self.index > self.end_index
+                if start > self.index:
                     break
                 if self.index == self.end_index and \
-                        r[0] < self.index and \
-                        r[1] > self.index:
+                        start < self.index and \
+                        end   > self.index:
                     found = True
-                elif self.index != self.end_index and r[0] <= self.end_index and \
-                   r[1] >= self.index:
+                elif self.index != self.end_index and \
+                        start <= self.end_index and \
+                        end   >= self.index:
                     # We got another winner!
                     found = True
 
             if found:
-                # FIXME: the it.get() seems to crash python
-                # through pango.
-                attr = it.get_attrs()
-                for x in attr:
+                for x in attrs:
                     if x.type == pango.ATTR_WEIGHT and \
                        x.value == pango.WEIGHT_BOLD:
                         bold = True
@@ -1066,30 +1064,30 @@ class TextThought (BaseThought.BaseThought):
         self.emit("update_view")
         self.undo.unblock()
 
-    def create_attribute(self, attribute, start, end):
+    def create_attribute(self, attribute, start, end, value):
         if attribute == 'bold':
-            return pango.AttrWeight(pango.WEIGHT_BOLD, start, end)
+            return pango.AttrWeight(value, start, end)
         elif attribute == 'italic':
-            return pango.AttrStyle(pango.STYLE_ITALIC, start, end)
+            return pango.AttrStyle(value, start, end)
         elif attribute == 'underline':
-            return pango.AttrUnderline(pango.UNDERLINE_SINGLE, start, end)
+            return pango.AttrUnderline(value, start, end)
 
     def set_attribute(self, active, attribute):
         if not self.editing:
             return
 
         if attribute == 'bold':
-            pstyle, ptype, pvalue = (pango.WEIGHT_NORMAL, pango.ATTR_WEIGHT, pango.WEIGHT_BOLD)
+            pdefault, ptype, pvalue = (pango.WEIGHT_NORMAL, pango.ATTR_WEIGHT, pango.WEIGHT_BOLD)
         elif attribute == 'italic':
-            pstyle, ptype, pvalue = (pango.STYLE_NORMAL, pango.ATTR_STYLE, pango.STYLE_ITALIC)
+            pdefault, ptype, pvalue = (pango.STYLE_NORMAL, pango.ATTR_STYLE, pango.STYLE_ITALIC)
         elif attribute == 'underline':
-            pstyle, ptype, pvalue = (pango.UNDERLINE_NONE, pango.ATTR_UNDERLINE, pango.UNDERLINE_SINGLE)
+            pdefault, ptype, pvalue = (pango.UNDERLINE_NONE, pango.ATTR_UNDERLINE, pango.UNDERLINE_SINGLE)
 
         index, end_index = (self.index, self.end_index)
         init, end = minmax(index, end_index)
 
         if not active:
-            attr = pango.AttrStyle(pstyle, init, end)
+            attr = self.create_attribute(attribute, init, end, pdefault)
             if index == end_index:
                 self.current_attrs.change(attr)
             else:
@@ -1113,18 +1111,19 @@ class TextThought (BaseThought.BaseThought):
             it = self.attributes.get_iterator()
             old_attrs = self.attributes.copy()
             changed = []
-
-            while it.next():
-                r = it.range()
-                if r[0] <= init and r[1] >= end:
-                    for x in it.get_attrs():
+            
+            # If we have removed the middle section of a style, split it into
+            # before and after sections.
+            for attrs, (astart, aend) in wrap_attriterator(self.attributes.get_iterator()):
+                if astart <= init and aend >= end:
+                    for x in attrs:
                         if x.type == ptype and x.value == pvalue:
-                            changed.append(self.create_attribute(attribute, r[0], init))
-                            changed.append(self.create_attribute(attribute, end, r[1]))
+                            changed.append(self.create_attribute(attribute, astart, init, pvalue))
+                            changed.append(self.create_attribute(attribute, end, aend, pvalue))
                         else:
                             changed.append(x)
                 else:
-                    map(lambda x : changed.append(x), it.get_attrs())
+                    map(lambda x : changed.append(x), attrs)
 
             del self.attributes
             self.attributes = pango.AttrList()
@@ -1136,13 +1135,13 @@ class TextThought (BaseThought.BaseThought):
                                                       self.attributes.copy()))
         else:
             if index == end_index:
-                attr = self.create_attribute(attribute, index, end_index)
+                attr = self.create_attribute(attribute, index, end_index, pvalue)
                 self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR,
                                                           self.undo_attr_cb,
                                                           attr))
                 self.current_attrs.change(attr)
             else:
-                attr = self.create_attribute(attribute, init, end)
+                attr = self.create_attribute(attribute, init, end, pvalue)
                 old_attrs = self.attributes.copy()
                 self.attributes.change(attr)
                 self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR_SELECTION,
