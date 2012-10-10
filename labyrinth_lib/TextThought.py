@@ -490,10 +490,7 @@ class TextThought (BaseThought.BaseThought):
         old_attrs = []
         accounted = -change
 
-        it = self.attributes.get_iterator()
-        while it.next():
-            start, end = it.range()
-            l = it.get_attrs()
+        for l, (start, end) in wrap_attriterator(self.attributes.get_iterator()):
             if end <= self.index:
                 for x in l:
                     changes.append(x)
@@ -565,11 +562,8 @@ class TextThought (BaseThought.BaseThought):
         old_attrs = []
         changes= []
         accounted = -change
-
-        it = self.attributes.get_iterator()
-        while it.next():
-            start, end = it.range()
-            l = it.get_attrs()
+        
+        for l, (start, end) in wrap_attriterator(self.attributes.get_iterator()):
             if end <= self.index:
                 for x in l:
                     old_attrs.append(x.copy())
@@ -606,7 +600,8 @@ class TextThought (BaseThought.BaseThought):
 
         del self.attributes
         self.attributes = pango.AttrList()
-        map (lambda a : self.attributes.change(a), changes)
+        for a in changes:
+            self.attributes.change(a)
 
         self.text = left+right
         self.bytes = bleft+bright
