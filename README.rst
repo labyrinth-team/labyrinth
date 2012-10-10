@@ -107,3 +107,6 @@ If you want to help out with developing labyrinth, please let us know on the
 mailing list.  We aren't just looking for coders.  We're looking for packagers,
 artists, doc writers, interface designers, web developers, and just about
 anyone else.
+
+Translations now take place `on Transifex <https://www.transifex.com/projects/p/labyrinth/>`.
+If you want to use Transifex in your language, it's very easy to get started.
