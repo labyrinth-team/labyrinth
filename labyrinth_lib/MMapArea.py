@@ -145,7 +145,7 @@ class MMapArea (gtk.DrawingArea):
         self.connect ("expose_event", self.expose)
         self.connect ("button_release_event", self.button_release)
         self.connect ("button_press_event", self.button_down)
-        self.connect ("motion_notify_event", self.motion)
+        self.connect ("motion_notify_event", self.motion_event)
         self.connect ("key_press_event", self.key_press)
         self.connect ("key_release_event", self.key_release)
         self.connect ("scroll_event", self.scroll)
@@ -392,7 +392,7 @@ class MMapArea (gtk.DrawingArea):
         self.im_context.filter_keypress (event)
         return True
 
-    def motion (self, widget, event):
+    def motion_event(self, widget, event):
         coords = self.transform_coords (event.get_coords()[0], event.get_coords()[1])
 
         if self.motion:
