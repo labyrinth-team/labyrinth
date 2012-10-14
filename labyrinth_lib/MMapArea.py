@@ -1353,13 +1353,10 @@ class MMapArea (gtk.DrawingArea):
             self.invalidate()
 
 class CursorFactory:
-    __shared_state = {"cursors": {}}
-
-    def __init__(self):
-        self.__dict__ = self.__shared_state
+    # Shared state
+    cursors = {}
 
     def get_cursor(self, cur_type):
-        if not self.cursors.has_key(cur_type):
-            cur = gtk.gdk.Cursor(cur_type)
-            self.cursors[cur_type] = cur
+        if cur_type not in self.cursors:
+            self.cursors[cur_type] = gtk.gdk.Cursor(cur_type)
         return self.cursors[cur_type]
