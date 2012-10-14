@@ -180,7 +180,7 @@ class Browser (gtk.Window):
     def open_selected_map(self):
         map = self.get_selected_map()
         if map is None:
-            raise "you clicked the 'open' button bud had no map selected"
+            raise ValueError("you clicked the 'open' button but had no map selected")
         if map.window:
             print "Window for map '%s' is already open" % map.title
             # may be the window should be raised?
@@ -241,7 +241,7 @@ class Browser (gtk.Window):
     def delete_clicked (self, button):
         map = self.get_selected_map ()
         if not map:
-            raise "You clicked on delete but had no map selected"
+            raise ValueError("You clicked on delete but had no map selected")
         error_message = ""
         if map.window:
             error_message =  _("The map cannot be deleted right now. Is it open?")
@@ -271,7 +271,7 @@ class Browser (gtk.Window):
             MapList.delete(map)
             self.view.emit ('cursor-changed')
             return
-        raise "Cant remove map of window %s" % mobj
+        raise ValueError("Cant remove map of window %s" % mobj)
 
     def file_save_cb (self, mobj, new_fname, mobj1):
         map = MapList.get_by_window(mobj)
