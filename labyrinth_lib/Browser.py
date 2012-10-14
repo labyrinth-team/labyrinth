@@ -83,7 +83,8 @@ class Browser (gtk.Window):
         self.glade.get_widget('about1').connect ('activate', self.about_clicked)
         self.glade.get_widget('showhelp').connect ('activate', self.show_help_clicked)
 
-        map(lambda x : x.set_sensitive(False), self.view_dependants)
+        for x in self.view_dependants:
+            x.set_sensitive(False)
 
         self.main_window = self.glade.get_widget ('MapBrowser')
 
@@ -159,9 +160,9 @@ class Browser (gtk.Window):
         return None
 
     def cursor_change_cb (self, treeview):
-        selected_map = self.get_selected_map ()
-        sensitive = not not self.get_selected_map ()
-        map(lambda x : x.set_sensitive(sensitive), self.view_dependants)
+        sensitive = bool(self.get_selected_map())
+        for x in self.view_dependants:
+            x.set_sensitive(sensitive)
 
     def open_map_filename (self, fname):
         win = MainWindow.LabyrinthWindow (fname)

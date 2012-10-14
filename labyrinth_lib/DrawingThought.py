@@ -431,7 +431,8 @@ class DrawingThought (BaseThought.ResizableThought):
         self.min_y += y
         self.max_x += x
         self.max_y += y
-        map(lambda p : p.move_by(x,y), self.points)
+        for p in self.points:
+            p.move_by(x, y)
         self.recalc_edges ()
         self.emit ("update_links")
 
