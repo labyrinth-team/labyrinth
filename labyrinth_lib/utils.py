@@ -71,7 +71,7 @@ def get_save_dir ():
     return savedir
 
 def get_images_dir ():
-    return os.path.join(get_save_dir, 'images')
+    return os.path.join(get_save_dir(), 'images')
 
 def parse_coords (string):
     if string == "None":
