@@ -1,17 +1,22 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <fswitch20@hotmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: Labyrinth\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-23 18:55+0100\n"
-"PO-Revision-Date: 2006-11-14 14:41+0100\n"
-"Last-Translator: Francesco Fullone <francesco@fullo.net>\n"
-"Language-Team: \n"
-"Language: \n"
+"PO-Revision-Date: 2012-10-09 13:18+0000\n"
+"Last-Translator: Tony Goodyear <fswitch20@hotmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Italian\n"
-"X-Poedit-Country: ITALY\n"
+"Language: it\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../labyrinth_lib/ImageThought.py:68
 msgid "Choose image to insert"
@@ -28,21 +33,20 @@ msgstr "%s non è stato trovato. I nodi associati saranno vuoti."
 
 #: ../labyrinth_lib/ImageThought.py:339
 msgid "Change Image"
-msgstr ""
+msgstr "Cambia Immagine"
 
 #: ../labyrinth_lib/Browser.py:192
 #, python-format
 msgid "Unable to display help: %s"
-msgstr ""
+msgstr "Impossibile visualizzare la guida: %s"
 
 #: ../labyrinth_lib/Browser.py:223
 msgid "Translation by Don Scorgie"
-msgstr ""
+msgstr "Tradotto da Don Scorgie"
 
 #: ../labyrinth_lib/Browser.py:245
-#, fuzzy
 msgid "The map cannot be deleted right now. Is it open?"
-msgstr "La mappa non può essere cancellata. É aperta?"
+msgstr "La mappa non può essere cancellata. E' aperta ?"
 
 #: ../labyrinth_lib/Browser.py:247
 msgid "The map has no associated filename."
@@ -57,13 +61,12 @@ msgid "Do you really want to delete this Map?"
 msgstr "Vuoi veramente cancellare questa Mappa?"
 
 #: ../labyrinth_lib/Browser.py:282
-#, fuzzy
 msgid "Open File"
-msgstr "File"
+msgstr "Apri File"
 
 #: ../labyrinth_lib/Browser.py:286
 msgid "MAPZ Compressed Map (*.mapz)"
-msgstr ""
+msgstr "MAPZ Mappa Compressa (*.mapz)"
 
 #: ../labyrinth_lib/Browser.py:317
 msgid "Map Name"
@@ -71,20 +74,19 @@ msgstr "Nome della Mappa"
 
 #: ../labyrinth_lib/Browser.py:324
 msgid "Last Modified"
-msgstr ""
+msgstr "Ultima Modifica"
 
 #: ../labyrinth_lib/Links.py:265
 msgid "Choose Color"
-msgstr ""
+msgstr "Scegli Colore"
 
 #: ../labyrinth_lib/Links.py:278
 msgid "Set Color"
-msgstr ""
+msgstr "Imposta Colore"
 
 #: ../labyrinth_lib/MainWindow.py:166 ../labyrinth_lib/MainWindow.py:481
-#, fuzzy
 msgid "Untitled Map"
-msgstr "Mappa senza nome %d"
+msgstr "Mappa Senza Titolo"
 
 #: ../labyrinth_lib/MainWindow.py:213
 msgid "File"
@@ -99,14 +101,12 @@ msgid "Export your map as an image"
 msgstr "Esporta la tua mappa come un'immagine"
 
 #: ../labyrinth_lib/MainWindow.py:216
-#, fuzzy
 msgid "Export Map..."
-msgstr "<b>Esporta la Mappa</b>"
+msgstr "Esporta Mappa..."
 
 #: ../labyrinth_lib/MainWindow.py:217
-#, fuzzy
 msgid "Export your map as XML"
-msgstr "Esporta la tua mappa come un'immagine"
+msgstr "Esporta mappa come XML"
 
 #: ../labyrinth_lib/MainWindow.py:219
 msgid "Close the current window"
@@ -118,21 +118,19 @@ msgstr "_Modifica"
 
 #: ../labyrinth_lib/MainWindow.py:221
 msgid "_View"
-msgstr ""
+msgstr "_Visualizza"
 
 #: ../labyrinth_lib/MainWindow.py:222
 msgid "_Toolbar"
-msgstr ""
+msgstr "_Barra degli strumenti"
 
 #: ../labyrinth_lib/MainWindow.py:231
-#, fuzzy
 msgid "Link Thoughts"
-msgstr "(S)Collega i nodi"
+msgstr ""
 
 #: ../labyrinth_lib/MainWindow.py:232
-#, fuzzy
 msgid "Link the selected thoughts"
-msgstr "(S)Collega i nodi selezionati"
+msgstr ""
 
 #: ../labyrinth_lib/MainWindow.py:233
 msgid "_Mode"
@@ -164,92 +162,86 @@ msgstr "Realizza un disegno carino"
 
 #: ../labyrinth_lib/MainWindow.py:248
 msgid "Use _Curves"
-msgstr ""
+msgstr "Usa _Curves"
 
 #: ../labyrinth_lib/MainWindow.py:249
 msgid "Use curves as links"
-msgstr ""
+msgstr "Usa curve come collegamenti"
 
 #: ../labyrinth_lib/MainWindow.py:250
 msgid "Use _Lines"
-msgstr ""
+msgstr "Usa _Lines"
 
 #: ../labyrinth_lib/MainWindow.py:251
 msgid "Use straight lines as links"
-msgstr ""
+msgstr "Usa linee rette come collegamenti"
 
 #: ../labyrinth_lib/MainWindow.py:253
 msgid "_Extended Information"
-msgstr ""
+msgstr "Informazioni _Estese"
 
 #: ../labyrinth_lib/MainWindow.py:254
-#, fuzzy
 msgid "Show extended information for thoughts"
-msgstr "Visualizza informazioni addizionali per i nodi"
+msgstr ""
 
 #: ../labyrinth_lib/MainWindow.py:255
 msgid "_Main"
-msgstr ""
+msgstr "_Principale"
 
 #: ../labyrinth_lib/MainWindow.py:256
 msgid "Show main toolbar"
-msgstr ""
+msgstr "Visualizza barra degli strumenti principale"
 
 #: ../labyrinth_lib/MainWindow.py:257
 msgid "_Format"
-msgstr ""
+msgstr "_Formato"
 
 #: ../labyrinth_lib/MainWindow.py:258
 msgid "Show format toolbar"
-msgstr ""
+msgstr "Visualizza barra degli strumenti formato"
 
 #: ../labyrinth_lib/MainWindow.py:536
 msgid "Save File As"
-msgstr ""
+msgstr "Salva File Come"
 
 #: ../labyrinth_lib/MainWindow.py:630
-#, fuzzy
 msgid "All Files"
-msgstr "File"
+msgstr "Tutti i files"
 
 #: ../labyrinth_lib/MainWindow.py:631
 msgid "PNG Image (*.png)"
-msgstr ""
+msgstr "Immagine PNG ( *.png)"
 
 #: ../labyrinth_lib/MainWindow.py:632
 msgid "JPEG Image (*.jpg, *.jpeg)"
-msgstr ""
+msgstr "Immagine JPEG (*.jpg, *.jpeg)"
 
 #: ../labyrinth_lib/MainWindow.py:633
 msgid "SVG Vector Image (*.svg)"
-msgstr ""
+msgstr "SVG Immagine Vettoriale (*.svg)"
 
 #: ../labyrinth_lib/MainWindow.py:634
 msgid "PDF Portable Document (*.pdf)"
-msgstr ""
+msgstr "PDF Documento Portabile (*.pdf)"
 
 #: ../labyrinth_lib/MainWindow.py:670
 msgid "Unknown file format"
 msgstr "Formato file non riconosciuto"
 
 #: ../labyrinth_lib/MainWindow.py:671
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
 "'.svg'."
-msgstr ""
-"Il tipo file '%s' non è supportato. Per favore usa il suffisso '.png' o '."
-"jpg'"
+msgstr "Il tipo file '%s' non è supportato.  Utilizzare l'estensione '.png', '.jpg' or '.svg'."
 
 #: ../labyrinth_lib/ResourceThought.py:128
-#, fuzzy
 msgid "Edit Text"
-msgstr "Modalità _Modifica"
+msgstr "Modifica Testo"
 
 #: ../labyrinth_lib/ResourceThought.py:133
-#, fuzzy
 msgid "Edit URI"
-msgstr "_Modifica"
+msgstr "Modifica URI"
 
 #: ../labyrinth_lib/DrawingThought.py:65
 #, python-format
@@ -290,7 +282,7 @@ msgstr "_File"
 
 #: ../data/labyrinth.glade:299
 msgid "Import..."
-msgstr ""
+msgstr "Importa..."
 
 #: ../data/labyrinth.glade:329
 msgid "_Help"
@@ -298,46 +290,28 @@ msgstr "A_iuto"
 
 #: ../data/labyrinth.glade:765
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: ../data/labyrinth.glade:806
 msgid "Align Left"
-msgstr ""
+msgstr "Allinea a Sinistra"
 
 #: ../data/labyrinth.glade:825
 msgid "Align Right"
-msgstr ""
+msgstr "Allinea a Destra"
 
 #: ../data/labyrinth.glade:844
 msgid "Align Vertical Center"
-msgstr ""
+msgstr "Allinea Verticale Centrato"
 
 #: ../data/labyrinth.glade:863
 msgid "Align Top"
-msgstr ""
+msgstr "Allinea in Alto"
 
 #: ../data/labyrinth.glade:882
 msgid "Align Bottom"
-msgstr ""
+msgstr "Allinea in Basso"
 
 #: ../data/labyrinth.glade:901
 msgid "Align Horizontal Center"
-msgstr ""
-
-#~ msgid "_Delete Selected Thoughts"
-#~ msgstr "_Cancella il nodo selezionato"
-
-#~ msgid "Delete the selected element(s)"
-#~ msgstr "Cancella gli elementi selezionati"
-
-#~ msgid "_View Extended"
-#~ msgstr "_Visualizza tutto"
-
-#~ msgid "Labyrinth Mind-mapping"
-#~ msgstr "Labyrinth mind-mapping"
-
-#~ msgid "Map your mind"
-#~ msgstr "Mappa il tuo pensiero"
-
-#~ msgid "Mind-mapping"
-#~ msgstr "Mind-mapping"
+msgstr "Allinea Orizzontale Centrato"
