@@ -347,6 +347,8 @@ class MMapArea (gtk.DrawingArea):
     def scroll (self, widget, event):
         scale = self.scale_fac
         if event.direction == gtk.gdk.SCROLL_UP:
+            if self.scale_fac > 10:
+                return  # Limit zoom in to 10x
             self.scale_fac*=1.2
 
             # The following code is used to zoom where the cursor is currently
@@ -358,6 +360,8 @@ class MMapArea (gtk.DrawingArea):
             self.translation[0] -= coords[0] - middle[0]
             self.translation[1] -= coords[1] - middle[1]
         elif event.direction == gtk.gdk.SCROLL_DOWN:
+            if self.scale_fac <= 0.1:
+                return  # Limit zoom out to 1/10th scale
             self.scale_fac/=1.2
 
         self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.TRANSFORM_CANVAS, \

@@ -235,8 +235,8 @@ class LabyrinthWindow (gobject.GObject):
                  None, self.zoomin_cb),
                 ('ZoomOut', gtk.STOCK_ZOOM_OUT, None, '<control>minus',
                  None, self.zoomout_cb),
-                ('ZoomFit', gtk.STOCK_ZOOM_FIT, None, None,
-                 None, self.zoomfit_cb)]
+                ('Zoom100', gtk.STOCK_ZOOM_100, None, None,
+                 None, self.zoom100_cb)]
         self.radio_actions = [
                 ('Edit', gtk.STOCK_EDIT, _('_Edit Mode'), '<control>E',
                  _('Turn on edit mode'), MMapArea.MODE_EDITING),
@@ -430,14 +430,17 @@ class LabyrinthWindow (gobject.GObject):
             self.MainArea.set_font (button.get_font_name ())
 
     def zoomin_cb(self, arg):
-        self.MainArea.scale_fac *= 1.2
-        self.MainArea.invalidate()
+        if self.MainArea.scale_fac < 10:
+            self.MainArea.scale_fac *= 1.2
+            self.MainArea.invalidate()
 
     def zoomout_cb(self, arg):
-        self.MainArea.scale_fac /= 1.2
-        self.MainArea.invalidate()
+        if self.MainArea.scale_fac > 0.1:
+            self.MainArea.scale_fac /= 1.2
+            self.MainArea.invalidate()
 
-    def zoomfit_cb(self, arg):
+    def zoom100_cb(self, arg):
+        self.MainArea.scale_fac = 1.0
         self.MainArea.translation = [0.0, 0.0]
         self.MainArea.invalidate()
 
