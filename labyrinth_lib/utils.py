@@ -26,7 +26,9 @@
 import sys
 from os.path import join, dirname, exists, isdir, isfile
 import os
+import warnings
 from numpy import array
+from xdg import BaseDirectory
 
 __BE_VERBOSE=os.environ.get('DEBUG_LABYRINTH',0)
 if __BE_VERBOSE:
@@ -58,16 +60,31 @@ default_font = None
 
 def get_save_dir ():
     ''' Returns the path to the directory to save the maps to '''
-    try:
-        base = os.environ ['HOME']
-    except:
-        base = os.environ ['USERPROFILE']
-    if os.name != 'nt':
-        savedir = os.path.join (base, ".gnome2", "labyrinth")
-    else:
-        savedir = os.path.join (base, ".labyrinth")
-    if not os.access (savedir, os.W_OK):
-        os.makedirs (savedir)
+    if os.name == 'nt':
+        savedir = os.path.join(os.path.expanduser('~'), '.labyrinth')
+        if not os.access (savedir, os.W_OK):
+            os.makedirs (savedir)
+        return savedir
+    
+    old_savedir = os.path.join (os.path.expanduser('~'), ".gnome2", "labyrinth")
+    savedir = BaseDirectory.save_data_path("labyrinth")
+    
+    # Migrate maps to the new save directory.   
+    if os.path.exists(old_savedir) and os.path.isdir(old_savedir):
+        
+        for m in os.listdir(old_savedir):
+            try:
+                os.rename(os.path.join(old_savedir, m),
+                        os.path.join(savedir, m))
+            except Exception as e:
+                warnings.warn("Failed to migrate %s: %s" % (m, e))
+        
+        # remove old dir
+        try:
+            os.rmdir(old_savedir)
+        except Exception as e:
+            warnings.warn("Could not remove old map dir (%s): %s" % (old_savedir, e))
+    
     return savedir
 
 def get_images_dir ():
