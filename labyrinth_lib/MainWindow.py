@@ -235,7 +235,7 @@ class LabyrinthWindow (gobject.GObject):
                  None, self.zoomin_cb),
                 ('ZoomOut', gtk.STOCK_ZOOM_OUT, None, '<control>minus',
                  None, self.zoomout_cb),
-                ('Zoom100', gtk.STOCK_ZOOM_100, None, None,
+                ('Zoom100', gtk.STOCK_ZOOM_100, None, '<control>0',
                  None, self.zoom100_cb)]
         self.radio_actions = [
                 ('Edit', gtk.STOCK_EDIT, _('_Edit Mode'), '<control>E',
