@@ -42,6 +42,7 @@ Requirements
 * pygtk
 * pygobject
 * pycairo
+* PyXDG
 
 The minimum required versions are unknown, but any reasonably recent packages
 should work.
