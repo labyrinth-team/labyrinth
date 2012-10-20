@@ -351,14 +351,16 @@ class MMapArea (gtk.DrawingArea):
                 return  # Limit zoom in to 10x
             self.scale_fac*=1.2
 
-            # The following code is used to zoom where the cursor is currently
-            # located. It feels quite awkward but is requested by issue 100.
+            # Zoom based on where cursor is located.
             coords = self.transform_coords(event.x, event.y)
             geom = self.window.get_geometry()
             middle = self.transform_coords(geom[2]/2.0, geom[3]/2.0)
 
-            self.translation[0] -= coords[0] - middle[0]
-            self.translation[1] -= coords[1] - middle[1]
+            # Without the /4.0, the window jumps to where the cursor is
+            # centred, which is very awkward and hard to use. This method makes
+            # the centre move smoothly towards the cursor's location.
+            self.translation[0] -= (coords[0] - middle[0])/4.0
+            self.translation[1] -= (coords[1] - middle[1])/4.0
         elif event.direction == gtk.gdk.SCROLL_DOWN:
             if self.scale_fac <= 0.1:
                 return  # Limit zoom out to 1/10th scale
