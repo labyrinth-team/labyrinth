@@ -422,7 +422,7 @@ class TextThought (BaseThought.BaseThought):
             clear_attrs = False
         else:
             handled = False
-        if clear_attrs:
+        if handled and clear_attrs:
             del self.current_attrs
             self.current_attrs = []
         self.recalc_edges ()
