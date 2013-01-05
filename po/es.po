@@ -1,20 +1,23 @@
-# Labyrinth Spanish Translation
-# Copyright (C) 2008 Peter Gordon
-# This file is distributed under the same license as the Labyrinth package.
-# Peter Gordon <peter@thecodergeek.com>
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <alzacon21@hotmail.com>, 2012.
+#   <victor1262@gmail.com>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: Labyrinth 0.4\n"
+"Project-Id-Version: Labyrinth\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-23 18:55+0100\n"
-"PO-Revision-Date: 2008-04-02 22:26-0800\n"
-"Last-Translator: Peter Gordon <peter@thecodergeek.com>\n"
-"Language-Team: \n"
-"Language: \n"
+"PO-Revision-Date: 2012-12-11 14:43+0000\n"
+"Last-Translator: victor1262 <victor1262@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../labyrinth_lib/ImageThought.py:68
 msgid "Choose image to insert"
@@ -43,9 +46,8 @@ msgid "Translation by Don Scorgie"
 msgstr ""
 
 #: ../labyrinth_lib/Browser.py:245
-#, fuzzy
 msgid "The map cannot be deleted right now. Is it open?"
-msgstr "No se puede borrar este mapa. ¿Está abierta?"
+msgstr "No se puede borrar el mapa. ¿Está abierto?"
 
 #: ../labyrinth_lib/Browser.py:247
 msgid "The map has no associated filename."
@@ -85,9 +87,8 @@ msgid "Set Color"
 msgstr ""
 
 #: ../labyrinth_lib/MainWindow.py:166 ../labyrinth_lib/MainWindow.py:481
-#, fuzzy
 msgid "Untitled Map"
-msgstr "Mapa sin nombre %d"
+msgstr "Mapa sin nombre"
 
 #: ../labyrinth_lib/MainWindow.py:213
 msgid "File"
@@ -131,7 +132,6 @@ msgid "Link Thoughts"
 msgstr "(Des)Conectar Piensamientos"
 
 #: ../labyrinth_lib/MainWindow.py:232
-#, fuzzy
 msgid "Link the selected thoughts"
 msgstr "(Des)Conectar los pensamientos eligidos"
 
@@ -237,14 +237,11 @@ msgstr "Formato de archivo desconocido"
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
 "'.svg'."
-msgstr ""
-"No se soporta el tipo de archivo '%s'. Favor de usar el sufijo de '.png', '."
-"jpg', o '.svg'."
+msgstr "No se soporta el tipo de archivo '%s'. Favor de usar el sufijo de '.png', '.jpg', o '.svg'."
 
 #: ../labyrinth_lib/ResourceThought.py:128
-#, fuzzy
 msgid "Edit Text"
-msgstr "Modo _Edición"
+msgstr ""
 
 #: ../labyrinth_lib/ResourceThought.py:133
 #, fuzzy
@@ -324,24 +321,3 @@ msgstr ""
 #: ../data/labyrinth.glade:901
 msgid "Align Horizontal Center"
 msgstr ""
-
-#~ msgid "Choose foreground color"
-#~ msgstr "Elija el color del primer plano"
-
-#~ msgid "_Delete Selected Elements"
-#~ msgstr "_Borrar los elementos elegidos"
-
-#~ msgid "Delete the selected element(s)"
-#~ msgstr "Borrar los elementos elegidos"
-
-#~ msgid "_View Extended"
-#~ msgstr "_Ver Extendido"
-
-#~ msgid "Labyrinth Mind-mapping"
-#~ msgstr "Labyrinth Mapa de Mente"
-
-#~ msgid "Map your mind"
-#~ msgstr "Hacer un mapa de su mente"
-
-#~ msgid "Mind-mapping"
-#~ msgstr "Mapa de Mente"
