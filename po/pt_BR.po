@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Labyrinth\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-23 18:55+0100\n"
-"PO-Revision-Date: 2012-09-28 16:28+0000\n"
+"PO-Revision-Date: 2012-12-01 13:15+0000\n"
 "Last-Translator: salmora8 <shorterfire@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr "Erro ao carregar arquivo"
 #: ../labyrinth_lib/ImageThought.py:324
 #, python-format
 msgid "%s could not be found.  Associated thought will be empty."
-msgstr "%s não pode ser encontrado. O nó associado estará vazio."
+msgstr "%s não pode ser encontrado.  O pensamento associado estará vazio."
 
 #: ../labyrinth_lib/ImageThought.py:339
 msgid "Change Image"
@@ -43,7 +43,7 @@ msgstr "Não foi possível exibir ajuda: %s"
 
 #: ../labyrinth_lib/Browser.py:223
 msgid "Translation by Don Scorgie"
-msgstr "Tradução por Alexandro Casanova"
+msgstr "Versão em Português Brasileiro por:\nAlexandro Casanova"
 
 #: ../labyrinth_lib/Browser.py:245
 msgid "The map cannot be deleted right now. Is it open?"
@@ -59,7 +59,7 @@ msgstr "Não foi possível apagar este mapa"
 
 #: ../labyrinth_lib/Browser.py:257
 msgid "Do you really want to delete this Map?"
-msgstr "Vocé quer realmente apagar este mapa?"
+msgstr "Você realmente deseja excluir este mapa?"
 
 #: ../labyrinth_lib/Browser.py:282
 msgid "Open File"
@@ -67,7 +67,7 @@ msgstr "Abrir Arquivo"
 
 #: ../labyrinth_lib/Browser.py:286
 msgid "MAPZ Compressed Map (*.mapz)"
-msgstr "MAPZ Compressed Map (*.mapz)"
+msgstr "Mapa Comprimido MAPZ (*.mapz)"
 
 #: ../labyrinth_lib/Browser.py:317
 msgid "Map Name"
@@ -87,7 +87,7 @@ msgstr "Definir Cor"
 
 #: ../labyrinth_lib/MainWindow.py:166 ../labyrinth_lib/MainWindow.py:481
 msgid "Untitled Map"
-msgstr "Mapa sem Título"
+msgstr "Mapa Sem Título"
 
 #: ../labyrinth_lib/MainWindow.py:213
 msgid "File"
@@ -127,11 +127,11 @@ msgstr "_Barra de Ferramentas"
 
 #: ../labyrinth_lib/MainWindow.py:231
 msgid "Link Thoughts"
-msgstr "Link de Nós"
+msgstr "Ligar pensamentos"
 
 #: ../labyrinth_lib/MainWindow.py:232
 msgid "Link the selected thoughts"
-msgstr "Vincular os nós selecionados"
+msgstr "Ligar os pensamentos selecionados"
 
 #: ../labyrinth_lib/MainWindow.py:233
 msgid "_Mode"
@@ -151,7 +151,7 @@ msgstr "_Adicionar Imagem"
 
 #: ../labyrinth_lib/MainWindow.py:244
 msgid "Add an image to selected thought"
-msgstr "Adicione uma imagem para o nó selecionado"
+msgstr "Adicione uma imagem para o pensamento selecionado"
 
 #: ../labyrinth_lib/MainWindow.py:245
 msgid "_Drawing Mode"
@@ -167,7 +167,7 @@ msgstr "Usar _Curvas"
 
 #: ../labyrinth_lib/MainWindow.py:249
 msgid "Use curves as links"
-msgstr "Usar curvas como links"
+msgstr "Usar curvas como ligação"
 
 #: ../labyrinth_lib/MainWindow.py:250
 msgid "Use _Lines"
@@ -175,7 +175,7 @@ msgstr "Usar _Linhas"
 
 #: ../labyrinth_lib/MainWindow.py:251
 msgid "Use straight lines as links"
-msgstr "Usar linhas retas como links"
+msgstr "Usar linhas retas como ligação"
 
 #: ../labyrinth_lib/MainWindow.py:253
 msgid "_Extended Information"
@@ -183,7 +183,7 @@ msgstr "_Informação Adicional"
 
 #: ../labyrinth_lib/MainWindow.py:254
 msgid "Show extended information for thoughts"
-msgstr "Mostrar informação adicional dos nós"
+msgstr "Mostrar informação adicional dos pensamentos"
 
 #: ../labyrinth_lib/MainWindow.py:255
 msgid "_Main"
@@ -199,7 +199,7 @@ msgstr "_Formatação"
 
 #: ../labyrinth_lib/MainWindow.py:258
 msgid "Show format toolbar"
-msgstr "_Mostrar barra de formatação"
+msgstr "Mostrar barra de formatação"
 
 #: ../labyrinth_lib/MainWindow.py:536
 msgid "Save File As"
@@ -234,7 +234,7 @@ msgstr "Formato de imagem desconhecida"
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
 "'.svg'."
-msgstr "O tipo de arquivo '%s' não é suportado. Favor usar o sufixo '.png', '.jpg' ou '.svg'."
+msgstr "O tipo de arquivo '%s' não é suportado.  Favor usar o sufixo '.png', '.jpg' ou '.svg'."
 
 #: ../labyrinth_lib/ResourceThought.py:128
 msgid "Edit Text"
