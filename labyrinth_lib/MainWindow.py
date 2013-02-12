@@ -663,6 +663,8 @@ class LabyrinthWindow (gobject.GObject):
                 ext_mime_mapping = { 'png':'png', 'jpg':'jpeg', 'jpeg':'jpeg', \
                             'svg':'svg', 'pdf':'pdf' }
                 filename = fc.get_filename()
+                if filename is None:
+                    continue   # No file selected
                 ext = filename[filename.rfind('.')+1:]
 
                 try:
