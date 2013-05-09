@@ -1,24 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
+# Translators:
+# jui <appukonrad@gmail.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: Labyrinth svn\n"
+"Project-Id-Version: Labyrinth\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-23 18:55+0100\n"
-"PO-Revision-Date: 2006-11-07 15:57+0100\n"
-"Last-Translator: Josef Vybíral <josef.vybiral@gmail.com>\n"
-"Language-Team: \n"
-"Language: \n"
+"PO-Revision-Date: 2013-01-14 11:34+0000\n"
+"Last-Translator: jui <appukonrad@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Czech\n"
-"X-Poedit-Country: CZECH REPUBLIC\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: cs\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: ../labyrinth_lib/ImageThought.py:68
 msgid "Choose image to insert"
@@ -35,7 +33,7 @@ msgstr "Nebylo možné nalézt soubor %s. Myšlenka zůstane prázdná."
 
 #: ../labyrinth_lib/ImageThought.py:339
 msgid "Change Image"
-msgstr ""
+msgstr "Změnit obrázek"
 
 #: ../labyrinth_lib/Browser.py:192
 #, python-format
@@ -44,12 +42,11 @@ msgstr ""
 
 #: ../labyrinth_lib/Browser.py:223
 msgid "Translation by Don Scorgie"
-msgstr ""
+msgstr "Překlad"
 
 #: ../labyrinth_lib/Browser.py:245
-#, fuzzy
 msgid "The map cannot be deleted right now. Is it open?"
-msgstr "Tuto mapu nelze v tomto okamžiku smazat. Není otevřená?"
+msgstr "Mapu nelze právě teď odstranit. Není otevřená?"
 
 #: ../labyrinth_lib/Browser.py:247
 msgid "The map has no associated filename."
@@ -64,13 +61,12 @@ msgid "Do you really want to delete this Map?"
 msgstr "Opravdu chcete smazat tuto mapu?"
 
 #: ../labyrinth_lib/Browser.py:282
-#, fuzzy
 msgid "Open File"
-msgstr "Soubor"
+msgstr "Otevřít soubor"
 
 #: ../labyrinth_lib/Browser.py:286
 msgid "MAPZ Compressed Map (*.mapz)"
-msgstr ""
+msgstr "MAPZ Komprimovaná Mapa (*. Mapz)"
 
 #: ../labyrinth_lib/Browser.py:317
 msgid "Map Name"
@@ -78,20 +74,19 @@ msgstr "Jméno mapy"
 
 #: ../labyrinth_lib/Browser.py:324
 msgid "Last Modified"
-msgstr ""
+msgstr "Poslední změny"
 
 #: ../labyrinth_lib/Links.py:265
 msgid "Choose Color"
-msgstr ""
+msgstr "Změna barvy"
 
 #: ../labyrinth_lib/Links.py:278
 msgid "Set Color"
-msgstr ""
+msgstr "Nastavení barvy"
 
 #: ../labyrinth_lib/MainWindow.py:166 ../labyrinth_lib/MainWindow.py:481
-#, fuzzy
 msgid "Untitled Map"
-msgstr "Nepojmenovaná Mapa %d"
+msgstr "Mapa bez názvu"
 
 #: ../labyrinth_lib/MainWindow.py:213
 msgid "File"
@@ -106,14 +101,12 @@ msgid "Export your map as an image"
 msgstr "Vyexportuje vaši mapu jako obrázek"
 
 #: ../labyrinth_lib/MainWindow.py:216
-#, fuzzy
 msgid "Export Map..."
-msgstr "<b>Exportovat Mapu</b>"
+msgstr "Export mapy..."
 
 #: ../labyrinth_lib/MainWindow.py:217
-#, fuzzy
 msgid "Export your map as XML"
-msgstr "Vyexportuje vaši mapu jako obrázek"
+msgstr "Export vaší mapy, jako XML"
 
 #: ../labyrinth_lib/MainWindow.py:219
 msgid "Close the current window"
@@ -132,14 +125,12 @@ msgid "_Toolbar"
 msgstr ""
 
 #: ../labyrinth_lib/MainWindow.py:231
-#, fuzzy
 msgid "Link Thoughts"
-msgstr "Odpojit/Propojit myšlenky"
+msgstr ""
 
 #: ../labyrinth_lib/MainWindow.py:232
-#, fuzzy
 msgid "Link the selected thoughts"
-msgstr "Odpojí nebo připojí vybrané myšlenky"
+msgstr ""
 
 #: ../labyrinth_lib/MainWindow.py:233
 msgid "_Mode"
@@ -175,7 +166,7 @@ msgstr ""
 
 #: ../labyrinth_lib/MainWindow.py:249
 msgid "Use curves as links"
-msgstr ""
+msgstr "použít křivky, jako linky"
 
 #: ../labyrinth_lib/MainWindow.py:250
 msgid "Use _Lines"
@@ -183,16 +174,15 @@ msgstr ""
 
 #: ../labyrinth_lib/MainWindow.py:251
 msgid "Use straight lines as links"
-msgstr ""
+msgstr "Použít přímé linky, jako odkazy"
 
 #: ../labyrinth_lib/MainWindow.py:253
 msgid "_Extended Information"
 msgstr ""
 
 #: ../labyrinth_lib/MainWindow.py:254
-#, fuzzy
 msgid "Show extended information for thoughts"
-msgstr "Zobrazí rozšířené informace o myšlenkách"
+msgstr "Zobrazit rozšířené informace pro myšlenky"
 
 #: ../labyrinth_lib/MainWindow.py:255
 msgid "_Main"
@@ -200,7 +190,7 @@ msgstr ""
 
 #: ../labyrinth_lib/MainWindow.py:256
 msgid "Show main toolbar"
-msgstr ""
+msgstr "Zobrazit hlavní panel nástrojů"
 
 #: ../labyrinth_lib/MainWindow.py:257
 msgid "_Format"
@@ -208,54 +198,50 @@ msgstr ""
 
 #: ../labyrinth_lib/MainWindow.py:258
 msgid "Show format toolbar"
-msgstr ""
+msgstr "Zobrazit panel nástrojů Formátu"
 
 #: ../labyrinth_lib/MainWindow.py:536
 msgid "Save File As"
-msgstr ""
+msgstr "Uložit soubor jako"
 
 #: ../labyrinth_lib/MainWindow.py:630
-#, fuzzy
 msgid "All Files"
-msgstr "Soubor"
+msgstr "Všechny soubory"
 
 #: ../labyrinth_lib/MainWindow.py:631
 msgid "PNG Image (*.png)"
-msgstr ""
+msgstr "PNG Obrázek (*.png)"
 
 #: ../labyrinth_lib/MainWindow.py:632
 msgid "JPEG Image (*.jpg, *.jpeg)"
-msgstr ""
+msgstr "JPEG Obrázek (*.jpg, *.jpeg)"
 
 #: ../labyrinth_lib/MainWindow.py:633
 msgid "SVG Vector Image (*.svg)"
-msgstr ""
+msgstr "SVG Vektorový obrázek (*.svg)"
 
 #: ../labyrinth_lib/MainWindow.py:634
 msgid "PDF Portable Document (*.pdf)"
-msgstr ""
+msgstr "PDF Přenosný dokument (*.pdf)"
 
 #: ../labyrinth_lib/MainWindow.py:670
 msgid "Unknown file format"
 msgstr "Neznámý formát souboru"
 
 #: ../labyrinth_lib/MainWindow.py:671
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
 "'.svg'."
-msgstr ""
-"Typ souboru '%s' není podporován. Prosím použijte příponu '.png' nebo '.jpg'"
+msgstr "Soubor typu '%s' není podporován.  Použíjte prosím soubor s příponou '.png', '.jpg' , nebo '.svg'."
 
 #: ../labyrinth_lib/ResourceThought.py:128
-#, fuzzy
 msgid "Edit Text"
-msgstr "R_ežim Úprav"
+msgstr "Úprava textu"
 
 #: ../labyrinth_lib/ResourceThought.py:133
-#, fuzzy
 msgid "Edit URI"
-msgstr "_Úpravy"
+msgstr "Úprava URI"
 
 #: ../labyrinth_lib/DrawingThought.py:65
 #, python-format
@@ -296,7 +282,7 @@ msgstr "_Soubor"
 
 #: ../data/labyrinth.glade:299
 msgid "Import..."
-msgstr ""
+msgstr "Import..."
 
 #: ../data/labyrinth.glade:329
 msgid "_Help"
@@ -304,93 +290,28 @@ msgstr "_Nápověda"
 
 #: ../data/labyrinth.glade:765
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: ../data/labyrinth.glade:806
 msgid "Align Left"
-msgstr ""
+msgstr "Zarovnat doleva"
 
 #: ../data/labyrinth.glade:825
 msgid "Align Right"
-msgstr ""
+msgstr "Zarovnat doprava"
 
 #: ../data/labyrinth.glade:844
 msgid "Align Vertical Center"
-msgstr ""
+msgstr "Zarovnat svisle na střed"
 
 #: ../data/labyrinth.glade:863
 msgid "Align Top"
-msgstr ""
+msgstr "Zarovnat nahoru"
 
 #: ../data/labyrinth.glade:882
 msgid "Align Bottom"
-msgstr ""
+msgstr "Zarovnat dolů"
 
 #: ../data/labyrinth.glade:901
 msgid "Align Horizontal Center"
-msgstr ""
-
-#~ msgid "_Delete Selected Thoughts"
-#~ msgstr "Vymazat vybrané myšlenky"
-
-#~ msgid "Delete the selected element(s)"
-#~ msgstr "Vymaže vybrané prvky"
-
-#~ msgid "_View Extended"
-#~ msgstr "Rozšířené zobrazení"
-
-#~ msgid "Labyrinth Mind-mapping"
-#~ msgstr "Labyrinth Myšlenkové mapy"
-
-#~ msgid "Map your mind"
-#~ msgstr "Zmapujte svou mysl"
-
-#~ msgid "Mind-mapping"
-#~ msgstr "Tvorba myšlenkových map"
-
-#~ msgid "Learn about the application"
-#~ msgstr "Více informací o této aplikaci"
-
-#~ msgid "Delete Map"
-#~ msgstr "Vymazat Mapu"
-
-#~ msgid "New Map"
-#~ msgstr "Nová Mapa"
-
-#~ msgid "Open Map"
-#~ msgstr "Otevřít Mapu"
-
-#~ msgid "Quit"
-#~ msgstr "Ukončit"
-
-#~ msgid "_New"
-#~ msgstr "_Nový"
-
-#~ msgid "Create a new mind-map"
-#~ msgstr "Vytvořit novou myšlenkovou mapu"
-
-#~ msgid "_Close"
-#~ msgstr "_Zavřít"
-
-#~ msgid "_Quit"
-#~ msgstr "_Ukončit"
-
-#~ msgid "Close all the windows and exit the application"
-#~ msgstr "Zavřít všechna okna aplikace a skončit"
-
-#~ msgid "_About"
-#~ msgstr "O _aplikaci"
-
-#~ msgid "Somethings broken"
-#~ msgstr "Něco se se rozbilo"
-
-#~ msgid "_Move Mode"
-#~ msgstr "Reži_m přesunu"
-
-#~ msgid "Turn on move mode"
-#~ msgstr "Zapne režim pro přesun objektů"
-
-#~ msgid "%s could not be read.  Please ensure its a valid image."
-#~ msgstr ""
-#~ "Nebylo možné přečíst soubor %s. Ujistěte se prosím, že se skutečně jedná "
-#~ "o obrázek."
+msgstr "Zarovnat vodorovně na střed"
