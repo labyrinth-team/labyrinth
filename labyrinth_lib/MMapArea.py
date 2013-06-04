@@ -189,10 +189,14 @@ class MMapArea (gtk.DrawingArea):
         utils.selected_colors["fill"] = utils.gtk_to_cairo_color(style.base[gtk.STATE_SELECTED])
 
     def transform_coords(self, loc_x, loc_y):
+        """Transform view co-ordinates (e.g. from a mouse event) to canvas
+        co-ordinates.
+        """
         if hasattr(self, "transform"):
             return self.transform.transform_point(loc_x, loc_y)
 
     def untransform_coords(self, loc_x, loc_y):
+        """Transform canvas co-ordinates to view co-ordinates."""
         if hasattr(self, "untransform"):
             return self.untransform.transform_point(loc_x, loc_y)
 
@@ -202,12 +206,15 @@ class MMapArea (gtk.DrawingArea):
         ret = False
         obj = self.find_object_at (coords)
         if event.button == 2:
+            # Middle button: prepare to drag canvas
             self.set_cursor (gtk.gdk.FLEUR)
             self.original_translation = self.translation
             self.origin_x = event.x
             self.origin_y = event.y
             return
+
         if obj and obj.want_motion ():
+            # Object is ready to receive drag events (e.g. for drawing)
             self.motion = obj
             ret = obj.process_button_down (event, self.mode, coords)
             if event.button == 1 and self.mode == MODE_EDITING:
@@ -215,17 +222,24 @@ class MMapArea (gtk.DrawingArea):
                 self.move_origin = (coords[0], coords[1])
                 self.move_origin_new = self.move_origin
             return ret
+
         if obj:
+            # Edit or drag object
             if event.button == 1 and self.mode == MODE_EDITING:
                 self.moving = not (event.state & gtk.gdk.CONTROL_MASK)
                 self.move_origin = (coords[0], coords[1])
                 self.move_origin_new = self.move_origin
             ret = obj.process_button_down (event, self.mode, coords)
+
         elif event.button == 1 and self.mode == MODE_EDITING and not self.editing:
+            # Drag a box to select thoughts
             self.bbox_origin = coords
             self.is_bbox_selecting = True
+        
         elif event.button == 3:
+            # Right click menu
             ret = self.create_popup_menu (None, event, MENU_EMPTY_SPACE)
+
         return ret
 
     def undo_move (self, action, mode):
@@ -255,6 +269,7 @@ class MMapArea (gtk.DrawingArea):
 
         ret = False
         if self.is_bbox_selecting:
+            # Finished with a selection box
             self.is_bbox_selecting = False
             self.invalidate ()
             try:
@@ -264,9 +279,12 @@ class MMapArea (gtk.DrawingArea):
                 pass
 
         if self.translate:
+            # Finish dragging canvas around
             self.translate = False
             return True
+
         if self.moving and self.move_action:
+            # Finish moving objects
             self.move_action.add_arg (coords)
             self.undo.add_undo (self.move_action)
             self.move_action = None
@@ -288,7 +306,9 @@ class MMapArea (gtk.DrawingArea):
             if len(self.selected) != 1:
                 self.invalidate()       # does not invalidate correctly with obj.get_max_area()
                 return ret
+
         elif self.unending_link or event.button == 1:
+            # Create a new thought.
             sel = self.selected
             thought = self.create_new_thought (coords)
             if not thought:
@@ -345,8 +365,10 @@ class MMapArea (gtk.DrawingArea):
         self.invalidate ()
 
     def scroll (self, widget, event):
+        """Mouse wheel events - zoom in/out"""
         scale = self.scale_fac
         if event.direction == gtk.gdk.SCROLL_UP:
+            # Zoom in
             if self.scale_fac > 10:
                 return  # Limit zoom in to 10x
             self.scale_fac*=1.2
@@ -361,7 +383,9 @@ class MMapArea (gtk.DrawingArea):
             # the centre move smoothly towards the cursor's location.
             self.translation[0] -= (coords[0] - middle[0])/4.0
             self.translation[1] -= (coords[1] - middle[1])/4.0
+
         elif event.direction == gtk.gdk.SCROLL_DOWN:
+            # Zoom out
             if self.scale_fac <= 0.1:
                 return  # Limit zoom out to 1/10th scale
             self.scale_fac/=1.2
@@ -399,17 +423,23 @@ class MMapArea (gtk.DrawingArea):
         return True
 
     def motion_event(self, widget, event):
+        """Handle a mouse movement. There are various possibilities depending
+        on the state."""
         coords = self.transform_coords (event.get_coords()[0], event.get_coords()[1])
 
         if self.motion:
             if self.motion.handle_motion (event, self.mode, coords):
                 return True
         obj = self.find_object_at (coords)
+
         if self.unending_link and not self.is_bbox_selecting:
+            # Ctrl-dragging to create a new link
             self.unending_link.set_end (coords)
             self.invalidate ()
             return True
+
         elif event.state & gtk.gdk.BUTTON1_MASK and self.is_bbox_selecting:
+            # Dragging selection box
             self.bbox_current = coords
             self.invalidate()
 
@@ -441,7 +471,9 @@ class MMapArea (gtk.DrawingArea):
                         self.selected.remove(t)
 
             return True
+
         elif self.moving and not self.editing and not self.unending_link:
+            # Moving thought(s) around
             self.set_cursor(gtk.gdk.FLEUR)
             if not self.move_action:
                 self.move_action = UndoManager.UndoAction (self, UNDO_MOVE, self.undo_move, self.move_origin,
@@ -451,12 +483,15 @@ class MMapArea (gtk.DrawingArea):
             self.move_origin_new = (coords[0], coords[1])
             self.invalidate ()
             return True
+
         elif self.editing and event.state & gtk.gdk.BUTTON1_MASK and not obj and not self.is_bbox_selecting:
             # We were too quick with the movement.  We really actually want to
             # create the unending link
             self.create_link (self.editing)
             self.finish_editing ()
+        
         elif event.state & gtk.gdk.BUTTON2_MASK:
+            # Middle mouse button held down: drag canvas around.
             self.translate = True
             self.translation[0] -= (self.origin_x - event.x) / self.scale_fac
             self.translation[1] -= (self.origin_y - event.y) / self.scale_fac
@@ -466,6 +501,7 @@ class MMapArea (gtk.DrawingArea):
             return True
 
         if obj:
+            # Pass the motion to the object, e.g. for drawing
             obj.handle_motion (event, self.mode, coords)
         elif self.mode == MODE_IMAGE or self.mode == MODE_DRAW:
             self.set_cursor(gtk.gdk.CROSSHAIR)
@@ -588,17 +624,20 @@ class MMapArea (gtk.DrawingArea):
             self.thoughts.append(thought)
 
         if modifiers and (modifiers & gtk.gdk.SHIFT_MASK or modifiers == -1):
+            # Shift-click: add thought to selection
             if self.selected.count (thought) == 0:
                 self.selected.append (thought)
         else:
             for x in self.selected:
                 x.unselect()
             self.selected = [thought]
+        
         self.current_root = []
         for x in self.selected:
             if x.can_be_parent():
                 self.current_root.append(x)
         thought.select ()
+        
         if len(self.selected) == 1:
             self.emit ("thought_selection_changed", thought.background_color, thought.foreground_color)
             self.background_color = thought.background_color
@@ -807,6 +846,7 @@ class MMapArea (gtk.DrawingArea):
                 t.draw(context)
 
         if self.is_bbox_selecting:
+            # Draw the dragged selection box
             xs = self.bbox_origin[0]
             ys = self.bbox_origin[1]
             xe = self.bbox_current[0] - xs
