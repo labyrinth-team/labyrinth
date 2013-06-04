@@ -62,10 +62,6 @@ class LabyrinthWindow (gobject.GObject):
     def __init__ (self, filename, imported=False):
         super(LabyrinthWindow, self).__init__()
 
-        # FIXME:  This can go when we move entirely to gtk 2.10
-        # pygtk 2.8 doesn't have the correct function :(
-        self.set_val = gtk.gtk_version[1] > 8
-
         # First, construct the MainArea and connect it all up
         self.undo = UndoManager.UndoManager (self)
         self.undo.block ()
@@ -196,8 +192,7 @@ class LabyrinthWindow (gobject.GObject):
 
         self.maximised = False
         self.view_type = 0
-        if self.set_val:
-            self.act.set_current_value (self.mode)
+        self.act.set_current_value (self.mode)
 
         self.undo.unblock ()
         self.start_timer ()
@@ -477,8 +472,7 @@ class LabyrinthWindow (gobject.GObject):
         self.mode = activated.get_current_value ()
 
     def mode_request_cb (self, widget, mode):
-        if self.set_val:
-            self.act.set_current_value (mode)
+        self.act.set_current_value (mode)
 
     def title_changed_cb (self, widget, new_title):
         self.title_cp = self.title_cp = _('Untitled Map')
