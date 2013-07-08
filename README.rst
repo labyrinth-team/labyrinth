@@ -81,7 +81,8 @@ thoughts (hold down the shift key to select > 1 thought) and choosing
 
 Loading and saving of maps is in the tomboy style - they are automatically
 saved, you shouldn't have to worry about them.  For reference anyway, the maps
-are saved in ``~/.gnome2/labyrinth/<longstring>.map``.
+are saved in ``$XDG_DATA_HOME/labyrinth/<longstring>.map``. Please see the Freedesktop 
+basedir specification for more information http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
 
 Future Plans
 ------------
