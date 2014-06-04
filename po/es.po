@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 #   <alzacon21@hotmail.com>, 2012.
 #   <victor1262@gmail.com>, 2012.
@@ -9,71 +9,71 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Labyrinth\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-23 18:55+0100\n"
+"POT-Creation-Date: 2014-06-04 11:45-0700\n"
 "PO-Revision-Date: 2012-12-11 14:43+0000\n"
 "Last-Translator: victor1262 <victor1262@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../labyrinth_lib/ImageThought.py:68
 msgid "Choose image to insert"
 msgstr "Elija imagen para insertar"
 
-#: ../labyrinth_lib/ImageThought.py:323
+#: ../labyrinth_lib/ImageThought.py:322
 msgid "Error loading file"
 msgstr "Error en cargando el archivo"
 
-#: ../labyrinth_lib/ImageThought.py:324
+#: ../labyrinth_lib/ImageThought.py:323
 #, python-format
 msgid "%s could not be found.  Associated thought will be empty."
 msgstr "No se pudo encontrar %s. El pensamiento asociado será vacío."
 
-#: ../labyrinth_lib/ImageThought.py:339
+#: ../labyrinth_lib/ImageThought.py:338
 msgid "Change Image"
 msgstr ""
 
-#: ../labyrinth_lib/Browser.py:192
+#: ../labyrinth_lib/Browser.py:194
 #, python-format
 msgid "Unable to display help: %s"
 msgstr ""
 
-#: ../labyrinth_lib/Browser.py:223
+#: ../labyrinth_lib/Browser.py:226
 msgid "Translation by Don Scorgie"
 msgstr ""
 
-#: ../labyrinth_lib/Browser.py:245
+#: ../labyrinth_lib/Browser.py:248
 msgid "The map cannot be deleted right now. Is it open?"
 msgstr "No se puede borrar el mapa. ¿Está abierto?"
 
-#: ../labyrinth_lib/Browser.py:247
+#: ../labyrinth_lib/Browser.py:250
 msgid "The map has no associated filename."
 msgstr "El mapa no tiene nombre de archivo asociado."
 
-#: ../labyrinth_lib/Browser.py:250
+#: ../labyrinth_lib/Browser.py:253
 msgid "Cannot delete this map"
 msgstr "No se puede borrar este mapa"
 
-#: ../labyrinth_lib/Browser.py:257
+#: ../labyrinth_lib/Browser.py:260
 msgid "Do you really want to delete this Map?"
 msgstr "¿Está seguro de que quiere borrar este Mapa?"
 
-#: ../labyrinth_lib/Browser.py:282
+#: ../labyrinth_lib/Browser.py:285
 msgid "Open File"
 msgstr "Abrir desde archivo"
 
-#: ../labyrinth_lib/Browser.py:286
+#: ../labyrinth_lib/Browser.py:289
 msgid "MAPZ Compressed Map (*.mapz)"
 msgstr "Mapa con compresión (*.mapz)"
 
-#: ../labyrinth_lib/Browser.py:317
+#: ../labyrinth_lib/Browser.py:320
 msgid "Map Name"
 msgstr "Nombre del Mapa"
 
-#: ../labyrinth_lib/Browser.py:324
+#: ../labyrinth_lib/Browser.py:327
 msgid "Last Modified"
 msgstr "Última modificación"
 
@@ -86,158 +86,160 @@ msgstr "Elija el color del fondo"
 msgid "Set Color"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:166 ../labyrinth_lib/MainWindow.py:481
+#: ../labyrinth_lib/MainWindow.py:162 ../labyrinth_lib/MainWindow.py:478
 msgid "Untitled Map"
 msgstr "Mapa sin nombre"
 
-#: ../labyrinth_lib/MainWindow.py:213
+#: ../labyrinth_lib/MainWindow.py:208
 msgid "File"
 msgstr "Archivo"
 
-#: ../labyrinth_lib/MainWindow.py:214
+#: ../labyrinth_lib/MainWindow.py:209
 msgid "Export as Image"
 msgstr "Guardar como imagen"
 
-#: ../labyrinth_lib/MainWindow.py:215
+#: ../labyrinth_lib/MainWindow.py:210
 msgid "Export your map as an image"
 msgstr "Guardar su mapa como un imagen"
 
-#: ../labyrinth_lib/MainWindow.py:216
+#: ../labyrinth_lib/MainWindow.py:211
 msgid "Export Map..."
 msgstr "Guardar Mapa…"
 
-#: ../labyrinth_lib/MainWindow.py:217
+#: ../labyrinth_lib/MainWindow.py:212
 msgid "Export your map as XML"
 msgstr "Guardar su mapa como XML"
 
-#: ../labyrinth_lib/MainWindow.py:219
+#: ../labyrinth_lib/MainWindow.py:214
 msgid "Close the current window"
 msgstr "Cierra la ventana actual"
 
-#: ../labyrinth_lib/MainWindow.py:220
+#: ../labyrinth_lib/MainWindow.py:215
 msgid "_Edit"
 msgstr "_Editar"
 
-#: ../labyrinth_lib/MainWindow.py:221
+#: ../labyrinth_lib/MainWindow.py:216
 msgid "_View"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:222
+#: ../labyrinth_lib/MainWindow.py:217
 msgid "_Toolbar"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:231
+#: ../labyrinth_lib/MainWindow.py:226
 #, fuzzy
 msgid "Link Thoughts"
 msgstr "(Des)Conectar Piensamientos"
 
-#: ../labyrinth_lib/MainWindow.py:232
+#: ../labyrinth_lib/MainWindow.py:227
 msgid "Link the selected thoughts"
 msgstr "(Des)Conectar los pensamientos eligidos"
 
-#: ../labyrinth_lib/MainWindow.py:233
+#: ../labyrinth_lib/MainWindow.py:228
 msgid "_Mode"
 msgstr "_Modo"
 
-#: ../labyrinth_lib/MainWindow.py:241
+#: ../labyrinth_lib/MainWindow.py:236
 msgid "_Edit Mode"
 msgstr "Modo _Edición"
 
-#: ../labyrinth_lib/MainWindow.py:242
+#: ../labyrinth_lib/MainWindow.py:237
 msgid "Turn on edit mode"
 msgstr "Activar modo edición"
 
-#: ../labyrinth_lib/MainWindow.py:243
+#: ../labyrinth_lib/MainWindow.py:238
 msgid "_Add Image"
 msgstr "_Añadir un imagen"
 
-#: ../labyrinth_lib/MainWindow.py:244
+#: ../labyrinth_lib/MainWindow.py:239
 msgid "Add an image to selected thought"
 msgstr "Añadir un imagen al pensamiento elegido"
 
-#: ../labyrinth_lib/MainWindow.py:245
+#: ../labyrinth_lib/MainWindow.py:240
 msgid "_Drawing Mode"
 msgstr "Modo de _Dibujar"
 
-#: ../labyrinth_lib/MainWindow.py:246
+#: ../labyrinth_lib/MainWindow.py:241
 msgid "Make a pretty drawing"
 msgstr "Hacer un dibujo bonito"
 
-#: ../labyrinth_lib/MainWindow.py:248
+#: ../labyrinth_lib/MainWindow.py:243
 msgid "Use _Curves"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:249
+#: ../labyrinth_lib/MainWindow.py:244
 msgid "Use curves as links"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:250
+#: ../labyrinth_lib/MainWindow.py:245
 msgid "Use _Lines"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:251
+#: ../labyrinth_lib/MainWindow.py:246
 msgid "Use straight lines as links"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:253
+#: ../labyrinth_lib/MainWindow.py:248
 msgid "_Extended Information"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:254
+#: ../labyrinth_lib/MainWindow.py:249
 #, fuzzy
 msgid "Show extended information for thoughts"
 msgstr "Ver información extendido de los pensamientos"
 
-#: ../labyrinth_lib/MainWindow.py:255
+#: ../labyrinth_lib/MainWindow.py:250
 msgid "_Main"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:256
+#: ../labyrinth_lib/MainWindow.py:251
 msgid "Show main toolbar"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:257
+#: ../labyrinth_lib/MainWindow.py:252
 msgid "_Format"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:258
+#: ../labyrinth_lib/MainWindow.py:253
 msgid "Show format toolbar"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:536
+#: ../labyrinth_lib/MainWindow.py:533
 msgid "Save File As"
 msgstr "Guardar Archivo Como"
 
-#: ../labyrinth_lib/MainWindow.py:630
+#: ../labyrinth_lib/MainWindow.py:627
 msgid "All Files"
 msgstr "Todos los Archivos"
 
-#: ../labyrinth_lib/MainWindow.py:631
+#: ../labyrinth_lib/MainWindow.py:628
 msgid "PNG Image (*.png)"
 msgstr "Imagen PNG (*.png)"
 
-#: ../labyrinth_lib/MainWindow.py:632
+#: ../labyrinth_lib/MainWindow.py:629
 msgid "JPEG Image (*.jpg, *.jpeg)"
 msgstr "Imagen JPEG (*.jpg, *.jpeg)"
 
-#: ../labyrinth_lib/MainWindow.py:633
+#: ../labyrinth_lib/MainWindow.py:630
 msgid "SVG Vector Image (*.svg)"
 msgstr "Imagen escalable SVG (*.svg)"
 
-#: ../labyrinth_lib/MainWindow.py:634
+#: ../labyrinth_lib/MainWindow.py:631
 msgid "PDF Portable Document (*.pdf)"
 msgstr "Documento de Formato Portátil PDF (*.pdf)"
 
-#: ../labyrinth_lib/MainWindow.py:670
+#: ../labyrinth_lib/MainWindow.py:669
 msgid "Unknown file format"
 msgstr "Formato de archivo desconocido"
 
-#: ../labyrinth_lib/MainWindow.py:671
+#: ../labyrinth_lib/MainWindow.py:670
 #, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
 "'.svg'."
-msgstr "No se soporta el tipo de archivo '%s'. Favor de usar el sufijo de '.png', '.jpg', o '.svg'."
+msgstr ""
+"No se soporta el tipo de archivo '%s'. Favor de usar el sufijo de '.png', '."
+"jpg', o '.svg'."
 
 #: ../labyrinth_lib/ResourceThought.py:128
 msgid "Edit Text"

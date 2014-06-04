@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Labyrinth\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-23 18:55+0100\n"
+"POT-Creation-Date: 2014-06-04 11:45-0700\n"
 "PO-Revision-Date: 2008-03-23 16:30+0300\n"
 "Last-Translator: Pedram Azimaie <carp3co@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -20,59 +20,59 @@ msgstr ""
 msgid "Choose image to insert"
 msgstr "عکس را برای ورود انتخاب کنید"
 
-#: ../labyrinth_lib/ImageThought.py:323
+#: ../labyrinth_lib/ImageThought.py:322
 msgid "Error loading file"
 msgstr "خطا در هنگام بار گزاری "
 
-#: ../labyrinth_lib/ImageThought.py:324
+#: ../labyrinth_lib/ImageThought.py:323
 #, python-format
 msgid "%s could not be found.  Associated thought will be empty."
 msgstr "%s پیدا نشد.تکفر مورد نظر خالی خواهد ماند"
 
-#: ../labyrinth_lib/ImageThought.py:339
+#: ../labyrinth_lib/ImageThought.py:338
 msgid "Change Image"
 msgstr ""
 
-#: ../labyrinth_lib/Browser.py:192
+#: ../labyrinth_lib/Browser.py:194
 #, python-format
 msgid "Unable to display help: %s"
 msgstr ""
 
-#: ../labyrinth_lib/Browser.py:223
+#: ../labyrinth_lib/Browser.py:226
 msgid "Translation by Don Scorgie"
 msgstr ""
 
-#: ../labyrinth_lib/Browser.py:245
+#: ../labyrinth_lib/Browser.py:248
 #, fuzzy
 msgid "The map cannot be deleted right now. Is it open?"
 msgstr "امکان حذف نقشه فراهم نیست,آیا نقشه باز است؟"
 
-#: ../labyrinth_lib/Browser.py:247
+#: ../labyrinth_lib/Browser.py:250
 msgid "The map has no associated filename."
 msgstr "نقشه هیچ نامی ندارد"
 
-#: ../labyrinth_lib/Browser.py:250
+#: ../labyrinth_lib/Browser.py:253
 msgid "Cannot delete this map"
 msgstr "امکان حذف نقشه وجود ندارد"
 
-#: ../labyrinth_lib/Browser.py:257
+#: ../labyrinth_lib/Browser.py:260
 msgid "Do you really want to delete this Map?"
 msgstr "واقعا میخواهید نقشه را حذف کنید؟"
 
-#: ../labyrinth_lib/Browser.py:282
+#: ../labyrinth_lib/Browser.py:285
 #, fuzzy
 msgid "Open File"
 msgstr "پرونده"
 
-#: ../labyrinth_lib/Browser.py:286
+#: ../labyrinth_lib/Browser.py:289
 msgid "MAPZ Compressed Map (*.mapz)"
 msgstr ""
 
-#: ../labyrinth_lib/Browser.py:317
+#: ../labyrinth_lib/Browser.py:320
 msgid "Map Name"
 msgstr "نام نقشه"
 
-#: ../labyrinth_lib/Browser.py:324
+#: ../labyrinth_lib/Browser.py:327
 msgid "Last Modified"
 msgstr ""
 
@@ -84,158 +84,158 @@ msgstr ""
 msgid "Set Color"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:166 ../labyrinth_lib/MainWindow.py:481
+#: ../labyrinth_lib/MainWindow.py:162 ../labyrinth_lib/MainWindow.py:478
 #, fuzzy
 msgid "Untitled Map"
 msgstr "نقشه بدون نام #%d"
 
-#: ../labyrinth_lib/MainWindow.py:213
+#: ../labyrinth_lib/MainWindow.py:208
 msgid "File"
 msgstr "پرونده"
 
-#: ../labyrinth_lib/MainWindow.py:214
+#: ../labyrinth_lib/MainWindow.py:209
 msgid "Export as Image"
 msgstr "صدور به صورت عکس"
 
-#: ../labyrinth_lib/MainWindow.py:215
+#: ../labyrinth_lib/MainWindow.py:210
 msgid "Export your map as an image"
 msgstr "صدور نقشه شما به صورت عکس"
 
-#: ../labyrinth_lib/MainWindow.py:216
+#: ../labyrinth_lib/MainWindow.py:211
 #, fuzzy
 msgid "Export Map..."
 msgstr "<b>صدور نقشه</b>"
 
-#: ../labyrinth_lib/MainWindow.py:217
+#: ../labyrinth_lib/MainWindow.py:212
 #, fuzzy
 msgid "Export your map as XML"
 msgstr "صدور نقشه شما به صورت عکس"
 
-#: ../labyrinth_lib/MainWindow.py:219
+#: ../labyrinth_lib/MainWindow.py:214
 msgid "Close the current window"
 msgstr "بستن پنجره فعلی"
 
-#: ../labyrinth_lib/MainWindow.py:220
+#: ../labyrinth_lib/MainWindow.py:215
 msgid "_Edit"
 msgstr "_ویرایش"
 
-#: ../labyrinth_lib/MainWindow.py:221
+#: ../labyrinth_lib/MainWindow.py:216
 msgid "_View"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:222
+#: ../labyrinth_lib/MainWindow.py:217
 msgid "_Toolbar"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:231
+#: ../labyrinth_lib/MainWindow.py:226
 #, fuzzy
 msgid "Link Thoughts"
 msgstr "(خذف)پیوند تفکرات"
 
-#: ../labyrinth_lib/MainWindow.py:232
+#: ../labyrinth_lib/MainWindow.py:227
 #, fuzzy
 msgid "Link the selected thoughts"
 msgstr "(خذف)پیوند تفکرات انتخاب شده"
 
-#: ../labyrinth_lib/MainWindow.py:233
+#: ../labyrinth_lib/MainWindow.py:228
 msgid "_Mode"
 msgstr "_نوع"
 
-#: ../labyrinth_lib/MainWindow.py:241
+#: ../labyrinth_lib/MainWindow.py:236
 msgid "_Edit Mode"
 msgstr "_حالت ویرایش"
 
-#: ../labyrinth_lib/MainWindow.py:242
+#: ../labyrinth_lib/MainWindow.py:237
 msgid "Turn on edit mode"
 msgstr "روشن کردن حالت ویرایش"
 
-#: ../labyrinth_lib/MainWindow.py:243
+#: ../labyrinth_lib/MainWindow.py:238
 msgid "_Add Image"
 msgstr "_افزودن عکس"
 
-#: ../labyrinth_lib/MainWindow.py:244
+#: ../labyrinth_lib/MainWindow.py:239
 msgid "Add an image to selected thought"
 msgstr "افزودن عکس به تفکر انتخاب شده"
 
-#: ../labyrinth_lib/MainWindow.py:245
+#: ../labyrinth_lib/MainWindow.py:240
 msgid "_Drawing Mode"
 msgstr "حالت ـنقاشی"
 
-#: ../labyrinth_lib/MainWindow.py:246
+#: ../labyrinth_lib/MainWindow.py:241
 msgid "Make a pretty drawing"
 msgstr "ساخت نقاشی قشنگ"
 
-#: ../labyrinth_lib/MainWindow.py:248
+#: ../labyrinth_lib/MainWindow.py:243
 msgid "Use _Curves"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:249
+#: ../labyrinth_lib/MainWindow.py:244
 msgid "Use curves as links"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:250
+#: ../labyrinth_lib/MainWindow.py:245
 msgid "Use _Lines"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:251
+#: ../labyrinth_lib/MainWindow.py:246
 msgid "Use straight lines as links"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:253
+#: ../labyrinth_lib/MainWindow.py:248
 msgid "_Extended Information"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:254
+#: ../labyrinth_lib/MainWindow.py:249
 #, fuzzy
 msgid "Show extended information for thoughts"
 msgstr "نمایش اطلاعات گسترده برای تفکرات"
 
-#: ../labyrinth_lib/MainWindow.py:255
+#: ../labyrinth_lib/MainWindow.py:250
 msgid "_Main"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:256
+#: ../labyrinth_lib/MainWindow.py:251
 msgid "Show main toolbar"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:257
+#: ../labyrinth_lib/MainWindow.py:252
 msgid "_Format"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:258
+#: ../labyrinth_lib/MainWindow.py:253
 msgid "Show format toolbar"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:536
+#: ../labyrinth_lib/MainWindow.py:533
 msgid "Save File As"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:630
+#: ../labyrinth_lib/MainWindow.py:627
 #, fuzzy
 msgid "All Files"
 msgstr "پرونده"
 
-#: ../labyrinth_lib/MainWindow.py:631
+#: ../labyrinth_lib/MainWindow.py:628
 msgid "PNG Image (*.png)"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:632
+#: ../labyrinth_lib/MainWindow.py:629
 msgid "JPEG Image (*.jpg, *.jpeg)"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:633
+#: ../labyrinth_lib/MainWindow.py:630
 msgid "SVG Vector Image (*.svg)"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:634
+#: ../labyrinth_lib/MainWindow.py:631
 msgid "PDF Portable Document (*.pdf)"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:670
+#: ../labyrinth_lib/MainWindow.py:669
 msgid "Unknown file format"
 msgstr "پرونده نامشخص"
 
-#: ../labyrinth_lib/MainWindow.py:671
+#: ../labyrinth_lib/MainWindow.py:670
 #, fuzzy, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "

@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # jui <appukonrad@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Labyrinth\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-23 18:55+0100\n"
+"POT-Creation-Date: 2014-06-04 11:45-0700\n"
 "PO-Revision-Date: 2013-01-14 11:34+0000\n"
 "Last-Translator: jui <appukonrad@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,57 +22,57 @@ msgstr ""
 msgid "Choose image to insert"
 msgstr "Vyberte obrázek, který chcete vložit"
 
-#: ../labyrinth_lib/ImageThought.py:323
+#: ../labyrinth_lib/ImageThought.py:322
 msgid "Error loading file"
 msgstr "Chyba při otevírání obrázku"
 
-#: ../labyrinth_lib/ImageThought.py:324
+#: ../labyrinth_lib/ImageThought.py:323
 #, python-format
 msgid "%s could not be found.  Associated thought will be empty."
 msgstr "Nebylo možné nalézt soubor %s. Myšlenka zůstane prázdná."
 
-#: ../labyrinth_lib/ImageThought.py:339
+#: ../labyrinth_lib/ImageThought.py:338
 msgid "Change Image"
 msgstr "Změnit obrázek"
 
-#: ../labyrinth_lib/Browser.py:192
+#: ../labyrinth_lib/Browser.py:194
 #, python-format
 msgid "Unable to display help: %s"
 msgstr ""
 
-#: ../labyrinth_lib/Browser.py:223
+#: ../labyrinth_lib/Browser.py:226
 msgid "Translation by Don Scorgie"
 msgstr "Překlad"
 
-#: ../labyrinth_lib/Browser.py:245
+#: ../labyrinth_lib/Browser.py:248
 msgid "The map cannot be deleted right now. Is it open?"
 msgstr "Mapu nelze právě teď odstranit. Není otevřená?"
 
-#: ../labyrinth_lib/Browser.py:247
+#: ../labyrinth_lib/Browser.py:250
 msgid "The map has no associated filename."
 msgstr "Mapa nemá přiřazeno žádné jméno"
 
-#: ../labyrinth_lib/Browser.py:250
+#: ../labyrinth_lib/Browser.py:253
 msgid "Cannot delete this map"
 msgstr "Tuto mapu nelze smazat"
 
-#: ../labyrinth_lib/Browser.py:257
+#: ../labyrinth_lib/Browser.py:260
 msgid "Do you really want to delete this Map?"
 msgstr "Opravdu chcete smazat tuto mapu?"
 
-#: ../labyrinth_lib/Browser.py:282
+#: ../labyrinth_lib/Browser.py:285
 msgid "Open File"
 msgstr "Otevřít soubor"
 
-#: ../labyrinth_lib/Browser.py:286
+#: ../labyrinth_lib/Browser.py:289
 msgid "MAPZ Compressed Map (*.mapz)"
 msgstr "MAPZ Komprimovaná Mapa (*. Mapz)"
 
-#: ../labyrinth_lib/Browser.py:317
+#: ../labyrinth_lib/Browser.py:320
 msgid "Map Name"
 msgstr "Jméno mapy"
 
-#: ../labyrinth_lib/Browser.py:324
+#: ../labyrinth_lib/Browser.py:327
 msgid "Last Modified"
 msgstr "Poslední změny"
 
@@ -84,156 +84,158 @@ msgstr "Změna barvy"
 msgid "Set Color"
 msgstr "Nastavení barvy"
 
-#: ../labyrinth_lib/MainWindow.py:166 ../labyrinth_lib/MainWindow.py:481
+#: ../labyrinth_lib/MainWindow.py:162 ../labyrinth_lib/MainWindow.py:478
 msgid "Untitled Map"
 msgstr "Mapa bez názvu"
 
-#: ../labyrinth_lib/MainWindow.py:213
+#: ../labyrinth_lib/MainWindow.py:208
 msgid "File"
 msgstr "Soubor"
 
-#: ../labyrinth_lib/MainWindow.py:214
+#: ../labyrinth_lib/MainWindow.py:209
 msgid "Export as Image"
 msgstr "Exportovat jako obrázek"
 
-#: ../labyrinth_lib/MainWindow.py:215
+#: ../labyrinth_lib/MainWindow.py:210
 msgid "Export your map as an image"
 msgstr "Vyexportuje vaši mapu jako obrázek"
 
-#: ../labyrinth_lib/MainWindow.py:216
+#: ../labyrinth_lib/MainWindow.py:211
 msgid "Export Map..."
 msgstr "Export mapy..."
 
-#: ../labyrinth_lib/MainWindow.py:217
+#: ../labyrinth_lib/MainWindow.py:212
 msgid "Export your map as XML"
 msgstr "Export vaší mapy, jako XML"
 
-#: ../labyrinth_lib/MainWindow.py:219
+#: ../labyrinth_lib/MainWindow.py:214
 msgid "Close the current window"
 msgstr "Zavřít současné okno"
 
-#: ../labyrinth_lib/MainWindow.py:220
+#: ../labyrinth_lib/MainWindow.py:215
 msgid "_Edit"
 msgstr "_Úpravy"
 
-#: ../labyrinth_lib/MainWindow.py:221
+#: ../labyrinth_lib/MainWindow.py:216
 msgid "_View"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:222
+#: ../labyrinth_lib/MainWindow.py:217
 msgid "_Toolbar"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:231
+#: ../labyrinth_lib/MainWindow.py:226
 msgid "Link Thoughts"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:232
+#: ../labyrinth_lib/MainWindow.py:227
 msgid "Link the selected thoughts"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:233
+#: ../labyrinth_lib/MainWindow.py:228
 msgid "_Mode"
 msgstr "Režim"
 
-#: ../labyrinth_lib/MainWindow.py:241
+#: ../labyrinth_lib/MainWindow.py:236
 msgid "_Edit Mode"
 msgstr "R_ežim Úprav"
 
-#: ../labyrinth_lib/MainWindow.py:242
+#: ../labyrinth_lib/MainWindow.py:237
 msgid "Turn on edit mode"
 msgstr "Zapne režim úprav"
 
-#: ../labyrinth_lib/MainWindow.py:243
+#: ../labyrinth_lib/MainWindow.py:238
 msgid "_Add Image"
 msgstr "Přid_at Obrázek"
 
-#: ../labyrinth_lib/MainWindow.py:244
+#: ../labyrinth_lib/MainWindow.py:239
 msgid "Add an image to selected thought"
 msgstr "Vloží obrázek do vybrané myšlenky"
 
-#: ../labyrinth_lib/MainWindow.py:245
+#: ../labyrinth_lib/MainWindow.py:240
 msgid "_Drawing Mode"
 msgstr "Režim _Kreslení"
 
-#: ../labyrinth_lib/MainWindow.py:246
+#: ../labyrinth_lib/MainWindow.py:241
 msgid "Make a pretty drawing"
 msgstr "Nakreslete něco pěkného"
 
-#: ../labyrinth_lib/MainWindow.py:248
+#: ../labyrinth_lib/MainWindow.py:243
 msgid "Use _Curves"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:249
+#: ../labyrinth_lib/MainWindow.py:244
 msgid "Use curves as links"
 msgstr "použít křivky, jako linky"
 
-#: ../labyrinth_lib/MainWindow.py:250
+#: ../labyrinth_lib/MainWindow.py:245
 msgid "Use _Lines"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:251
+#: ../labyrinth_lib/MainWindow.py:246
 msgid "Use straight lines as links"
 msgstr "Použít přímé linky, jako odkazy"
 
-#: ../labyrinth_lib/MainWindow.py:253
+#: ../labyrinth_lib/MainWindow.py:248
 msgid "_Extended Information"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:254
+#: ../labyrinth_lib/MainWindow.py:249
 msgid "Show extended information for thoughts"
 msgstr "Zobrazit rozšířené informace pro myšlenky"
 
-#: ../labyrinth_lib/MainWindow.py:255
+#: ../labyrinth_lib/MainWindow.py:250
 msgid "_Main"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:256
+#: ../labyrinth_lib/MainWindow.py:251
 msgid "Show main toolbar"
 msgstr "Zobrazit hlavní panel nástrojů"
 
-#: ../labyrinth_lib/MainWindow.py:257
+#: ../labyrinth_lib/MainWindow.py:252
 msgid "_Format"
 msgstr ""
 
-#: ../labyrinth_lib/MainWindow.py:258
+#: ../labyrinth_lib/MainWindow.py:253
 msgid "Show format toolbar"
 msgstr "Zobrazit panel nástrojů Formátu"
 
-#: ../labyrinth_lib/MainWindow.py:536
+#: ../labyrinth_lib/MainWindow.py:533
 msgid "Save File As"
 msgstr "Uložit soubor jako"
 
-#: ../labyrinth_lib/MainWindow.py:630
+#: ../labyrinth_lib/MainWindow.py:627
 msgid "All Files"
 msgstr "Všechny soubory"
 
-#: ../labyrinth_lib/MainWindow.py:631
+#: ../labyrinth_lib/MainWindow.py:628
 msgid "PNG Image (*.png)"
 msgstr "PNG Obrázek (*.png)"
 
-#: ../labyrinth_lib/MainWindow.py:632
+#: ../labyrinth_lib/MainWindow.py:629
 msgid "JPEG Image (*.jpg, *.jpeg)"
 msgstr "JPEG Obrázek (*.jpg, *.jpeg)"
 
-#: ../labyrinth_lib/MainWindow.py:633
+#: ../labyrinth_lib/MainWindow.py:630
 msgid "SVG Vector Image (*.svg)"
 msgstr "SVG Vektorový obrázek (*.svg)"
 
-#: ../labyrinth_lib/MainWindow.py:634
+#: ../labyrinth_lib/MainWindow.py:631
 msgid "PDF Portable Document (*.pdf)"
 msgstr "PDF Přenosný dokument (*.pdf)"
 
-#: ../labyrinth_lib/MainWindow.py:670
+#: ../labyrinth_lib/MainWindow.py:669
 msgid "Unknown file format"
 msgstr "Neznámý formát souboru"
 
-#: ../labyrinth_lib/MainWindow.py:671
+#: ../labyrinth_lib/MainWindow.py:670
 #, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
 "'.svg'."
-msgstr "Soubor typu '%s' není podporován.  Použíjte prosím soubor s příponou '.png', '.jpg' , nebo '.svg'."
+msgstr ""
+"Soubor typu '%s' není podporován.  Použíjte prosím soubor s příponou '.png', "
+"'.jpg' , nebo '.svg'."
 
 #: ../labyrinth_lib/ResourceThought.py:128
 msgid "Edit Text"
