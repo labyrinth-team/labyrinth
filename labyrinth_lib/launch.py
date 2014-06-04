@@ -35,6 +35,17 @@ def prepare_locale():
     gtk.glade.bindtextdomain('labyrinth')
     gtk.glade.textdomain('labyrinth')
 
+def set_win_taskbar_app():
+    "On Windows 7, use our own icon in the taskbar rather than the Python one."
+    if os.name != 'nt':
+        return
+    import ctypes
+    myappid = 'labyrinth_team.labyrinth' # arbitrary string
+    try:
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+    except AttributeError:
+        # That function doesn't exist on Windows XP
+        pass
 
 def main():
     parser = optparse.OptionParser()
@@ -52,6 +63,7 @@ def main():
         options.hide_main_window=False
 
     prepare_locale()
+    set_win_taskbar_app()
 
     MapBrowser = Browser.Browser (
             start_hidden = options.hide_main_window,

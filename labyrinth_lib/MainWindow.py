@@ -88,7 +88,7 @@ class LabyrinthWindow (gobject.GObject):
             except:
                 self.main_window.set_icon_from_file(utils.get_data_file_name('labyrinth.svg'))
         else:
-            self.main_window.set_icon_from_file(utils.get_data_file_name('labyrinth-24.png'))
+            self.main_window.set_icon_from_file(utils.get_data_file_name('labyrinth-32.png'))
 
         # insert menu, toolbar and map
         self.create_menu()

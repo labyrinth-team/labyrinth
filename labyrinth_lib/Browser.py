@@ -118,7 +118,7 @@ class Browser (gtk.Window):
             except:
                 self.main_window.set_icon_from_file(utils.get_data_file_name('labyrinth.svg'))
         else:
-            self.main_window.set_icon_from_file(utils.get_data_file_name('labyrinth-24.png'))
+            self.main_window.set_icon_from_file(utils.get_data_file_name('labyrinth-32.png'))
         if tray_icon:
             self.main_window.connect ('delete_event', self.toggle_main_window, None)
             traymenu = gtk.Menu()
@@ -204,7 +204,7 @@ class Browser (gtk.Window):
                 pass
         else:
             about_dialog.set_logo (gtk.gdk.pixbuf_new_from_file(
-                utils.get_data_file_name("labyrinth-24.png")))
+                utils.get_data_file_name("labyrinth-32.png")))
         about_dialog.set_license (
 "Labyrinth is free software; you can redistribute it and/or modify "
 "it under the terms of the GNU General Public Licence as published by "
