@@ -28,7 +28,11 @@ from os.path import join, dirname, exists, isdir, isfile
 import os
 import warnings
 from numpy import array
-from xdg import BaseDirectory
+try:
+    from xdg import BaseDirectory
+except ImportError:
+    if os.name != 'nt':
+        raise
 
 __BE_VERBOSE=os.environ.get('DEBUG_LABYRINTH',0)
 if __BE_VERBOSE:
@@ -103,18 +107,21 @@ __data_dir = None
 def get_data_dir():
     '''returns the data dir. Tries to find it the first time its called'''
     global __data_dir
-    if os.name != 'nt':
+    if __data_dir is not None:
+        return __data_dir
 
-        if __data_dir is None:
-            #decide wether we run under development or if the program has been installed
-            path = join(dirname(__file__), '..')
-            if exists(path) and isdir(path) and isfile(path+"/AUTHORS"):
-                __data_dir = os.sep.join([dirname(__file__), '..' , 'data'])
-            else:
-                __data_dir = "/usr/share/labyrinth"
+    #decide wether we run under development or if the program has been installed
+    path = join(dirname(__file__), '..')
+    if isdir(path) and isfile(join(path, "AUTHORS")):
+        # Running in development
+        __data_dir = join(path , 'data')
+
     else:
-        if __data_dir is None:
-            __data_dir = join (".","data")
+        # Running installed
+        if os.name != 'nt':
+            __data_dir = "/usr/share/labyrinth"
+        else:
+            __data_dir = join(dirname(sys.argv[0]),"data")
     return __data_dir
 
 def get_data_file_name (file_name):
