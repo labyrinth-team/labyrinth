@@ -27,7 +27,6 @@ import sys
 from os.path import join, dirname, exists, isdir, isfile
 import os
 import warnings
-from numpy import array
 try:
     from xdg import BaseDirectory
 except ImportError:
@@ -196,17 +195,3 @@ def export_thought_outline (context, ul, lr, background_color, am_root = False, 
     real_ul = (ul[0]+move[0], ul[1]+move[1])
     real_lr = (lr[0]+move[0], lr[1]+move[1])
     draw_thought_extended (context, real_ul, real_lr, False, am_primary, background_color, style == STYLE_EXTENDED_CONTENT)
-
-def pixbuf_to_cairo (pixel_array):
-    result = []
-    for y in pixel_array:
-        row = []
-        for x in y:
-            color = [int(x[2][0]), int(x[1][0]), int(x[0][0])]
-            if len(x) == 3:
-                color.append(255)
-            elif len(x) == 4:
-                color.append(int(x[3][0]))
-            row.append(color)
-        result.append(row)
-    return array(result, 'b')

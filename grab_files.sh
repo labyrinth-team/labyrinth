@@ -1,3 +1,11 @@
+# This script downloads, unpacks and arranges the necessary compiled libraries
+# to build a Windows installer for Labyrinth. After running this, you can use
+# Pynsist (http://pynsist.readthedocs.org/) to build the installer by running:
+#  pynsist installer.cfg
+
+# At present, this is a Linux shell script, because that was the easiest way to
+# write it. We can translate it into Python if you want to run it on Windows.
+
 # Download the necessary files
 wget -O gtkbundle.zip http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.24/gtk+-bundle_2.24.10-20120208_win32.zip
 wget -O pygobject.exe http://ftp.gnome.org/pub/GNOME/binaries/win32/pygobject/2.28/pygobject-2.28.3.win32-py2.7.exe
@@ -55,5 +63,3 @@ rm -r libxml2
 unzip -d iconv iconv.zip
 cp iconv/iconv-*/bin/iconv.dll pynsist_pkgs/gtk/bin/
 rm -r iconv
-
-# We also need numpy, but fetching that is not automated yet.
