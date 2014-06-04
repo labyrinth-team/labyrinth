@@ -680,7 +680,7 @@ class LabyrinthWindow (gobject.GObject):
         native = not rad.get_active ()
         dialog.destroy ()
 
-        if mime in ['png', 'jpg']:
+        if mime in ['png', 'jpeg']:
             self.save_as_pixmap(filename, mime, true_width, true_height, bitdepth, native)
         else:
             surface = None
