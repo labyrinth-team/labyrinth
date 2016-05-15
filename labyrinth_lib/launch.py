@@ -4,6 +4,7 @@ import optparse
 import os
 import os.path as osp
 import sys
+import MainWindow
 
 pygtk.require('2.0')
 
@@ -47,7 +48,21 @@ def set_win_taskbar_app():
         # That function doesn't exist on Windows XP
         pass
 
-def main():
+def main(filepath=None):
+    print('launch.main')
+    prepare_locale()
+    print('after prepare locale')
+#    MapBrowser = Browser.Browser (
+#        start_hidden = False,
+#        tray_icon = False,
+#        filepath=filepath
+#    )
+    mainWindow = MainWindow.LabyrinthWindow(filename=filepath)
+    mainWindow.show()
+    gtk.main()
+    print('end of launch.main')
+
+def main_old():
     parser = optparse.OptionParser()
     parser.add_option("--use-tray-icon", dest="tray_icon",
             action="store_true", default=False)

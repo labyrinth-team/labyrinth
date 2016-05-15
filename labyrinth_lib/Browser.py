@@ -51,7 +51,7 @@ class Browser (gtk.Window):
     COL_TITLE = 1
     COL_MODTIME = 2
 
-    def __init__(self, start_hidden, tray_icon):
+    def __init__(self, start_hidden, tray_icon, filepath=None):
         super(Browser, self).__init__()
         self.glade=gtk.glade.XML(utils.get_data_file_name('labyrinth.glade'))
         self.view = self.glade.get_widget ('MainView')
