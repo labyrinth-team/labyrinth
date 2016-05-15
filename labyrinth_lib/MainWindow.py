@@ -208,8 +208,10 @@ class LabyrinthWindow (gobject.GObject):
                 ('FileMenu', None, _('File')),
                 ('Export', None, _('Export as Image'), None,
                  _("Export your map as an image"), self.export_cb),
-                ('ExportMap', gtk.STOCK_SAVE_AS, _('Export Map...'), '<control>S',
+                ('ExportMap', gtk.STOCK_SAVE_AS, _('Export Map'), '<control>S',
                  _("Export your map as XML"), self.export_map_cb),
+                ('ExportMapAs', gtk.STOCK_SAVE_AS, _('Export Map As...'), None,
+                 _("Export your map as XML"), self.export_map_as_cb),
                 ('Close', gtk.STOCK_CLOSE, None, '<control>W',
                  _('Close the current window'), self.close_window_cb),
                 ('EditMenu', None, _('_Edit')),
@@ -530,21 +532,26 @@ class LabyrinthWindow (gobject.GObject):
         self.emit ('file_saved', self.save_file, self)
 
     def export_map_cb(self, event):
+        if 'last_export_filename' not in self.__dict__:
+            return self.export_map_as_cb(event)
+        filename = self.last_export_filename
+        self.MainArea.save_thyself ()
+        tf = tarfile.open (filename, "w")
+        tf.add (self.save_file, os.path.basename(self.save_file))
+        for t in self.MainArea.thoughts:
+            if isinstance(t, ImageThought.ImageThought):
+                tf.add (t.filename, 'images/' + os.path.basename(t.filename))
+        tf.close()
+
+    def export_map_as_cb(self, event):
         chooser = gtk.FileChooserDialog(title=_("Save File As"), action=gtk.FILE_CHOOSER_ACTION_SAVE, \
                                                                         buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK))
         chooser.set_current_name ("%s.mapz" % self.main_window.title)
         response = chooser.run()
         if response == gtk.RESPONSE_OK:
             filename = chooser.get_filename ()
-            self.MainArea.save_thyself ()
-            tf = tarfile.open (filename, "w")
-            tf.add (self.save_file, os.path.basename(self.save_file))
-            for t in self.MainArea.thoughts:
-                if isinstance(t, ImageThought.ImageThought):
-                    tf.add (t.filename, 'images/' + os.path.basename(t.filename))
-
-            tf.close()
-
+            self.last_export_filename = filename
+            self.export_map_cb(event)
         chooser.destroy()
 
     def parse_file (self, filename):

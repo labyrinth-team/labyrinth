@@ -3,6 +3,7 @@
     <menu action="FileMenu">
       <menuitem action="Export"/>
       <menuitem action="ExportMap"/>
+      <menuitem action="ExportMapAs"/>
       <separator/>
       <menuitem action="Close"/>
     </menu>
