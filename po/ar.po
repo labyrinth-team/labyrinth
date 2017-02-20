@@ -3,316 +3,315 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Alexandre Prokoudine <alexandre.prokoudine@gmail.com>, 2006
-# Светлана Гречко, 2016
+# Omar Anwar <omaraglan91@yahoo.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Labyrinth\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-04 11:45-0700\n"
-"PO-Revision-Date: 2016-12-22 12:38+0000\n"
-"Last-Translator: Светлана Гречко\n"
-"Language-Team: Russian (http://www.transifex.com/takluyver/labyrinth/language/ru/)\n"
+"PO-Revision-Date: 2017-02-20 21:06+0000\n"
+"Last-Translator: Omar Anwar <omaraglan91@yahoo.com>\n"
+"Language-Team: Arabic (http://www.transifex.com/takluyver/labyrinth/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #: ../labyrinth_lib/ImageThought.py:68
 msgid "Choose image to insert"
-msgstr "Выберите изображения для вставки"
+msgstr "أختر صورة للادخالها"
 
 #: ../labyrinth_lib/ImageThought.py:322
 msgid "Error loading file"
-msgstr "Ошибка при загрузке файла"
+msgstr "خطأ فى تحميل الملف"
 
 #: ../labyrinth_lib/ImageThought.py:323
 #, python-format
 msgid "%s could not be found.  Associated thought will be empty."
-msgstr "Не удалось найти %s.  Ассоциированная мысль будет пустой."
+msgstr "%s لا يمكن إيجاده.  الفكرة الملحقة سوف تكون فارغة."
 
 #: ../labyrinth_lib/ImageThought.py:338
 msgid "Change Image"
-msgstr "Изменить изображение"
+msgstr "غير الصورة"
 
 #: ../labyrinth_lib/Browser.py:194
 #, python-format
 msgid "Unable to display help: %s"
-msgstr "Невозможно показать справку: %s"
+msgstr "غير قادر على إظهار المساعدة: %s"
 
 #: ../labyrinth_lib/Browser.py:226
 msgid "Translation by Don Scorgie"
-msgstr "Перевод Don Scorgie"
+msgstr "الترجمة بواسطة \"Don Scorgie\""
 
 #: ../labyrinth_lib/Browser.py:248
 msgid "The map cannot be deleted right now. Is it open?"
-msgstr "Невозможно удалить карту. Возможно, она открыта."
+msgstr "الخريطة لا يمكن مسحها الآن. هل هى مفتوحة؟"
 
 #: ../labyrinth_lib/Browser.py:250
 msgid "The map has no associated filename."
-msgstr "С этой картой не ассоциировано ни одно имя файла."
+msgstr "هذة الخريطة لا يوجد اسم مُلحق بها."
 
 #: ../labyrinth_lib/Browser.py:253
 msgid "Cannot delete this map"
-msgstr "Невозможно удалить эту карту"
+msgstr "لا يمكن مسح هذه الخريطة"
 
 #: ../labyrinth_lib/Browser.py:260
 msgid "Do you really want to delete this Map?"
-msgstr "Вы действительно хотите удалить эту карту?"
+msgstr "هل تريد حقا مسح هذة الخريطة؟"
 
 #: ../labyrinth_lib/Browser.py:285
 msgid "Open File"
-msgstr "Открыть файл"
+msgstr "أفتح ملف"
 
 #: ../labyrinth_lib/Browser.py:289
 msgid "MAPZ Compressed Map (*.mapz)"
-msgstr "Сжатая карта MAPZ (*.mapz)"
+msgstr "MAPZ Compressed Map (*.mapz)"
 
 #: ../labyrinth_lib/Browser.py:320
 msgid "Map Name"
-msgstr "Название карты"
+msgstr "اسم الخريطة"
 
 #: ../labyrinth_lib/Browser.py:327
 msgid "Last Modified"
-msgstr "Последнее изменение"
+msgstr "التعديل الاخير"
 
 #: ../labyrinth_lib/Links.py:265
 msgid "Choose Color"
-msgstr "Выбрать цвет"
+msgstr "اختر اللون"
 
 #: ../labyrinth_lib/Links.py:278
 msgid "Set Color"
-msgstr "Установить цвет"
+msgstr "ضَع اللون"
 
 #: ../labyrinth_lib/MainWindow.py:162 ../labyrinth_lib/MainWindow.py:478
 msgid "Untitled Map"
-msgstr "Карта без названия"
+msgstr "خريطة غير مسماة"
 
 #: ../labyrinth_lib/MainWindow.py:208
 msgid "File"
-msgstr "Файл"
+msgstr "ملف"
 
 #: ../labyrinth_lib/MainWindow.py:209
 msgid "Export as Image"
-msgstr "Экспортировать как изображение"
+msgstr "صدر كصورة"
 
 #: ../labyrinth_lib/MainWindow.py:210
 msgid "Export your map as an image"
-msgstr "Экспортировать карту как изображение"
+msgstr "صدر خريطتك كصورة"
 
 #: ../labyrinth_lib/MainWindow.py:211
 msgid "Export Map..."
-msgstr "Экспорт карты..."
+msgstr "صدر خريطة..."
 
 #: ../labyrinth_lib/MainWindow.py:212
 msgid "Export your map as XML"
-msgstr "Экспортировать карту как XML"
+msgstr "صدر خريطتك كـ XML"
 
 #: ../labyrinth_lib/MainWindow.py:214
 msgid "Close the current window"
-msgstr "Закрыть активное окно"
+msgstr "اغلق النافذة الحالية"
 
 #: ../labyrinth_lib/MainWindow.py:215
 msgid "_Edit"
-msgstr "_Правка"
+msgstr "_عَدل"
 
 #: ../labyrinth_lib/MainWindow.py:216
 msgid "_View"
-msgstr "_Вид"
+msgstr "_أظهر"
 
 #: ../labyrinth_lib/MainWindow.py:217
 msgid "_Toolbar"
-msgstr "П_анель инструментов"
+msgstr "_شريط الأدوات"
 
 #: ../labyrinth_lib/MainWindow.py:226
 msgid "Link Thoughts"
-msgstr ""
+msgstr "روابط الافكار"
 
 #: ../labyrinth_lib/MainWindow.py:227
 msgid "Link the selected thoughts"
-msgstr ""
+msgstr "أربط الفكرة المحددة"
 
 #: ../labyrinth_lib/MainWindow.py:228
 msgid "_Mode"
-msgstr "_Режим"
+msgstr "_وضع"
 
 #: ../labyrinth_lib/MainWindow.py:236
 msgid "_Edit Mode"
-msgstr "Р_ежим правки"
+msgstr "_وضع التعديل"
 
 #: ../labyrinth_lib/MainWindow.py:237
 msgid "Turn on edit mode"
-msgstr "Переключиться на режим правки"
+msgstr "شغل وضع التعديل"
 
 #: ../labyrinth_lib/MainWindow.py:238
 msgid "_Add Image"
-msgstr "Добавить _изображение"
+msgstr "_أضف صورة"
 
 #: ../labyrinth_lib/MainWindow.py:239
 msgid "Add an image to selected thought"
-msgstr "Добавить изображение к выбранной мысли"
+msgstr "أضف صورة الى الفكرة الحالية"
 
 #: ../labyrinth_lib/MainWindow.py:240
 msgid "_Drawing Mode"
-msgstr "Рисование"
+msgstr "_وضع الرسم"
 
 #: ../labyrinth_lib/MainWindow.py:241
 msgid "Make a pretty drawing"
-msgstr "Добавить мысли"
+msgstr "أصنع رسم جميل"
 
 #: ../labyrinth_lib/MainWindow.py:243
 msgid "Use _Curves"
-msgstr "Использовать _кривые"
+msgstr "أستخدم _المنحنيات"
 
 #: ../labyrinth_lib/MainWindow.py:244
 msgid "Use curves as links"
-msgstr "Использовать кривые как ссылки"
+msgstr "أستخدم المنحنيات كروابط"
 
 #: ../labyrinth_lib/MainWindow.py:245
 msgid "Use _Lines"
-msgstr "Использовать _линии"
+msgstr "أستخدم _خطوط"
 
 #: ../labyrinth_lib/MainWindow.py:246
 msgid "Use straight lines as links"
-msgstr "Использовать прямые линии как ссылки"
+msgstr "أستخدم الخطوط المستقيمة كروابط"
 
 #: ../labyrinth_lib/MainWindow.py:248
 msgid "_Extended Information"
-msgstr "_Дополнительная информация"
+msgstr "_معلومات موسعة"
 
 #: ../labyrinth_lib/MainWindow.py:249
 msgid "Show extended information for thoughts"
-msgstr ""
+msgstr "أظهر معلومات موسعة للفكرة"
 
 #: ../labyrinth_lib/MainWindow.py:250
 msgid "_Main"
-msgstr "_Главная"
+msgstr "_رئيسي"
 
 #: ../labyrinth_lib/MainWindow.py:251
 msgid "Show main toolbar"
-msgstr "Показать главную панель"
+msgstr "أظهر شريط الأدوات الرئيسي"
 
 #: ../labyrinth_lib/MainWindow.py:252
 msgid "_Format"
-msgstr "_Формат"
+msgstr "_الصيغة"
 
 #: ../labyrinth_lib/MainWindow.py:253
 msgid "Show format toolbar"
-msgstr "Показать панель Формат"
+msgstr "أظهر شريط أدوات الصيغة"
 
 #: ../labyrinth_lib/MainWindow.py:533
 msgid "Save File As"
-msgstr "Сохранить файл как"
+msgstr "أحفظ الملف كـ"
 
 #: ../labyrinth_lib/MainWindow.py:627
 msgid "All Files"
-msgstr "Все файлы"
+msgstr "كل الملفات"
 
 #: ../labyrinth_lib/MainWindow.py:628
 msgid "PNG Image (*.png)"
-msgstr "Изображение PNG (*.png)"
+msgstr "PNG Image (*.png)"
 
 #: ../labyrinth_lib/MainWindow.py:629
 msgid "JPEG Image (*.jpg, *.jpeg)"
-msgstr "Изображение JPEG (*.jpg, *.jpeg)"
+msgstr "JPEG Image (*.jpg, *.jpeg)"
 
 #: ../labyrinth_lib/MainWindow.py:630
 msgid "SVG Vector Image (*.svg)"
-msgstr "Векторное изображение SVG (*.svg)"
+msgstr "SVG Vector Image (*.svg)"
 
 #: ../labyrinth_lib/MainWindow.py:631
 msgid "PDF Portable Document (*.pdf)"
-msgstr "Документ PDF (*.pdf)"
+msgstr "PDF Portable Document (*.pdf)"
 
 #: ../labyrinth_lib/MainWindow.py:669
 msgid "Unknown file format"
-msgstr "Неизвестный формат файлов"
+msgstr "نوع ملف غير معروف"
 
 #: ../labyrinth_lib/MainWindow.py:670
 #, python-format
 msgid ""
 "The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
 "'.svg'."
-msgstr "Файлы с типом '%s' не поддерживаются. Используйте суффикс '.png', '.jpg' или '.svg'."
+msgstr "نوع الملف  '%s' هذا غير مدعوم. من فضلك استخدم الانواع '.png', '.jpg' or '.svg'."
 
 #: ../labyrinth_lib/ResourceThought.py:128
 msgid "Edit Text"
-msgstr "Редактировать текст"
+msgstr "عدل الكتابة"
 
 #: ../labyrinth_lib/ResourceThought.py:133
 msgid "Edit URI"
-msgstr "Редактировать URL"
+msgstr "عدل الرابط"
 
 #: ../labyrinth_lib/DrawingThought.py:65
 #, python-format
 msgid "Drawing #%d"
-msgstr "Рисунок #%d"
+msgstr "يرسم #%d"
 
 #: ../data/labyrinth.glade:7
 msgid "Export Map as Image"
-msgstr "Экспорт карты как изображения"
+msgstr "تصدير الخريطة كصورة"
 
 #: ../data/labyrinth.glade:87
 msgid "Complete Map"
-msgstr "Карта полностью"
+msgstr "خريطة كاملة"
 
 #: ../data/labyrinth.glade:101
 msgid "Visible Area"
-msgstr "Видимая область"
+msgstr "المنطقة المظهرة"
 
 #: ../data/labyrinth.glade:157
 msgid "Width"
-msgstr "Ширина"
+msgstr "العرض"
 
 #: ../data/labyrinth.glade:172
 msgid "Height"
-msgstr "Высота"
+msgstr "الطول"
 
 #: ../data/labyrinth.glade:226
 msgid "<b>Export Map</b>"
-msgstr "<b>Экспорт карты</b>"
+msgstr "<b>صَدر الخريطة</b>"
 
 #: ../data/labyrinth.glade:245
 msgid "Labyrinth Maps"
-msgstr "Ассоциативные карты в Labyrinth"
+msgstr "خرائط \"Labyrinth\""
 
 #: ../data/labyrinth.glade:259
 msgid "_File"
-msgstr "_Файл"
+msgstr "ملف"
 
 #: ../data/labyrinth.glade:299
 msgid "Import..."
-msgstr "Импорт..."
+msgstr "أستورد"
 
 #: ../data/labyrinth.glade:329
 msgid "_Help"
-msgstr "_Справка"
+msgstr "مساعدة"
 
 #: ../data/labyrinth.glade:765
 msgid "URL"
-msgstr "URL"
+msgstr "رابط"
 
 #: ../data/labyrinth.glade:806
 msgid "Align Left"
-msgstr "По левому краю"
+msgstr "محاذاة شمالاً"
 
 #: ../data/labyrinth.glade:825
 msgid "Align Right"
-msgstr "По правому краю"
+msgstr "محاذاة يميناً"
 
 #: ../data/labyrinth.glade:844
 msgid "Align Vertical Center"
-msgstr "Вертикально по центру"
+msgstr "محاذاة منتصف عمودى"
 
 #: ../data/labyrinth.glade:863
 msgid "Align Top"
-msgstr "По верхнему краю"
+msgstr "محاذاة للاعلى"
 
 #: ../data/labyrinth.glade:882
 msgid "Align Bottom"
-msgstr "По нижнему краю"
+msgstr "محاذاة للاسفل"
 
 #: ../data/labyrinth.glade:901
 msgid "Align Horizontal Center"
-msgstr "Горизонтально по центру"
+msgstr "محاذاة المنتصف الافقى"

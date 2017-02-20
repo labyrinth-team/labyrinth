@@ -1,4 +1,4 @@
-LANGS=ca cs de es eu fa fr it nl pl pt_BR pt_PT ru sv zh_CN
+LANGS=ar ca cs de el es eu fa fr it nl pl pt_BR pt_PT ru sv zh_CN
 
 LANG_FOLDERS:=$(addprefix $(localedir)/,$(LANGS))
 INST_MO:=$(addsuffix /LC_MESSAGES/labyrinth.mo,$(LANG_FOLDERS))
