@@ -60,6 +60,7 @@ class LabyrinthWindow (gobject.GObject):
                                           (gobject.TYPE_OBJECT, )))
 
     def __init__ (self, filename, imported=False):
+        self.save_file = filename
         super(LabyrinthWindow, self).__init__()
 
         # First, construct the MainArea and connect it all up
@@ -185,10 +186,10 @@ class LabyrinthWindow (gobject.GObject):
         # Other stuff
         self.width, self.height = self.main_window.get_size ()
 
-        # if we import, we dump the old filename to create a new hashed one
-        self.save_file = None
-        if not imported:
-            self.save_file = filename
+#        # if we import, we dump the old filename to create a new hashed one
+#        self.save_file = None
+#        if not imported:
+#            self.save_file = filename
 
         self.maximised = False
         self.view_type = 0
@@ -208,8 +209,10 @@ class LabyrinthWindow (gobject.GObject):
                 ('FileMenu', None, _('File')),
                 ('Export', None, _('Export as Image'), None,
                  _("Export your map as an image"), self.export_cb),
-                ('ExportMap', gtk.STOCK_SAVE_AS, _('Export Map...'), '<control>S',
-                 _("Export your map as XML"), self.export_map_cb),
+                ('Save', gtk.STOCK_SAVE_AS, _('Save'), '<control>S',
+                 _("Save"), self.export_map_cb),
+                ('SaveAs', gtk.STOCK_SAVE_AS, _('Save As...'), None,
+                 _("Save As..."), self.export_map_as_cb),
                 ('Close', gtk.STOCK_CLOSE, None, '<control>W',
                  _('Close the current window'), self.close_window_cb),
                 ('EditMenu', None, _('_Edit')),
@@ -493,8 +496,9 @@ class LabyrinthWindow (gobject.GObject):
     def close_window_cb (self, event):
         self.SaveTimer.cancel = True
         self.main_window.hide ()
-        self.MainArea.save_thyself ()
+#        self.MainArea.save_thyself ()
         del (self)
+        gtk.main_quit ()
 
     def doc_del_cb (self, widget):
         self.emit ('window_closed', None)
@@ -515,36 +519,26 @@ class LabyrinthWindow (gobject.GObject):
     def doc_save_cb (self, widget, doc, top_element):
         save_string = self.serialize_to_xml(doc, top_element)
         if not self.save_file:
-            hsh = hashlib.sha256 (save_string)
-            save_loc = utils.get_save_dir ()
-            self.save_file = os.path.join (save_loc, hsh.hexdigest() + ".map")
-            counter = 1
-            while os.path.exists(self.save_file):
-                print "Warning: Duplicate File. Saving to alternative"
-                alt_name = "Dup" + str(counter) + hsh.hexdigest() + ".map"
-                self.save_file = save_loc + os.path.join (save_loc, alt_name)
-                counter += 1
+            self.export_map_as_cb(None)
 
         with open(self.save_file, 'w') as f:
             f.write(save_string)
         self.emit ('file_saved', self.save_file, self)
 
     def export_map_cb(self, event):
+        if self.save_file is None:
+            return self.export_map_as_cb(event)
+        self.MainArea.save_thyself ()
+
+    def export_map_as_cb(self, event):
         chooser = gtk.FileChooserDialog(title=_("Save File As"), action=gtk.FILE_CHOOSER_ACTION_SAVE, \
-                                                                        buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK))
-        chooser.set_current_name ("%s.mapz" % self.main_window.title)
+                                                                        buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_SAVE_AS, gtk.RESPONSE_OK))
+        chooser.set_current_name ("%s.map" % self.main_window.title)
         response = chooser.run()
         if response == gtk.RESPONSE_OK:
             filename = chooser.get_filename ()
-            self.MainArea.save_thyself ()
-            tf = tarfile.open (filename, "w")
-            tf.add (self.save_file, os.path.basename(self.save_file))
-            for t in self.MainArea.thoughts:
-                if isinstance(t, ImageThought.ImageThought):
-                    tf.add (t.filename, 'images/' + os.path.basename(t.filename))
-
-            tf.close()
-
+            self.save_file = filename
+            self.MainArea.save_thyself()
         chooser.destroy()
 
     def parse_file (self, filename):

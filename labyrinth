@@ -21,5 +21,11 @@
 # Boston, MA  02110-1301  USA
 #
 
+import sys
 from labyrinth_lib import main
-main()
+
+filepath = None
+if len(sys.argv) == 2:
+  filepath = sys.argv[1]
+main(filepath=filepath)
+

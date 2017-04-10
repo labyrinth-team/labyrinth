@@ -1,5 +1,6 @@
 __version__ = "0.7a1"
 
-def main():
+def main(filepath=None):
+    print('init main')
     from .launch import main
-    main()
+    main(filepath=filepath)
