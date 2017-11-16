@@ -623,7 +623,7 @@ class MMapArea (gtk.DrawingArea):
         if thought not in self.thoughts:
             self.thoughts.append(thought)
 
-        if modifiers and (modifiers & gtk.gdk.SHIFT_MASK or modifiers == -1):
+        if modifiers and (modifiers & (gtk.gdk.SHIFT_MASK | gtk.gdk.CONTROL_MASK) or modifiers == -1):
             # Shift-click: add thought to selection
             if self.selected.count (thought) == 0:
                 self.selected.append (thought)
