@@ -1,6 +1,9 @@
 Labyrinth
 =========
 
+**No-one is actively maintaining Labyrinth at the moment. If you're interested in
+taking it on, please open an issue to discuss it.**
+
 Labyrinth is a lightweight mind-mapping tool, written in Python using Gtk and
 Cairo to do the drawing.  It is intended to be as light and intuitive as
 possible, but still provide a wide range of powerful features.
