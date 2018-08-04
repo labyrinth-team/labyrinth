@@ -14,5 +14,8 @@ install -m 644 data/labyrinth.svg $DESTDIR/usr/share/icons/hicolor/scalable/apps
 echo "Installing .desktop file"
 install -D -m 755 data/labyrinth.desktop $DESTDIR/usr/share/applications/labyrinth.desktop
 
+echo "Installing .appdata.xml file"
+install -D -m 644 data/labyrinth.appdata.xml $DESTDIR/usr/share/appdata/labyrinth.appdata.xml
+
 echo "Installing translations"
 make -C po localedir=$DESTDIR/usr/share/locale install
