@@ -23,8 +23,8 @@ from gi.repository import GObject
 from gi.repository import Gdk
 from gi.repository import Pango
 
-import utils
-import TextBufferMarkup
+from . import utils
+from . import TextBufferMarkup
 
 MODE_EDITING = 0
 MODE_IMAGE = 1

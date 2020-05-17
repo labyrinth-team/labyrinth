@@ -25,10 +25,10 @@ from gi.repository import Gtk, Gdk, Pango, PangoCairo
 import os
 import xml.dom
 
-import utils
-import BaseThought
-import UndoManager
-import prefs
+from . import utils
+from . import BaseThought
+from . import UndoManager
+from . import prefs
 
 UNDO_ADD_ATTR=64
 UNDO_ADD_ATTR_SELECTION=65

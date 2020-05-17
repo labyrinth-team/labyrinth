@@ -27,7 +27,7 @@ from xml.parsers.expat import ExpatError
 
 from gi.repository import Gtk
 
-import utils
+from . import utils
 
 class MapList(object):
     COL_ID = 0

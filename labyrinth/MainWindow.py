@@ -37,13 +37,13 @@ if os.name != 'nt':
     from gi.repository import GConf
 
 # Local imports
-import MMapArea
-import UndoManager
-import PeriodicSaveThread
-import ImageThought
-import BaseThought
-import utils
-from MapList import MapList
+from . import MMapArea
+from . import UndoManager
+from . import PeriodicSaveThread
+from . import ImageThought
+from . import BaseThought
+from . import utils
+from .MapList import MapList
 
 # UNDO varieties for us
 UNDO_MODE = 0

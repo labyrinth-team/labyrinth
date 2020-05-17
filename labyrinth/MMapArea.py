@@ -34,13 +34,13 @@ from gi.repository import GObject
 from gi.repository import Pango
 import cairo
 
-import Links
-import TextThought
-import ImageThought
-import DrawingThought
-import ResourceThought
-import UndoManager
-import utils
+from . import Links
+from . import TextThought
+from . import ImageThought
+from . import DrawingThought
+from . import ResourceThought
+from . import UndoManager
+from . import utils
 
 RAD_UP = (- math.pi / 2.)
 RAD_DOWN = (math.pi / 2.)

@@ -27,9 +27,9 @@ import math
 
 from gi.repository import Gtk, Gdk
 
-import BaseThought
-import utils
-import UndoManager
+from . import BaseThought
+from . import utils
+from . import UndoManager
 
 STYLE_CONTINUE=0
 STYLE_END=1

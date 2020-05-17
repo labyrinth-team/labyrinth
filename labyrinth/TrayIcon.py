@@ -30,7 +30,7 @@ import sys
 import os
 from gi.repository import Gtk
 
-from utils import *
+from .utils import *
 
 class TrayIcon(object):
     """This is possibly the thinnest wrapper class I've written. Ever.

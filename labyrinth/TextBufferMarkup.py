@@ -23,7 +23,7 @@ from gi.repository import Gtk
 from gi.repository import GObject
 from gi.repository import Pango
 
-import UndoManager
+from . import UndoManager
 
 ADD_ATTR = 42
 REMOVE_ATTR = 43

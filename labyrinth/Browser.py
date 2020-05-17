@@ -37,10 +37,10 @@ from gi.repository import GObject
 from gi.repository import GdkPixbuf
 
 # Local imports
-import utils
-import MainWindow
-from MapList import MapList
-import TrayIcon
+from . import utils
+from . import MainWindow
+from .MapList import MapList
+from . import TrayIcon
 
 AUTHORS = ['Don Scorgie <Don@Scorgie.org>',
                    'Martin Schaaf <mascha@ma-scha.de>',

@@ -31,9 +31,9 @@ from gi.repository import Gtk
 import cairo
 
 # Local imports
-import BaseThought
-import utils
-import UndoManager
+from . import BaseThought
+from . import utils
+from . import UndoManager
 
 MODE_EDITING = 0
 MODE_IMAGE = 1

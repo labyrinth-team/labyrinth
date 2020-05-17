@@ -27,8 +27,8 @@ from gi.repository import GObject
 from gi.repository import Gtk
 from gi.repository import Gdk
 
-import BaseThought
-import utils
+from . import BaseThought
+from . import utils
 
 
 def norm(x, y):
