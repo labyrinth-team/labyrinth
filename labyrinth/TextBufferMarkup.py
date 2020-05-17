@@ -94,7 +94,7 @@ class ExtendedBuffer(Gtk.TextBuffer):
     def apply_attrs_cb (self, buffer, iter, text, length):
         prev_iter = iter.copy()
         if not prev_iter.backward_chars(length):
-            print "Errored"
+            print("Errored")
         for x in self.current_tags:
             self.apply_tag_by_name(x, prev_iter, iter)
         return False
@@ -202,7 +202,7 @@ class ExtendedBuffer(Gtk.TextBuffer):
 
                 self.apply_tag_by_name(attrType, start_it, end_it)
             else:
-                print "Error: Unknown type: %s.  Ignoring." % n.nodeName
+                print("Error: Unknown type: %s.  Ignoring." % n.nodeName)
         if mark:
             ins_iter = self.get_iter_at_offset(mark)
             self.move_mark_by_name("insert", ins_iter)

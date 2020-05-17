@@ -516,7 +516,7 @@ class MMapArea (Gtk.DrawingArea):
 
     def make_primary (self, thought):
         if self.primary:
-            print "Warning: Already have a primary root"
+            print("Warning: Already have a primary root")
             if self.title_change_handler:
                 self.primary.disconnect (self.title_change_handler)
         self.title_change_handler = thought.connect ("title_changed", self.title_changed_cb)
@@ -992,7 +992,7 @@ class MMapArea (Gtk.DrawingArea):
         self.links.remove (link)
 
     def popup_menu_key (self, event):
-        print "Popup Menu Key"
+        print("Popup Menu Key")
 
     def find_related_thought (self, radians):
         # Find thought within angle
@@ -1163,7 +1163,7 @@ class MMapArea (Gtk.DrawingArea):
             elif node.nodeName == "link":
                 self.load_link (node)
             else:
-                print "Warning: Unknown element type.  Ignoring: "+node.nodeName
+                print("Warning: Unknown element type.  Ignoring: "+node.nodeName)
 
         self.finish_loading ()
 

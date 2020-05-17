@@ -363,7 +363,7 @@ class LabyrinthWindow (GObject.GObject):
             translation_x = 5
             translation_y = 0
         else:
-            print "Error"
+            print("Error")
             return
         GObject.timeout_add (20, self.translate_timeout, translation_x, translation_y)
         self.tr_to = True
@@ -528,7 +528,7 @@ class LabyrinthWindow (GObject.GObject):
             counter = 1
             while os.path.exists(self.save_file):
 
-                print "Warning: Duplicate File.  Saving to alternative"
+                print("Warning: Duplicate File.  Saving to alternative")
                 self.save_file = save_loc + "Dup"+str(counter)+hsh.hexdigest()+".map"
                 counter += 1
 

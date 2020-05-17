@@ -188,12 +188,12 @@ class Link (GObject.GObject):
         self.parent_number = self.child_number = -1
         tmp = node.getAttribute ("end")
         if not tmp:
-            print "No tmp found"
+            print("No tmp found")
             return
         self.end = utils.parse_coords (tmp)
         tmp = node.getAttribute ("start")
         if not tmp:
-            print "No start found"
+            print("No start found")
             return
         self.start = utils.parse_coords (tmp)
         self.strength = int(node.getAttribute ("strength"))

@@ -313,7 +313,7 @@ class ImageThought (BaseThought.ResizableThought):
             if n.nodeName == "Extended":
                 self.extended_buffer.load(n)
             else:
-                print "Unknown: "+n.nodeName
+                print("Unknown: "+n.nodeName)
         margin = utils.margin_required (utils.STYLE_NORMAL)
         self.pic_location = (self.ul[0]+margin[0], self.ul[1]+margin[1])
         self.okay = self.open_image (self.filename)

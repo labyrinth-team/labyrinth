@@ -235,7 +235,7 @@ class UndoManager:
         if self.blocked:
             return
         if not isinstance(action, UndoAction):
-            print "Error: Not a valid undo action.  Ignoring."
+            print("Error: Not a valid undo action.  Ignoring.")
             return
         del self.redo_list[:]
         if action.undo_type == INSERT_LETTER:

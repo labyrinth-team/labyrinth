@@ -138,7 +138,7 @@ def margin_required (style = STYLE_NORMAL):
     if style == STYLE_NORMAL:
         return margin_thought_classic ()
     else:
-        print "Error: Unknown thought margine style: "+str(style)
+        print("Error: Unknown thought margine style: "+str(style))
 
 # Classic thought style drawing code
 def margin_thought_classic ():

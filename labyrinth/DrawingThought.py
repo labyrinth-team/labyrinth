@@ -525,7 +525,7 @@ class DrawingThought (BaseThought.ResizableThought):
                     pass
                 self.points.append (self.DrawingPoint (c, style, col))
             else:
-                print "Unknown node type: "+str(n.nodeName)
+                print("Unknown node type: "+str(n.nodeName))
 
     def export (self, context, move_x, move_y):
         utils.export_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_NORMAL,

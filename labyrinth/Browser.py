@@ -183,7 +183,7 @@ class Browser (Gtk.Window):
         if map is None:
             raise "you clicked the 'open' button bud had no map selected"
         if map.window:
-            print "Window for map '%s' is already open" % map.title
+            print("Window for map '%s' is already open" % map.title)
             # may be the window should be raised?
         else:
             self.open_map (map)
@@ -192,7 +192,7 @@ class Browser (Gtk.Window):
         try:
             Gtk.show_uri(None, "ghelp:labyrinth", 0)
         except GObject.GError as e:
-            print _('Unable to display help: %s') % str(e)
+            print(_('Unable to display help: %s') % str(e))
 
     def about_clicked (self, arg):
         about_dialog = Gtk.AboutDialog()

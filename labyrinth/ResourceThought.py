@@ -86,7 +86,7 @@ class ResourceThought (TextThought.TextThought):
             self.recalc_edges ()
         if not self.editing:
             if not self.ul or not self.lr:
-                print "Warning: Trying to draw unfinished box "+str(self.identity)+". Aborting."
+                print("Warning: Trying to draw unfinished box "+str(self.identity)+". Aborting.")
                 return
             utils.draw_thought_extended (context, self.ul, self.lr, \
                     self.am_selected, self.am_primary, self.background_color, False, True)
