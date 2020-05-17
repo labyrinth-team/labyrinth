@@ -119,7 +119,6 @@
                             <property name="secondary_icon_activatable">False</property>
                             <property name="primary_icon_sensitive">True</property>
                             <property name="secondary_icon_sensitive">True</property>
-                            <property name="adjustment"></property>
                             <property name="climb_rate">1</property>
                           </object>
                           <packing>
@@ -138,7 +137,6 @@
                             <property name="secondary_icon_activatable">False</property>
                             <property name="primary_icon_sensitive">True</property>
                             <property name="secondary_icon_sensitive">True</property>
-                            <property name="adjustment"></property>
                             <property name="climb_rate">1</property>
                           </object>
                           <packing>
