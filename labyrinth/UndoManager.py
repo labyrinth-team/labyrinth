@@ -42,7 +42,7 @@ class UndoAction:
         if undo_type == INSERT_LETTER or undo_type == INSERT_WORD or undo_type == DELETE_LETTER or \
            undo_type == DELETE_WORD:
             for z in args:
-                if isinstance(z, basestring):
+                if isinstance(z, str):
                     self.text = z
                     break
         self.args = args
