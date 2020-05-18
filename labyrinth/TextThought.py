@@ -181,16 +181,16 @@ class TextThought (BaseThought.BaseThought):
         if pango_font:
             to_add.append(Pango.AttrFontDesc(pango_font, self.index, self.index))
         for x in self.current_attrs:
-            if x.type == Pango.AttrType.WEIGHT and x.value == Pango.Weight.BOLD:
+            if x.klass.type == Pango.AttrType.WEIGHT and x.value == Pango.Weight.BOLD:
                 bold = True
                 to_add.append(x)
-            if x.type == Pango.AttrType.STYLE and x.value == Pango.Style.ITALIC:
+            if x.klass.type == Pango.AttrType.STYLE and x.value == Pango.Style.ITALIC:
                 italics = True
                 to_add.append(x)
-            if x.type == Pango.AttrType.UNDERLINE and x.value == Pango.Underline.SINGLE:
+            if x.klass.type == Pango.AttrType.UNDERLINE and x.value == Pango.Underline.SINGLE:
                 underline = True
                 to_add.append(x)
-            if x.type == Pango.AttrType.FONT_DESC:
+            if x.klass.type == Pango.AttrType.FONT_DESC:
                 pango_font = x.desc
                 to_add.append(x)
         del self.current_attrs
@@ -209,10 +209,9 @@ class TextThought (BaseThought.BaseThought):
         r *= 65536
         g *= 65536
         b *= 65536
-        if self.index > self.end_index:
-            bgsel = Pango.AttrBackground(int(r), int(g), int(b), self.end_index, self.index)
-        else:
-            bgsel = Pango.AttrBackground(int(r), int(g), int(b), self.index, self.end_index)
+        bgsel = Pango.attr_background_new(int(r), int(g), int(b))
+        bgsel.start_index = min(self.index, self.end_index)
+        bgsel.end_index = max(self.index, self.end_index)
         self.attrlist.insert (bgsel)
 
         self.layout = Pango.Layout(self.pango_context)
@@ -1168,7 +1167,9 @@ class TextThought (BaseThought.BaseThought):
         start, end = minmax(self.index, self.end_index)
 
         pango_font = Pango.FontDescription (font_name)
-        attr = Pango.AttrFontDesc (pango_font, start, end)
+        attr = Pango.attr_font_desc_new(pango_font)
+        attr.start_index = start
+        attr.end_index = end
 
         if start == end:
             self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR,
