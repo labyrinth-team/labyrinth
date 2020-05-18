@@ -1362,7 +1362,7 @@ class CursorFactory:
         self.__dict__ = self.__shared_state
 
     def get_cursor(self, cur_type):
-        if not self.cursors.has_key(cur_type):
+        if cur_type not in self.cursors:
             cur = Gdk.Cursor(cur_type)
             self.cursors[cur_type] = cur
         return self.cursors[cur_type]
