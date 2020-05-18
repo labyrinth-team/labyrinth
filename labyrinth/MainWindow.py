@@ -532,7 +532,7 @@ class LabyrinthWindow (GObject.GObject):
                 self.save_file = save_loc + "Dup"+str(counter)+hsh.hexdigest()+".map"
                 counter += 1
 
-        with open(self.save_file, 'w') as f:
+        with open(self.save_file, 'wb') as f:
             f.write(save_string)
         self.emit ('file_saved', self.save_file, self)
 
