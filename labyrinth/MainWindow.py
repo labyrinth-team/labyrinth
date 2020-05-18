@@ -485,7 +485,7 @@ class LabyrinthWindow (GObject.GObject):
         self.title_cp = self.title_cp = _('Untitled Map')
         if new_title != '':
             split = new_title.splitlines ()
-            self.title_cp = reduce(lambda x,y : x + ' ' + y, split)
+            self.title_cp = ' '.join(split)
 
         if len(self.title_cp) > 27:
             x = self.title_cp[:27] + "..."
