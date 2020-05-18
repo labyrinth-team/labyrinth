@@ -174,22 +174,29 @@ class MMapArea (Gtk.DrawingArea):
         # set theme colors
         w = Gtk.Window()
         w.realize()
-        style = w.get_style()
-        self.pango_context.set_font_description(style.font_desc)
-        self.font_name = style.font_desc.to_string()
+        style_ctx = w.get_style_context()
+        font_desc = style_ctx.get_font(Gtk.StateFlags.NORMAL)
+        self.pango_context.set_font_description(font_desc)
+        self.font_name = font_desc.to_string()
         utils.default_font = self.font_name
 
-        utils.default_colors["text"] = utils.gtk_to_cairo_color(style.text[Gtk.StateType.NORMAL])
-        utils.default_colors["base"] = utils.gtk_to_cairo_color(style.base[Gtk.StateType.NORMAL])
-        self.background_color = style.base[Gtk.StateType.NORMAL]
-        self.foreground_color = style.text[Gtk.StateType.NORMAL]
-        utils.default_colors["bg"] = utils.gtk_to_cairo_color(style.bg[Gtk.StateType.NORMAL])
-        utils.default_colors["fg"] = utils.gtk_to_cairo_color(style.fg[Gtk.StateType.NORMAL])
+        fg_color = style_ctx.get_color(Gtk.StateFlags.NORMAL)
+        bg_color = style_ctx.get_background_color(Gtk.StateFlags.NORMAL)
 
-        utils.selected_colors["text"] = utils.gtk_to_cairo_color(style.text[Gtk.StateType.SELECTED])
-        utils.selected_colors["bg"] = utils.gtk_to_cairo_color(style.bg[Gtk.StateType.SELECTED])
-        utils.selected_colors["fg"] = utils.gtk_to_cairo_color(style.fg[Gtk.StateType.SELECTED])
-        utils.selected_colors["fill"] = utils.gtk_to_cairo_color(style.base[Gtk.StateType.SELECTED])
+        utils.default_colors["text"] = utils.gtk_to_cairo_color(fg_color)
+        utils.default_colors["base"] = utils.gtk_to_cairo_color(bg_color)
+        self.background_color = bg_color
+        self.foreground_color = fg_color
+        utils.default_colors["bg"] = utils.gtk_to_cairo_color(bg_color)
+        utils.default_colors["fg"] = utils.gtk_to_cairo_color(fg_color)
+
+        fg_selected_color = style_ctx.get_color(Gtk.StateFlags.SELECTED)
+        bg_selected_color = style_ctx.get_background_color(Gtk.StateFlags.SELECTED)
+
+        utils.selected_colors["text"] = utils.gtk_to_cairo_color(fg_selected_color)
+        utils.selected_colors["bg"] = utils.gtk_to_cairo_color(bg_selected_color)
+        utils.selected_colors["fg"] = utils.gtk_to_cairo_color(fg_selected_color)
+        utils.selected_colors["fill"] = utils.gtk_to_cairo_color(bg_selected_color)
 
     def transform_coords(self, loc_x, loc_y):
         if hasattr(self, "transform"):

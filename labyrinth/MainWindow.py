@@ -456,9 +456,9 @@ class LabyrinthWindow (GObject.GObject):
 
     def thought_selected_cb (self, arg, background_color, foreground_color):
         if background_color:
-            self.background_widget.set_color(background_color)
+            self.background_widget.set_color(background_color.to_color())
         if foreground_color:
-            self.foreground_widget.set_color(foreground_color)
+            self.foreground_widget.set_color(foreground_color.to_color())
 
     def main_area_focus_cb (self, arg, event, extended = False):
         if not extended:
