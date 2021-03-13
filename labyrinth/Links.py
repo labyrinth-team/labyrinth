@@ -272,12 +272,11 @@ class Link (GObject.GObject):
     def set_color_cb(self, widget):
         dialog = Gtk.ColorSelectionDialog(_('Choose Color'))
         dialog.connect('response', self.color_selection_ok_cb)
-        self.color_sel = dialog.colorsel
         dialog.run()
 
     def color_selection_ok_cb(self, dialog, response_id):
         if response_id == Gtk.ResponseType.OK:
-            self.color = self.color_sel.get_current_rgba()
+            self.color = dialog.get_color_selection().get_current_rgba()
         dialog.destroy()
 
     def get_popup_menu_items(self):
