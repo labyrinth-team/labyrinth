@@ -413,7 +413,7 @@ class MMapArea (Gtk.DrawingArea):
             self.unending_link.set_end (coords)
             self.invalidate ()
             return True
-        elif event.state & Gdk.EventMask.BUTTON1_MOTION_MASK and self.is_bbox_selecting:
+        elif event.state & Gdk.ModifierType.BUTTON1_MASK and self.is_bbox_selecting:
             self.bbox_current = coords
             self.invalidate()
 
@@ -455,12 +455,12 @@ class MMapArea (Gtk.DrawingArea):
             self.move_origin_new = (coords[0], coords[1])
             self.invalidate ()
             return True
-        elif self.editing and event.state & Gdk.EventMask.BUTTON1_MOTION_MASK and not obj and not self.is_bbox_selecting:
+        elif self.editing and event.state & Gdk.ModifierType.BUTTON1_MASK and not obj and not self.is_bbox_selecting:
             # We were too quick with the movement.  We really actually want to
             # create the unending link
             self.create_link (self.editing)
             self.finish_editing ()
-        elif event.state & Gdk.EventMask.BUTTON2_MOTION_MASK:
+        elif event.state & Gdk.ModifierType.BUTTON2_MASK:
             self.translate = True
             self.translation[0] -= (self.origin_x - event.x) / self.scale_fac
             self.translation[1] -= (self.origin_y - event.y) / self.scale_fac
