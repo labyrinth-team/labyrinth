@@ -90,7 +90,7 @@ class DrawingThought (BaseThought.ResizableThought):
             for p in self.points:
                 if p.style == STYLE_BEGIN:
                     context.move_to (p.x, p.y)
-                    Gdk.cairo_set_source_rgba(self.foreground_color)
+                    Gdk.cairo_set_source_rgba(context, self.foreground_color)
                 elif p.style == STYLE_END:
                     context.line_to (p.x, p.y)
                     context.stroke()
