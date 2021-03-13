@@ -21,6 +21,7 @@
 # Boston, MA  02110-1301  USA
 #
 
+import faulthandler
 import gettext, locale
 import optparse
 import sys, os
@@ -45,6 +46,8 @@ try:
     localedir = abspath(join(defs.DATA_DIR, "locale"))
 except:
     localedir = ""
+
+faulthandler.enable()
 
 gettext.bindtextdomain('labyrinth', localedir)
 if hasattr(gettext, 'bind_textdomain_codeset'):
