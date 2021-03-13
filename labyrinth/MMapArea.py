@@ -718,7 +718,7 @@ class MMapArea (Gtk.DrawingArea):
                 menu.append(item)
                 item.show()
 
-        menu.popup(None, None, None, event.button, event.get_time())
+        menu.popup_at_pointer(event)
 
     def finish_editing (self, thought = None):
         if not self.editing or (thought and thought != self.editing):
