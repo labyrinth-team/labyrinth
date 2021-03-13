@@ -344,14 +344,16 @@ class MMapArea (Gtk.DrawingArea):
         if event.direction == Gdk.ScrollDirection.UP:
             self.scale_fac *= 1.2
 
-            # The following code is used to zoom where the cursor is currently
-            # located. It feels quite awkward but is requested by issue 100.
-            coords = self.transform_coords(event.x_root, event.y_root)
-            geom = self.get_window().get_geometry()
-            middle = self.transform_coords(geom[2]/2.0, geom[3]/2.0)
+            # The scroll wheel should zoom in on what's under the mouse.
+            # But if we centre that location, it 'jumps', and quickly scrolling
+            # a few stops without moving the mouse can pull the content off
+            # screen. A factor of 1/4 seems to make it feel smooth & controlled.
+            alloc_rect = self.get_allocation()
+            x_from_centre = event.x - (alloc_rect.width / 2.)
+            y_from_centre = event.y - (alloc_rect.height / 2.)
 
-            self.translation[0] -= coords[0] - middle[0]
-            self.translation[1] -= coords[1] - middle[1]
+            self.translation[0] -= x_from_centre / (self.scale_fac * 4)
+            self.translation[1] -= y_from_centre / (self.scale_fac * 4)
         elif event.direction == Gdk.ScrollDirection.DOWN:
             self.scale_fac/=1.2
 
