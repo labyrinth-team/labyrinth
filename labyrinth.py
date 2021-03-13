@@ -26,6 +26,15 @@ import optparse
 import sys, os
 import os.path as osp
 
+import gi
+
+gi.require_versions({
+    'Gtk': '3.0',
+    'GConf': '2.0',
+    'PangoCairo': '1.0',
+    'PangoAttrCast': '1.0',
+})
+
 from gi.repository import Gtk
 
 from labyrinth import utils
