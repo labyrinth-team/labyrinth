@@ -169,17 +169,14 @@ class TextThought (BaseThought.BaseThought):
                 # through pango.
                 attr = it.get_attrs()
                 for x in attr:
-                    if x.type == Pango.AttrType.WEIGHT and \
-                       x.value == Pango.Weight.BOLD:
+                    if pango_attr_int_check(x, Pango.AttrType.WEIGHT, Pango.Weight.BOLD):
                         bold = True
-                    elif x.type == Pango.AttrType.STYLE and \
-                             x.value == Pango.Style.ITALIC:
+                    elif pango_attr_int_check(x, Pango.AttrType.STYLE, Pango.Style.ITALIC):
                         italics = True
-                    elif x.type == Pango.AttrType.UNDERLINE and \
-                             x.value == Pango.Underline.SINGLE:
+                    elif pango_attr_int_check(x, Pango.AttrType.UNDERLINE, Pango.Underline.SINGLE):
                         underline = True
-                    elif x.type == Pango.AttrType.FONT_DESC:
-                        pango_font = x.desc
+                    elif x.klass.type == Pango.AttrType.FONT_DESC:
+                        pango_font = PangoAttrCast.as_fontdesc(x).desc
 
         to_add = []
         # FIXME: Pango.AttrWeight, AttrStyle, etc. don't appear to exist.
@@ -1093,13 +1090,16 @@ class TextThought (BaseThought.BaseThought):
         self.emit("update_view")
         self.undo.unblock()
 
-    def create_attribute(self, attribute: str, start, end) -> Pango.Attribute:
+    def create_attribute(self, attribute: str, start, end, reset=False) -> Pango.Attribute:
         if attribute == 'bold':
-            attr = Pango.attr_weight_new(Pango.Weight.BOLD)
+            val = Pango.Weight.NORMAL if reset else Pango.Weight.BOLD
+            attr = Pango.attr_weight_new(val)
         elif attribute == 'italic':
-            attr = Pango.attr_style_new(Pango.Style.ITALIC)
+            val = Pango.Style.NORMAL if reset else Pango.Style.ITALIC
+            attr = Pango.attr_style_new(val)
         elif attribute == 'underline':
-            attr = Pango.attr_underline_new(Pango.Underline.SINGLE)
+            val = Pango.Underline.NONE if reset else Pango.Underline.SINGLE
+            attr = Pango.attr_underline_new(val)
         else:
             raise ValueError("Unexpected attribute: {!r}".format(attribute))
 
@@ -1110,11 +1110,11 @@ class TextThought (BaseThought.BaseThought):
             return
 
         if attribute == 'bold':
-            pstyle, ptype, pvalue = (Pango.Weight.NORMAL, Pango.AttrType.WEIGHT, Pango.Weight.BOLD)
+            ptype, pvalue = (Pango.AttrType.WEIGHT, Pango.Weight.BOLD)
         elif attribute == 'italic':
-            pstyle, ptype, pvalue = (Pango.Style.NORMAL, Pango.AttrType.ATTR_STYLE, Pango.Style.ITALIC)
+            ptype, pvalue = (Pango.AttrType.STYLE, Pango.Style.ITALIC)
         elif attribute == 'underline':
-            pstyle, ptype, pvalue = (Pango.Underline.NONE, Pango.AttrType.UNDERLINE, Pango.Underline.SINGLE)
+            ptype, pvalue = (Pango.AttrType.UNDERLINE, Pango.Underline.SINGLE)
         else:
             raise ValueError("Unexpected attribute: {!r}".format(attribute))
 
@@ -1122,9 +1122,9 @@ class TextThought (BaseThought.BaseThought):
         init, end = minmax(index, end_index)
 
         if not active:
-            attr = pango_attr_set_range(Pango.attr_style_new(pstyle), init, end)
+            attr = self.create_attribute(attribute, init, end, reset=True)
             if index == end_index:
-                self.current_attrs.change(attr)
+                self.current_attrs.append(attr)
             else:
                 self.attributes.change(attr)
 
@@ -1132,7 +1132,7 @@ class TextThought (BaseThought.BaseThought):
             attr = None
             if index == end_index:
                 for x in self.current_attrs:
-                    if x.type == ptype and x.value == pvalue:
+                    if pango_attr_int_check(x, ptype, pvalue):
                         attr = x
                     else:
                         tmp.append(x)
@@ -1151,7 +1151,7 @@ class TextThought (BaseThought.BaseThought):
                 r = it.range()
                 if r[0] <= init and r[1] >= end:
                     for x in it.get_attrs():
-                        if x.type == ptype and x.value == pvalue:
+                        if pango_attr_int_check(x, ptype, pvalue):
                             changed.append(self.create_attribute(attribute, r[0], init))
                             changed.append(self.create_attribute(attribute, end, r[1]))
                         else:
@@ -1162,7 +1162,7 @@ class TextThought (BaseThought.BaseThought):
             del self.attributes
             self.attributes = Pango.AttrList()
             map(lambda x : self.attributes.change(x), changed)
-            self.current_attrs = [ x for x in self.current_attrs if x.type == ptype and x.value == pvalue ]
+            self.current_attrs = [ x for x in self.current_attrs if pango_attr_int_check(x, ptype, pvalue) ]
             self.undo.add_undo(UndoManager.UndoAction(self, UNDO_REMOVE_ATTR_SELECTION,
                                                       self.undo_attr_cb,
                                                       old_attrs,
@@ -1173,7 +1173,7 @@ class TextThought (BaseThought.BaseThought):
                 self.undo.add_undo(UndoManager.UndoAction(self, UNDO_ADD_ATTR,
                                                           self.undo_attr_cb,
                                                           attr))
-                self.current_attrs.change(attr)
+                self.current_attrs.append(attr)
             else:
                 attr = self.create_attribute(attribute, init, end)
                 old_attrs = self.attributes.copy()
