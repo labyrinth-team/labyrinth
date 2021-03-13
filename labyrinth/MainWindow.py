@@ -707,9 +707,9 @@ class LabyrinthWindow (GObject.GObject):
         self.MainArea.export(cairo_context, width, height, native)
 
     def selection_changed_cb(self, area, start, end, text):
-        clip = Gtk.Clipboard(selection="PRIMARY")
+        clip = Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY)
         if text:
-            clip.set_text (text)
+            clip.set_text(text, len(text.encode('utf-8')))
         else:
             clip.clear ()
 
@@ -742,21 +742,21 @@ class LabyrinthWindow (GObject.GObject):
             self.copy.set_sensitive (True)
 
     def cut_text_cb (self, event):
-        clip = Gtk.Clipboard()
+        clip = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         if self.extended.is_focus ():
             self.extended.get_buffer().cut_clipboard (clip)
         else:
             self.MainArea.cut_clipboard (clip)
 
     def copy_text_cb (self, event):
-        clip = Gtk.Clipboard()
+        clip = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         if self.extended.is_focus ():
             self.extended.get_buffer().copy_clipboard (clip)
         else:
             self.MainArea.copy_clipboard (clip)
 
     def paste_text_cb (self, event):
-        clip = Gtk.Clipboard()
+        clip = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         if self.extended.is_focus ():
             self.extended.get_buffer().paste_clipboard (clip, None, True)
         else:

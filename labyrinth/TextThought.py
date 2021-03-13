@@ -758,7 +758,7 @@ class TextThought (BaseThought.BaseThought):
             self.bindex = self.bindex_from_index (self.index)
             self.end_index = self.index
             if os.name != 'nt':
-                clip = Gtk.Clipboard (selection="PRIMARY")
+                clip = Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY)
                 self.paste_text (clip)
         elif event.button == 3:
             self.emit ("popup_requested", event, 1)
@@ -963,7 +963,8 @@ class TextThought (BaseThought.BaseThought):
 
     def copy_text (self, clip):
         start, end = minmax(self.index, self.end_index)
-        clip.set_text (self.text[start:end])
+        sel = self.text[start:end]
+        clip.set_text(sel, len(sel.encode('utf-8')))
 
     def cut_text (self, clip):
         self.copy_text (clip)
