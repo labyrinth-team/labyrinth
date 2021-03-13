@@ -21,6 +21,7 @@
 #
 
 from gi.repository import Gtk, Gdk, Pango, PangoCairo
+from gi.repository import PangoAttrCast
 
 import os
 import xml.dom
@@ -37,6 +38,18 @@ UNDO_REMOVE_ATTR_SELECTION=67
 
 def minmax(a, b):
     return (min(a, b), max(a, b))
+
+# Convenience functions for working with Pango attributes:
+
+def pango_attr_int_check(attr: Pango.Attribute, attrtype, value):
+    return (attr.klass.type is attrtype) \
+       and (PangoAttrCast.as_int(attr).value == value)
+
+def pango_attr_set_range(attr: Pango.Attribute, start_idx, end_idx):
+    attr.start_index = start_idx
+    attr.end_index = end_idx
+    return attr
+
 
 class TextThought (BaseThought.BaseThought):
     def __init__ (self, coords, pango_context, thought_number, save, undo, loading, background_color, foreground_color, name="thought"):
@@ -173,25 +186,33 @@ class TextThought (BaseThought.BaseThought):
         # Is a workaround using parse_markup possible?
         # http://gitorious.org/mypaint/mypaint/commit/edd97f1e39c9082e5e9ba037fd9b8056948b03e8?format=patch
         if bold:
-            to_add.append(Pango.AttrWeight(Pango.Weight.BOLD, self.index, self.index))
+            to_add.append(pango_attr_set_range(
+                Pango.attr_weight_new(Pango.Weight.BOLD), self.index, self.index
+            ))
         if italics:
-            to_add.append(Pango.AttrStyle(Pango.Style.ITALIC, self.index, self.index))
+            to_add.append(pango_attr_set_range(
+                Pango.attr_style_new(Pango.Style.ITALIC), self.index, self.index
+            ))
         if underline:
-            to_add.append(Pango.AttrUnderline(Pango.Underline.SINGLE, self.index, self.index))
+            to_add.append(pango_attr_set_range(
+                Pango.attr_underline_new(Pango.Underline.SINGLE), self.index, self.index
+            ))
         if pango_font:
-            to_add.append(Pango.AttrFontDesc(pango_font, self.index, self.index))
+            to_add.append(pango_attr_set_range(
+                Pango.attr_font_desc_new(pango_font), self.index, self.index
+            ))
         for x in self.current_attrs:
-            if x.klass.type == Pango.AttrType.WEIGHT and x.value == Pango.Weight.BOLD:
+            if pango_attr_int_check(x, Pango.AttrType.WEIGHT, Pango.Weight.BOLD):
                 bold = True
                 to_add.append(x)
-            if x.klass.type == Pango.AttrType.STYLE and x.value == Pango.Style.ITALIC:
+            elif pango_attr_int_check(x, Pango.AttrType.STYLE, Pango.Style.ITALIC):
                 italics = True
                 to_add.append(x)
-            if x.klass.type == Pango.AttrType.UNDERLINE and x.value == Pango.Underline.SINGLE:
+            elif pango_attr_int_check(x, Pango.AttrType.UNDERLINE, Pango.Underline.SINGLE):
                 underline = True
                 to_add.append(x)
-            if x.klass.type == Pango.AttrType.FONT_DESC:
-                pango_font = x.desc
+            elif x.klass.type is Pango.AttrType.FONT_DESC:
+                pango_font = PangoAttrCast.as_fontdesc(x).desc
                 to_add.append(x)
         del self.current_attrs
         self.current_attrs = to_add
@@ -854,15 +875,16 @@ class TextThought (BaseThought.BaseThought):
                 elem.setAttribute("start", str(r[0]))
                 elem.setAttribute("end", str(r[1]))
                 self.element.appendChild (elem)
-                if x.type == Pango.AttrType.WEIGHT and x.value == Pango.Weight.BOLD:
+                if pango_attr_int_check(x, Pango.AttrType.WEIGHT, Pango.Weight.BOLD):
                     elem.setAttribute("type", "bold")
-                elif x.type == Pango.AttrType.STYLE and x.value == Pango.Style.ITALIC:
+                elif pango_attr_int_check(x, Pango.AttrType.STYLE, Pango.Style.ITALIC):
                     elem.setAttribute("type", "italics")
-                elif x.type == Pango.AttrType.UNDERLINE and x.value == Pango.Underline.SINGLE:
+                elif pango_attr_int_check(x, Pango.AttrType.UNDERLINE, Pango.Underline.SINGLE):
                     elem.setAttribute("type", "underline")
-                elif x.type == Pango.AttrType.FONT_DESC:
+                elif x.klass.type is Pango.AttrType.FONT_DESC:
                     elem.setAttribute("type", "font")
-                    elem.setAttribute("value", x.desc.to_string ())
+                    desc = PangoAttrCast.as_fontdesc(x).desc
+                    elem.setAttribute("value", desc.to_string ())
 
     def rebuild_byte_table (self):
         # Build the Byte table
@@ -927,16 +949,20 @@ class TextThought (BaseThought.BaseThought):
                 end = int(n.getAttribute("end"))
 
                 if attrType == "bold":
-                    attr = Pango.AttrWeight(Pango.Weight.BOLD, start, end)
+                    attr = Pango.attr_weight_new(Pango.Weight.BOLD)
                 elif attrType == "italics":
-                    attr = Pango.AttrStyle(Pango.Style.ITALIC, start, end)
+                    attr = Pango.attr_style_new(Pango.Style.ITALIC)
                 elif attrType == "underline":
-                    attr = Pango.AttrUnderline(Pango.Underline.SINGLE, start, end)
+                    attr = Pango.attr_underline_new(Pango.Underline.SINGLE)
                 elif attrType == "font":
                     font_name = str(n.getAttribute("value"))
                     pango_font = Pango.FontDescription (font_name)
-                    attr = Pango.AttrFontDesc (pango_font, start, end)
-                self.attributes.change(attr)
+                    attr = Pango.attr_font_desc_new(pango_font)
+                else:
+                    raise ValueError(
+                        "Unexpected attribute type: {!r}".format(attrType)
+                    )
+                self.attributes.change(pango_attr_set_range(attr, start, end))
             else:
                 print("Unknown: " + n.nodeName)
         self.rebuild_byte_table ()
@@ -1067,13 +1093,17 @@ class TextThought (BaseThought.BaseThought):
         self.emit("update_view")
         self.undo.unblock()
 
-    def create_attribute(self, attribute, start, end):
+    def create_attribute(self, attribute: str, start, end) -> Pango.Attribute:
         if attribute == 'bold':
-            return Pango.AttrWeight(Pango.Weight.BOLD, start, end)
+            attr = Pango.attr_weight_new(Pango.Weight.BOLD)
         elif attribute == 'italic':
-            return Pango.AttrStyle(Pango.Style.ITALIC, start, end)
+            attr = Pango.attr_style_new(Pango.Style.ITALIC)
         elif attribute == 'underline':
-            return Pango.AttrUnderline(Pango.Underline.SINGLE, start, end)
+            attr = Pango.attr_underline_new(Pango.Underline.SINGLE)
+        else:
+            raise ValueError("Unexpected attribute: {!r}".format(attribute))
+
+        return pango_attr_set_range(attr, start, end)
 
     def set_attribute(self, active, attribute):
         if not self.editing:
@@ -1085,12 +1115,14 @@ class TextThought (BaseThought.BaseThought):
             pstyle, ptype, pvalue = (Pango.Style.NORMAL, Pango.AttrType.ATTR_STYLE, Pango.Style.ITALIC)
         elif attribute == 'underline':
             pstyle, ptype, pvalue = (Pango.Underline.NONE, Pango.AttrType.UNDERLINE, Pango.Underline.SINGLE)
+        else:
+            raise ValueError("Unexpected attribute: {!r}".format(attribute))
 
         index, end_index = (self.index, self.end_index)
         init, end = minmax(index, end_index)
 
         if not active:
-            attr = Pango.AttrStyle(pstyle, init, end)
+            attr = pango_attr_set_range(Pango.attr_style_new(pstyle), init, end)
             if index == end_index:
                 self.current_attrs.change(attr)
             else:
