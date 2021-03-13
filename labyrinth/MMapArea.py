@@ -347,7 +347,7 @@ class MMapArea (Gtk.DrawingArea):
             # The following code is used to zoom where the cursor is currently
             # located. It feels quite awkward but is requested by issue 100.
             coords = self.transform_coords(event.x, event.y)
-            geom = self.window.get_geometry()
+            geom = self.get_window().get_geometry()
             middle = self.transform_coords(geom[2]/2.0, geom[3]/2.0)
 
             self.translation[0] -= coords[0] - middle[0]
