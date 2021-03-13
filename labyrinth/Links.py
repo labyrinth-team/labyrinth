@@ -173,7 +173,7 @@ class Link (GObject.GObject):
         self.element.setAttribute ("start", str(self.start))
         self.element.setAttribute ("end", str(self.end))
         self.element.setAttribute ("strength", str(self.strength))
-        self.element.setAttribute ("color", str(self.color))
+        self.element.setAttribute ("color", self.color.to_string())
         if self.child:
             self.element.setAttribute ("child", str(self.child.identity))
         else:
@@ -196,11 +196,8 @@ class Link (GObject.GObject):
             return
         self.start = utils.parse_coords (tmp)
         self.strength = int(node.getAttribute ("strength"))
-        try:
-            colors = node.getAttribute ("color").split()
-            self.color = Gdk.RGBA(float(colors[0].strip('(,)')), float(colors[1].strip('(,)')), float(colors[2].strip('(,)')))
-        except:
-            pass
+        self.color = Gdk.RGBA(0., 0., 0.)  # default: black
+        self.color.parse(node.getAttribute ("color"))
         if node.hasAttribute ("parent"):
             tmp = node.getAttribute ("parent")
             if tmp == "None":
