@@ -104,8 +104,7 @@ class ResourceThought (TextThought.TextThought):
             context.stroke ()
 
         (textx, texty) = (self.text_location[0], self.text_location[1])
-        r, g, b = utils.gtk_to_cairo_color(self.foreground_color)
-        context.set_source_rgb (r, g, b)
+        Gdk.cairo_set_source_rgba(context, self.foreground_color)
         context.move_to (textx, texty)
         context.show_layout (self.layout)
         if self.editing:

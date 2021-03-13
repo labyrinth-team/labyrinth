@@ -56,7 +56,7 @@ class Link (GObject.GObject):
         self.strength = strength
         self.element = save.createElement ("link")
         self.selected = False
-        self.color = utils.gtk_to_cairo_color(Gdk.color_parse("black"))
+        self.color = Gdk.RGBA(0., 0., 0.)  # black
 
         if not self.start and parent and parent.lr:
             self.start = (parent.ul[0]-((parent.ul[0]-parent.lr[0]) / 2.), \
@@ -138,10 +138,9 @@ class Link (GObject.GObject):
             context.line_to (self.end[0], self.end[1])
 
         if self.selected:
-            color = utils.selected_colors["bg"]
-            context.set_source_rgb (color[0], color[1], color[2])
+            Gdk.cairo_set_source_rgba(context, utils.selected_colors["bg"])
         else:
-            context.set_source_rgb (self.color[0], self.color[1], self.color[2])
+            Gdk.cairo_set_source_rgba(context, self.color)
         context.stroke ()
         context.set_line_width (cwidth)
         context.set_source_rgb (0.0, 0.0, 0.0)
@@ -199,7 +198,7 @@ class Link (GObject.GObject):
         self.strength = int(node.getAttribute ("strength"))
         try:
             colors = node.getAttribute ("color").split()
-            self.color = (float(colors[0].strip('(,)')), float(colors[1].strip('(,)')), float(colors[2].strip('(,)')))
+            self.color = Gdk.RGBA(float(colors[0].strip('(,)')), float(colors[1].strip('(,)')), float(colors[2].strip('(,)')))
         except:
             pass
         if node.hasAttribute ("parent"):
@@ -269,7 +268,7 @@ class Link (GObject.GObject):
 
     def color_selection_ok_cb(self, dialog, response_id):
         if response_id == Gtk.ResponseType.OK:
-            self.color = utils.gtk_to_cairo_color(self.color_sel.get_current_color())
+            self.color = self.color_sel.get_current_rgba()
         dialog.destroy()
 
     def get_popup_menu_items(self):

@@ -223,14 +223,12 @@ class TextThought (BaseThought.BaseThought):
         del self.layout
 
         show_text = self.attrs_changed ()
-        r,g,b = utils.selected_colors["fill"]
-        r *= 65536
-        g *= 65536
-        b *= 65536
-        bgsel = Pango.attr_background_new(int(r), int(g), int(b))
-        bgsel.start_index = min(self.index, self.end_index)
-        bgsel.end_index = max(self.index, self.end_index)
-        self.attrlist.insert (bgsel)
+        # Convert Gdk.RGBA (0-1) -> Gdk.Color (0-65535):
+        fillc = utils.selected_colors["fill"].to_color()
+        bgsel = Pango.attr_background_new(fillc.red, fillc.green, fillc.blue)
+        self.attrlist.insert(
+            pango_attr_set_range(bgsel, *minmax(self.index, self.end_index))
+        )
 
         self.layout = Pango.Layout(self.pango_context)
         self.layout.set_text (show_text)
@@ -346,11 +344,10 @@ class TextThought (BaseThought.BaseThought):
             context.stroke ()
 
         textx, texty = (self.text_location[0], self.text_location[1])
-        if (self.foreground_color):
-            r, g, b = utils.gtk_to_cairo_color(self.foreground_color)
+        if self.foreground_color:
+            Gdk.cairo_set_source_rgba(context, self.foreground_color)
         else:
-            r, g ,b = utils.gtk_to_cairo_color(utils.default_colors["text"])
-        context.set_source_rgb (r, g, b)
+            Gdk.cairo_set_source_rgba(context, utils.default_colors["text"])
         context.move_to (textx, texty)
         PangoCairo.show_layout(context, self.layout)
         if self.editing:
@@ -808,8 +805,7 @@ class TextThought (BaseThought.BaseThought):
         utils.export_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_NORMAL,
                                       (move_x, move_y))
 
-        r,g,b = utils.gtk_to_cairo_color (self.foreground_color)
-        context.set_source_rgb (r, g, b)
+        Gdk.cairo_set_source_rgba(context, self.foreground_color)
         context.move_to (self.text_location[0]+move_x, self.text_location[1]+move_y)
         context.show_layout (self.layout)
         context.set_source_rgb (0,0,0)
@@ -919,10 +915,10 @@ class TextThought (BaseThought.BaseThought):
         self.lr = utils.parse_coords (tmp)
         self.identity = int (node.getAttribute ("identity"))
         try:
-            tmp = node.getAttribute ("background-color")
-            self.background_color = Gdk.color_parse(tmp)
-            tmp = node.getAttribute ("foreground-color")
-            self.foreground_color = Gdk.color_parse(tmp)
+            self.background_color = Gdk.RGBA()  # default: white
+            self.background_color.parse(node.getAttribute("background-color"))
+            self.foreground_color = Gdk.RGBA(0., 0., 0.)  # default: black
+            self.foreground_color.parse(node.getAttribute("foreground-color"))
         except ValueError:
             pass
 

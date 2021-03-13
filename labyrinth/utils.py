@@ -28,6 +28,8 @@ from os.path import *
 import os
 from numpy import *
 
+from gi.repository import Gdk
+
 __BE_VERBOSE=os.environ.get('DEBUG_LABYRINTH',0)
 if __BE_VERBOSE:
     def print_debug(*data):
@@ -40,18 +42,18 @@ else:
 # global variables
 use_bezier_curves = False
 default_colors = {
-        "text" : (0.0, 0.0, 0.0),
-        "fg" : (0.0, 0.0, 0.0),
-        "bg" : (0.0, 0.0, 0.0),
-        "base" : (0.0, 0.0, 0.0)
-        }
+        "text" : Gdk.RGBA(0.0, 0.0, 0.0),
+        "fg" : Gdk.RGBA(0.0, 0.5, 0.0),
+        "bg" : Gdk.RGBA(0.5, 0.0, 0.0),
+        "base" : Gdk.RGBA(0.0, 0.0, 0.5)
+}
 
 selected_colors = {
-        "text" : (0.0, 0.0, 0.0),
-        "fg" : (0.0, 0.0, 0.0),
-        "bg" : (0.0, 0.0, 0.0),
-        "border" : (0.0, 0.0, 0.0),             # bounding box
-        "fill" : (0.0, 0.0, 0.0)                # bounding box
+        "text" : Gdk.RGBA(0.0, 0.0, 0.0),
+        "fg" : Gdk.RGBA(0.0, 0.0, 0.0),
+        "bg" : Gdk.RGBA(1., 1., 1.),
+        "border" : Gdk.RGBA(0.0, 0.0, 0.0),             # bounding box
+        "fill" : Gdk.RGBA(0.9, 0.9, 1., 0.3),
         }
 
 default_font = None
@@ -158,13 +160,11 @@ def draw_thought_extended (context, ul, lr, am_root, am_primary, background_colo
     context.line_to (ul[0]+5, ul[1])
     context.curve_to (ul[0], ul[1], ul[0], ul[1], ul[0], ul[1]+5)
     if am_root:
-        bg = selected_colors["bg"]
-        context.set_source_rgb (bg[0], bg[1], bg[2])
+        Gdk.cairo_set_source_rgba(context, selected_colors["bg"])
     elif am_primary:
         context.set_source_rgb (0.937, 0.831, 0.000)
     else:
-        r,g,b = gtk_to_cairo_color(background_color)
-        context.set_source_rgb (r, g, b)
+        Gdk.cairo_set_source_rgba(context, background_color)
     context.fill_preserve ()
     context.set_source_rgb (0,0,0)
     if dashborder:

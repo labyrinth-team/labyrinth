@@ -90,8 +90,7 @@ class DrawingThought (BaseThought.ResizableThought):
             for p in self.points:
                 if p.style == STYLE_BEGIN:
                     context.move_to (p.x, p.y)
-                    r,g,b = utils.gtk_to_cairo_color(self.foreground_color)
-                    context.set_source_rgb (r, g, b)
+                    Gdk.cairo_set_source_rgba(self.foreground_color)
                 elif p.style == STYLE_END:
                     context.line_to (p.x, p.y)
                     context.stroke()
@@ -493,10 +492,10 @@ class DrawingThought (BaseThought.ResizableThought):
         self.lr = utils.parse_coords (tmp)
         self.identity = int (node.getAttribute ("identity"))
         try:
-            tmp = node.getAttribute ("background-color")
-            self.background_color = Gdk.color_parse(tmp)
-            tmp = node.getAttribute ("foreground-color")
-            self.foreground_color = Gdk.color_parse(tmp)
+            self.background_color = Gdk.RGBA()  # default: white
+            self.background_color.parse(node.getAttribute("background-color"))
+            self.foreground_color = Gdk.RGBA(0., 0., 0.)  # default: black
+            self.foreground_color.parse(node.getAttribute("foreground-color"))
         except ValueError:
             pass
         self.min_x = float(node.getAttribute ("min_x"))
@@ -540,8 +539,7 @@ class DrawingThought (BaseThought.ResizableThought):
                     context.line_to (p.x+move_x,p.y+move_y)
 
         context.set_line_width (cwidth)
-        r,g,b = utils.gtk_to_cairo_color(self.foreground_color)
-        context.set_source_rgb (r, g, b)
+        Gdk.cairo_set_source_rgba(self.foreground_color)
         context.stroke ()
         return
 

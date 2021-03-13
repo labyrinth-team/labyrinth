@@ -180,23 +180,8 @@ class MMapArea (Gtk.DrawingArea):
         self.font_name = font_desc.to_string()
         utils.default_font = self.font_name
 
-        fg_color = style_ctx.get_color(Gtk.StateFlags.NORMAL)
-        bg_color = style_ctx.get_background_color(Gtk.StateFlags.NORMAL)
-
-        utils.default_colors["text"] = utils.gtk_to_cairo_color(fg_color)
-        utils.default_colors["base"] = utils.gtk_to_cairo_color(bg_color)
-        self.background_color = bg_color
-        self.foreground_color = fg_color
-        utils.default_colors["bg"] = utils.gtk_to_cairo_color(bg_color)
-        utils.default_colors["fg"] = utils.gtk_to_cairo_color(fg_color)
-
-        fg_selected_color = style_ctx.get_color(Gtk.StateFlags.SELECTED)
-        bg_selected_color = style_ctx.get_background_color(Gtk.StateFlags.SELECTED)
-
-        utils.selected_colors["text"] = utils.gtk_to_cairo_color(fg_selected_color)
-        utils.selected_colors["bg"] = utils.gtk_to_cairo_color(bg_selected_color)
-        utils.selected_colors["fg"] = utils.gtk_to_cairo_color(fg_selected_color)
-        utils.selected_colors["fill"] = utils.gtk_to_cairo_color(bg_selected_color)
+        self.foreground_color = style_ctx.get_color(Gtk.StateFlags.NORMAL)
+        self.background_color = style_ctx.get_background_color(Gtk.StateFlags.NORMAL)
 
     def transform_coords(self, loc_x, loc_y):
         if hasattr(self, "transform"):
@@ -824,14 +809,12 @@ class MMapArea (Gtk.DrawingArea):
             xs,ys = context.device_to_user(xs, ys)
             xe,ye = context.device_to_user_distance(xe, ye)
 
-            color = utils.selected_colors["border"]
             context.set_line_width(1.0)
-            context.set_source_rgb(color[0], color[1], color[2])
+            Gdk.cairo_set_source_rgba(context, utils.selected_colors["border"])
             context.rectangle(xs, ys, xe, ye)
             context.stroke()
 
-            color = utils.selected_colors["fill"]
-            context.set_source_rgba(color[0], color[1], color[2], 0.3)
+            Gdk.cairo_set_source_rgba(context, utils.selected_colors["fill"])
             context.rectangle(xs, ys, xe, ye)
             context.fill()
             context.set_line_width(2.0)
