@@ -624,19 +624,20 @@ class LabyrinthWindow (GObject.GObject):
     def export_cb (self, event):
         maxx, maxy = self.MainArea.get_max_area ()
 
-        x, y, width, height, bitdepth = self.MainArea.window.get_geometry ()
+        x, y, width, height = self.MainArea.get_window().get_geometry()
         glade = Gtk.Builder()
         glade.add_from_file(utils.get_data_file_name('labyrinth.xml'))
         dialog = glade.get_object('ExportImageDialog')
         box = glade.get_object('dialog_insertion')
-        fc = Gtk.FileChooserWidget(Gtk.FileChooserAction.SAVE)
-        box.pack_end (fc)
+        fc = Gtk.FileChooserWidget.new(Gtk.FileChooserAction.SAVE)
+        box.pack_end(fc, expand=True, fill=True, padding=0)
 
-        filter_mapping = [  (_('All Files'), ['*']),
-                                                (_('PNG Image (*.png)'), ['*.png']),
-                                                (_('JPEG Image (*.jpg, *.jpeg)'), ['*.jpeg', '*.jpg']),
-                                                (_('SVG Vector Image (*.svg)'), ['*.svg']),
-                                                (_('PDF Portable Document (*.pdf)'), ['*.pdf']) ]
+        filter_mapping = [
+            (_('All Files'), ['*']),
+            (_('PNG Image (*.png)'), ['*.png']),
+            (_('SVG Vector Image (*.svg)'), ['*.svg']),
+            (_('PDF Portable Document (*.pdf)'), ['*.pdf'])
+        ]
 
         for (filter_name, filter_patterns) in filter_mapping:
             fil = Gtk.FileFilter()
@@ -645,7 +646,7 @@ class LabyrinthWindow (GObject.GObject):
                 fil.add_pattern(pattern)
             fc.add_filter(fil)
 
-        fc.set_current_name ("%s.png" % self.main_window.title)
+        fc.set_current_name ("%s.png" % self.main_window.get_title())
         rad = glade.get_object('rb_complete_map')
         rad2 = glade.get_object('rb_visible_area')
         self.spin_width = glade.get_object('width_spin')
@@ -662,8 +663,9 @@ class LabyrinthWindow (GObject.GObject):
         # Cheesy loop.  Break out as needed.
             response = dialog.run()
             if response == Gtk.ResponseType.OK:
-                ext_mime_mapping = { 'png':'png', 'jpg':'jpeg', 'jpeg':'jpeg', \
-                            'svg':'svg', 'pdf':'pdf' }
+                ext_mime_mapping = {
+                    'png':'png', 'svg':'svg', 'pdf':'pdf'
+                }
                 filename = fc.get_filename()
                 ext = filename[filename.rfind('.')+1:]
 
@@ -686,31 +688,23 @@ class LabyrinthWindow (GObject.GObject):
         native = not rad.get_active ()
         dialog.destroy ()
 
-        if mime in ['png', 'jpg']:
-            self.save_as_pixmap(filename, mime, true_width, true_height, bitdepth, native)
+        if mime == 'png':
+            with cairo.ImageSurface(cairo.Format.ARGB32, true_width, true_height) as sfc:
+                self.save_surface(sfc, true_width, true_height, native)
+                sfc.write_to_png(filename)
+        elif mime == 'svg':
+            with cairo.SVGSurface(filename, true_width, true_height) as sfc:
+                self.save_surface(sfc, true_width, true_height, native)
+        elif mime == 'pdf':
+            with cairo.PDFSurface(filename, true_width, true_height) as sfc:
+                self.save_surface(sfc, true_width, true_height, native)
         else:
-            surface = None
-            if mime == 'svg':
-                surface = cairo.SVGSurface(filename, true_width, true_height)
-            elif mime == 'pdf':
-                surface = cairo.PDFSurface(filename, true_width, true_height)
-            self.save_surface(surface, true_width, true_height, native)
-
-    def save_as_pixmap(self, filename, mime, width, height, bitdepth, native):
-        # FIXME: Convert to cairo surfaces:
-        # http://developer.gnome.org/gtk3/3.5/ch24s02.html#id1444286
-        pixmap = gtk.gdk.Pixmap (None, width, height, bitdepth)
-        self.MainArea.export (pixmap.cairo_create (), width, height, native)
-
-        pb = gtk.gdk.Pixbuf.get_from_drawable(gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, width, height), \
-                pixmap, gtk.gdk.colormap_get_system(), 0, 0, 0, 0, width, height)
-        pb.save(filename, mime)
+            raise ValueError("Unexpected file type {!r}".format(mime))
 
     def save_surface(self, surface, width, height, native):
         cairo_context = cairo.Context(surface)
-        context = pangocairo.CairoContext(cairo_context)
-        self.MainArea.export(context, width, height, native)
-        surface.finish()
+        context = PangoCairo.create_context(cairo_context)
+        self.MainArea.export(cairo_context, width, height, native)
 
     def selection_changed_cb(self, area, start, end, text):
         clip = Gtk.Clipboard(selection="PRIMARY")
