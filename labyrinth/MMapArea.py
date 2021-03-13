@@ -192,7 +192,7 @@ class MMapArea (Gtk.DrawingArea):
             return self.untransform.transform_point(loc_x, loc_y)
 
     def button_down (self, widget, event):
-        coords = self.transform_coords (event.get_coords()[0], event.get_coords()[1])
+        coords = self.transform_coords(event.x_root, event.y_root)
 
         ret = False
         obj = self.find_object_at (coords)
@@ -241,7 +241,7 @@ class MMapArea (Gtk.DrawingArea):
         self.invalidate ((old_coords[0], old_coords[1], new_coords[0], new_coords[1]))
 
     def button_release (self, widget, event):
-        coords = self.transform_coords (event.get_coords()[0], event.get_coords()[1])
+        coords = self.transform_coords(event.x_root, event.y_root)
 
         if self.mode == MODE_EDITING:
             self.set_cursor(Gdk.CursorType.LEFT_PTR)
@@ -346,7 +346,7 @@ class MMapArea (Gtk.DrawingArea):
 
             # The following code is used to zoom where the cursor is currently
             # located. It feels quite awkward but is requested by issue 100.
-            coords = self.transform_coords(event.x, event.y)
+            coords = self.transform_coords(event.x_root, event.y_root)
             geom = self.get_window().get_geometry()
             middle = self.transform_coords(geom[2]/2.0, geom[3]/2.0)
 
@@ -388,7 +388,7 @@ class MMapArea (Gtk.DrawingArea):
         return True
 
     def motion (self, widget, event):
-        coords = self.transform_coords (event.get_coords()[0], event.get_coords()[1])
+        coords = self.transform_coords (event.x_root, event.y_root)
 
         if self.motion:
             if self.motion.handle_motion (event, self.mode, coords):
