@@ -1327,14 +1327,14 @@ class MMapArea (Gtk.DrawingArea):
         self.selected[0].set_underline (active)
         self.invalidate()
 
-    def set_background_color(self, color):
+    def set_background_color(self, color: Gdk.RGBA):
         for s in self.selected:
             s.background_color = color
             self.background_color = color
         if len(self.selected) > 1:
             self.invalidate()
 
-    def set_foreground_color(self, color):
+    def set_foreground_color(self, color: Gdk.RGBA):
         for s in self.selected:
             s.foreground_color = color
             self.foreground_color = color

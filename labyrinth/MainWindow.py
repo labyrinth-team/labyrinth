@@ -420,11 +420,11 @@ class LabyrinthWindow (GObject.GObject):
 
     def foreground_change_cb (self, button):
         if not self.extended.is_focus ():
-            self.MainArea.set_foreground_color (button.get_color())
+            self.MainArea.set_foreground_color(button.get_rgba())
 
     def background_change_cb (self, button):
         if not self.extended.is_focus ():
-            self.MainArea.set_background_color (button.get_color())
+            self.MainArea.set_background_color(button.get_rgba())
 
     def font_change_cb (self, button):
         if not self.extended.is_focus ():
