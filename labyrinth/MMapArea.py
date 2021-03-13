@@ -750,7 +750,11 @@ class MMapArea (Gtk.DrawingArea):
         else:
             ul = self.untransform_coords(transformed_area[0], transformed_area[1])
             lr = self.untransform_coords(transformed_area[2], transformed_area[3])
-            rect = Gdk.Rectangle(int(ul[0]), int(ul[1]), int(lr[0]-ul[0]), int(lr[1]-ul[1]))
+            rect = Gdk.Rectangle()
+            rect.x = int(ul[0])
+            rect.y = int(ul[1])
+            rect.width = int(lr[0]-ul[0])
+            rect.height = int(lr[1]-ul[1])
         if self.get_window():
             self.get_window().invalidate_rect (rect, True)
 

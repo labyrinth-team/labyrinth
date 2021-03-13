@@ -122,6 +122,18 @@ class Link (GObject.GObject):
     def find_ends (self):
         (self.start, self.end) = self.parent.find_connection (self.child)
 
+    def get_max_area(self):
+        """(x, y, w, h) in canvas logical coordinates"""
+        if not self.start or not self.end:
+            return 999,999,-999,-999
+        x1, x2 = self.start[0], self.end[0]
+        if x1 > x2:
+            x1, x2 = x2, x1
+        y1, y2 = self.start[1], self.end[1]
+        if y1 > y2:
+            y1, y2 = y2, y1
+        return x1, y1, (x2 - x1), (y2 - y1)
+
     def draw (self, context):
         if not self.start or not self.end:
             return
