@@ -735,10 +735,10 @@ class TextThought (BaseThought.BaseThought):
             elif event.type == Gdk.EventType.BUTTON_PRESS and self.editing:
                 x = int ((transformed[0] - self.ul[0])*Pango.SCALE)
                 y = int ((transformed[1] - self.ul[1])*Pango.SCALE)
-                loc = self.layout.xy_to_index (x, y)
-                self.index = loc[0]
-                if loc[0] >= len(self.text) -1 or self.text[loc[0]+1] == '\n':
-                    self.index += loc[1]
+                _ok, ix, trailing = self.layout.xy_to_index (x, y)
+                self.index = ix
+                if ix >= len(self.text) -1 or self.text[ix+1] == '\n':
+                    self.index += trailing
                 self.bindex = self.bindex_from_index (self.index)
                 if not (event.state & modifiers) & Gdk.ModifierType.SHIFT_MASK:
                     self.end_index = self.index
@@ -751,10 +751,10 @@ class TextThought (BaseThought.BaseThought):
         elif event.button == 2 and self.editing:
             x = int ((transformed[0] - self.ul[0])*Pango.SCALE)
             y = int ((transformed[1] - self.ul[1])*Pango.SCALE)
-            loc = self.layout.xy_to_index (x, y)
-            self.index = loc[0]
-            if loc[0] >= len(self.text) -1 or self.text[loc[0]+1] == '\n':
-                self.index += loc[1]
+            _ok, ix, trailing = self.layout.xy_to_index(x, y)
+            self.index = ix
+            if ix >= len(self.text) - 1 or self.text[ix + 1] == '\n':
+                self.index += trailing
             self.bindex = self.bindex_from_index (self.index)
             self.end_index = self.index
             if os.name != 'nt':
