@@ -57,7 +57,7 @@ class TextThought (BaseThought.BaseThought):
 
         self.index = 0
         self.end_index = 0
-        self.bytes = ""
+        self.bytes = []
         self.bindex = 0
         self.text_location = coords
         self.text_element = save.createTextNode ("GOOBAH")
@@ -313,7 +313,7 @@ class TextThought (BaseThought.BaseThought):
         self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.INSERT_LETTER, self.undo_text_action,
                                                 self.bindex, string, len(string), old_attrs, changes))
         self.index += len (string)
-        self.bytes = bleft + str(len(string)) + bright
+        self.bytes = bleft + [len(string)] + bright
         self.bindex = self.b_f_i (self.index)
         self.end_index = self.index
 
@@ -881,27 +881,8 @@ class TextThought (BaseThought.BaseThought):
 
     def rebuild_byte_table (self):
         # Build the Byte table
-        del self.bytes
-        self.bytes = ''
-        tmp = self.text.encode ("utf-8")
-        current = 0
-        for z in range(len(self.text)):
-            if str(self.text[z]) == str(tmp[current]):
-                self.bytes += '1'
-            else:
-                blen = 2
-                while 1:
-                    try:
-                        if str(tmp[current:current+blen].encode()) == str(self.text[z]):
-                            self.bytes += str(blen)
-                            current+=(blen-1)
-                            break
-                        blen += 1
-                    except:
-                        blen += 1
-            current+=1
+        self.bytes = [len(c.encode('utf-8')) for c in self.text]
         self.bindex = self.b_f_i (self.index)
-        self.text = tmp
 
     def load (self, node):
         self.index = int (node.getAttribute ("cursor"))

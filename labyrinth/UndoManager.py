@@ -169,11 +169,11 @@ class UndoManager:
                 start_iter = back.args[0]
                 final_text = back.text+final_text
                 if bytes:
-                    byte_collection = back.args[3] + byte_collection
+                    byte_collection = [back.args[3]] + byte_collection
             else:
                 final_text += back.text
                 if bytes:
-                    byte_collection += back.args[3]
+                    byte_collection.append(back.args[3])
             length += back.args[2]
             if len (self.undo_list) == 0:
                 add_back = False
