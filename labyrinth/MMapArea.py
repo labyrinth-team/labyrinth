@@ -217,7 +217,7 @@ class MMapArea (Gtk.DrawingArea):
                 self.move_origin_new = self.move_origin
             ret = obj.process_button_down (event, self.mode, coords)
         elif event.button == 1 and self.mode == MODE_EDITING and not self.editing:
-            self.bbox_origin = coords
+            self.bbox_current = self.bbox_origin = coords
             self.is_bbox_selecting = True
         elif event.button == 3:
             ret = self.create_popup_menu (None, event, MENU_EMPTY_SPACE)
