@@ -307,7 +307,8 @@ class TextThought (BaseThought.BaseThought):
 
         del self.attributes
         self.attributes = Pango.AttrList()
-        map (lambda x : self.attributes.change(x), changes)
+        for a in changes:
+            self.attributes.change(a)
 
         self.text = left + string + right
         self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.INSERT_LETTER, self.undo_text_action,
@@ -473,7 +474,8 @@ class TextThought (BaseThought.BaseThought):
 
         del self.attributes
         self.attributes = Pango.AttrList()
-        map(lambda a : self.attributes.change(a), attrs)
+        for a in attrs:
+            self.attributes.change(a)
         self.recalc_edges ()
         self.emit ("begin_editing")
         self.emit ("title_changed", self.text)
@@ -546,7 +548,8 @@ class TextThought (BaseThought.BaseThought):
 
         del self.attributes
         self.attributes = Pango.AttrList()
-        map(lambda a : self.attributes.change(a), changes)
+        for a in changes:
+            self.attributes.change(a)
 
         self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.DELETE_LETTER, self.undo_text_action,
                                                 self.b_f_i (self.index), local_text, len(local_text), local_bytes, old_attrs,
@@ -622,7 +625,8 @@ class TextThought (BaseThought.BaseThought):
 
         del self.attributes
         self.attributes = Pango.AttrList()
-        map (lambda a : self.attributes.change(a), changes)
+        for a in changes:
+            self.attributes.change(a)
 
         self.text = left+right
         self.bytes = bleft+bright
@@ -1025,7 +1029,8 @@ class TextThought (BaseThought.BaseThought):
 
         del self.attributes
         self.attributes = Pango.AttrList()
-        map(lambda x : self.attributes.change(x), changes)
+        for a in changes:
+            self.attributes.change(a)
 
         self.recalc_edges ()
         self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.DELETE_LETTER, self.undo_text_action,
@@ -1136,11 +1141,12 @@ class TextThought (BaseThought.BaseThought):
                         else:
                             changed.append(x)
                 else:
-                    map(lambda x : changed.append(x), it.get_attrs())
+                    changed.extend(it.get_attrs())
 
             del self.attributes
             self.attributes = Pango.AttrList()
-            map(lambda x : self.attributes.change(x), changed)
+            for a in changed:
+                self.attributes.change(a)
             self.current_attrs = [ x for x in self.current_attrs if pango_attr_int_check(x, ptype, pvalue) ]
             self.undo.add_undo(UndoManager.UndoAction(self, UNDO_REMOVE_ATTR_SELECTION,
                                                       self.undo_attr_cb,
