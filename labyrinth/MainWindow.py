@@ -611,29 +611,60 @@ class LabyrinthWindow (GObject.GObject):
         if event.changed_mask & Gdk.WindowState.MAXIMIZED:
             self.maximised = not self.maximised
 
-    def toggle_range (self, arg, native_width, native_height, max_width, max_height):
-        if arg.get_active ():
-            self.spin_width.set_value (max_width)
-            self.spin_height.set_value (max_height)
-            # TODO: Fix this (and below) to cope with non-native resolutions properly
-            #self.spin_width.set_sensitive (True)
-            #self.spin_height.set_sensitive (True)
-        else:
-            #self.spin_width.set_sensitive (False)
-            #self.spin_height.set_sensitive (False)
-            self.spin_width.set_value (native_width)
-            self.spin_height.set_value (native_height)
+    def get_export_image_options(self):
+        """Display export as image options dialog, return results:
 
-    def export_cb (self, event):
-        maxx, maxy = self.MainArea.get_max_area ()
+        (ok, width, height, native)
+        """
+        maxx, maxy = self.MainArea.get_max_area()
 
         x, y, width, height = self.MainArea.get_window().get_geometry()
         glade = Gtk.Builder()
         glade.add_from_file(utils.get_data_file_name('labyrinth.xml'))
         dialog = glade.get_object('ExportImageDialog')
-        box = glade.get_object('dialog_insertion')
-        fc = Gtk.FileChooserWidget.new(Gtk.FileChooserAction.SAVE)
-        box.pack_end(fc, expand=True, fill=True, padding=0)
+
+        rad = glade.get_object('rb_complete_map')
+        spin_width = glade.get_object('width_spin')
+        spin_height = glade.get_object('height_spin')
+        spin_width.set_value(maxx)
+        spin_height.set_value(maxy)
+        spin_width.set_sensitive(False)
+        spin_height.set_sensitive(False)
+
+        def toggle_range(arg, native_width, native_height, max_width, max_height):
+            if arg.get_active ():
+                spin_width.set_value (max_width)
+                spin_height.set_value (max_height)
+                # TODO: Fix this (and below) to cope with non-native resolutions properly
+                #self.spin_width.set_sensitive (True)
+                #self.spin_height.set_sensitive (True)
+            else:
+                #self.spin_width.set_sensitive (False)
+                #self.spin_height.set_sensitive (False)
+                spin_width.set_value (native_width)
+                spin_height.set_value (native_height)
+
+        rad.connect('toggled', toggle_range, width, height, maxx, maxy)
+
+        response = dialog.run()
+
+        true_width = int(spin_width.get_value())
+        true_height = int(spin_height.get_value())
+        native = not rad.get_active()
+        dialog.destroy()
+
+        return (response == Gtk.ResponseType.OK), true_width, true_height, native
+
+    def get_export_image_filename(self):
+        """Display file chooser dialog for exporting an image, return filename
+
+        filename is None if the user cancelled.
+        """
+        fc = Gtk.FileChooserNative.new(
+            title=_("Export map as image"),
+            parent=self.main_window,
+            action=Gtk.FileChooserAction.SAVE,
+        )
 
         filter_mapping = [
             (_('All Files'), ['*']),
@@ -641,6 +672,7 @@ class LabyrinthWindow (GObject.GObject):
             (_('SVG Vector Image (*.svg)'), ['*.svg']),
             (_('PDF Portable Document (*.pdf)'), ['*.pdf'])
         ]
+        allowed_exts = {'.png', '.svg', '.pdf'}
 
         for (filter_name, filter_patterns) in filter_mapping:
             fil = Gtk.FileFilter()
@@ -649,60 +681,57 @@ class LabyrinthWindow (GObject.GObject):
                 fil.add_pattern(pattern)
             fc.add_filter(fil)
 
-        fc.set_current_name ("%s.png" % self.main_window.get_title())
-        rad = glade.get_object('rb_complete_map')
-        rad2 = glade.get_object('rb_visible_area')
-        self.spin_width = glade.get_object('width_spin')
-        self.spin_height = glade.get_object('height_spin')
-        self.spin_width.set_value (maxx)
-        self.spin_height.set_value (maxy)
-        self.spin_width.set_sensitive (False)
-        self.spin_height.set_sensitive (False)
+        fc.set_current_name("%s.png" % self.main_window.get_title())
 
-        rad.connect ('toggled', self.toggle_range, width, height,maxx,maxy)
-
-        fc.show ()
-        while 1:
-        # Cheesy loop.  Break out as needed.
-            response = dialog.run()
-            if response == Gtk.ResponseType.OK:
-                ext_mime_mapping = {
-                    'png':'png', 'svg':'svg', 'pdf':'pdf'
-                }
+        while True:
+            response = fc.run()
+            if response == Gtk.ResponseType.ACCEPT:
                 filename = fc.get_filename()
-                ext = filename[filename.rfind('.')+1:]
+                ext = os.path.splitext(filename)[1]
 
-                try:
-                    mime = ext_mime_mapping[ext]
+                if ext in allowed_exts:
                     break
-                except KeyError:
-                    msg = Gtk.MessageDialog(self, Gtk.DialogFlags.DESTROY_WITH_PARENT, Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, \
-                            _("Unknown file format"))
-                    msg.format_secondary_text (_("The file type '%s' is unsupported.  Please use the suffix '.png',"\
-                            " '.jpg' or '.svg'." % ext))
-                    msg.run ()
-                    msg.destroy ()
-            else:
-                dialog.destroy ()
-                return
+                else:
+                    msg = Gtk.MessageDialog(self.main_window,
+                                            Gtk.DialogFlags.DESTROY_WITH_PARENT,
+                                            Gtk.MessageType.ERROR,
+                                            Gtk.ButtonsType.OK,
+                                            _("Unknown file format"))
+                    msg.format_secondary_text(_(
+                        "The %r extension is unsupported. Please use the suffix "
+                        "'.png', '.jpg' or '.svg'.") % ext)
+                    msg.run()
+                    msg.destroy()
+            else:  # User clicked cancel (or equivalent)
+                filename = None
+                break
 
-        true_width = int (self.spin_width.get_value ())
-        true_height = int (self.spin_height.get_value ())
-        native = not rad.get_active ()
-        dialog.destroy ()
+        fc.destroy()
+        return filename
 
-        if mime == 'png':
+    def export_cb (self, event):
+        ok, true_width, true_height, native = self.get_export_image_options()
+        if not ok:
+            return
+
+        filename = self.get_export_image_filename()
+        if filename is None:
+            return
+
+        ext = os.path.splitext(filename)[1]
+
+        if ext == '.png':
             with cairo.ImageSurface(cairo.Format.ARGB32, true_width, true_height) as sfc:
                 self.save_surface(sfc, true_width, true_height, native)
                 sfc.write_to_png(filename)
-        elif mime == 'svg':
+        elif ext == '.svg':
             with cairo.SVGSurface(filename, true_width, true_height) as sfc:
                 self.save_surface(sfc, true_width, true_height, native)
-        elif mime == 'pdf':
+        elif ext == '.pdf':
             with cairo.PDFSurface(filename, true_width, true_height) as sfc:
                 self.save_surface(sfc, true_width, true_height, native)
         else:
-            raise ValueError("Unexpected file type {!r}".format(mime))
+            raise ValueError("Unexpected file type {!r}".format(ext))
 
     def save_surface(self, surface, width, height, native):
         cairo_context = cairo.Context(surface)
