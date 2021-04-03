@@ -183,7 +183,9 @@ class Browser (Gtk.Window):
     def open_selected_map(self):
         map = self.get_selected_map()
         if map is None:
-            raise "you clicked the 'open' button bud had no map selected"
+            # This should be impossible, because the button & menu entry aren't
+            # active until a map is selected.
+            raise RuntimeError("'open' clicked with no map selected")
         if map.window:
             print("Window for map '%s' is already open" % map.title)
             # may be the window should be raised?
@@ -244,7 +246,9 @@ class Browser (Gtk.Window):
     def delete_clicked (self, button):
         map = self.get_selected_map ()
         if not map:
-            raise "You clicked on delete but had no map selected"
+            # This should be impossible, because the button & menu entry aren't
+            # active until a map is selected.
+            raise RuntimeError("'delete' clicked with no map selected")
         error_message = ""
         if map.window:
             error_message =  _("The map cannot be deleted right now. Is it open?")
