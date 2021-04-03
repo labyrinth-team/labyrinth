@@ -28,6 +28,8 @@ _ = gettext.gettext
 
 # Gtk stuff
 from gi.repository import Gtk
+from gi.repository import Gdk
+from gi.repository import GdkPixbuf
 import cairo
 
 # Local imports
@@ -100,14 +102,14 @@ class ImageThought (BaseThought.ResizableThought):
         self.text = fname[fname.rfind('/')+1:fname.rfind('.')]
         return True
 
-    def draw (self, context):
+    def draw (self, context: cairo.Context):
         if len (self.extended_buffer.get_text()) == 0:
             utils.draw_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_NORMAL)
         else:
             utils.draw_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_EXTENDED_CONTENT)
 
         if self.pic:
-            context.set_source_pixbuf (self.pic, self.pic_location[0], self.pic_location[1])
+            Gdk.cairo_set_source_pixbuf(context, self.pic, self.pic_location[0], self.pic_location[1])
             context.rectangle (self.pic_location[0], self.pic_location[1], self.width, self.height)
             context.fill ()
         context.set_source_rgb (0,0,0)
@@ -116,12 +118,9 @@ class ImageThought (BaseThought.ResizableThought):
         utils.export_thought_outline (context, self.ul, self.lr, self.background_color, self.am_selected, self.am_primary, utils.STYLE_NORMAL,
                                                                   (move_x, move_y))
         if self.pic:
-            if hasattr(context, "set_source_pixbuf"):
-                context.set_source_pixbuf (self.pic, self.pic_location[0]+move_x, self.pic_location[1]+move_y)
-            elif hasattr(context, "set_source_surface"):
-                pixel_array = utils.pixbuf_to_cairo (self.pic.get_pixels_array())
-                image_surface = cairo.ImageSurface.create_for_data(pixel_array, cairo.FORMAT_ARGB32, self.width, self.height, -1)
-                context.set_source_surface (image_surface, self.pic_location[0]+move_x, self.pic_location[1]+move_y)
+            loc_x = self.pic_location[0] + move_x
+            loc_y = self.pic_location[1] + move_y
+            Gdk.cairo_set_source_pixbuf(context, self.pic, loc_x, loc_y)
             context.rectangle (self.pic_location[0]+move_x, self.pic_location[1]+move_y, self.width, self.height)
             context.fill ()
         context.set_source_rgb (0,0,0)
@@ -299,11 +298,8 @@ class ImageThought (BaseThought.ResizableThought):
         self.lr = utils.parse_coords (tmp)
         self.filename = node.getAttribute ("file")
         self.identity = int (node.getAttribute ("identity"))
-        try:
-            tmp = node.getAttribute ("background-color")
-            self.background_color = Gdk.color_parse(tmp)
-        except ValueError:
-            pass
+        self.background_color = Gdk.RGBA()  # default: white
+        self.background_color.parse(node.getAttribute("background-color"))
         self.width = float(node.getAttribute ("image_width"))
         self.height = float(node.getAttribute ("image_height"))
         self.am_selected = node.hasAttribute ("current_root")
