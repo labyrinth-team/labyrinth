@@ -68,12 +68,14 @@ class ImageThought (BaseThought.ResizableThought):
             fil = Gtk.FileFilter ()
             fil.set_name("Images")
             fil.add_pixbuf_formats ()
-            dialog = Gtk.FileChooserDialog (_("Choose image to insert"), None, Gtk.FileChooserAction.OPEN, \
-                                     (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+            dialog = Gtk.FileChooserNative(
+                title=_("Choose image to insert"),
+                action=Gtk.FileChooserAction.OPEN,
+            )
             dialog.add_filter (fil)
             res = dialog.run ()
             dialog.hide ()
-            if res != Gtk.ResponseType.OK:
+            if res != Gtk.ResponseType.ACCEPT:
                 return False
             else:
                 fname = dialog.get_filename()
