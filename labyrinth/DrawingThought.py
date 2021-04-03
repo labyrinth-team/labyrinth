@@ -540,7 +540,7 @@ class DrawingThought (BaseThought.ResizableThought):
                     context.line_to (p.x+move_x,p.y+move_y)
 
         context.set_line_width (cwidth)
-        Gdk.cairo_set_source_rgba(self.foreground_color)
+        Gdk.cairo_set_source_rgba(context, self.foreground_color)
         context.stroke ()
         return
 
