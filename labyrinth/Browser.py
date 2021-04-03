@@ -284,8 +284,11 @@ class Browser (Gtk.Window):
         return
 
     def import_clicked(self, button, other=None, *data):
-        chooser = Gtk.FileChooserDialog(title=_("Open File"), action=Gtk.FileChooserAction.OPEN, \
-                buttons=(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+        chooser = Gtk.FileChooserNative.new(
+            title=_("Import map"),
+            parent=self.main_window,
+            action=Gtk.FileChooserAction.OPEN,
+        )
 
         filtr = Gtk.FileFilter()
         filtr.set_name(_('MAPZ Compressed Map (*.mapz)'))
@@ -293,7 +296,7 @@ class Browser (Gtk.Window):
         chooser.add_filter(filtr)
 
         response = chooser.run()
-        if response == Gtk.ResponseType.OK:
+        if response == Gtk.ResponseType.ACCEPT:
             filename = chooser.get_filename()
             tf = tarfile.open(filename)
             mapname = utils.get_save_dir() + tf.getnames()[0]
