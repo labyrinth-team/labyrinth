@@ -537,11 +537,14 @@ class LabyrinthWindow (GObject.GObject):
         self.emit ('file_saved', self.save_file, self)
 
     def export_map_cb(self, event):
-        chooser = Gtk.FileChooserDialog(title=_("Save File As"), action=Gtk.FileChooserAction.SAVE, \
-                    buttons=(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
-        chooser.set_current_name ("%s.mapz" % self.main_window.title)
+        chooser = Gtk.FileChooserNative.new(
+            title=_("Save File As"),
+            parent=self.main_window,
+            action=Gtk.FileChooserAction.SAVE,
+        )
+        chooser.set_current_name("%s.mapz" % self.main_window.get_title())
         response = chooser.run()
-        if response == Gtk.ResponseType.OK:
+        if response == Gtk.ResponseType.ACCEPT:
             filename = chooser.get_filename ()
             self.MainArea.save_thyself ()
             tf = tarfile.open (filename, "w")
