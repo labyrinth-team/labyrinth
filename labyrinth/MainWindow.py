@@ -494,10 +494,12 @@ class LabyrinthWindow (GObject.GObject):
         self.MainArea.delete_selected_elements ()
 
     def close_window_cb (self, event):
-        self.SaveTimer.cancel = True
+        self.SaveTimer.cancel.set()
+        self.SaveTimer.join(timeout=0.5)
+        if self.SaveTimer.is_alive():
+            print("PeriodicSaveThread did not shut down as expected")
         self.main_window.hide ()
         self.MainArea.save_thyself ()
-        del (self)
 
     def doc_del_cb (self, widget):
         self.emit ('window_closed', None)
@@ -792,5 +794,4 @@ class LabyrinthWindow (GObject.GObject):
 
     def start_timer (self):
         self.SaveTimer = PeriodicSaveThread.PeriodicSaveThread(self.MainArea)
-        self.SaveTimer.setDaemon( True)
         self.SaveTimer.start()

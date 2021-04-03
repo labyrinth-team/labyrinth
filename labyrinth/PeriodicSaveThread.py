@@ -20,17 +20,14 @@
 #
 
 import threading
-import time
 
 class PeriodicSaveThread(threading.Thread):
 
     def __init__(self, main_area):
-        threading.Thread.__init__(self)
+        threading.Thread.__init__(self, daemon=True)
         self.main_area = main_area
-        self.cancel = False
+        self.cancel = threading.Event()
 
     def run (self):
-        time.sleep (60)
-        while not self.cancel:
+        while not self.cancel.wait(60):
             self.main_area.save_thyself ()
-            time.sleep (60)
