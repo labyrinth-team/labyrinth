@@ -258,7 +258,7 @@ class Browser (Gtk.Window):
             dialog.hide ()
             del (dialog)
             return
-        dialog = Gtk.MessageDialog (self, Gtk.DialogFlags.MODAL, Gtk.MessageType.WARNING, gtk.ButtonsType.YES_NO,
+        dialog = Gtk.MessageDialog (self, Gtk.DialogFlags.MODAL, Gtk.MessageType.WARNING, Gtk.ButtonsType.YES_NO,
                                                                 _("Do you really want to delete this Map?"))
         resp = dialog.run ()
         dialog.hide ()
