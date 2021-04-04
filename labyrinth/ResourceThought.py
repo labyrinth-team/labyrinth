@@ -21,7 +21,6 @@
 
 from gi.repository import Gtk, Gdk, Pango
 
-import os
 import webbrowser
 import gettext
 _ = gettext.gettext
@@ -29,7 +28,6 @@ _ = gettext.gettext
 from . import utils
 from . import BaseThought, TextThought
 from . import prefs
-from . import UndoManager
 
 class ResourceThought (TextThought.TextThought):
     def __init__ (self, coords, pango_context, thought_number, save, undo, loading, background_color, foreground_color):
@@ -88,8 +86,10 @@ class ResourceThought (TextThought.TextThought):
             if not self.ul or not self.lr:
                 print("Warning: Trying to draw unfinished box "+str(self.identity)+". Aborting.")
                 return
-            utils.draw_thought_extended (context, self.ul, self.lr, \
-                    self.am_selected, self.am_primary, self.background_color, False, True)
+            utils.draw_thought_extended(
+                context, self.ul, self.lr, self.am_selected, self.am_primary,
+                self.background_color, False, True
+            )
         else:
             ux, uy = self.ul
             if prefs.get_direction() == Gtk.TextDirection.LTR:

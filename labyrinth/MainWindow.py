@@ -41,9 +41,7 @@ from . import MMapArea
 from . import UndoManager
 from . import PeriodicSaveThread
 from . import ImageThought
-from . import BaseThought
 from . import utils
-from .MapList import MapList
 
 # UNDO varieties for us
 UNDO_MODE = 0
@@ -377,12 +375,14 @@ class LabyrinthWindow (GObject.GObject):
         return self.tr_to
 
     def finish_translate (self, box, arg1):
-        self.undo.add_undo (UndoManager.UndoAction (self.MainArea, UndoManager.TRANSFORM_CANVAS, \
-                self.MainArea.undo_transform_cb,
-                self.MainArea.scale_fac,
-                self.MainArea.scale_fac,
-                self.orig_translate,
-                self.MainArea.translation))
+        self.undo.add_undo(UndoManager.UndoAction(
+            self.MainArea, UndoManager.TRANSFORM_CANVAS,
+            self.MainArea.undo_transform_cb,
+            self.MainArea.scale_fac,
+            self.MainArea.scale_fac,
+            self.orig_translate,
+            self.MainArea.translation
+        ))
         self.tr_to = False
 
     def pos_changed (self, panes, arg2):

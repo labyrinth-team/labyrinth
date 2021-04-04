@@ -173,15 +173,19 @@ class DrawingThought (BaseThought.ResizableThought):
             self.points[-1].style=STYLE_END
         self.emit ("update_view")
         if self.want_move and self.drawing == 0:
-            self.undo.add_undo (UndoManager.UndoAction (self, UNDO_RESIZE, self.undo_resize, \
-                                                                                                    self.orig_size, (self.ul, self.width, self.height)))
+            self.undo.add_undo(UndoManager.UndoAction(
+                self, UNDO_RESIZE, self.undo_resize, self.orig_size,
+                (self.ul, self.width, self.height)
+            ))
         elif self.want_move and self.drawing == 1:
-            self.undo.add_undo (UndoManager.UndoAction (self, UNDO_DRAW, self.undo_drawing, \
-                                                                                                    self.ins_points, self.orig_size, \
-                                                                                                    (self.ul, self.width, self.height)))
+            self.undo.add_undo(UndoManager.UndoAction(
+                self, UNDO_DRAW, self.undo_drawing, self.ins_points,
+                self.orig_size, (self.ul, self.width, self.height)
+            ))
         elif self.want_move and self.drawing == 2:
-            self.undo.add_undo (UndoManager.UndoAction (self, UNDO_ERASE, self.undo_erase, \
-                                                                                                    self.ins_points))
+            self.undo.add_undo(UndoManager.UndoAction(
+                self, UNDO_ERASE, self.undo_erase, self.ins_points
+            ))
         self.drawing = 0
         self.want_move = False
 
@@ -209,8 +213,11 @@ class DrawingThought (BaseThought.ResizableThought):
             if not event.state & Gdk.ModifierType.BUTTON1_MASK or mode != MODE_EDITING:
                 return False
             else:
-                self.emit ("create_link", \
-                 (self.ul[0]-((self.ul[0]-self.lr[0]) / 2.), self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)))
+                self.emit(
+                    "create_link",
+                    (self.ul[0]-((self.ul[0]-self.lr[0]) / 2.),
+                     self.ul[1]-((self.ul[1]-self.lr[1]) / 2.))
+                )
         diffx = transformed[0] - self.motion_coords[0]
         diffy = transformed[1] - self.motion_coords[1]
         change = (len(self.points) == 0)
@@ -471,7 +478,7 @@ class DrawingThought (BaseThought.ResizableThought):
             except xml.dom.NotFoundErr:
                 pass
         if self.am_primary:
-            self.element.setAttribute ("primary_root", "true");
+            self.element.setAttribute("primary_root", "true")
         else:
             try:
                 self.element.removeAttribute ("primary_root")

@@ -22,7 +22,6 @@
 
 import math
 
-import time
 import gettext
 import copy
 _ = gettext.gettext
@@ -32,9 +31,9 @@ from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GObject
 from gi.repository import Pango
-import cairo
 
 from . import Links
+from . import BaseThought
 from . import TextThought
 from . import ImageThought
 from . import DrawingThought
@@ -290,7 +289,7 @@ class MMapArea (Gtk.DrawingArea):
                 return True
             if not self.primary:
                 self.make_primary (thought)
-                self.select_thought (thought, None)
+                self.select_thought(thought)
             else:
                 self.emit ("change_buffer", thought.extended_buffer)
                 self.hookup_im_context (thought)
@@ -313,15 +312,19 @@ class MMapArea (Gtk.DrawingArea):
             self.undo.unblock ()
             thought.foreground_color = self.foreground_color
             thought.background_color = self.background_color
-            act = UndoManager.UndoAction (self, UNDO_CREATE, self.undo_create_cb, thought, sel, \
-                    self.mode, self.old_mode, event.get_coords())
+            act = UndoManager.UndoAction(
+                self, UNDO_CREATE, self.undo_create_cb, thought, sel,
+                self.mode, self.old_mode, event.get_coords()
+            )
             for l in self.links:
                 if l.uses (thought):
                     act.add_arg (l)
             if self.undo.peak ().undo_type == UNDO_DELETE_SINGLE:
                 last_action = self.undo.pop ()
-                action = UndoManager.UndoAction (self, UNDO_COMBINE_DELETE_NEW, self.undo_joint_cb, \
-                    last_action, act)
+                action = UndoManager.UndoAction(
+                    self, UNDO_COMBINE_DELETE_NEW, self.undo_joint_cb,
+                    last_action, act
+                )
                 self.undo.add_undo (action)
             else:
                 self.undo.add_undo (act)
@@ -357,10 +360,10 @@ class MMapArea (Gtk.DrawingArea):
         elif event.direction == Gdk.ScrollDirection.DOWN:
             self.scale_fac/=1.2
 
-        self.undo.add_undo (UndoManager.UndoAction (self, UndoManager.TRANSFORM_CANVAS, \
-            self.undo_transform_cb,
-            scale, self.scale_fac, self.translation,
-            self.translation))
+        self.undo.add_undo(UndoManager.UndoAction(
+            self, UndoManager.TRANSFORM_CANVAS, self.undo_transform_cb,
+            scale, self.scale_fac, self.translation, self.translation
+        ))
         self.invalidate()
 
     def undo_joint_cb (self, action, mode):
@@ -508,7 +511,7 @@ class MMapArea (Gtk.DrawingArea):
     def title_changed_cb (self, widget, new_title):
         self.emit ("title_changed", new_title)
 
-    def make_primary (self, thought):
+    def make_primary (self, thought: BaseThought.BaseThought):
         if self.primary:
             print("Warning: Already have a primary root")
             if self.title_change_handler:
@@ -529,13 +532,24 @@ class MMapArea (Gtk.DrawingArea):
             self.commit_handler = None
         if thought:
             try:
-                self.commit_handler = self.im_context.connect ("commit", thought.commit_text, self.mode, self.font_name)
-                self.delete_handler = self.im_context.connect ("delete-surrounding", thought.delete_surroundings, self.mode)
-                self.preedit_changed_handler = self.im_context.connect ("preedit-changed", thought.preedit_changed, self.mode)
-                self.preedit_end_handler = self.im_context.connect ("preedit-end", thought.preedit_end, self.mode)
-                self.preedit_start_handler = self.im_context.connect ("preedit-start", thought.preedit_start, self.mode)
-                self.retrieve_handler = self.im_context.connect ("retrieve-surrounding", thought.retrieve_surroundings, \
-                                                                                                                 self.mode)
+                self.commit_handler = self.im_context.connect(
+                    "commit", thought.commit_text, self.mode, self.font_name
+                )
+                self.delete_handler = self.im_context.connect(
+                    "delete-surrounding", thought.delete_surroundings, self.mode
+                )
+                self.preedit_changed_handler = self.im_context.connect(
+                    "preedit-changed", thought.preedit_changed, self.mode
+                )
+                self.preedit_end_handler = self.im_context.connect(
+                    "preedit-end", thought.preedit_end, self.mode
+                )
+                self.preedit_start_handler = self.im_context.connect(
+                    "preedit-start", thought.preedit_start, self.mode
+                )
+                self.retrieve_handler = self.im_context.connect(
+                    "retrieve-surrounding", thought.retrieve_surroundings, self.mode
+                )
                 self.do_filter = True
             except AttributeError:
                 self.do_filter = False
@@ -567,7 +581,7 @@ class MMapArea (Gtk.DrawingArea):
         link.select()
         self.emit("change_buffer", None)
 
-    def select_thought (self, thought, modifiers):
+    def select_thought(self, thought: BaseThought.BaseThought, modifiers=None):
         self.hookup_im_context ()
         if self.editing:
             self.finish_editing ()
@@ -602,7 +616,7 @@ class MMapArea (Gtk.DrawingArea):
         else:
             self.emit ("change_buffer", None)
 
-    def begin_editing (self, thought):
+    def begin_editing (self, thought: BaseThought.BaseThought):
         if self.editing and thought != self.editing:
             self.finish_editing ()
         if thought.begin_editing ():
@@ -635,7 +649,7 @@ class MMapArea (Gtk.DrawingArea):
         self.undo.unblock ()
         self.invalidate ()
 
-    def connect_link (self, link):
+    def connect_link (self, link: Links.Link):
         link.connect ("select_link", self.select_link)
         link.connect ("update_view", self.update_view)
         link.connect ("popup_requested", self.create_popup_menu)
@@ -685,8 +699,10 @@ class MMapArea (Gtk.DrawingArea):
                 old_strength = x.strength
                 x.change_strength (self.unending_link.parent, thought)
                 new_strength = x.strength
-                self.undo.add_undo (UndoManager.UndoAction (self, UNDO_STRENGTHEN_LINK, self.undo_link_action, x, \
-                        old_strength, new_strength))
+                self.undo.add_undo(UndoManager.UndoAction(
+                    self, UNDO_STRENGTHEN_LINK, self.undo_link_action, x,
+                    old_strength, new_strength
+                ))
                 del self.unending_link
                 self.unending_link = None
                 return
@@ -858,24 +874,35 @@ class MMapArea (Gtk.DrawingArea):
     def create_new_thought (self, coords, thought_type = None, loading = False):
         if self.editing:
             self.editing.finish_editing ()
-        if thought_type != None:
-            type = thought_type
-        else:
-            type = self.mode
+        if thought_type is None:
+            thought_type = self.mode
 
-        if type == TYPE_TEXT:
-            thought = TextThought.TextThought (coords, self.pango_context, self.nthoughts, self.save, self.undo, loading, self.background_color, self.foreground_color)
-        elif type == TYPE_IMAGE:
-            thought = ImageThought.ImageThought (coords, self.pango_context, self.nthoughts, self.save, self.undo, loading, self.background_color)
-        elif type == TYPE_DRAWING:
-            thought = DrawingThought.DrawingThought (coords, self.pango_context, self.nthoughts, self.save, self.undo,      \
-                                                                                             loading,self.background_color, self.foreground_color)
-        elif type == TYPE_RESOURCE:
-            thought = ResourceThought.ResourceThought (coords, self.pango_context, self.nthoughts, self.save, self.undo, loading, self.background_color, self.foreground_color)
+        if thought_type == TYPE_TEXT:
+            thought = TextThought.TextThought(
+                coords, self.pango_context, self.nthoughts, self.save, self.undo,
+                loading, self.background_color, self.foreground_color
+            )
+        elif thought_type == TYPE_IMAGE:
+            thought = ImageThought.ImageThought(
+                coords, self.pango_context, self.nthoughts, self.save, self.undo,
+                loading, self.background_color
+            )
+        elif thought_type == TYPE_DRAWING:
+            thought = DrawingThought.DrawingThought(
+                coords, self.pango_context, self.nthoughts, self.save, self.undo,
+                loading,self.background_color, self.foreground_color
+            )
+        elif thought_type == TYPE_RESOURCE:
+            thought = ResourceThought.ResourceThought(
+                coords, self.pango_context, self.nthoughts, self.save, self.undo,
+                loading, self.background_color, self.foreground_color
+            )
+        else:
+            raise ValueError("Unexpected thought_type: %r" % thought_type)
         if not thought.okay ():
             return None
 
-        if type == TYPE_IMAGE:
+        if thought_type == TYPE_IMAGE:
             self.emit ("change_mode", self.old_mode)
         self.nthoughts += 1
         element = thought.element
@@ -1130,7 +1157,7 @@ class MMapArea (Gtk.DrawingArea):
             return False
 
         if thought:
-            self.select_thought (thought, None)
+            self.select_thought(thought)
         self.invalidate ()
         return True
 
@@ -1184,8 +1211,10 @@ class MMapArea (Gtk.DrawingArea):
         if len(self.selected) == 1:
             self.emit ("change_buffer", self.selected[0].extended_buffer)
             self.hookup_im_context (self.selected[0])
-            self.emit ("thought_selection_changed", self.selected[0].background_color, \
-                       self.selected[0].foreground_color)
+            self.emit(
+                "thought_selection_changed", self.selected[0].background_color,
+                self.selected[0].foreground_color
+            )
         else:
             self.emit ("change_buffer", None)
         del_links = []
