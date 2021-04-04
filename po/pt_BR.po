@@ -1,238 +1,322 @@
-# labrynth translation to Brazilian Portuguese.
-# Copyright (C) 2006 
-# Leonardo Gregianin <leogregianin@gmail.com>, 2006
-# 
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# leogregianin <leogregianin@gmail.com>, 2006
+# salmora8 <shorterfire@gmail.com>, 2012-2013
 msgid ""
 msgstr ""
-"Project-Id-Version: pt-br\n"
+"Project-Id-Version: Labyrinth\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-07 12:46+0000\n"
-"PO-Revision-Date: 2006-10-16 14:05+0200\n"
-"Last-Translator: Leonardo Gregianin <leonardo@riseup.net>\n"
-"Language-Team: Brazilian Portuguese <leonardo@riseup.net>\n"
+"POT-Creation-Date: 2014-06-04 11:45-0700\n"
+"PO-Revision-Date: 2013-01-10 00:58+0000\n"
+"Last-Translator: salmora8 <shorterfire@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/labyrinth/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ../src/Browser.py:207
-msgid "The map cannot be deleted right now.  Is it open?"
-msgstr "O mapa não pode ser apagado agora. Ele está aberto?"
+#: ../labyrinth_lib/ImageThought.py:68
+msgid "Choose image to insert"
+msgstr "Escolha a imagem para inserir"
 
-#: ../src/Browser.py:209
+#: ../labyrinth_lib/ImageThought.py:322
+msgid "Error loading file"
+msgstr "Erro ao carregar arquivo"
+
+#: ../labyrinth_lib/ImageThought.py:323
+#, python-format
+msgid "%s could not be found.  Associated thought will be empty."
+msgstr "%s não pode ser encontrado.  O pensamento associado estará vazio."
+
+#: ../labyrinth_lib/ImageThought.py:338
+msgid "Change Image"
+msgstr "Alterar Imagem"
+
+#: ../labyrinth_lib/Browser.py:194
+#, python-format
+msgid "Unable to display help: %s"
+msgstr "Não foi possível exibir ajuda: %s"
+
+#: ../labyrinth_lib/Browser.py:226
+msgid "Translation by Don Scorgie"
+msgstr ""
+"Versão em Português Brasileiro por:\n"
+"Alexandro Casanova."
+
+#: ../labyrinth_lib/Browser.py:248
+msgid "The map cannot be deleted right now. Is it open?"
+msgstr "O mapa não pode ser excluído no momento. Ele está aberto?"
+
+#: ../labyrinth_lib/Browser.py:250
 msgid "The map has no associated filename."
 msgstr "O mapa não tem nenhum nome de arquivo associado."
 
-#: ../src/Browser.py:212
+#: ../labyrinth_lib/Browser.py:253
 msgid "Cannot delete this map"
-msgstr "Não é possível apagar este mapa"
+msgstr "Não foi possível apagar este mapa"
 
-#: ../src/Browser.py:219
+#: ../labyrinth_lib/Browser.py:260
 msgid "Do you really want to delete this Map?"
-msgstr "Vocé quer realmente apagar este mapa?"
+msgstr "Você realmente deseja excluir este Mapa?"
 
-#: ../src/Browser.py:248
+#: ../labyrinth_lib/Browser.py:285
+msgid "Open File"
+msgstr "Abrir Arquivo"
+
+#: ../labyrinth_lib/Browser.py:289
+msgid "MAPZ Compressed Map (*.mapz)"
+msgstr "Mapa Comprimido MAPZ (*.mapz)"
+
+#: ../labyrinth_lib/Browser.py:320
 msgid "Map Name"
 msgstr "Nome do Mapa"
 
-#: ../src/MainWindow.py:111 ../src/MainWindow.py:283
-#, python-format
-msgid "Untitled Map %d"
-msgstr "Mapa sem título %d"
+#: ../labyrinth_lib/Browser.py:327
+msgid "Last Modified"
+msgstr "Última Modificação"
 
-#: ../src/MainWindow.py:165
+#: ../labyrinth_lib/Links.py:265
+msgid "Choose Color"
+msgstr "Escolha a Cor"
+
+#: ../labyrinth_lib/Links.py:278
+msgid "Set Color"
+msgstr "Definir Cor"
+
+#: ../labyrinth_lib/MainWindow.py:162 ../labyrinth_lib/MainWindow.py:478
+msgid "Untitled Map"
+msgstr "Mapa Sem Título"
+
+#: ../labyrinth_lib/MainWindow.py:208
 msgid "File"
 msgstr "Arquivo"
 
-#: ../src/MainWindow.py:166
+#: ../labyrinth_lib/MainWindow.py:209
 msgid "Export as Image"
 msgstr "Exportar como Imagem"
 
-#: ../src/MainWindow.py:167
+#: ../labyrinth_lib/MainWindow.py:210
 msgid "Export your map as an image"
 msgstr "Exportar seu mapa como uma imagem"
 
-#: ../src/MainWindow.py:169
-msgid "Close the current window"
-msgstr "Fechar esta janela"
+#: ../labyrinth_lib/MainWindow.py:211
+msgid "Export Map..."
+msgstr "Exportar Mapa..."
 
-#: ../src/MainWindow.py:170
+#: ../labyrinth_lib/MainWindow.py:212
+msgid "Export your map as XML"
+msgstr "Exportar seu mapa como XML"
+
+#: ../labyrinth_lib/MainWindow.py:214
+msgid "Close the current window"
+msgstr "Fechar a janela atual"
+
+#: ../labyrinth_lib/MainWindow.py:215
 msgid "_Edit"
 msgstr "_Editar"
 
-#: ../src/MainWindow.py:179
-#, fuzzy
-msgid "(Un)Link Thoughts"
-msgstr "(Un)Link Thoughts"
+#: ../labyrinth_lib/MainWindow.py:216
+msgid "_View"
+msgstr "_Ver"
 
-#: ../src/MainWindow.py:180
-#, fuzzy
-msgid "(Un)Link the selected thoughts"
-msgstr "(Un)Link the selected thoughts"
+#: ../labyrinth_lib/MainWindow.py:217
+msgid "_Toolbar"
+msgstr "_Barra de Ferramentas"
 
-#: ../src/MainWindow.py:181
+#: ../labyrinth_lib/MainWindow.py:226
+msgid "Link Thoughts"
+msgstr "Ligar Pensamentos"
+
+#: ../labyrinth_lib/MainWindow.py:227
+msgid "Link the selected thoughts"
+msgstr "Ligar os pensamentos selecionados"
+
+#: ../labyrinth_lib/MainWindow.py:228
 msgid "_Mode"
 msgstr "_Modo"
 
-#: ../src/MainWindow.py:182
-msgid "_Delete Selected Thoughts"
-msgstr "_Apagando Pensamentos Selecionados"
-
-#: ../src/MainWindow.py:183
-msgid "Delete the selected element(s)"
-msgstr "Apagar o(s) elemento(s) selecionado(s)"
-
-#: ../src/MainWindow.py:185
+#: ../labyrinth_lib/MainWindow.py:236
 msgid "_Edit Mode"
 msgstr "_Modo Editar"
 
-#: ../src/MainWindow.py:186
+#: ../labyrinth_lib/MainWindow.py:237
 msgid "Turn on edit mode"
 msgstr "Voltar ao modo de edição"
 
-#: ../src/MainWindow.py:187
+#: ../labyrinth_lib/MainWindow.py:238
 msgid "_Add Image"
-msgstr "_Adicionar image"
+msgstr "_Adicionar Imagem"
 
-#: ../src/MainWindow.py:188
+#: ../labyrinth_lib/MainWindow.py:239
 msgid "Add an image to selected thought"
-msgstr "Adicione uma imagem ao mapa selecionado"
+msgstr "Adicione uma imagem para o pensamento selecionado"
 
-#: ../src/MainWindow.py:189
+#: ../labyrinth_lib/MainWindow.py:240
 msgid "_Drawing Mode"
 msgstr "_Modo Desenho"
 
-#: ../src/MainWindow.py:190
+#: ../labyrinth_lib/MainWindow.py:241
 msgid "Make a pretty drawing"
-msgstr "Fazer um desenho bonito"
+msgstr "Fazer um desenho"
 
-#: ../src/MainWindow.py:192
-msgid "_View Extended"
-msgstr "_Visão Extendida"
+#: ../labyrinth_lib/MainWindow.py:243
+msgid "Use _Curves"
+msgstr "Usar _Curvas"
 
-#: ../src/MainWindow.py:193
-msgid "View extended info for thoughts"
-msgstr "Visão extendida das informações do pensamento"
+#: ../labyrinth_lib/MainWindow.py:244
+msgid "Use curves as links"
+msgstr "Usar curvas como ligação"
 
-#: ../src/MainWindow.py:446
+#: ../labyrinth_lib/MainWindow.py:245
+msgid "Use _Lines"
+msgstr "Usar _Linhas"
+
+#: ../labyrinth_lib/MainWindow.py:246
+msgid "Use straight lines as links"
+msgstr "Usar linhas retas como ligação"
+
+#: ../labyrinth_lib/MainWindow.py:248
+msgid "_Extended Information"
+msgstr "_Informações Adicionais"
+
+#: ../labyrinth_lib/MainWindow.py:249
+msgid "Show extended information for thoughts"
+msgstr "Mostrar informações adicionais dos pensamentos"
+
+#: ../labyrinth_lib/MainWindow.py:250
+msgid "_Main"
+msgstr "_Principal"
+
+#: ../labyrinth_lib/MainWindow.py:251
+msgid "Show main toolbar"
+msgstr "Mostrar barra de ferramentas principal"
+
+#: ../labyrinth_lib/MainWindow.py:252
+msgid "_Format"
+msgstr "_Formatação"
+
+#: ../labyrinth_lib/MainWindow.py:253
+msgid "Show format toolbar"
+msgstr "Mostrar barra de formatação"
+
+#: ../labyrinth_lib/MainWindow.py:533
+msgid "Save File As"
+msgstr "Salvar Arquivo Como"
+
+#: ../labyrinth_lib/MainWindow.py:627
+msgid "All Files"
+msgstr "Todos os Arquivos"
+
+#: ../labyrinth_lib/MainWindow.py:628
+msgid "PNG Image (*.png)"
+msgstr "Imagem PNG (*.png)"
+
+#: ../labyrinth_lib/MainWindow.py:629
+msgid "JPEG Image (*.jpg, *.jpeg)"
+msgstr "Imagem JPEG (*.jpg, *.jpeg)"
+
+#: ../labyrinth_lib/MainWindow.py:630
+msgid "SVG Vector Image (*.svg)"
+msgstr "Imagem Vetorial SVG (*.svg)"
+
+#: ../labyrinth_lib/MainWindow.py:631
+msgid "PDF Portable Document (*.pdf)"
+msgstr "Documento Portátil PDF (*.pdf)"
+
+#: ../labyrinth_lib/MainWindow.py:669
 msgid "Unknown file format"
 msgstr "Formato de imagem desconhecida"
 
-#: ../src/MainWindow.py:447
+#: ../labyrinth_lib/MainWindow.py:670
 #, python-format
 msgid ""
-"The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
+"The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
+"'.svg'."
 msgstr ""
-"O tipo de arquivo '%s' não é suportado.  Por favor use o sufixo '.png' ou '.jpg'"
+"O tipo de arquivo '%s' não é suportado.  Favor usar o sufixo '.png', '.jpg' "
+"ou '.svg'."
 
-#: ../src/DrawingThought.py:67
+#: ../labyrinth_lib/ResourceThought.py:128
+msgid "Edit Text"
+msgstr "Editar Texto"
+
+#: ../labyrinth_lib/ResourceThought.py:133
+msgid "Edit URI"
+msgstr "Editar URI"
+
+#: ../labyrinth_lib/DrawingThought.py:65
 #, python-format
 msgid "Drawing #%d"
 msgstr "Desenhando #%d"
 
-#: ../src/ImageThought.py:64
-msgid "Choose image to insert"
-msgstr "Escolha a imagem para inserir"
-
-#: ../src/ImageThought.py:304
-msgid "Error loading file"
-msgstr "Erro ao carregar arquivo"
-
-#: ../src/ImageThought.py:305
-#,python-format
-msgid "%s could not be found.  Associated thought will be empty."
-msgstr "%s não pode ser encontrado. O pensamento associado estará vazio."
-
-#: ../data/labyrinth.glade.h:1
-msgid "<b>Export Map</b>"
-msgstr "<b>Exportar Mapa</b>"
-
-#: ../data/labyrinth.glade.h:2
-msgid "Complete Map"
-msgstr "Mapa Completo"
-
-#: ../data/labyrinth.glade.h:3
+#: ../data/labyrinth.glade:7
 msgid "Export Map as Image"
 msgstr "Exportar Mapa como Imagem"
 
-#: ../data/labyrinth.glade.h:4
-msgid "Height"
-msgstr "Altura"
+#: ../data/labyrinth.glade:87
+msgid "Complete Map"
+msgstr "Mapa Completo"
 
-#: ../data/labyrinth.glade.h:5
-msgid "Labyrinth Maps"
-msgstr "Mapas do Labyrinth"
-
-#: ../data/labyrinth.glade.h:6
+#: ../data/labyrinth.glade:101
 msgid "Visible Area"
 msgstr "Área Visível"
 
-#: ../data/labyrinth.glade.h:7
+#: ../data/labyrinth.glade:157
 msgid "Width"
 msgstr "Largura"
 
-#: ../data/labyrinth.glade.h:8
+#: ../data/labyrinth.glade:172
+msgid "Height"
+msgstr "Altura"
+
+#: ../data/labyrinth.glade:226
+msgid "<b>Export Map</b>"
+msgstr "<b>Exportar Mapa</b>"
+
+#: ../data/labyrinth.glade:245
+msgid "Labyrinth Maps"
+msgstr "Mapas do Labyrinth"
+
+#: ../data/labyrinth.glade:259
 msgid "_File"
 msgstr "_Arquivo"
 
-#: ../data/labyrinth.glade.h:9
+#: ../data/labyrinth.glade:299
+msgid "Import..."
+msgstr "Importar..."
+
+#: ../data/labyrinth.glade:329
 msgid "_Help"
 msgstr "_Ajuda"
 
-#: ../data/labyrinth.desktop.in.h:1
-msgid "Labyrinth Mind-mapping"
-msgstr "Labyrinth Mapa Mental"
+#: ../data/labyrinth.glade:765
+msgid "URL"
+msgstr "URL"
 
-#: ../data/labyrinth.desktop.in.h:2
-msgid "Map your mind"
-msgstr "Mapeando sua mente"
+#: ../data/labyrinth.glade:806
+msgid "Align Left"
+msgstr "Alinhar à Esquerda"
 
-#: ../data/labyrinth.desktop.in.h:3
-msgid "Mind-mapping"
-msgstr "Mind-mapping"
+#: ../data/labyrinth.glade:825
+msgid "Align Right"
+msgstr "Alinhar à Direita"
 
-#~ msgid "Learn about the application"
-#~ msgstr "Aprender sobre o programa"
+#: ../data/labyrinth.glade:844
+msgid "Align Vertical Center"
+msgstr "Alinhar no Centro Vertical"
 
-#~ msgid "Delete Map"
-#~ msgstr "Apagar mapa"
+#: ../data/labyrinth.glade:863
+msgid "Align Top"
+msgstr "Alinhar no Topo"
 
-#~ msgid "New Map"
-#~ msgstr "Novo map"
+#: ../data/labyrinth.glade:882
+msgid "Align Bottom"
+msgstr "Alinhar para Baixo"
 
-#~ msgid "Open Map"
-#~ msgstr "Abrir"
-
-#~ msgid "Quit"
-#~ msgstr "Sair"
-
-#~ msgid "_New"
-#~ msgstr "_Novo"
-
-#~ msgid "Create a new mind-map"
-#~ msgstr "Criar um novo mapa-mental"
-
-#~ msgid "_Close"
-#~ msgstr "_Sair"
-
-#~ msgid "_Quit"
-#~ msgstr "_Sair"
-
-#~ msgid "Close all the windows and exit the application"
-#~ msgstr "Fechar todas as janelas e sair do programa"
-
-#~ msgid "_About"
-#~ msgstr "_Sobre"
-
-#~ msgid "Somethings broken"
-#~ msgstr "Algo quebrado"
-
-#~ msgid "_Move Mode"
-#~ msgstr "_Modo Mover"
-
-#~ msgid "Turn on move mode"
-#~ msgstr "Voltar ao modo mover"
-
-#~ msgid "%s could not be read.  Please ensure its a valid image."
-#~ msgstr "%s não pode ser lido. Verifique se esta imagem é válida."
+#: ../data/labyrinth.glade:901
+msgid "Align Horizontal Center"
+msgstr "Alinhar no Centro Horizontal"

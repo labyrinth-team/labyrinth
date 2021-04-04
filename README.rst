@@ -1,6 +1,9 @@
 Labyrinth
 =========
 
+**No-one is actively maintaining Labyrinth at the moment. If you're interested in
+taking it on, please open an issue to discuss it.**
+
 Labyrinth is a lightweight mind-mapping tool, written in Python using Gtk and
 Cairo to do the drawing.  It is intended to be as light and intuitive as
 possible, but still provide a wide range of powerful features.
@@ -37,37 +40,26 @@ as you please.
 Requirements
 ------------
 
-I don't really know what the exact requirements are.  In the configure script,
-the following are checked:
+* Python >= 2.6
+* gtk+
+* pygtk
+* pygobject
+* pycairo
+* PyXDG
 
-* Python              >= 2.6
-* gtk+                >= 2.8
-* pygtk-2.0           >= 2.8
-* pygobject-2.0       >= 2.10
-* gnome-python-2.0    >= 2.12
-* pycairo             >= 1.0
-
-which probably means (to compile) you need the ``-dev`` versions of all these
-(except Python).  Note that although these are checked, it may work with
-previous versions.  If it does, please let us know and the configure script
-can be adapted accordingly.
+The minimum required versions are unknown, but any reasonably recent packages
+should work.
 
 How to use it
 -------------
 
 From the top directory of the package, run the command::
 
-    python labyrinth.py
+    ./labyrinth
 
-It can also be installed using the ./configure && make dance thus::
-
-    ./configure --prefix=<prefix_to_use>
-    make
-    make install
-
-and run with::
-
-    labyrinth
+You can also install Labyrinth with ``python setup.py install``, and
+``./install_data_files.sh`` for icons and translations. It can then be run as
+``labyrinth``.
 
 This will open a browser window, showing you all the maps currently available
 and allow you to modify / delete them and create new maps.  The title is
@@ -92,7 +84,8 @@ thoughts (hold down the shift key to select > 1 thought) and choosing
 
 Loading and saving of maps is in the tomboy style - they are automatically
 saved, you shouldn't have to worry about them.  For reference anyway, the maps
-are saved in ``~/.gnome2/labyrinth/<longstring>.map``.
+are saved in ``$XDG_DATA_HOME/labyrinth/<longstring>.map``. Please see the Freedesktop 
+basedir specification for more information http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
 
 Future Plans
 ------------
@@ -119,3 +112,6 @@ If you want to help out with developing labyrinth, please let us know on the
 mailing list.  We aren't just looking for coders.  We're looking for packagers,
 artists, doc writers, interface designers, web developers, and just about
 anyone else.
+
+Translations now take place `on Transifex <https://www.transifex.com/projects/p/labyrinth/>`_.
+If you want to use Transifex in your language, it's very easy to get started.

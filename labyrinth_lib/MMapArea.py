@@ -183,10 +183,14 @@ class MMapArea (Gtk.DrawingArea):
         self.background_color = style_ctx.get_background_color(Gtk.StateFlags.NORMAL)
 
     def transform_coords(self, loc_x, loc_y):
+        """Transform view co-ordinates (e.g. from a mouse event) to canvas
+        co-ordinates.
+        """
         if hasattr(self, "transform"):
             return self.transform.transform_point(loc_x, loc_y)
 
     def untransform_coords(self, loc_x, loc_y):
+        """Transform canvas co-ordinates to view co-ordinates."""
         if hasattr(self, "untransform"):
             return self.untransform.transform_point(loc_x, loc_y)
 
@@ -196,12 +200,15 @@ class MMapArea (Gtk.DrawingArea):
         ret = False
         obj = self.find_object_at (coords)
         if event.button == 2:
+            # Middle button: prepare to drag canvas
             self.set_cursor (Gdk.CursorType.FLEUR)
             self.original_translation = self.translation
             self.origin_x = event.x
             self.origin_y = event.y
             return
+
         if obj and obj.want_motion ():
+            # Object is ready to receive drag events (e.g. for drawing)
             self.motion = obj
             ret = obj.process_button_down (event, self.mode, coords)
             if event.button == 1 and self.mode == MODE_EDITING:
@@ -209,17 +216,24 @@ class MMapArea (Gtk.DrawingArea):
                 self.move_origin = (coords[0], coords[1])
                 self.move_origin_new = self.move_origin
             return ret
+
         if obj:
+            # Edit or drag object
             if event.button == 1 and self.mode == MODE_EDITING:
                 self.moving = not (event.state & Gdk.ModifierType.CONTROL_MASK)
                 self.move_origin = (coords[0], coords[1])
                 self.move_origin_new = self.move_origin
             ret = obj.process_button_down (event, self.mode, coords)
+
         elif event.button == 1 and self.mode == MODE_EDITING and not self.editing:
+            # Drag a box to select thoughts
             self.bbox_current = self.bbox_origin = coords
             self.is_bbox_selecting = True
+        
         elif event.button == 3:
+            # Right click menu
             ret = self.create_popup_menu (None, event, MENU_EMPTY_SPACE)
+
         return ret
 
     def undo_move (self, action, mode):
@@ -249,6 +263,7 @@ class MMapArea (Gtk.DrawingArea):
 
         ret = False
         if self.is_bbox_selecting:
+            # Finished with a selection box
             self.is_bbox_selecting = False
             self.invalidate ()
             try:
@@ -258,9 +273,12 @@ class MMapArea (Gtk.DrawingArea):
                 pass
 
         if self.translate:
+            # Finish dragging canvas around
             self.translate = False
             return True
+
         if self.moving and self.move_action:
+            # Finish moving objects
             self.move_action.add_arg (coords)
             self.undo.add_undo (self.move_action)
             self.move_action = None
@@ -282,7 +300,9 @@ class MMapArea (Gtk.DrawingArea):
             if len(self.selected) != 1:
                 self.invalidate()       # does not invalidate correctly with obj.get_max_area()
                 return ret
+
         elif self.unending_link or event.button == 1:
+            # Create a new thought.
             sel = self.selected
             thought = self.create_new_thought (coords)
             if not thought:
@@ -343,6 +363,7 @@ class MMapArea (Gtk.DrawingArea):
         self.invalidate ()
 
     def scroll (self, widget, event):
+        """Mouse wheel events - zoom in/out"""
         scale = self.scale_fac
         if event.direction == Gdk.ScrollDirection.UP:
             self.scale_fac *= 1.2
@@ -399,11 +420,14 @@ class MMapArea (Gtk.DrawingArea):
             if self.motion.handle_motion (event, self.mode, coords):
                 return True
         obj = self.find_object_at (coords)
+
         if self.unending_link and not self.is_bbox_selecting:
+            # Ctrl-dragging to create a new link
             self.unending_link.set_end (coords)
             self.invalidate ()
             return True
         elif event.state & Gdk.ModifierType.BUTTON1_MASK and self.is_bbox_selecting:
+            # Dragging selection box
             self.bbox_current = coords
             self.invalidate()
 
@@ -435,7 +459,9 @@ class MMapArea (Gtk.DrawingArea):
                         self.selected.remove(t)
 
             return True
+
         elif self.moving and not self.editing and not self.unending_link:
+            # Moving thought(s) around
             self.set_cursor(Gdk.CursorType.FLEUR)
             if not self.move_action:
                 self.move_action = UndoManager.UndoAction (self, UNDO_MOVE, self.undo_move, self.move_origin,
@@ -451,6 +477,7 @@ class MMapArea (Gtk.DrawingArea):
             self.create_link (self.editing)
             self.finish_editing ()
         elif event.state & Gdk.ModifierType.BUTTON2_MASK:
+            # Middle mouse button held down: drag canvas around.
             self.translate = True
             self.translation[0] -= (self.origin_x - event.x) / self.scale_fac
             self.translation[1] -= (self.origin_y - event.y) / self.scale_fac
@@ -460,6 +487,7 @@ class MMapArea (Gtk.DrawingArea):
             return True
 
         if obj:
+            # Pass the motion to the object, e.g. for drawing
             obj.handle_motion (event, self.mode, coords)
         elif self.mode == MODE_IMAGE or self.mode == MODE_DRAW:
             self.set_cursor(Gdk.CursorType.CROSSHAIR)
@@ -593,21 +621,27 @@ class MMapArea (Gtk.DrawingArea):
             self.thoughts.append(thought)
 
         if modifiers and (modifiers & Gdk.ModifierType.SHIFT_MASK or modifiers == -1):
+            # Shift-click: add thought to selection
             if self.selected.count (thought) == 0:
                 self.selected.append (thought)
         else:
             for x in self.selected:
                 x.unselect()
             self.selected = [thought]
+        
         self.current_root = []
         for x in self.selected:
             if x.can_be_parent():
                 self.current_root.append(x)
         thought.select ()
+        
         if len(self.selected) == 1:
             self.emit ("thought_selection_changed", thought.background_color, thought.foreground_color)
             self.background_color = thought.background_color
-            self.foreground_color = thought.foreground_color
+            # Image thoughts don't have a foreground colour, so we shouldn't
+            # copy it.
+            if thought.foreground_color is not None:
+                self.foreground_color = thought.foreground_color
             try:
                 self.emit ("change_buffer", thought.extended_buffer)
             except AttributeError:
@@ -817,6 +851,7 @@ class MMapArea (Gtk.DrawingArea):
                 t.draw(context)
 
         if self.is_bbox_selecting:
+            # Draw the dragged selection box
             xs = self.bbox_origin[0]
             ys = self.bbox_origin[1]
             xe = self.bbox_current[0] - xs
@@ -905,7 +940,6 @@ class MMapArea (Gtk.DrawingArea):
         if thought_type == TYPE_IMAGE:
             self.emit ("change_mode", self.old_mode)
         self.nthoughts += 1
-        element = thought.element
         self.element.appendChild (thought.element)
         thought.connect ("select_thought", self.select_thought)
         thought.connect ("begin_editing", self.begin_editing)
@@ -1381,13 +1415,10 @@ class MMapArea (Gtk.DrawingArea):
             self.invalidate()
 
 class CursorFactory:
-    __shared_state = {"cursors": {}}
-
-    def __init__(self):
-        self.__dict__ = self.__shared_state
+    # Shared state
+    cursors = {}
 
     def get_cursor(self, cur_type):
         if cur_type not in self.cursors:
-            cur = Gdk.Cursor(cur_type)
-            self.cursors[cur_type] = cur
+            self.cursors[cur_type] = Gdk.Cursor(cur_type)
         return self.cursors[cur_type]

@@ -35,10 +35,11 @@ from .utils import *
 class TrayIcon(object):
     """This is possibly the thinnest wrapper class I've written. Ever.
 
-    Its a tray icon that you can parameterize during initialisation with the name or file of an icon, with a menu and a simple callback
+    It's a tray icon that you can parameterize during initialisation with the
+    name or file of an icon, with a menu and a simple callback
 
-    It will create such an Icon, will display the image, call back the callback when left clicked and pop up the menu
-    when right clicked.
+    It will create such an Icon, will display the image, call back the callback
+    when left clicked and pop up the menu when right clicked.
     """
     def __init__(self, icon_name="TestTrayIcon", icon_file=None, menu=None, activate=None):
         # thats so incredibly simple!

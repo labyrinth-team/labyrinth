@@ -92,7 +92,7 @@ class LabyrinthWindow (GObject.GObject):
             except:
                 self.main_window.set_icon_from_file(utils.get_data_file_name('labyrinth.svg'))
         else:
-            self.main_window.set_icon_from_file('images\\labyrinth-24.png')
+            self.main_window.set_icon_from_file(utils.get_data_file_name('labyrinth-32.png'))
 
         # insert menu, toolbar and map
         self.create_menu()
@@ -234,8 +234,8 @@ class LabyrinthWindow (GObject.GObject):
                  None, self.zoomin_cb),
                 ('ZoomOut', Gtk.STOCK_ZOOM_OUT, None, '<control>minus',
                  None, self.zoomout_cb),
-                ('ZoomFit', Gtk.STOCK_ZOOM_FIT, None, None,
-                 None, self.zoomfit_cb)]
+                ('Zoom100', Gtk.STOCK_ZOOM_100, None, '<control>0',
+                 None, self.zoom100_cb)]
         self.radio_actions = [
                 ('Edit', Gtk.STOCK_EDIT, _('_Edit Mode'), '<control>E',
                  _('Turn on edit mode'), MMapArea.MODE_EDITING),
@@ -431,14 +431,17 @@ class LabyrinthWindow (GObject.GObject):
             self.MainArea.set_font (button.get_font_name ())
 
     def zoomin_cb(self, arg):
-        self.MainArea.scale_fac *= 1.2
-        self.MainArea.invalidate()
+        if self.MainArea.scale_fac < 10:
+            self.MainArea.scale_fac *= 1.2
+            self.MainArea.invalidate()
 
     def zoomout_cb(self, arg):
-        self.MainArea.scale_fac /= 1.2
-        self.MainArea.invalidate()
+        if self.MainArea.scale_fac > 0.1:
+            self.MainArea.scale_fac /= 1.2
+            self.MainArea.invalidate()
 
-    def zoomfit_cb(self, arg):
+    def zoom100_cb(self, arg):
+        self.MainArea.scale_fac = 1.0
         self.MainArea.translation = [0.0, 0.0]
         self.MainArea.invalidate()
 
@@ -522,7 +525,7 @@ class LabyrinthWindow (GObject.GObject):
         if not self.save_file:
             hsh = hashlib.sha256 (save_string)
             save_loc = utils.get_save_dir ()
-            self.save_file = save_loc+hsh.hexdigest()+".map"
+            self.save_file = os.path.join (save_loc, hsh.hexdigest() + ".map")
             counter = 1
             while os.path.exists(self.save_file):
 

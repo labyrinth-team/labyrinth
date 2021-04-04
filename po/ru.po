@@ -1,191 +1,318 @@
-# translation of ru.po to Russian
+# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
-# Alexandre Prokoudine <alexandre.prokoudine@gmail.com>, 2006.
+# 
+# Translators:
+# Alexandre Prokoudine <alexandre.prokoudine@gmail.com>, 2006
+# Светлана Гречко, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: ru\n"
+"Project-Id-Version: Labyrinth\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-07 12:46+0000\n"
-"PO-Revision-Date: 2006-11-27 06:31+0300\n"
-"Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
-"Language-Team: Russian <gnome-cyr@gnome.org>\n"
+"POT-Creation-Date: 2014-06-04 11:45-0700\n"
+"PO-Revision-Date: 2016-12-22 12:38+0000\n"
+"Last-Translator: Светлана Гречко\n"
+"Language-Team: Russian (http://www.transifex.com/takluyver/labyrinth/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: ../src/Browser.py:207
-msgid "The map cannot be deleted right now.  Is it open?"
-msgstr "Эту карту сейчас невозможно удалить. Она открыта?"
-
-#: ../src/Browser.py:209
-msgid "The map has no associated filename."
-msgstr "С этой картой не ассоциировано ни одно имя файла."
-
-#: ../src/Browser.py:212
-msgid "Cannot delete this map"
-msgstr "Невозможно удалить эту карту"
-
-#: ../src/Browser.py:219
-msgid "Do you really want to delete this Map?"
-msgstr "Вы действительно хотите удалить эту карту?"
-
-#: ../src/Browser.py:248
-msgid "Map Name"
-msgstr "Название карты"
-
-#: ../src/MainWindow.py:111 ../src/MainWindow.py:283
-#, python-format
-msgid "Untitled Map %d"
-msgstr "Безымянная карта %d"
-
-#: ../src/MainWindow.py:165
-msgid "File"
-msgstr "Файл"
-
-#: ../src/MainWindow.py:166
-msgid "Export as Image"
-msgstr "Экспортировать как изображение"
-
-#: ../src/MainWindow.py:167
-msgid "Export your map as an image"
-msgstr "Экспортировать карту как изображение"
-
-#: ../src/MainWindow.py:169
-msgid "Close the current window"
-msgstr "Закрыть активное окно"
-
-#: ../src/MainWindow.py:170
-msgid "_Edit"
-msgstr "_Правка"
-
-#: ../src/MainWindow.py:179
-msgid "(Un)Link Thoughts"
-msgstr "Связать или отсоединить мысли"
-
-#: ../src/MainWindow.py:180
-msgid "(Un)Link the selected thoughts"
-msgstr "Связать или отсоединить выбранные мысли"
-
-#: ../src/MainWindow.py:181
-msgid "_Mode"
-msgstr "_Режим"
-
-#: ../src/MainWindow.py:182
-msgid "_Delete Selected Thoughts"
-msgstr "_Удалить выбранные мысли"
-
-#: ../src/MainWindow.py:183
-msgid "Delete the selected element(s)"
-msgstr "Удалить выбранные элементы"
-
-#: ../src/MainWindow.py:185
-msgid "_Edit Mode"
-msgstr "_Правка"
-
-#: ../src/MainWindow.py:186
-msgid "Turn on edit mode"
-msgstr "Переключиться на режим правки"
-
-#: ../src/MainWindow.py:187
-msgid "_Add Image"
-msgstr "Добавить _изображение"
-
-#: ../src/MainWindow.py:188
-msgid "Add an image to selected thought"
-msgstr "Добавить изображение к выбранной мысли"
-
-#: ../src/MainWindow.py:189
-msgid "_Drawing Mode"
-msgstr "Рисование"
-
-#: ../src/MainWindow.py:190
-msgid "Make a pretty drawing"
-msgstr "Добавить мысли"
-
-#: ../src/MainWindow.py:192
-msgid "_View Extended"
-msgstr "_Просмотр подробностей"
-
-#: ../src/MainWindow.py:193
-msgid "View extended info for thoughts"
-msgstr "Просмотреть подробности о мыслях"
-
-#: ../src/MainWindow.py:446
-msgid "Unknown file format"
-msgstr "Неизвестный формат файлов"
-
-#: ../src/MainWindow.py:447
-#, python-format
-msgid "The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
-msgstr "Формат файлов '%s' не поддерживается. Используйте суффикс '.png' или '.jpg'"
-
-#: ../src/DrawingThought.py:67
-#, python-format
-msgid "Drawing #%d"
-msgstr "Рисунок #%d"
-
-#: ../src/ImageThought.py:64
+#: ../labyrinth_lib/ImageThought.py:68
 msgid "Choose image to insert"
 msgstr "Выберите изображения для вставки"
 
-#: ../src/ImageThought.py:304
+#: ../labyrinth_lib/ImageThought.py:322
 msgid "Error loading file"
 msgstr "Ошибка при загрузке файла"
 
-#: ../src/ImageThought.py:305
+#: ../labyrinth_lib/ImageThought.py:323
 #, python-format
 msgid "%s could not be found.  Associated thought will be empty."
 msgstr "Не удалось найти %s.  Ассоциированная мысль будет пустой."
 
-#: ../data/labyrinth.glade.h:1
-msgid "<b>Export Map</b>"
-msgstr "<b>Экспорт карты</b>"
+#: ../labyrinth_lib/ImageThought.py:338
+msgid "Change Image"
+msgstr "Изменить изображение"
 
-#: ../data/labyrinth.glade.h:2
-msgid "Complete Map"
-msgstr "Карта полностью"
+#: ../labyrinth_lib/Browser.py:194
+#, python-format
+msgid "Unable to display help: %s"
+msgstr "Невозможно показать справку: %s"
 
-#: ../data/labyrinth.glade.h:3
+#: ../labyrinth_lib/Browser.py:226
+msgid "Translation by Don Scorgie"
+msgstr "Перевод Don Scorgie"
+
+#: ../labyrinth_lib/Browser.py:248
+msgid "The map cannot be deleted right now. Is it open?"
+msgstr "Невозможно удалить карту. Возможно, она открыта."
+
+#: ../labyrinth_lib/Browser.py:250
+msgid "The map has no associated filename."
+msgstr "С этой картой не ассоциировано ни одно имя файла."
+
+#: ../labyrinth_lib/Browser.py:253
+msgid "Cannot delete this map"
+msgstr "Невозможно удалить эту карту"
+
+#: ../labyrinth_lib/Browser.py:260
+msgid "Do you really want to delete this Map?"
+msgstr "Вы действительно хотите удалить эту карту?"
+
+#: ../labyrinth_lib/Browser.py:285
+msgid "Open File"
+msgstr "Открыть файл"
+
+#: ../labyrinth_lib/Browser.py:289
+msgid "MAPZ Compressed Map (*.mapz)"
+msgstr "Сжатая карта MAPZ (*.mapz)"
+
+#: ../labyrinth_lib/Browser.py:320
+msgid "Map Name"
+msgstr "Название карты"
+
+#: ../labyrinth_lib/Browser.py:327
+msgid "Last Modified"
+msgstr "Последнее изменение"
+
+#: ../labyrinth_lib/Links.py:265
+msgid "Choose Color"
+msgstr "Выбрать цвет"
+
+#: ../labyrinth_lib/Links.py:278
+msgid "Set Color"
+msgstr "Установить цвет"
+
+#: ../labyrinth_lib/MainWindow.py:162 ../labyrinth_lib/MainWindow.py:478
+msgid "Untitled Map"
+msgstr "Карта без названия"
+
+#: ../labyrinth_lib/MainWindow.py:208
+msgid "File"
+msgstr "Файл"
+
+#: ../labyrinth_lib/MainWindow.py:209
+msgid "Export as Image"
+msgstr "Экспортировать как изображение"
+
+#: ../labyrinth_lib/MainWindow.py:210
+msgid "Export your map as an image"
+msgstr "Экспортировать карту как изображение"
+
+#: ../labyrinth_lib/MainWindow.py:211
+msgid "Export Map..."
+msgstr "Экспорт карты..."
+
+#: ../labyrinth_lib/MainWindow.py:212
+msgid "Export your map as XML"
+msgstr "Экспортировать карту как XML"
+
+#: ../labyrinth_lib/MainWindow.py:214
+msgid "Close the current window"
+msgstr "Закрыть активное окно"
+
+#: ../labyrinth_lib/MainWindow.py:215
+msgid "_Edit"
+msgstr "_Правка"
+
+#: ../labyrinth_lib/MainWindow.py:216
+msgid "_View"
+msgstr "_Вид"
+
+#: ../labyrinth_lib/MainWindow.py:217
+msgid "_Toolbar"
+msgstr "П_анель инструментов"
+
+#: ../labyrinth_lib/MainWindow.py:226
+msgid "Link Thoughts"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:227
+msgid "Link the selected thoughts"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:228
+msgid "_Mode"
+msgstr "_Режим"
+
+#: ../labyrinth_lib/MainWindow.py:236
+msgid "_Edit Mode"
+msgstr "Р_ежим правки"
+
+#: ../labyrinth_lib/MainWindow.py:237
+msgid "Turn on edit mode"
+msgstr "Переключиться на режим правки"
+
+#: ../labyrinth_lib/MainWindow.py:238
+msgid "_Add Image"
+msgstr "Добавить _изображение"
+
+#: ../labyrinth_lib/MainWindow.py:239
+msgid "Add an image to selected thought"
+msgstr "Добавить изображение к выбранной мысли"
+
+#: ../labyrinth_lib/MainWindow.py:240
+msgid "_Drawing Mode"
+msgstr "Рисование"
+
+#: ../labyrinth_lib/MainWindow.py:241
+msgid "Make a pretty drawing"
+msgstr "Добавить мысли"
+
+#: ../labyrinth_lib/MainWindow.py:243
+msgid "Use _Curves"
+msgstr "Использовать _кривые"
+
+#: ../labyrinth_lib/MainWindow.py:244
+msgid "Use curves as links"
+msgstr "Использовать кривые как ссылки"
+
+#: ../labyrinth_lib/MainWindow.py:245
+msgid "Use _Lines"
+msgstr "Использовать _линии"
+
+#: ../labyrinth_lib/MainWindow.py:246
+msgid "Use straight lines as links"
+msgstr "Использовать прямые линии как ссылки"
+
+#: ../labyrinth_lib/MainWindow.py:248
+msgid "_Extended Information"
+msgstr "_Дополнительная информация"
+
+#: ../labyrinth_lib/MainWindow.py:249
+msgid "Show extended information for thoughts"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:250
+msgid "_Main"
+msgstr "_Главная"
+
+#: ../labyrinth_lib/MainWindow.py:251
+msgid "Show main toolbar"
+msgstr "Показать главную панель"
+
+#: ../labyrinth_lib/MainWindow.py:252
+msgid "_Format"
+msgstr "_Формат"
+
+#: ../labyrinth_lib/MainWindow.py:253
+msgid "Show format toolbar"
+msgstr "Показать панель Формат"
+
+#: ../labyrinth_lib/MainWindow.py:533
+msgid "Save File As"
+msgstr "Сохранить файл как"
+
+#: ../labyrinth_lib/MainWindow.py:627
+msgid "All Files"
+msgstr "Все файлы"
+
+#: ../labyrinth_lib/MainWindow.py:628
+msgid "PNG Image (*.png)"
+msgstr "Изображение PNG (*.png)"
+
+#: ../labyrinth_lib/MainWindow.py:629
+msgid "JPEG Image (*.jpg, *.jpeg)"
+msgstr "Изображение JPEG (*.jpg, *.jpeg)"
+
+#: ../labyrinth_lib/MainWindow.py:630
+msgid "SVG Vector Image (*.svg)"
+msgstr "Векторное изображение SVG (*.svg)"
+
+#: ../labyrinth_lib/MainWindow.py:631
+msgid "PDF Portable Document (*.pdf)"
+msgstr "Документ PDF (*.pdf)"
+
+#: ../labyrinth_lib/MainWindow.py:669
+msgid "Unknown file format"
+msgstr "Неизвестный формат файлов"
+
+#: ../labyrinth_lib/MainWindow.py:670
+#, python-format
+msgid ""
+"The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
+"'.svg'."
+msgstr "Файлы с типом '%s' не поддерживаются. Используйте суффикс '.png', '.jpg' или '.svg'."
+
+#: ../labyrinth_lib/ResourceThought.py:128
+msgid "Edit Text"
+msgstr "Редактировать текст"
+
+#: ../labyrinth_lib/ResourceThought.py:133
+msgid "Edit URI"
+msgstr "Редактировать URL"
+
+#: ../labyrinth_lib/DrawingThought.py:65
+#, python-format
+msgid "Drawing #%d"
+msgstr "Рисунок #%d"
+
+#: ../data/labyrinth.glade:7
 msgid "Export Map as Image"
 msgstr "Экспорт карты как изображения"
 
-#: ../data/labyrinth.glade.h:4
-msgid "Height"
-msgstr "Высота"
+#: ../data/labyrinth.glade:87
+msgid "Complete Map"
+msgstr "Карта полностью"
 
-#: ../data/labyrinth.glade.h:5
-msgid "Labyrinth Maps"
-msgstr "Ассоциативные карты в Labyrinth"
-
-#: ../data/labyrinth.glade.h:6
+#: ../data/labyrinth.glade:101
 msgid "Visible Area"
 msgstr "Видимая область"
 
-#: ../data/labyrinth.glade.h:7
+#: ../data/labyrinth.glade:157
 msgid "Width"
 msgstr "Ширина"
 
-#: ../data/labyrinth.glade.h:8
+#: ../data/labyrinth.glade:172
+msgid "Height"
+msgstr "Высота"
+
+#: ../data/labyrinth.glade:226
+msgid "<b>Export Map</b>"
+msgstr "<b>Экспорт карты</b>"
+
+#: ../data/labyrinth.glade:245
+msgid "Labyrinth Maps"
+msgstr "Ассоциативные карты в Labyrinth"
+
+#: ../data/labyrinth.glade:259
 msgid "_File"
 msgstr "_Файл"
 
-#: ../data/labyrinth.glade.h:9
+#: ../data/labyrinth.glade:299
+msgid "Import..."
+msgstr "Импорт..."
+
+#: ../data/labyrinth.glade:329
 msgid "_Help"
 msgstr "_Справка"
 
-#: ../data/labyrinth.desktop.in.h:1
-msgid "Labyrinth Mind-mapping"
-msgstr "Ассоциативные карты в Labyrinth"
+#: ../data/labyrinth.glade:765
+msgid "URL"
+msgstr "URL"
 
-#: ../data/labyrinth.desktop.in.h:2
-msgid "Map your mind"
-msgstr "Упорядочьте свои знания"
+#: ../data/labyrinth.glade:806
+msgid "Align Left"
+msgstr "По левому краю"
 
-#: ../data/labyrinth.desktop.in.h:3
-msgid "Mind-mapping"
-msgstr "Создание ассоциативных карт"
+#: ../data/labyrinth.glade:825
+msgid "Align Right"
+msgstr "По правому краю"
 
+#: ../data/labyrinth.glade:844
+msgid "Align Vertical Center"
+msgstr "Вертикально по центру"
+
+#: ../data/labyrinth.glade:863
+msgid "Align Top"
+msgstr "По верхнему краю"
+
+#: ../data/labyrinth.glade:882
+msgid "Align Bottom"
+msgstr "По нижнему краю"
+
+#: ../data/labyrinth.glade:901
+msgid "Align Horizontal Center"
+msgstr "Горизонтально по центру"

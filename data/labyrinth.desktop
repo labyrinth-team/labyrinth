@@ -1,8 +1,7 @@
 [Desktop Entry]
-Encoding=UTF-8
-_Name=Labyrinth Mind-mapping
-_GenericName=Mind-mapping
-_Comment=Map your mind
+Name=Labyrinth Mind-mapping
+GenericName=Mind-mapping
+Comment=Map your mind
 Exec=labyrinth
 Icon=labyrinth
 StartupNotify=true

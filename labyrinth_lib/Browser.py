@@ -21,9 +21,7 @@
 #
 
 # Standard library
-import sys
 import tarfile
-from os.path import *
 import os
 import gettext
 _ = gettext.gettext
@@ -41,6 +39,8 @@ from . import utils
 from . import MainWindow
 from .MapList import MapList
 from . import TrayIcon
+
+from . import __version__
 
 AUTHORS = ['Don Scorgie <Don@Scorgie.org>',
                    'Martin Schaaf <mascha@ma-scha.de>',
@@ -120,7 +120,7 @@ class Browser (Gtk.Window):
             except:
                 self.main_window.set_icon_from_file(utils.get_data_file_name('labyrinth.svg'))
         else:
-            self.main_window.set_icon_from_file('images\\labyrinth-24.png')
+            self.main_window.set_icon_from_file(utils.get_data_file_name('labyrinth-32.png'))
         if tray_icon:
             self.main_window.connect ('delete_event', self.toggle_main_window, None)
             traymenu = Gtk.Menu()
@@ -201,14 +201,16 @@ class Browser (Gtk.Window):
     def about_clicked (self, arg):
         about_dialog = Gtk.AboutDialog()
         about_dialog.set_name ("Labyrinth")
-        about_dialog.set_version (utils.get_version())
+        about_dialog.set_version (__version__)
         if os.name != 'nt':
             try:
                 about_dialog.set_logo_icon_name("labyrinth")
             except:
                 pass
         else:
-            about_dialog.set_logo (GdkPixbuf.Pixbuf.new_from_file("images\\labyrinth-24.png"))
+            about_dialog.set_logo (GdkPixbuf.Pixbuf.new_from_file(
+                utils.get_data_file_name("labyrinth-32.png")
+            ))
         about_dialog.set_license (
 "Labyrinth is free software; you can redistribute it and/or modify "
 "it under the terms of the GNU General Public Licence as published by "
@@ -303,7 +305,7 @@ class Browser (Gtk.Window):
         if response == Gtk.ResponseType.ACCEPT:
             filename = chooser.get_filename()
             tf = tarfile.open(filename)
-            mapname = utils.get_save_dir() + tf.getnames()[0]
+            mapname = os.path.join (utils.get_save_dir (), tf.getnames()[0])
             tf.extractall(utils.get_save_dir())
             tf.close()
             map = MapList.new_from_file(mapname)

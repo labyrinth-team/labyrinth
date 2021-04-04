@@ -19,7 +19,6 @@
 # Boston, MA  02110-1301  USA
 #
 
-
 import os
 import xml.dom.minidom as dom
 import datetime
@@ -101,8 +100,9 @@ class MapList(object):
     @classmethod
     def load_all_from_dir(cls,dir):
         for f in os.listdir(dir):
-            if not os.path.isdir(dir+f):
-                cls.new_from_file(dir+f)
+            path = os.path.join(dir, f)
+            if not os.path.isdir(path):
+                cls.new_from_file(path)
 
     @classmethod
     def new_from_file(cls, filename):

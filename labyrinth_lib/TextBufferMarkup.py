@@ -38,7 +38,7 @@ class ExtendedBuffer(Gtk.TextBuffer):
                         )
 
     def __init__(self, undo_manager, save, save_doc):
-        super (Gtk.TextBuffer, self).__init__()
+        super(ExtendedBuffer, self).__init__()
         self.undo = undo_manager
         self.connect('insert-text', self.insert_text_cb)
         self.connect_after('insert-text', self.apply_attrs_cb)

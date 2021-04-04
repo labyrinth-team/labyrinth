@@ -1,3 +1,9 @@
+Release 0.6 (November 2012):
+	* Improved user experience when zooming in or out.
+	* Dropped autotools build system.
+	* Moved maps into XDG application data folder.
+	* Various bug fixes.
+
 Release 0.5:
     * Removed tree view again, as it was causing too many bugs.
     * Remove build-dependency on gnome-desktop.

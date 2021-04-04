@@ -28,6 +28,7 @@
       <separator/>
 	  <menuitem action="ZoomIn"/>
 	  <menuitem action="ZoomOut"/>
+	  <menuitem action="Zoom100"/>
     </menu>
     <menu action="ModeMenu">
       <menuitem action="Edit"/>
@@ -42,7 +43,7 @@
     <separator/>
     <toolitem action="ZoomIn"/>
     <toolitem action="ZoomOut"/>
-    <toolitem action="ZoomFit"/>
+    <toolitem action="Zoom100"/>
     <toolitem action="Undo"/>
     <toolitem action="Redo"/>
   </toolbar>

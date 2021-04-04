@@ -110,15 +110,8 @@ class TextThought (BaseThought.BaseThought):
         underline = False
         pango_font = None
         del self.attrlist
-        self.attrlist = Pango.AttrList()
-        # TODO: splice instead of own method
-        it = self.attributes.get_iterator()
-
-        while it.next():
-            at = it.get_attrs()
-            for x in at:
-                self.attrlist.insert(x)
-
+        self.attrlist = self.attributes.copy()
+        
         if self.preedit:
             ins_text = self.preedit[0]
             ins_style = self.preedit[1]
@@ -152,7 +145,7 @@ class TextThought (BaseThought.BaseThought):
                    r[1] >= self.end_index:
                     # We got a winner!
                     found = True
-            else:
+            else: # i.e. self.index > self.end_index
                 if r[0] > self.index:
                     break
                 if self.index == self.end_index and \
@@ -165,8 +158,6 @@ class TextThought (BaseThought.BaseThought):
                     found = True
 
             if found:
-                # FIXME: the it.get() seems to crash python
-                # through pango.
                 attr = it.get_attrs()
                 for x in attr:
                     if pango_attr_int_check(x, Pango.AttrType.WEIGHT, Pango.Weight.BOLD):
@@ -441,7 +432,7 @@ class TextThought (BaseThought.BaseThought):
             clear_attrs = False
         else:
             handled = False
-        if clear_attrs:
+        if handled and clear_attrs:
             del self.current_attrs
             self.current_attrs = []
         self.recalc_edges ()
@@ -1111,10 +1102,11 @@ class TextThought (BaseThought.BaseThought):
                 self.current_attrs.append(attr)
             else:
                 self.attributes.change(attr)
-
-            tmp = []
-            attr = None
+            
+            
             if index == end_index:
+                tmp = []
+                attr = None
                 for x in self.current_attrs:
                     if pango_attr_int_check(x, ptype, pvalue):
                         attr = x
@@ -1130,7 +1122,8 @@ class TextThought (BaseThought.BaseThought):
             it = self.attributes.get_iterator()
             old_attrs = self.attributes.copy()
             changed = []
-
+            # If we have removed the middle section of a style, split it into
+            # before and after sections.
             while it.next():
                 r = it.range()
                 if r[0] <= init and r[1] >= end:

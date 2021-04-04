@@ -26,8 +26,10 @@
 import sys
 from os.path import join, dirname, isdir, isfile
 import os
+import warnings
 
 from gi.repository import Gdk
+from xdg import BaseDirectory
 
 __BE_VERBOSE=os.environ.get('DEBUG_LABYRINTH',0)
 if __BE_VERBOSE:
@@ -59,17 +61,35 @@ default_font = None
 
 def get_save_dir ():
     ''' Returns the path to the directory to save the maps to '''
-    try:
-        base = os.environ ['HOME']
-    except:
-        base = os.environ ['USERPROFILE']
-    if os.name != 'nt':
-        dirname = os.path.join (base, ".gnome2", "labyrinth"+os.sep)
-    else:
-        dirname = os.path.join (base, ".labyrinth"+os.sep)
-    if not os.access (dirname, os.W_OK):
-        os.makedirs (dirname)
-    return dirname
+    if os.name == 'nt':
+        savedir = os.path.join(os.path.expanduser('~'), '.labyrinth')
+        if not os.access (savedir, os.W_OK):
+            os.makedirs (savedir)
+        return savedir
+    
+    old_savedir = os.path.join (os.path.expanduser('~'), ".gnome2", "labyrinth")
+    savedir = BaseDirectory.save_data_path("labyrinth")
+    
+    # Migrate maps to the new save directory.   
+    if os.path.exists(old_savedir) and os.path.isdir(old_savedir):
+        
+        for m in os.listdir(old_savedir):
+            try:
+                os.rename(os.path.join(old_savedir, m),
+                        os.path.join(savedir, m))
+            except Exception as e:
+                warnings.warn("Failed to migrate %s: %s" % (m, e))
+        
+        # remove old dir
+        try:
+            os.rmdir(old_savedir)
+        except Exception as e:
+            warnings.warn("Could not remove old map dir (%s): %s" % (old_savedir, e))
+    
+    return savedir
+
+def get_images_dir ():
+    return os.path.join(get_save_dir(), 'images')
 
 def parse_coords (string):
     if string == "None":
@@ -81,41 +101,28 @@ def parse_coords (string):
 
 __data_dir = None
 
-_version = None
-
-def get_version ():
-    global _version
-    if not _version:
-        try:
-            import defs
-            _version = defs.VERSION
-        except:
-            _version = "Uninstalled"
-    return _version
-
 def get_data_dir():
     '''returns the data dir. Tries to find it the first time its called'''
     global __data_dir
-    if os.name != 'nt':
+    if __data_dir is not None:
+        return __data_dir
 
-        if __data_dir is None:
-            #decide wether we run under development or if the program has been installed
-            path = join(dirname(__file__), '..')
-            if isdir(path) and isfile(join(path, "AUTHORS")):
-                __data_dir = join(path , 'data')
-            else:
-                try:
-                    import defs
-                    __data_dir=defs.pkgdatadir
-                except:
-                    __data_dir = "./data"
+    #decide wether we run under development or if the program has been installed
+    path = join(dirname(__file__), '..')
+    if isdir(path) and isfile(join(path, "AUTHORS")):
+        # Running in development
+        __data_dir = join(path , 'data')
+
     else:
-        if __data_dir is None:
-            __data_dir = join (".","data")
+        # Running installed
+        if os.name != 'nt':
+            __data_dir = "/usr/share/labyrinth"
+        else:
+            __data_dir = join(dirname(sys.argv[0]),"data")
     return __data_dir
 
 def get_data_file_name (file_name):
-    ''' takes a string and either returns it with the data directory prepended.'''
+    ''' takes a string and returns it with the data directory prepended.'''
     return os.path.join(get_data_dir(), file_name)
 
 def get_data_file (file_name):

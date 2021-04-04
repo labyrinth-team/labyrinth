@@ -7,236 +7,320 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Labyrinth\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-07 12:46+0000\n"
+"POT-Creation-Date: 2014-06-04 11:45-0700\n"
 "PO-Revision-Date: 2006-10-11 21:07+0100\n"
 "Last-Translator: Tomasz Dominikowski <dominikowski@gmail.com>\n"
 "Language-Team: Tomasz Dominikowski <dominikowski@gmail.com>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Polish\n"
 "X-Poedit-Country: Poland\n"
 
-#: ../src/Browser.py:207
-msgid "The map cannot be deleted right now.  Is it open?"
-msgstr "Mapa nie może teraz zostać usunięta. Czy jest otwarta?"
-
-#: ../src/Browser.py:209
-msgid "The map has no associated filename."
-msgstr ""
-
-#: ../src/Browser.py:212
-msgid "Cannot delete this map"
-msgstr "Nie można usunąć tej mapy"
-
-#: ../src/Browser.py:219
-msgid "Do you really want to delete this Map?"
-msgstr "Czy chcesz usunąć tę mapę?"
-
-#: ../src/Browser.py:248
-msgid "Map Name"
-msgstr ""
-
-#: ../src/MainWindow.py:111 ../src/MainWindow.py:283
-#, python-format
-msgid "Untitled Map %d"
-msgstr "Nienazwana mapa %d"
-
-#: ../src/MainWindow.py:165
-msgid "File"
-msgstr ""
-
-#: ../src/MainWindow.py:166
-msgid "Export as Image"
-msgstr ""
-
-#: ../src/MainWindow.py:167
-msgid "Export your map as an image"
-msgstr ""
-
-#: ../src/MainWindow.py:169
-msgid "Close the current window"
-msgstr "Zamknij bieżące okno"
-
-#: ../src/MainWindow.py:170
-#, fuzzy
-msgid "_Edit"
-msgstr "Tryb _modyfikowania"
-
-#: ../src/MainWindow.py:179
-msgid "(Un)Link Thoughts"
-msgstr ""
-
-#: ../src/MainWindow.py:180
-#, fuzzy
-msgid "(Un)Link the selected thoughts"
-msgstr "Dodaj obraz do wybranej myśli"
-
-#: ../src/MainWindow.py:181
-#, fuzzy
-msgid "_Mode"
-msgstr "Tryb _modyfikowania"
-
-#: ../src/MainWindow.py:182
-msgid "_Delete Selected Thoughts"
-msgstr "_Usuń wybrane myśli"
-
-#: ../src/MainWindow.py:183
-msgid "Delete the selected element(s)"
-msgstr "Usuń zaznaczony(-e) element(-y)"
-
-#: ../src/MainWindow.py:185
-msgid "_Edit Mode"
-msgstr "Tryb _modyfikowania"
-
-#: ../src/MainWindow.py:186
-msgid "Turn on edit mode"
-msgstr "Włącz tryb modyfikowania"
-
-#: ../src/MainWindow.py:187
-msgid "_Add Image"
-msgstr "_Dodaj obraz"
-
-#: ../src/MainWindow.py:188
-msgid "Add an image to selected thought"
-msgstr "Dodaj obraz do wybranej myśli"
-
-#: ../src/MainWindow.py:189
-msgid "_Drawing Mode"
-msgstr "Tryb _rysowania"
-
-#: ../src/MainWindow.py:190
-msgid "Make a pretty drawing"
-msgstr "Utwórz piękny rysunek"
-
-#: ../src/MainWindow.py:192
-msgid "_View Extended"
-msgstr ""
-
-#: ../src/MainWindow.py:193
-msgid "View extended info for thoughts"
-msgstr ""
-
-#: ../src/MainWindow.py:446
-msgid "Unknown file format"
-msgstr ""
-
-#: ../src/MainWindow.py:447
-#, python-format
-msgid ""
-"The file type '%s' is unsupported.  Please use the suffix '.png' or '.jpg'"
-msgstr ""
-
-#: ../src/DrawingThought.py:67
-#, python-format
-msgid "Drawing #%d"
-msgstr "Rysunek #%d"
-
-#: ../src/ImageThought.py:64
+#: ../labyrinth_lib/ImageThought.py:68
 msgid "Choose image to insert"
 msgstr "Wybierz obraz do wstawienia"
 
-#: ../src/ImageThought.py:304
+#: ../labyrinth_lib/ImageThought.py:322
 msgid "Error loading file"
 msgstr "Błąd podczas wczytywania pliku"
 
-#: ../src/ImageThought.py:305
+#: ../labyrinth_lib/ImageThought.py:323
 #, python-format
 msgid "%s could not be found.  Associated thought will be empty."
 msgstr "%s nie mógł zostać odnaleziony. Związana myśl będzie pusta."
 
-#: ../data/labyrinth.glade.h:1
-msgid "<b>Export Map</b>"
+#: ../labyrinth_lib/ImageThought.py:338
+msgid "Change Image"
 msgstr ""
 
-#: ../data/labyrinth.glade.h:2
+#: ../labyrinth_lib/Browser.py:194
+#, python-format
+msgid "Unable to display help: %s"
+msgstr ""
+
+#: ../labyrinth_lib/Browser.py:226
+msgid "Translation by Don Scorgie"
+msgstr ""
+
+#: ../labyrinth_lib/Browser.py:248
+#, fuzzy
+msgid "The map cannot be deleted right now. Is it open?"
+msgstr "Mapa nie może teraz zostać usunięta. Czy jest otwarta?"
+
+#: ../labyrinth_lib/Browser.py:250
+msgid "The map has no associated filename."
+msgstr ""
+
+#: ../labyrinth_lib/Browser.py:253
+msgid "Cannot delete this map"
+msgstr "Nie można usunąć tej mapy"
+
+#: ../labyrinth_lib/Browser.py:260
+msgid "Do you really want to delete this Map?"
+msgstr "Czy chcesz usunąć tę mapę?"
+
+#: ../labyrinth_lib/Browser.py:285
+msgid "Open File"
+msgstr ""
+
+#: ../labyrinth_lib/Browser.py:289
+msgid "MAPZ Compressed Map (*.mapz)"
+msgstr ""
+
+#: ../labyrinth_lib/Browser.py:320
+msgid "Map Name"
+msgstr ""
+
+#: ../labyrinth_lib/Browser.py:327
+msgid "Last Modified"
+msgstr ""
+
+#: ../labyrinth_lib/Links.py:265
+msgid "Choose Color"
+msgstr ""
+
+#: ../labyrinth_lib/Links.py:278
+msgid "Set Color"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:162 ../labyrinth_lib/MainWindow.py:478
+#, fuzzy
+msgid "Untitled Map"
+msgstr "Nienazwana mapa %d"
+
+#: ../labyrinth_lib/MainWindow.py:208
+msgid "File"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:209
+msgid "Export as Image"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:210
+msgid "Export your map as an image"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:211
+msgid "Export Map..."
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:212
+msgid "Export your map as XML"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:214
+msgid "Close the current window"
+msgstr "Zamknij bieżące okno"
+
+#: ../labyrinth_lib/MainWindow.py:215
+#, fuzzy
+msgid "_Edit"
+msgstr "Tryb _modyfikowania"
+
+#: ../labyrinth_lib/MainWindow.py:216
+msgid "_View"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:217
+msgid "_Toolbar"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:226
+msgid "Link Thoughts"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:227
+#, fuzzy
+msgid "Link the selected thoughts"
+msgstr "Dodaj obraz do wybranej myśli"
+
+#: ../labyrinth_lib/MainWindow.py:228
+#, fuzzy
+msgid "_Mode"
+msgstr "Tryb _modyfikowania"
+
+#: ../labyrinth_lib/MainWindow.py:236
+msgid "_Edit Mode"
+msgstr "Tryb _modyfikowania"
+
+#: ../labyrinth_lib/MainWindow.py:237
+msgid "Turn on edit mode"
+msgstr "Włącz tryb modyfikowania"
+
+#: ../labyrinth_lib/MainWindow.py:238
+msgid "_Add Image"
+msgstr "_Dodaj obraz"
+
+#: ../labyrinth_lib/MainWindow.py:239
+msgid "Add an image to selected thought"
+msgstr "Dodaj obraz do wybranej myśli"
+
+#: ../labyrinth_lib/MainWindow.py:240
+msgid "_Drawing Mode"
+msgstr "Tryb _rysowania"
+
+#: ../labyrinth_lib/MainWindow.py:241
+msgid "Make a pretty drawing"
+msgstr "Utwórz piękny rysunek"
+
+#: ../labyrinth_lib/MainWindow.py:243
+msgid "Use _Curves"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:244
+msgid "Use curves as links"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:245
+msgid "Use _Lines"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:246
+msgid "Use straight lines as links"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:248
+msgid "_Extended Information"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:249
+msgid "Show extended information for thoughts"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:250
+msgid "_Main"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:251
+msgid "Show main toolbar"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:252
+msgid "_Format"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:253
+msgid "Show format toolbar"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:533
+msgid "Save File As"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:627
+msgid "All Files"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:628
+msgid "PNG Image (*.png)"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:629
+msgid "JPEG Image (*.jpg, *.jpeg)"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:630
+msgid "SVG Vector Image (*.svg)"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:631
+msgid "PDF Portable Document (*.pdf)"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:669
+msgid "Unknown file format"
+msgstr ""
+
+#: ../labyrinth_lib/MainWindow.py:670
+#, python-format
+msgid ""
+"The file type '%s' is unsupported.  Please use the suffix '.png', '.jpg' or "
+"'.svg'."
+msgstr ""
+
+#: ../labyrinth_lib/ResourceThought.py:128
+#, fuzzy
+msgid "Edit Text"
+msgstr "Tryb _modyfikowania"
+
+#: ../labyrinth_lib/ResourceThought.py:133
+#, fuzzy
+msgid "Edit URI"
+msgstr "Tryb _modyfikowania"
+
+#: ../labyrinth_lib/DrawingThought.py:65
+#, python-format
+msgid "Drawing #%d"
+msgstr "Rysunek #%d"
+
+#: ../data/labyrinth.glade:7
+msgid "Export Map as Image"
+msgstr ""
+
+#: ../data/labyrinth.glade:87
 #, fuzzy
 msgid "Complete Map"
 msgstr "Usuń mapę"
 
-#: ../data/labyrinth.glade.h:3
-msgid "Export Map as Image"
-msgstr ""
-
-#: ../data/labyrinth.glade.h:4
-msgid "Height"
-msgstr ""
-
-#: ../data/labyrinth.glade.h:5
-msgid "Labyrinth Maps"
-msgstr "Mapy Labyrinth"
-
-#: ../data/labyrinth.glade.h:6
+#: ../data/labyrinth.glade:101
 msgid "Visible Area"
 msgstr ""
 
-#: ../data/labyrinth.glade.h:7
+#: ../data/labyrinth.glade:157
 msgid "Width"
 msgstr ""
 
-#: ../data/labyrinth.glade.h:8
+#: ../data/labyrinth.glade:172
+msgid "Height"
+msgstr ""
+
+#: ../data/labyrinth.glade:226
+msgid "<b>Export Map</b>"
+msgstr ""
+
+#: ../data/labyrinth.glade:245
+msgid "Labyrinth Maps"
+msgstr "Mapy Labyrinth"
+
+#: ../data/labyrinth.glade:259
 msgid "_File"
 msgstr ""
 
-#: ../data/labyrinth.glade.h:9
+#: ../data/labyrinth.glade:299
+msgid "Import..."
+msgstr ""
+
+#: ../data/labyrinth.glade:329
 msgid "_Help"
 msgstr ""
 
-#: ../data/labyrinth.desktop.in.h:1
-msgid "Labyrinth Mind-mapping"
-msgstr "Mapowanie myśli Labyrinth"
+#: ../data/labyrinth.glade:765
+msgid "URL"
+msgstr ""
 
-#: ../data/labyrinth.desktop.in.h:2
-msgid "Map your mind"
-msgstr "Mapowanie myśli"
+#: ../data/labyrinth.glade:806
+msgid "Align Left"
+msgstr ""
 
-#: ../data/labyrinth.desktop.in.h:3
-msgid "Mind-mapping"
-msgstr "Mapowanie myśli"
+#: ../data/labyrinth.glade:825
+msgid "Align Right"
+msgstr ""
 
-#~ msgid "Learn about the application"
-#~ msgstr "Dowiedz się o tej aplikacji"
+#: ../data/labyrinth.glade:844
+msgid "Align Vertical Center"
+msgstr ""
 
-#~ msgid "Delete Map"
-#~ msgstr "Usuń mapę"
+#: ../data/labyrinth.glade:863
+msgid "Align Top"
+msgstr ""
 
-#~ msgid "New Map"
-#~ msgstr "Nowa mapa"
+#: ../data/labyrinth.glade:882
+msgid "Align Bottom"
+msgstr ""
 
-#~ msgid "Open Map"
-#~ msgstr "Otwórz mapę"
+#: ../data/labyrinth.glade:901
+msgid "Align Horizontal Center"
+msgstr ""
 
-#~ msgid "Quit"
-#~ msgstr "Zakończ"
-
-#~ msgid "_New"
-#~ msgstr "_Nowa"
-
-#~ msgid "Create a new mind-map"
-#~ msgstr "Utwórz nową mapę myśli"
-
-#~ msgid "_Close"
-#~ msgstr "Z_amknij"
-
-#~ msgid "_Quit"
-#~ msgstr "_Zakończ"
-
-#~ msgid "Close all the windows and exit the application"
-#~ msgstr "Zamknij wszystkie okna i zakończ aplikację"
-
-#~ msgid "_About"
-#~ msgstr "_O programie"
-
-#~ msgid "Somethings broken"
-#~ msgstr "Coś jest zepsute"
-
-#~ msgid "_Move Mode"
-#~ msgstr "Tryb _przemieszczania"
-
-#~ msgid "Turn on move mode"
-#~ msgstr "Włącz tryb przemieszczania"
-
-#~ msgid "%s could not be read.  Please ensure its a valid image."
-#~ msgstr ""
-#~ "%s nie mógł zostać odczytany. Proszę sprawdzić, czy jest to poprawny "
-#~ "obraz."
