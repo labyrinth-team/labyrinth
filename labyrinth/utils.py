@@ -24,9 +24,8 @@
 # that can be accessed from anywhere :)
 
 import sys
-from os.path import *
+from os.path import join, dirname, isdir, isfile
 import os
-from numpy import *
 
 from gi.repository import Gdk
 
@@ -102,8 +101,8 @@ def get_data_dir():
         if __data_dir is None:
             #decide wether we run under development or if the program has been installed
             path = join(dirname(__file__), '..')
-            if exists(path) and isdir(path) and isfile(path+"/AUTHORS"):
-                __data_dir = os.sep.join([dirname(__file__), '..' , 'data'])
+            if isdir(path) and isfile(join(path, "AUTHORS")):
+                __data_dir = join(path , 'data')
             else:
                 try:
                     import defs
