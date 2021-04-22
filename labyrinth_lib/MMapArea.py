@@ -791,22 +791,25 @@ class MMapArea (Gtk.DrawingArea):
 
     def invalidate (self, transformed_area = None):
         '''Helper function to invalidate the entire screen, forcing a redraw'''
-        rect = None
+        window = self.get_window()
+        if not window:
+            return
+
         if not transformed_area:
-            alloc = self.get_allocation ()
-            rect = Gdk.Rectangle()
-            rect.height = alloc.height
-            rect.width = alloc.width
+            rect = None  # Invalidate the whole window
         else:
+            # Our 'untransformed' coordinates are in the root window.
+            # Subtracting the window origin gives coordinates in this window.
             ul = self.untransform_coords(transformed_area[0], transformed_area[1])
             lr = self.untransform_coords(transformed_area[2], transformed_area[3])
+            _, wdw_x, wdw_y = window.get_origin()
             rect = Gdk.Rectangle()
-            rect.x = int(ul[0])
-            rect.y = int(ul[1])
-            rect.width = int(lr[0]-ul[0])
-            rect.height = int(lr[1]-ul[1])
-        if self.get_window():
-            self.get_window().invalidate_rect (rect, True)
+            rect.x = int(ul[0]) - wdw_x
+            rect.y = int(ul[1]) - wdw_y
+            rect.width  = int(lr[0] - ul[0])
+            rect.height = int(lr[1] - ul[1])
+
+        window.invalidate_rect(rect, True)
 
     def expose (self, widget, event):
         '''Expose event.  Calls the draw function'''
