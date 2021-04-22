@@ -975,7 +975,7 @@ class TextThought (BaseThought.BaseThought):
         if self.index > len(self.text):
             self.index = len(self.text)
 
-        change    = old - new
+        change    = orig - new
         changes   = []
         old_attrs = []
         accounted = -change
