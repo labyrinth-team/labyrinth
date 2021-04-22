@@ -786,13 +786,17 @@ class TextThought (BaseThought.BaseThought):
                 self.selection_changed ()
             elif mode == BaseThought.MODE_EDITING:
                 self.emit ("finish_editing")
-                self.emit ("create_link", \
-                 (self.ul[0]-((self.ul[0]-self.lr[0]) / 2.), self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)))
+                self.emit ("create_link", (
+                    self.ul[0]-((self.ul[0]-self.lr[0]) / 2.),
+                    self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)
+                ))
                 return True
         elif event.state & Gdk.ModifierType.BUTTON1_MASK and not self.editing and \
                 mode == BaseThought.MODE_EDITING and event.state & Gdk.ModifierType.CONTROL_MASK:
-            self.emit ("create_link", \
-             (self.ul[0]-((self.ul[0]-self.lr[0]) / 2.), self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)))
+            self.emit ("create_link", (
+                self.ul[0]-((self.ul[0]-self.lr[0]) / 2.),
+                self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)
+            ))
         self.recalc_edges()
         self.emit ("update_view")
 
@@ -847,10 +851,10 @@ class TextThought (BaseThought.BaseThought):
             except xml.dom.NotFoundErr:
                 pass
         if self.am_primary:
-            self.element.setAttribute ("primary_root", "true");
+            self.element.setAttribute("primary_root", "true")
         else:
             try:
-                self.element.removeAttribute ("primary_root")
+                self.element.removeAttribute("primary_root")
             except xml.dom.NotFoundErr:
                 pass
 
@@ -1108,9 +1112,9 @@ class TextThought (BaseThought.BaseThought):
                         tmp.append(x)
                 self.current_attrs = tmp
                 self.recalc_edges()
-                self.undo.add_undo(UndoManager.UndoAction(self, UNDO_REMOVE_ATTR, \
-                                                          self.undo_attr_cb,\
-                                                          attr))
+                self.undo.add_undo(UndoManager.UndoAction(
+                    self, UNDO_REMOVE_ATTR, self.undo_attr_cb, attr
+                ))
                 return
 
             old_attrs = self.attributes.copy()

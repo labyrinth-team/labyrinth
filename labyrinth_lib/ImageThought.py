@@ -176,8 +176,9 @@ class ImageThought (BaseThought.ResizableThought):
             self.pic = self.orig_pic.scale_simple (int(self.width), int(self.height), GdkPixbuf.InterpType.HYPER)
         self.emit ("update_view")
         if self.want_move:
-            self.undo.add_undo (UndoManager.UndoAction (self, UNDO_RESIZE, self.undo_resize, \
-                                                                                                    self.orig_size, (self.ul, self.width, self.height)))
+            self.undo.add_undo(UndoManager.UndoAction(
+                self, UNDO_RESIZE, self.undo_resize, self.orig_size, (self.ul, self.width, self.height)
+            ))
             self.want_move = False
 
     def handle_motion (self, event, mode, transformed):
@@ -185,8 +186,10 @@ class ImageThought (BaseThought.ResizableThought):
             if not event.state & Gdk.ModifierType.BUTTON1_MASK:
                 return False
             elif mode == MODE_EDITING:
-                self.emit ("create_link", \
-                 (self.ul[0]-((self.ul[0]-self.lr[0]) / 2.), self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)))
+                self.emit("create_link", (
+                    self.ul[0]-((self.ul[0]-self.lr[0]) / 2.),
+                    self.ul[1]-((self.ul[1]-self.lr[1]) / 2.)
+                ))
             return True
         diffx = transformed[0] - self.motion_coords[0]
         diffy = transformed[1] - self.motion_coords[1]

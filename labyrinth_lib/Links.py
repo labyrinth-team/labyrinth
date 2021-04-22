@@ -59,8 +59,8 @@ class Link (GObject.GObject):
         self.color = Gdk.RGBA(0., 0., 0.)  # black
 
         if not self.start and parent and parent.lr:
-            self.start = (parent.ul[0]-((parent.ul[0]-parent.lr[0]) / 2.), \
-                                      parent.ul[1]-((parent.ul[1]-parent.lr[1]) / 2.))
+            self.start = (parent.ul[0]-((parent.ul[0]-parent.lr[0]) / 2.),
+                          parent.ul[1]-((parent.ul[1]-parent.lr[1]) / 2.))
 
         if parent and child:
             self.find_ends ()
@@ -74,10 +74,10 @@ class Link (GObject.GObject):
         if not self.start or not self.end or not coords:
             return False
 
-        mag = (math.sqrt(((self.end[0] - self.start[0]) ** 2) + \
-                     ((self.end[1] - self.start[1]) ** 2)))
+        mag = math.sqrt(((self.end[0] - self.start[0]) ** 2) +
+                        ((self.end[1] - self.start[1]) ** 2))
 
-        U = (((coords[0] - self.start[0]) * (self.end[0] - self.start[0])) + \
+        U = (((coords[0] - self.start[0]) * (self.end[0] - self.start[0])) +
         ((coords[1] - self.start[1]) * (self.end[1] - self.start[1]))) / \
         (mag**2)
 
@@ -161,10 +161,10 @@ class Link (GObject.GObject):
         rem = False
         if not self.start or not self.end:
             # Probably shouldn't do this, but its safe now
-            self.start = (self.parent.ul[0]-((self.parent.ul[0]-self.parent.lr[0]) / 2.), \
-                                      self.parent.ul[1]-((self.parent.ul[1]-self.parent.lr[1]) / 2.))
-            self.end = (self.child.ul[0]-((self.child.ul[0]-self.child.lr[0]) / 2.), \
-                                    self.child.ul[1]-((self.child.ul[1]-self.child.lr[1]) / 2.))
+            self.start = (self.parent.ul[0]-((self.parent.ul[0]-self.parent.lr[0]) / 2.),
+                          self.parent.ul[1]-((self.parent.ul[1]-self.parent.lr[1]) / 2.))
+            self.end = (self.child.ul[0]-((self.child.ul[0]-self.child.lr[0]) / 2.),
+                        self.child.ul[1]-((self.child.ul[1]-self.child.lr[1]) / 2.))
             rem = True
         cwidth = context.get_line_width ()
         context.set_line_width (self.strength)
