@@ -50,6 +50,17 @@ def pango_attr_set_range(attr: Pango.Attribute, start_idx, end_idx):
     attr.end_index = end_idx
     return attr
 
+def pango_iter_attrs(attrlist: Pango.AttrList):
+    """Step through attributes attached to ranges in some text, yielding:
+
+        (start, end), [attr]
+    """
+    ai: Pango.AttrIterator = attrlist.get_iterator()
+    while True:
+        yield ai.range(), ai.get_attrs()
+        if not ai.next():
+            break
+
 
 class TextThought (BaseThought.BaseThought):
     def __init__ (self, coords, pango_context, thought_number, save, undo, loading, background_color, foreground_color, name="thought"):
@@ -127,10 +138,8 @@ class TextThought (BaseThought.BaseThought):
         else:
             show_text = self.text
 
-        it = self.attributes.get_iterator()
-        while it.next():
+        for r, attr in pango_iter_attrs(self.attributes):
             found = False
-            r = it.range()
             if self.index == self.end_index:
                 if r[0] <= self.index and r[1] > self.index:
                     found = True
@@ -158,7 +167,6 @@ class TextThought (BaseThought.BaseThought):
                     found = True
 
             if found:
-                attr = it.get_attrs()
                 for x in attr:
                     if pango_attr_int_check(x, Pango.AttrType.WEIGHT, Pango.Weight.BOLD):
                         bold = True
@@ -269,10 +277,7 @@ class TextThought (BaseThought.BaseThought):
             changes.append(x)
 
         old_attrs = []
-        it = self.attributes.get_iterator()
-        while it.next():
-            start, end = it.range()
-            l = it.get_attrs()
+        for (start, end), l in pango_iter_attrs(self.attributes):
             if start <= self.index:
                 if end > self.end_index:
                     # Inside range
@@ -500,10 +505,7 @@ class TextThought (BaseThought.BaseThought):
         old_attrs = []
         accounted = -change
 
-        it = self.attributes.get_iterator()
-        while it.next():
-            start, end = it.range()
-            l = it.get_attrs()
+        for (start, end), l in pango_iter_attrs(self.attributes):
             if end <= self.index:
                 for x in l:
                     changes.append(x)
@@ -576,10 +578,7 @@ class TextThought (BaseThought.BaseThought):
         changes= []
         accounted = -change
 
-        it = self.attributes.get_iterator()
-        while it.next():
-            start, end = it.range()
-            l = it.get_attrs()
+        for (start, end), l in pango_iter_attrs(self.attributes):
             if end <= self.index:
                 for x in l:
                     old_attrs.append(x.copy())
@@ -856,13 +855,11 @@ class TextThought (BaseThought.BaseThought):
                 pass
 
         doc = self.element.ownerDocument
-        it = self.attributes.get_iterator()
-        while it.next():
-            r = it.range()
-            for x in it.get_attrs():
+        for (start, end), attrs in pango_iter_attrs(self.attributes):
+            for x in attrs:
                 elem = doc.createElement ("attribute")
-                elem.setAttribute("start", str(r[0]))
-                elem.setAttribute("end", str(r[1]))
+                elem.setAttribute("start", str(start))
+                elem.setAttribute("end", str(end))
                 self.element.appendChild (elem)
                 if pango_attr_int_check(x, Pango.AttrType.WEIGHT, Pango.Weight.BOLD):
                     elem.setAttribute("type", "bold")
@@ -981,10 +978,7 @@ class TextThought (BaseThought.BaseThought):
         index     = offset
         end_index = offset - (new-orig)
 
-        it = self.attributes.get_iterator()
-        while it.next():
-            start, end = it.range()
-            l = it.get_attrs()
+        for (start, end), l in pango_iter_attrs(self.attributes):
             if end <= start:
                 for x in l:
                     changes.append(x)
@@ -1119,22 +1113,20 @@ class TextThought (BaseThought.BaseThought):
                                                           attr))
                 return
 
-            it = self.attributes.get_iterator()
             old_attrs = self.attributes.copy()
             changed = []
             # If we have removed the middle section of a style, split it into
             # before and after sections.
-            while it.next():
-                r = it.range()
+            for r, attrs in pango_iter_attrs(self.attributes):
                 if r[0] <= init and r[1] >= end:
-                    for x in it.get_attrs():
+                    for x in attrs:
                         if pango_attr_int_check(x, ptype, pvalue):
                             changed.append(self.create_attribute(attribute, r[0], init))
                             changed.append(self.create_attribute(attribute, end, r[1]))
                         else:
                             changed.append(x)
                 else:
-                    changed.extend(it.get_attrs())
+                    changed.extend(attrs)
 
             del self.attributes
             self.attributes = Pango.AttrList()
