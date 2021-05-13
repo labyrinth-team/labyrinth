@@ -657,64 +657,20 @@ class TextThought (BaseThought.BaseThought):
             self.end_index = self.index
 
     def move_index_up (self, mod):
-        tmp = self.text.decode ()
-        lines = tmp.splitlines ()
-        if len (lines) == 1:
-            self.end_index = self.index
-            return
-        loc = 0
-        line = 0
-        for i in lines:
-            loc += len (i)+1
-            if loc > self.index:
-                loc -= len (i)+1
-                line -= 1
-                break
-            line += 1
-        if line == -1:
-            self.end_index = self.index
-            return
-        elif line >= len (lines):
-            self.bindex -= len (lines[-1])+1
-            self.index = self.index_from_bindex (self.bindex)
-            if not mod:
-                self.end_index = self.index
-            return
-        dist = self.bindex - loc -1
-        self.bindex = loc
-        if dist < len (lines[line]):
-            self.bindex -= (len (lines[line]) - dist)
-        else:
-            self.bindex -= 1
-        if self.bindex < 0:
-            self.bindex = 0
-        self.index = self.index_from_bindex (self.bindex)
+        lineno, x_pos = self.layout.index_to_line_x(self.index, False)
+        if lineno > 0:
+            dest_layout_line = self.layout.get_line_readonly(lineno - 1)
+            within, index, trailing = dest_layout_line.x_to_index(x_pos)
+            self.index = index + trailing
         if not mod:
             self.end_index = self.index
 
     def move_index_down (self, mod):
-        tmp = self.text.decode ()
-        lines = tmp.splitlines ()
-        if len (lines) == 1:
-            self.end_index = self.index
-            return
-        loc = 0
-        line = 0
-        for i in lines:
-            loc += len (i)+1
-            if loc > self.bindex:
-                break
-            line += 1
-        if line >= len (lines)-1:
-            self.end_index = self.index
-            return
-        dist = self.bindex - (loc - len (lines[line]))+1
-        self.bindex = loc
-        if dist > len (lines[line+1]):
-            self.bindex += len (lines[line+1])
-        else:
-            self.bindex += dist
-        self.index = self.index_from_bindex (self.bindex)
+        lineno, x_pos = self.layout.index_to_line_x(self.index, False)
+        if lineno < (self.layout.get_line_count() - 1):
+            dest_layout_line = self.layout.get_line_readonly(lineno + 1)
+            within, index, trailing = dest_layout_line.x_to_index(x_pos)
+            self.index = index + trailing
         if not mod:
             self.end_index = self.index
 
