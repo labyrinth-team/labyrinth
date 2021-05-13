@@ -222,7 +222,7 @@ class BaseThought (GObject.GObject):
     def export (self, context, move_x, move_y):
         pass
 
-    def commit_text (self, im_context, string, mode):
+    def commit_text(self, context, string, mode, font_name):
         pass
 
     def want_motion (self):

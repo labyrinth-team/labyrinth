@@ -66,8 +66,8 @@ class TextThought (BaseThought.BaseThought):
     def __init__ (self, coords, pango_context, thought_number, save, undo, loading, background_color, foreground_color, name="thought"):
         super (TextThought, self).__init__(save, name, undo, background_color, foreground_color)
 
-        self.index = 0
-        self.end_index = 0
+        self.index = 0  # Cursor position in bytes of UTF-8 (as Pango uses)
+        self.end_index = 0  # Other end of text selection
         self.bytes = []
         self.bindex = 0
         self.text_location = coords
@@ -251,7 +251,14 @@ class TextThought (BaseThought.BaseThought):
             self.text_location = (self.lr[0] - margin[2] - x, self.ul[1] + margin[1])
             self.ul = (self.lr[0] - margin[0] - margin[2] - x, tmp1)
 
-    def commit_text (self, context, string, mode, font_name):
+    def commit_text(self, context, string, mode, font_name):
+        """Main pathway for entering text
+
+        This is wired up to the IMContext commit signal (in MMapArea).
+        IMContext translates keyboard events into text, including (but not only)
+        where characters take multiple keystrokes to enter, e.g. with the
+        compose key, Ctrl-Shift-U+1234, or CJK characters.
+        """
         if not self.editing:
             self.emit ("begin_editing")
         self.set_font(font_name)
@@ -433,6 +440,9 @@ class TextThought (BaseThought.BaseThought):
         elif event.keyval == Gdk.KEY_Delete and self.editing:
             self.delete_char ()
         elif len (event.string) != 0:
+            # This is a fallback, and event.string is deprecated.
+            # Keypresses which enter text should be handled by the IMContext,
+            # resulting in a call to self.commit_text() rather than this code.
             self.add_text (event.string)
             clear_attrs = False
         else:
