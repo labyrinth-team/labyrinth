@@ -20,7 +20,7 @@
 # Boston, MA  02110-1301  USA
 #
 
-from gi.repository import Gtk, Gdk, Pango, PangoCairo
+from gi.repository import Gtk, Gdk, GObject, Pango, PangoCairo
 from gi.repository import PangoAttrCast
 
 import os
@@ -637,19 +637,22 @@ class TextThought (BaseThought.BaseThought):
         if self.index < 0:
             self.index = 0
 
-    def move_index_back (self, mod):
-        if self.index <= 0:
-            self.end_index = self.index
-            return
-        self.index -= int(self.bytes[self.bindex-1])
+    def move_index_back(self, mod):
+        """Move cursor backwards one character"""
+        new_ix, trailing = self.layout.move_cursor_visually(True, self.index, 0, -1)
+        # When Pango wraps text, trailing lets you distinguish the end of one
+        # line from the start of the next. Labyrinth doesn't limit the width,
+        # so there's no wrapping, and we can just add trailing to the offset.
+        if new_ix >= 0:  # -1 when moved backwards from the start
+            self.index = new_ix + trailing
         if not mod:
             self.end_index = self.index
 
     def move_index_forward (self, mod):
-        if self.index >= len(self.text):
-            self.end_index = self.index
-            return
-        self.index += int(self.bytes[self.bindex])
+        """Move cursor forwards one character"""
+        new_ix, trailing = self.layout.move_cursor_visually(True, self.index, 0, 1)
+        if new_ix != GObject.G_MAXINT:  # MAXINT when move forwards from the end
+            self.index = new_ix + trailing
         if not mod:
             self.end_index = self.index
 
