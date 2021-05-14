@@ -637,6 +637,18 @@ class TextThought (BaseThought.BaseThought):
         if self.index < 0:
             self.index = 0
 
+    def _index_from_pango_ix_trail(self, ix, trailing):
+        # Pango gives us the byte offset of the start of the current character,
+        # plus a flag to indicate if the cursor is after it. This is not enough
+        # to find the byte offset of the cursor when the trailing flag is set.
+        # It seems that the trailing flag is only set at the end of a line,
+        # so we find the byte offset of the end of the current line.
+        if not trailing:
+            return ix
+        lineno, _ = self.layout.index_to_line_x(ix, trailing)
+        line = self.layout.get_line_readonly(lineno)
+        return line.start_index + line.length
+
     def move_index_back(self, mod):
         """Move cursor backwards one character"""
         new_ix, trailing = self.layout.move_cursor_visually(True, self.index, 0, -1)
@@ -644,7 +656,7 @@ class TextThought (BaseThought.BaseThought):
         # line from the start of the next. Labyrinth doesn't limit the width,
         # so there's no wrapping, and we can just add trailing to the offset.
         if new_ix >= 0:  # -1 when moved backwards from the start
-            self.index = new_ix + trailing
+            self.index = self._index_from_pango_ix_trail(new_ix, trailing)
         if not mod:
             self.end_index = self.index
 
@@ -652,25 +664,27 @@ class TextThought (BaseThought.BaseThought):
         """Move cursor forwards one character"""
         new_ix, trailing = self.layout.move_cursor_visually(True, self.index, 0, 1)
         if new_ix != GObject.G_MAXINT:  # MAXINT when move forwards from the end
-            self.index = new_ix + trailing
+            self.index = self._index_from_pango_ix_trail(new_ix, trailing)
         if not mod:
             self.end_index = self.index
 
     def move_index_up (self, mod):
+        """Move cursor up one line"""
         lineno, x_pos = self.layout.index_to_line_x(self.index, False)
         if lineno > 0:
             dest_layout_line = self.layout.get_line_readonly(lineno - 1)
-            within, index, trailing = dest_layout_line.x_to_index(x_pos)
-            self.index = index + trailing
+            within, new_ix, trailing = dest_layout_line.x_to_index(x_pos)
+            self.index = self._index_from_pango_ix_trail(new_ix, trailing)
         if not mod:
             self.end_index = self.index
 
     def move_index_down (self, mod):
+        """Move cursor down one line"""
         lineno, x_pos = self.layout.index_to_line_x(self.index, False)
         if lineno < (self.layout.get_line_count() - 1):
             dest_layout_line = self.layout.get_line_readonly(lineno + 1)
-            within, index, trailing = dest_layout_line.x_to_index(x_pos)
-            self.index = index + trailing
+            within, new_ix, trailing = dest_layout_line.x_to_index(x_pos)
+            self.index = self._index_from_pango_ix_trail(new_ix, trailing)
         if not mod:
             self.end_index = self.index
 
