@@ -637,12 +637,12 @@ class TextThought (BaseThought.BaseThought):
         if self.index < 0:
             self.index = 0
 
-    def _index_from_pango_ix_trail(self, ix, trailing):
-        # Pango gives us the byte offset of the start of the current character,
-        # plus a flag to indicate if the cursor is after it. This is not enough
-        # to find the byte offset of the cursor when the trailing flag is set.
-        # It seems that the trailing flag is only set at the end of a line,
-        # so we find the byte offset of the end of the current line.
+    def _index_fix_line_end(self, ix, trailing):
+        # move_cursor_visually gives us the byte offset of the start of the
+        # current character, plus a flag to indicate if the cursor is after it.
+        # This is not enough to find the byte offset of the cursor when the
+        # trailing flag is set. It seems to set the trailing flag only at the end
+        # of a line, so we find the byte offset of the end of the current line.
         if not trailing:
             return ix
         lineno, _ = self.layout.index_to_line_x(ix, trailing)
@@ -656,7 +656,7 @@ class TextThought (BaseThought.BaseThought):
         # line from the start of the next. Labyrinth doesn't limit the width,
         # so there's no wrapping, and we can just add trailing to the offset.
         if new_ix >= 0:  # -1 when moved backwards from the start
-            self.index = self._index_from_pango_ix_trail(new_ix, trailing)
+            self.index = self._index_fix_line_end(new_ix, trailing)
         if not mod:
             self.end_index = self.index
 
@@ -664,9 +664,19 @@ class TextThought (BaseThought.BaseThought):
         """Move cursor forwards one character"""
         new_ix, trailing = self.layout.move_cursor_visually(True, self.index, 0, 1)
         if new_ix != GObject.G_MAXINT:  # MAXINT when move forwards from the end
-            self.index = self._index_from_pango_ix_trail(new_ix, trailing)
+            self.index = self._index_fix_line_end(new_ix, trailing)
         if not mod:
             self.end_index = self.index
+
+    def _shift_index_for_trailing(self, ix, trailing):
+        # Pango converts screen coordinates to the byte index of a character
+        # plus a flag distinguishing the leading or trailing edge. This shifts
+        # the cursor to the next character if we're on the trailing edge.
+        if trailing:
+            ix, trail2 = self.layout.move_cursor_visually(True, ix, 0, 1)
+            # At the end of a line, ix is unchanged and trail2 is set
+            ix = self._index_fix_line_end(ix, trail2)
+        return ix
 
     def move_index_up (self, mod):
         """Move cursor up one line"""
@@ -674,7 +684,7 @@ class TextThought (BaseThought.BaseThought):
         if lineno > 0:
             dest_layout_line = self.layout.get_line_readonly(lineno - 1)
             within, new_ix, trailing = dest_layout_line.x_to_index(x_pos)
-            self.index = self._index_from_pango_ix_trail(new_ix, trailing)
+            self.index = self._shift_index_for_trailing(new_ix, trailing)
         if not mod:
             self.end_index = self.index
 
@@ -684,7 +694,7 @@ class TextThought (BaseThought.BaseThought):
         if lineno < (self.layout.get_line_count() - 1):
             dest_layout_line = self.layout.get_line_readonly(lineno + 1)
             within, new_ix, trailing = dest_layout_line.x_to_index(x_pos)
-            self.index = self._index_from_pango_ix_trail(new_ix, trailing)
+            self.index = self._shift_index_for_trailing(new_ix, trailing)
         if not mod:
             self.end_index = self.index
 
